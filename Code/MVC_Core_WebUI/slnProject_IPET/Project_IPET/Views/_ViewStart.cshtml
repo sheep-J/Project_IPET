@@ -1,0 +1,18 @@
+﻿@{
+    var ControllerName = ViewContext.RouteData.Values["Controller"].ToString();
+
+    if ( ControllerName.ToUpper().Contains("BACK") )
+    {
+        Layout = "~/Views/Shared/_BackLayout.cshtml";
+    }
+    else if ( ControllerName.ToUpper().Contains("EMPTY") )
+    {
+        Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_FrontLayout.cshtml";
+    }
+
+
+} 

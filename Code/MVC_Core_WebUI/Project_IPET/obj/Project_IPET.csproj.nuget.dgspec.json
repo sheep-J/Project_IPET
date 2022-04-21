@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\straw\\Desktop\\MVC_Core_WebUI\\slnProject_IPET\\Project_IPET\\Project_IPET.csproj": {}
+    "C:\\Users\\sposnny\\Source\\Repos\\Project_IPET\\Code\\MVC_Core_WebUI\\Project_IPET\\Project_IPET.csproj": {}
   },
   "projects": {
-    "C:\\Users\\straw\\Desktop\\MVC_Core_WebUI\\slnProject_IPET\\Project_IPET\\Project_IPET.csproj": {
+    "C:\\Users\\sposnny\\Source\\Repos\\Project_IPET\\Code\\MVC_Core_WebUI\\Project_IPET\\Project_IPET.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\straw\\Desktop\\MVC_Core_WebUI\\slnProject_IPET\\Project_IPET\\Project_IPET.csproj",
+        "projectUniqueName": "C:\\Users\\sposnny\\Source\\Repos\\Project_IPET\\Code\\MVC_Core_WebUI\\Project_IPET\\Project_IPET.csproj",
         "projectName": "Project_IPET",
-        "projectPath": "C:\\Users\\straw\\Desktop\\MVC_Core_WebUI\\slnProject_IPET\\Project_IPET\\Project_IPET.csproj",
-        "packagesPath": "C:\\Users\\straw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\straw\\Desktop\\MVC_Core_WebUI\\slnProject_IPET\\Project_IPET\\obj\\",
+        "projectPath": "C:\\Users\\sposnny\\Source\\Repos\\Project_IPET\\Code\\MVC_Core_WebUI\\Project_IPET\\Project_IPET.csproj",
+        "packagesPath": "C:\\Users\\sposnny\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sposnny\\Source\\Repos\\Project_IPET\\Code\\MVC_Core_WebUI\\Project_IPET\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "B:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\straw\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sposnny\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -83,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

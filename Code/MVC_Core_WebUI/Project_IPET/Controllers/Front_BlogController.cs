@@ -12,5 +12,10 @@ namespace Project_IPET.Controllers
         {
             return View();
         }
+
+        public ActionResult PostView()
+        {
+            return View();
+        }
     }
 }

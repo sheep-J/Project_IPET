@@ -1,0 +1,118 @@
+﻿@model ProductListResponseModel
+@{
+    Layout = null;
+}
+
+
+<div class="row shop_wrapper grid_4">
+    @foreach (var product in Model.ProductList)
+    {
+        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 product">
+            <div class="product-inner">
+                <div class="thumb">
+                    <a href="single-product.html" class="image">
+                        <img class="fit-image" src="@product.ProductImageBase64String" alt="Product">
+                    </a>
+                    @if (false)
+                    {
+                        <span class="badges">
+                            <span class="new">New</span>
+                        </span>
+                    }
+                    <div class="action-wrapper">
+                        <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>
+                        <a href="cart.html" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                    </div>
+                </div>
+                <div class="content">
+                    <h5 class="title"><a href="single-product.html">@product.ProductName</a></h5>
+                    <span class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                        <i class="fa fa-star-o"></i>
+                    </span>
+                    <span class="price">
+                        <span class="new">$ @product.UnitPrice</span>
+                    </span>
+                    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+                    <!-- Cart Button Start -->
+                <div class="cart-btn action-btn">
+                        <div class="action-cart-btn-wrapper d-flex">
+                            <div class="add-to_cart">
+                                <a class="btn btn-primary btn-hover-dark rounded-0" href="cart.html">加入購物車</a>
+                            </div>
+                            <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
+                            <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>
+                        </div>
+                    </div>
+                    <!-- Cart Button End -->
+            </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="shop_toolbar_wrapper justify-content-center mt-5">
+    <!-- Shopt Top Bar Right Start -->
+    <div class="shop-top-bar-right">
+        <nav>
+            <ul class="pagination">
+                @{
+                    int startPage = 0;
+                    int endPage = 0;
+                    if (Model.Pagination.Page > 4 && Model.Pagination.Page < Model.Pagination.TotalPage - 3)
+                    {
+                        startPage = Model.Pagination.Page - 4;
+                        endPage = Model.Pagination.Page + 4;
+                    }
+                    else if (Model.Pagination.Page >= Model.Pagination.TotalPage - 3)
+                    {
+                        startPage = Model.Pagination.TotalPage - 8;
+                        endPage = Model.Pagination.TotalPage;
+                    }
+                    else
+                    {
+                        startPage = 1;
+                        endPage = 9;
+                    }
+
+                    @if (Model.Pagination.Page > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link rounded-0" onclick="getProductList(@(Model.Pagination.Page -1) )" href="#/" aria-label="Prev">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+                    }
+
+                    for (int i = startPage; i <= endPage; i++)
+                    {
+                        <li class="page-item">
+                            @if (i == Model.Pagination.Page)
+                            {
+                                <a class="page-link active" onclick="getProductList(@i)" href="#">@i</a>
+                            }
+                            else
+                            {
+                                <a class="page-link" onclick="getProductList(@i)" href="#">@i</a>
+                            }
+                        </li>
+                    }
+                }
+                @if (Model.Pagination.Page < Model.Pagination.TotalPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link rounded-0" onclick="getProductList(@(Model.Pagination.Page + 1) )" href="#/" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+        </nav>
+    </div>
+    <!-- Shopt Top Bar Right End -->
+
+</div>

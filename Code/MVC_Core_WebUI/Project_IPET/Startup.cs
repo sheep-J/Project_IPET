@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Project_IPET.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,7 +26,7 @@ namespace Project_IPET
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllersWithViews();
+            services.AddControllersWithViews();
             //DI 依賴注入 (Dependency Injection) 
             //卉榆使用Dapper的連線方式到DB，其他人使用的Entity Framework連線字串請放在這串下方，謝謝。
             services.AddScoped<IDbConnection, SqlConnection>(serviceProvider => {
@@ -34,6 +35,8 @@ namespace Project_IPET
                 conn.ConnectionString = Configuration.GetConnectionString("MyProjectDbConnectionString");
                 return conn;
             });
+            services.AddScoped<IProductService, ProductService>();
+
             //Entity Framework連線字串請放在這
         }
 

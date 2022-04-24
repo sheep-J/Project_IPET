@@ -1,19 +1,38 @@
-﻿@model List<Project_IPET.Models.ProductModel>
-@{
-    ViewBag.Title = "商品";
+﻿@{
 }
+@section Scripts{
+<script>
+    $(document).ready(function(){
+        getProductList(1);
+    });
+    var categoryId = -1;
+    var pageSize = 9;
+    function getProductList(page){
+        $.ajax({
+                method: "POST",
+                url: "/Front_Product/ProductList",
+                data: { 
+                    CategoryId:categoryId,
+                    Pagination:{
+                        Page:page,
+                        PageSize:pageSize
+                    }
+                },
+                success:function(result){
+                    $("#productList").html(result)
+                }
+            });
+    }
 
-<h2>商品</h2>
-
-@foreach (var product in Model)
-{
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="@product.ProductImage" />
-        <div class="card-body">
-            <h5 class="card-title">@product.ProductName</h5>
-            <p class="card-text">@product.Description</p>
-            <a href="#" class="btn btn-primary">$ @product.UnitPrice</a>
-        </div>
-    </div>
+    function getProductListWithCategory(id){
+        categoryId = id;
+        getProductList(1);
+    }
+</script>
 }
+<div>
+    類別1, 類別2,.....
+</div>
+<div id="productList">
 
+</div>

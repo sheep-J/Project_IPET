@@ -1,4 +1,6 @@
-﻿namespace Project_IPET.Models
+﻿using System;
+
+namespace Project_IPET.Models
 {
     public class ProductModel
     {
@@ -12,6 +14,12 @@
         public bool HotPrice { get; set; }
         public bool ProductAvaliable { get; set; }
         public int Ranking { get; set; }
-        public string ProductImage { get; set; }
+        public byte[] ProductImage { get; set; }
+        public string ProductImageBase64String { 
+            get
+            {
+                return "data:image/jpg;base64," + Convert.ToBase64String(ProductImage, 0, ProductImage.Length);
+            }
+        }
     }
 }

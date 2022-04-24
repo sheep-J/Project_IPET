@@ -5,16 +5,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPET 寵物店</title>
+    
 
+    
     <!--Favicons-->
     <link rel="shortcut icon" href="~/Front/images/favicon2.ico">
 
     <!--Vendor CSS (Icon Font)-->
     <link rel="stylesheet" href="~/Front/css/vendor/fontawesome.min.css" />
     <link rel="stylesheet" href="~/Front/css/vendor/bootstrap.min.css" />
+    
     <link rel="stylesheet" href="~/Front/css/vendor/simple-line-icons.min.css" />
     <link rel="stylesheet" href="~/Front/css/vendor/themify-icons-min.css" />
-
+   
     <!--Plugins CSS (All Plugins Files)-->
     <link rel="stylesheet" href="~/Front/css/plugins/swiper-bundle.min.css" />
     <link rel="stylesheet" href="~/Front/css/plugins/animate.min.css" />
@@ -23,7 +26,8 @@
     <link rel="stylesheet" href="~/Front/css/plugins/nice-select.min.css" />
 
     <!--Main Style CSS-->
-    <link rel="stylesheet" href="~/Front/css/style.css" />
+     <link rel="stylesheet" href="~/Front/css/style.css" />
+    <link rel="stylesheet" href="~/Front/css/front.css" />
 
 
 </head>
@@ -68,7 +72,29 @@
                                     <li><a asp-controller="Front_Home" asp-action="Index">首頁</a></li>
                                     <li><a asp-controller="Front_Blog" asp-action="Index">部落格</a></li>
                                     <li><a asp-controller="Front_Project" asp-action="Index">募集專案</a></li>
-                                    <li><a asp-controller="Front_Product" asp-action="Index">寵物商品</a></li>
+                                    <li><a asp-controller="Front_Product" asp-action="Index">寵物商品</a>
+                                       @* <div class="dropdown">
+                                            <a class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" asp-controller="Front_Product" asp-action="Index">
+                                                寵物商品
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li>
+                                                    <a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="1">寵物飼料</a>
+                                                </li>
+                                                <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="2">寵物罐罐</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="3">寵物零食</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="4">貓砂尿布</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="5">寵物保健</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="6">抓板玩具</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="7">美容護理</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="8">環境清潔</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="9">居家用品</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="10">外出用品</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="13">捐贈商品</a></li>
+                                            </ul>
+                                        </div>*@
+
+                                    </li>
                                     <li><a asp-controller="Front_PetAdopt" asp-action="Index">認養資訊</a></li>
                                     <li><a asp-controller="Front_Contact" asp-action="Index">聯絡我們</a></li>
                                 </ul>
@@ -210,7 +236,7 @@
 
     </div>
     <!-- Header Section End -->
-    <div class="body-content">
+    <div class="">
         @RenderBody()
         <hr />
         <!-- Footer Section Start -->
@@ -325,6 +351,7 @@
     <!--Main JS-->
     <script src="~/Front/js/main.js"></script>
 
+    @RenderSection("Scripts",false);
 </body>
 </html>
 

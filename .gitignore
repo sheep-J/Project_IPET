@@ -1,1 +1,4 @@
 Code/MVC_WebUI/packages/
+.vs
+bin
+obj

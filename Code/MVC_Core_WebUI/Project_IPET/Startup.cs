@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,7 +25,16 @@ namespace Project_IPET
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            //services.AddControllersWithViews();
+            //DI 依賴注入 (Dependency Injection) 
+            //卉榆使用Dapper的連線方式到DB，其他人使用的Entity Framework連線字串請放在這串下方，謝謝。
+            services.AddScoped<IDbConnection, SqlConnection>(serviceProvider => {
+                SqlConnection conn = new SqlConnection();
+                //指派連線字串
+                conn.ConnectionString = Configuration.GetConnectionString("MyProjectDbConnectionString");
+                return conn;
+            });
+            //Entity Framework連線字串請放在這
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

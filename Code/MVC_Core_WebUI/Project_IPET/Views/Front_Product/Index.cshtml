@@ -1,7 +1,19 @@
-﻿
+﻿@model List<Project_IPET.Models.ProductModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewBag.Title = "商品";
 }
 
-<h1>寵物商品</h1>
+<h2>商品</h2>
+
+@foreach (var product in Model)
+{
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="@product.ProductImage" />
+        <div class="card-body">
+            <h5 class="card-title">@product.ProductName</h5>
+            <p class="card-text">@product.Description</p>
+            <a href="#" class="btn btn-primary">$ @product.UnitPrice</a>
+        </div>
+    </div>
+}
 

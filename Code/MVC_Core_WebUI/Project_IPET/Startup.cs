@@ -25,6 +25,9 @@ namespace Project_IPET
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // 啟用 Session
+            services.AddSession();
+
             //services.AddControllersWithViews();
             //DI 依賴注入 (Dependency Injection) 
             //卉榆使用Dapper的連線方式到DB，其他人使用的Entity Framework連線字串請放在這串下方，謝謝。
@@ -52,7 +55,7 @@ namespace Project_IPET
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();

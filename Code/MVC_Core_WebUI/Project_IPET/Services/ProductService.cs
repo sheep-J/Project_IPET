@@ -41,7 +41,7 @@ namespace Project_IPET.Services
                     PageSize = request.Pagination.PageSize,
                     Page = request.Pagination.Page,
                 };
-                result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sql,column), param);
+                result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sql,column), param); //拿第一個cell
 
                 column = "p.*,sc.SubCategoryName,c.CategoryName,pp.ProductImage";
                 sql += " ORDER BY p.ProductID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";
@@ -49,6 +49,23 @@ namespace Project_IPET.Services
                 result.ProductList =  _dbConnection.Query<ProductModel>(string.Format(sql, column), param).ToList();
             }
             catch (Exception ex)
+            {
+                throw;
+            }
+            return result;
+        }
+        public List<CategoriesModel> GetCategories()
+        {
+            List<CategoriesModel> result = new List<CategoriesModel>();
+            try
+            {
+                string sql = @"SELECT * FROM Categories";
+                result= _dbConnection.Query<CategoriesModel>(sql).ToList();
+
+                string sql2 = @"SELECT * FROM SubCategories";
+
+            }
+            catch(Exception ex)
             {
                 throw;
             }

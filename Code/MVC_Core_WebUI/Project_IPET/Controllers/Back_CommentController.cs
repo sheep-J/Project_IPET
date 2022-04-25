@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project_IPET.Controllers
 {
-    public class Back_NotificationsController : Controller
+    public class Back_CommentController : Controller
     {
         public IActionResult Index()
         {

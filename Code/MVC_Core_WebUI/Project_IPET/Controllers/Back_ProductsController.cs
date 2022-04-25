@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project_IPET.Controllers
 {
-    public class Back_TableController : Controller
+    public class Back_ProductsController : Controller
     {
         public IActionResult Index()
         {

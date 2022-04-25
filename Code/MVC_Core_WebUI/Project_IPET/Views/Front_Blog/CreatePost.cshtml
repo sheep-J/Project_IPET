@@ -6,28 +6,23 @@
 
 <html lang="en">
 
+    <head>
+        <style>
+            .spacing-10{
+                padding:10px;
+            
+            }
+
+        </style>
+     
+    </head>
    
 <body>
 
-    <!-- Breadcrumb Area Start -->
-    <div class="section breadcrumb-area bg-name-bright">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <div class="breadcrumb-wrapper">
-                        <h2 class="breadcrumb-title">IPet Blog</h2>
-                        <ul>
-                            <li><a href="~/Front_Blog/Index">回到Blog</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Breadcrumb Area End -->
+   
     <!--新增貼文區 Start-->
 
-    <form class="was-validated section section-margin" style="padding:0 5px" runat="server">
+    <form class="was-validated section section-margin " style="padding:0 5px" runat="server">
         <div style="margin:0 25%;">
 
 
@@ -64,11 +59,11 @@
             <!-- 貼文內容區  End-->
             <!--圖片上傳 Start-->
             <div class="custom-file">
-                <input accept="image/*" type='file' id="imgInp" class="custom-file-input">
+                <input accept="image/*" type='file' id="imgInp" class="custom-file-input spacing-10">
             </div>
             <!--圖片預覽 Start-->
             <div>
-                <img id="imgshow" style="max-width:800px" src="#" class="container " />
+                <img id="imgshow"  class="container spacing-10 img-thumbnail" />
             </div>
             <!--圖片預覽End-->
             <!--圖片上傳  End -->

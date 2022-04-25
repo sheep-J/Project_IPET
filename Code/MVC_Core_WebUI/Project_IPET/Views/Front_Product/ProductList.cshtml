@@ -62,7 +62,12 @@
                 @{
                     int startPage = 0;
                     int endPage = 0;
-                    if (Model.Pagination.Page > 4 && Model.Pagination.Page < Model.Pagination.TotalPage - 3)
+                    if (Model.Pagination.TotalPage < 9)
+                    {
+                        startPage = 1;
+                        endPage = Model.Pagination.TotalPage;
+                    }
+                    else if (Model.Pagination.Page > 4 && Model.Pagination.Page < Model.Pagination.TotalPage - 3)
                     {
                         startPage = Model.Pagination.Page - 4;
                         endPage = Model.Pagination.Page + 4;

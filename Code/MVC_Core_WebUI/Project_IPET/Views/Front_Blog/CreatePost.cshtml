@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewData["Title"] = "CreatePost";
+}
+<!DOCTYPE html>
+
+<html lang="en">
+
+   
+<body>
+
+    <!-- Breadcrumb Area Start -->
+    <div class="section breadcrumb-area bg-name-bright">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="breadcrumb-wrapper">
+                        <h2 class="breadcrumb-title">IPet Blog</h2>
+                        <ul>
+                            <li><a href="~/Front_Blog/Index">回到Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Area End -->
+    <!--新增貼文區 Start-->
+
+    <form class="was-validated section section-margin" style="padding:0 5px" runat="server">
+        <div style="margin:0 25%;">
+
+
+            <!--標題 Start-->
+            <div class="mb-3">
+                <div>
+                    <h3>標題</h3>
+                    <input type="text" cols="30" rows="10" class="w-100 " />
+                </div>
+
+                <div class="input-group" style="padding-top:20px" ;>
+                    <div>
+                        <h4>Tag</h4>
+                        <input type="text" cols="30" rows="20" class="w-100 " />
+                    </div>
+
+                    <div style="padding-left:20px;">
+                        <h4>分類</h4>
+                        <select style="height:30px;">
+                            <option>狗</option>
+                            <option>貓</option>
+                            <option>用品</option>
+                            <option>其他</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--標題 End-->
+            <!--貼文內容區 Start-->
+            <div class="mb-3">
+                <h5>貼文內容</h5>
+                <textarea cols="30" rows="10" class="w-100 alert-warning">  </textarea>
+            </div>
+            <!-- 貼文內容區  End-->
+            <!--圖片上傳 Start-->
+            <div class="custom-file">
+                <input accept="image/*" type='file' id="imgInp" class="custom-file-input">
+            </div>
+            <!--圖片預覽 Start-->
+            <div>
+                <img id="imgshow" style="max-width:800px" src="#" class="container " />
+            </div>
+            <!--圖片預覽End-->
+            <!--圖片上傳  End -->
+            <!--按鈕  Start-->
+            <div>
+                <button type="submit" class="btn btn-primary btn-hover-dark" style="float:right;">上傳貼文</button>
+            </div>
+            <!--按鈕    End-->
+        </div>
+    </form>
+
+    <!-- 新增貼文區 End -->
+
+
+
+    <script>
+        imgInp.onchange = evt => {
+            const [file] = imgInp.files
+            if (file) {
+                imgshow.src = URL.createObjectURL(file)
+            }
+        }
+
+    </script>
+
+</body>
+ 
+</html>
+
+ 

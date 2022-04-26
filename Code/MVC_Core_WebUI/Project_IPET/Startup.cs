@@ -42,11 +42,7 @@ namespace Project_IPET
             services.AddScoped<IProductService, ProductService>();
 
             //Entity Framework連線字串請放在這
-            services.AddDbContext<MyProjectContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("MyProjectDbConnectionString"));
-            });
-            services.AddControllersWithViews();
+           
 
         }
 

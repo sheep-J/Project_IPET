@@ -5,19 +5,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPET 寵物店</title>
-    
 
-    
     <!--Favicons-->
     <link rel="shortcut icon" href="~/Front/images/favicon2.ico">
 
     <!--Vendor CSS (Icon Font)-->
     <link rel="stylesheet" href="~/Front/css/vendor/fontawesome.min.css" />
     <link rel="stylesheet" href="~/Front/css/vendor/bootstrap.min.css" />
-    
     <link rel="stylesheet" href="~/Front/css/vendor/simple-line-icons.min.css" />
     <link rel="stylesheet" href="~/Front/css/vendor/themify-icons-min.css" />
-   
+
     <!--Plugins CSS (All Plugins Files)-->
     <link rel="stylesheet" href="~/Front/css/plugins/swiper-bundle.min.css" />
     <link rel="stylesheet" href="~/Front/css/plugins/animate.min.css" />
@@ -26,14 +23,12 @@
     <link rel="stylesheet" href="~/Front/css/plugins/nice-select.min.css" />
 
     <!--Main Style CSS-->
-     <link rel="stylesheet" href="~/Front/css/style.css" />
-    <link rel="stylesheet" href="~/Front/css/front.css" />
-
+    <link rel="stylesheet" href="~/Front/css/style.css" />
 
 </head>
 <body>
     <!-- Header Section Start -->
-    <div class="header section">
+    <div class="header">
 
         <!-- Header Top Start -->
         <div class="header-top bg-name-primary">
@@ -43,7 +38,7 @@
                     <!-- Header Top Message Start-->
                     <div class="col-12 col-lg-6">
                         <div class="header-top-msg-wrapper">
-                            <p class="header-top-message">Welcome To our shop !</p>
+                            <p class="header-top-message">歡迎光臨 !</p>
                         </div>
                     </div>
                     <!-- Header Top Message End -->
@@ -72,8 +67,8 @@
                                     <li><a asp-controller="Front_Home" asp-action="Index">首頁</a></li>
                                     <li><a asp-controller="Front_Blog" asp-action="Index">部落格</a></li>
                                     <li><a asp-controller="Front_Project" asp-action="Index">募集專案</a></li>
-                                    <li><a asp-controller="Front_Product" asp-action="Index">寵物商品</a>
-                                       @* <div class="dropdown">
+                                    <li><a asp-controller="Front_Product" asp-action="Index">寵物商品</a></li>
+                                    @* <div class="dropdown">
                                             <a class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" asp-controller="Front_Product" asp-action="Index">
                                                 寵物商品
                                             </a>
@@ -93,8 +88,6 @@
                                                 <li><a class="dropdown-item" asp-controller="Front_Product" asp-action="ProductList" asp-route-categoryId="13">捐贈商品</a></li>
                                             </ul>
                                         </div>*@
-
-                                    </li>
                                     <li><a asp-controller="Front_PetAdopt" asp-action="Index">認養資訊</a></li>
                                     <li><a asp-controller="Front_Contact" asp-action="Index">聯絡我們</a></li>
                                 </ul>
@@ -120,7 +113,7 @@
                                 </div>
                                 <!-- Header Action Search Button End -->
                                 <!-- Header My Account Button Start -->
-                                <a href="~/Front_Myaccount/index" class="header-action-btn header-action-btn-wishlist">
+                                <a href="my-account.html" class="header-action-btn header-action-btn-wishlist">
                                     <i class="icon-user icons"></i>
                                 </a>
                                 <!-- Header My Account Button End -->
@@ -128,7 +121,7 @@
                                 <div class="header-action-btn header-action-btn-cart d-none d-sm-flex">
                                     <a class="cart-visible" href="javascript:void(0)">
                                         <i class="icon-handbag icons"></i>
-                                        <span class="header-action-num">3</span>
+                                        <span class="header-action-num">4</span>
                                     </a>
 
                                     <!-- Header Cart Content Start -->
@@ -143,14 +136,14 @@
                                                 <!-- Single Cart Product Start -->
                                                 <div class="single-cart-product">
                                                     <div class="cart-product-thumb">
-                                                        <a href="single-product.html"><img src="~/images/header/header-cart/1.png" alt="Cart Product"></a>
+                                                        <a href="single-product.html"><img src="~/Front/images/demo/1.jpg" alt="Cart Product"></a>
                                                     </div>
                                                     <div class="cart-product-content">
-                                                        <h3 class="title"><a href="single-product.html">Basic Dog Trainning</a></h3>
+                                                        <h3 class="title"><a href="single-product.html">室內成貓-貓飼料</a></h3>
                                                         <div class="product-quty-price">
-                                                            <span class="cart-quantity">Qty: <strong> 1 </strong></span>
+                                                            <span class="cart-quantity">數量: <strong> 1 </strong></span>
                                                             <span class="price">
-                                                                <span class="new">$70.00</span>
+                                                                <span class="new">$3050</span>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -170,14 +163,68 @@
                                                 <!-- Single Cart Product Start -->
                                                 <div class="single-cart-product">
                                                     <div class="cart-product-thumb">
-                                                        <a href="single-product.html"><img src="~/images/header/header-cart/2.png" alt="Cart Product"></a>
+                                                        <a href="single-product.html"><img src="~/Front/images/demo/2.jpg" alt="Cart Product"></a>
                                                     </div>
                                                     <div class="cart-product-content">
-                                                        <h3 class="title"><a href="single-product.html">Wait, You Need This</a></h3>
+                                                        <h3 class="title"><a href="single-product.html">原肉零食大禮包(狗零食)</a></h3>
                                                         <div class="product-quty-price">
-                                                            <span class="cart-quantity">Qty: <strong> 1 </strong></span>
+                                                            <span class="cart-quantity">數量: <strong> 1 </strong></span>
                                                             <span class="price">
-                                                                <span class="new">$80.00</span>
+                                                                <span class="new">$500</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Single Cart Product End -->
+                                                <!-- Product Remove Start -->
+                                                <div class="cart-product-remove">
+                                                    <a href="#/"><i class="icon-close"></i></a>
+                                                </div>
+                                                <!-- Product Remove End -->
+
+                                            </div>
+                                            <!-- Cart Product/Price End -->
+                                            <!-- Cart Product/Price Start -->
+                                            <div class="cart-product-inner p-b-20 m-b-20 border-bottom">
+
+                                                <!-- Single Cart Product Start -->
+                                                <div class="single-cart-product">
+                                                    <div class="cart-product-thumb">
+                                                        <a href="single-product.html"><img src="~/Front/images/demo/3.jpg" alt="Cart Product"></a>
+                                                    </div>
+                                                    <div class="cart-product-content">
+                                                        <h3 class="title"><a href="single-product.html">無穀全貓主食鮮味杯3.5oz【雞肉】(1入)(貓主食罐)</a></h3>
+                                                        <div class="product-quty-price">
+                                                            <span class="cart-quantity">數量: <strong> 1 </strong></span>
+                                                            <span class="price">
+                                                                <span class="new">$80</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Single Cart Product End -->
+                                                <!-- Product Remove Start -->
+                                                <div class="cart-product-remove">
+                                                    <a href="#/"><i class="icon-close"></i></a>
+                                                </div>
+                                                <!-- Product Remove End -->
+
+                                            </div>
+                                            <!-- Cart Product/Price End -->
+                                            <!-- Cart Product/Price Start -->
+                                            <div class="cart-product-inner p-b-20 m-b-20 border-bottom">
+
+                                                <!-- Single Cart Product Start -->
+                                                <div class="single-cart-product">
+                                                    <div class="cart-product-thumb">
+                                                        <a href="single-product.html"><img src="~/Front/images/demo/4.jpg" alt="Cart Product"></a>
+                                                    </div>
+                                                    <div class="cart-product-content">
+                                                        <h3 class="title"><a href="single-product.html">BESTBREED 全年齡犬</a></h3>
+                                                        <div class="product-quty-price">
+                                                            <span class="cart-quantity">數量: <strong> 1 </strong></span>
+                                                            <span class="price">
+                                                                <span class="new">$2850</span>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -193,17 +240,18 @@
                                             <!-- Cart Product/Price End -->
 
                                         </div>
+                                        <div style="margin-top:20px"></div>
                                         <!-- Cart Procut Wrapper -->
                                         <!-- Cart Product Total Start -->
                                         <div class="cart-product-total p-b-20 m-b-20 border-bottom">
-                                            <span class="value">Total</span>
-                                            <span class="price">200$</span>
+                                            <span class="value">購物車總金額</span>
+                                            <span class="price">$6540</span>
                                         </div>
                                         <!-- Cart Product Total End -->
                                         <!-- Cart Product Button Start -->
                                         <div class="cart-product-btn m-t-20">
-                                            <a href="cart.html" class="btn btn-outline-light btn-hover-primary w-100">View cart</a>
-                                            <a href="checkout.html" class="btn btn-outline-light btn-hover-primary w-100 m-t-20">Checkout</a>
+                                            <a asp-controller="Front_Cart" asp-action="index" class="btn btn-outline-light btn-hover-primary w-100">檢 視 購 物 車</a>
+                                            <a asp-controller="Front_Checkout" asp-action="index" class="btn btn-outline-light btn-hover-primary w-100 m-t-20">前 往 結 帳</a>
                                         </div>
                                         <!-- Cart Product Button End -->
 
@@ -214,16 +262,10 @@
                                 <div class="header-action-btn header-action-btn-cart d-flex d-sm-none">
                                     <a href="cart.html">
                                         <i class="icon-handbag icons"></i>
-                                        <span class="header-action-num">3</span>
+                                        <span class="header-action-num">0</span>
                                     </a>
                                 </div>
                                 <!-- Header Action Button End -->
-                                <!-- Mobile Menu Hambarger Action Button Start -->
-                                <a href="javascript:void(0)" class="header-action-btn header-action-btn-menu d-lg-none d-md-flex">
-                                    <i class="icon-menu"></i>
-                                </a>
-                                <!-- Mobile Menu Hambarger Action Button End -->
-
                             </div>
                         </div>
                         <!-- Header Action End -->
@@ -236,7 +278,7 @@
 
     </div>
     <!-- Header Section End -->
-    <div class="">
+    <div class="body-content">
         @RenderBody()
         <hr />
         <!-- Footer Section Start -->
@@ -245,52 +287,37 @@
             <div class="footer-top bg-name-bright section-padding">
                 <div class="container">
                     <div class="row m-b-n40">
-                        <div class="col-12 col-sm-6 col-lg-3 m-b-40" data-aos="fade-up" data-aos-duration="1000">
+                        <div style="margin:0 auto;" class="col-12 col-sm-6 col-lg-3 m-b-40" data-aos="fade-up" data-aos-duration="1000">
                             <div class="single-footer-widget">
-                                <h1 class="widget-title">About Us</h1>
-                                <p class="desc-content">Lorem ipsum dolor sit amet, co adipisi elit, sed eiusmod tempor incididunt ut labore et dolore</p>
-                                <!-- Soclial Link Start -->
-                                <div class="widget-social justify-content-start m-b-n10">
-                                    <a title="Twitter" href="#/"><i class="icon-social-twitter"></i></a>
-                                    <a title="Instagram" href="#/"><i class="icon-social-instagram"></i></a>
-                                    <a title="Linkedin" href="#/"><i class="icon-social-linkedin"></i></a>
-                                    <a title="Skype" href="#/"><i class="icon-social-skype"></i></a>
-                                    <a title="Dribble" href="#/"><i class="icon-social-dribbble"></i></a>
-                                </div>
-                                <!-- Social Link End -->
+                                <h1 class="widget-title">關於我們</h1>
+                                <p class="desc-content">
+                                    IPET 寵物店 是一個線上商城及資訊平台, 除提供寵物產品購買及捐贈 , 也設有認養資訊頁面。
+                                </p>
+                                <p class="desc-content">
+                                    我們也擁有部落格供會員分享寵物之生活事物, 藉由以上契機希望可以吸引各地善良人士,
+                                    發揮愛心以達到本平台公益之目的。
+                                </p>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-3 m-b-40" data-aos="fade-up" data-aos-duration="1200">
+                        <div style="margin:0 auto;" class="col-12 col-sm-6 col-lg-3 m-b-40" data-aos="fade-up" data-aos-duration="1500">
                             <div class="single-footer-widget">
-                                <h2 class="widget-title">Useful Links</h2>
+                                <h2 class="widget-title">友情連結</h2>
                                 <ul class="widget-list">
-                                    <li><a href="wishlist.html">Help & Contact Us</a></li>
-                                    <li><a href="contact.html">Returns & Refunds</a></li>
-                                    <li><a href="contact.html">Online Stores</a></li>
-                                    <li><a href="contact.html">Terms & Conditions</a></li>
+                                    <li><a href="http://www.hsapf.org.tw/">財團法人流浪動物之家基金會</a></li>
+                                    <li><a href="https://asms.coa.gov.tw/Amlapp/App/Default.aspx">全國推廣動物認養平台</a></li>
+                                    <li><a href="http://www.meetpets.org.tw/pets/dog">台灣認養地圖</a></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-3 m-b-40" data-aos="fade-up" data-aos-duration="1400">
+                        <div style="margin:0 auto;" class="col-12 col-sm-6 col-lg-3 m-b-40" data-aos="fade-up" data-aos-duration="2000">
                             <div class="single-footer-widget">
-                                <h2 class="widget-title">Help</h2>
-                                <ul class="widget-list">
-                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="contact.html">Pricing Plans</a></li>
-                                    <li><a href="contact.html">Order Traking</a></li>
-                                    <li><a href="contact.html">Returns</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-3 m-b-40" data-aos="fade-up" data-aos-duration="1600">
-                            <div class="single-footer-widget">
-                                <h2 class="widget-title">Send newsletter</h2>
+                                <h2 class="widget-title">優惠電子報</h2>
                                 <div class="widget-body">
-                                    <p class="desc-content m-b-20">Subscribe to our newsletter and get 10% off your first purchase..</p>
+                                    <p class="desc-content m-b-20">訂閱 IPET 新消息取得優惠 !</p>
                                     <!-- Newsletter Form Start -->
                                     <div class="newsletter-form-wrap p-t-5">
                                         <form id="mc-form" class="mc-form">
-                                            <input type="email" id="mc-email" class="form-control email-box" placeholder="demo@example.com" name="EMAIL">
+                                            <input type="email" id="mc-email" class="form-control email-box" placeholder="mail@example.com" name="EMAIL">
                                             <button id="mc-submit" class="newsletter-btn" type="submit">Send</button>
                                         </form>
                                         <!-- mailchimp-alerts Start -->
@@ -315,7 +342,7 @@
                     <div class="row align-items-center m-b-n20">
                         <div class="col-md-6 text-center text-md-start order-2 order-md-1 m-b-20">
                             <div class="copyright-content">
-                                <p class="mb-0">© 2022 <strong>ProjectIPET </strong> Made with by <a href="https://www.ispan.com.tw/">iSpan - MSIT133 </a></p>
+                                <p class="mb-0">© 2022 All rights reserved<strong> IPET 寵物店 </strong> By <a href="https://www.ispan.com.tw/">iSpan - MSIT133 </a></p>
                             </div>
                         </div>
                         <div class="col-md-6 text-center text-md-end order-1 order-md-2 m-b-20">
@@ -350,9 +377,6 @@
 
     <!--Main JS-->
     <script src="~/Front/js/main.js"></script>
-
-    @RenderSection("Scripts",false);
+    @RenderSection("Scripts", false);
 </body>
 </html>
-
-

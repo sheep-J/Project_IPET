@@ -22,5 +22,10 @@ namespace Project_IPET.Controllers
         {
             return View();
         }
+
+        public IActionResult TestProductComment() {
+
+            return View();
+        }
     }
 }

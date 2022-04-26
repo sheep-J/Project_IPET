@@ -11,7 +11,7 @@ namespace Project_IPET.Controllers
     public class Front_ProductController : Controller
     {
         private IProductService _productService;
-        public Front_ProductController(IProductService productService)
+        public Front_ProductController(IProductService productService) //建構子必須和class名稱一樣!
         {
             _productService = productService;
         }

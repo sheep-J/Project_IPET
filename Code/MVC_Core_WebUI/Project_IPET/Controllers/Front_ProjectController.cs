@@ -12,5 +12,13 @@ namespace Project_IPET.Controllers
         {
             return View();
         }
+        public IActionResult AddToCart(int? id)
+        {
+            //找到prjId為參數的專案
+            //找到prjId為參數的connect再去找商品
+            //找到已付款的訂單, 找出是誰, 消費甚麼, 數量多少
+            //上述所有物件包裝成vModel回傳至View()
+            return View();
+        }
     }
 }

@@ -6,25 +6,15 @@ using System.Threading.Tasks;
 
 namespace Project_IPET.Controllers
 {
-    public class Front_BlogController : Controller
+    public class Back_ProjectController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-        public ActionResult PostView()
+        public IActionResult Create()
         {
-            return View();
-        }
-
-        public ActionResult CreatePost()
-        {
-            return View();
-        }
-
-        public IActionResult TestProductComment() {
-
             return View();
         }
     }

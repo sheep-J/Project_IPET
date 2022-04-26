@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Project_IPET.Models;
 using Project_IPET.Services;
 using System;
 using System.Collections.Generic;
@@ -40,6 +42,8 @@ namespace Project_IPET
             services.AddScoped<IProductService, ProductService>();
 
             //Entity Framework連線字串請放在這
+           
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

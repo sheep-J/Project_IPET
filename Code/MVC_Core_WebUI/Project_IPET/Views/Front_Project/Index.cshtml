@@ -1,7 +1,127 @@
 ﻿
 @{
     ViewData["Title"] = "Index";
+    Layout = "_FrontLayout";
 }
 
-<h1>募集專案</h1>
+<!-- Breadcrumb Area Start -->
+<div class="section breadcrumb-area bg-name-bright">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="breadcrumb-title">募集專案</h2>
+                    <ul>
+                        <li><a href="index">Home</a></li>
+                        <li>Shop List</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Area End -->
+<!-- Shop Section Start -->
+<div class="section section-margin">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
 
+                <!--上方工具條 start-->
+                <div class="shop_toolbar_wrapper flex-column flex-md-row p-2 m-b-40 border">
+
+                    <!-- 左邊條列式 start -->
+                    <div class="shop-top-bar-left">
+
+                        <div class="shop_toolbar_btn">
+                            <button data-role="grid_list" type="button" class="active btn-list" title="List"><i class="ti-align-justify"></i></button>
+                        </div>
+                        <div class="shop-top-show">
+                            <span>Showing 1–12 of 39 results</span>
+                        </div>
+
+                    </div>
+                    <!-- 左邊條列式 end -->
+                    <!-- 右邊DropDownList Start -->
+                    <div class="shop-top-bar-right">
+
+                        <h4 class="title m-r-10">Short By: </h4>
+
+                        <div class="shop-short-by">
+                            <select class="nice-select" aria-label=".form-select-sm example">
+                                <option value="1" selected>當前進行</option>
+                                <option value="2">歷史專案</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- 右邊DropDownLis End -->
+
+                </div>
+                <!--上方工具條 end-->
+                <!-- 主要顯示頁面 Start -->
+                <div class="row shop_wrapper grid_list">
+                    @{
+                        for(int i = 0;i<3;i++)
+                        {
+                            <!-- Single Product Start -->
+                            <div class="col-12 product">
+                                <div class="product-inner">
+                                    <div class="thumb">
+                                        <a asp-action="AddToCart" class="image">
+                                            <img class="fit-image" src="~/Front/images/project/1.jpg" alt="Product" />
+                                        </a>
+                                        <span class="badges">
+                                            <span class="sale">倒數幾天</span>
+                                        </span>
+                                    </div>
+                                    <div class="content">
+                                        <h5 class="title"><a href="single-product.html">九月物資募集</a></h5>
+                                        <span class="price">
+                                            <span class="new">為了不讓愛有變質的機會我們不接受捐款，但如果你也想為浪浪盡些心力可以選擇...</span>
+                                        </span>
+                                        <p>專案Context</p>
+                                        <!-- Cart Button Start -->
+                                        <div class="cart-btn action-btn">
+                                            <div class="action-cart-btn-wrapper d-flex">
+                                                <div class="add-to_cart">
+                                                    <a class="btn btn-primary btn-hover-dark rounded-0" href="AddToCart">參與專案</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Cart Button End -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Single Product End -->
+                        }
+                    }
+                </div>
+                <!-- 主要顯示頁面 End -->
+                <!--下方頁面顯示 start->
+                <div class="shop_toolbar_wrapper justify-content-center m-t-50">
+
+                    <!-- Shopt Top Bar Right Start ->
+                    <div class="shop-top-bar-right">
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item"><a class="page-link active" href="#/">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#/">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#/">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link rounded-0" href="#/" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- Shopt Top Bar Right End ->
+
+                </div>
+                <!--下方頁面顯示 end-->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Shop Section End -->

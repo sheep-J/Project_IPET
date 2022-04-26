@@ -11,7 +11,7 @@
         $.ajax({
                 method: "POST",
                 url: "/Front_Product/ProductList",
-                data: { 
+                data: {
                     CategoryId:categoryId,
                     Pagination:{
                         Page:page,
@@ -19,7 +19,16 @@
                     }
                 },
                 success:function(result){
-                    $("#productList").html(result)
+                    $("#productList").html(result);
+                    var displayStyle = $(".shop_toolbar_btn .active").data("role");
+                    var displayStyleClass = "";
+                    if(displayStyle == "grid_3"){
+                        displayStyleClass = "col-lg-4 col-md-4 col-sm-6";
+                    }
+                    else{
+                        displayStyleClass = "col-12";
+                    }
+                    $(".product").addClass(displayStyleClass);
                 }
             });
     }
@@ -30,9 +39,237 @@
     }
 </script>
 }
-<div>
-    類別1, 類別2,.....
+<!-- Breadcrumb Area Start -->
+<div class="section breadcrumb-area bg-name-bright">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="breadcrumb-title">寵物商品</h2>
+                    <ul>
+                        <li><a asp-controller="Front_Home">首頁</a></li>
+                        <li>寵物商品</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div id="productList">
+<!-- Breadcrumb Area End -->
+<!-- Shop Section Start -->
+<div class="section section-margin">
+    <div class="container">
+        <div class="row flex-row-reverse">
+            <div class="col-lg-9 col-12">
 
+                <!--shop toolbar start-->
+                <div class="shop_toolbar_wrapper flex-column flex-md-row p-2 mb-8 border">
+
+                    <!-- Shop Top Bar Left start -->
+                    <div class="shop-top-bar-left">
+
+                        <div class="shop_toolbar_btn">
+                            <button data-role="grid_3" type="button" class="active btn-grid-3" title="Grid"><i class="ti-layout-grid4-alt"></i></button>
+                            <button data-role="grid_list" type="button" class="btn-list" title="List"><i class="ti-align-justify"></i></button>
+                        </div>
+                        <div class="shop-top-show">
+                            <span>Showing 1–12 of 39 results</span>
+                        </div>
+
+                    </div>
+                    <!-- Shop Top Bar Left end -->
+                    <!-- Shopt Top Bar Right Start -->
+                    <div class="shop-top-bar-right">
+
+                        <h4 class="title me-2">Short By: </h4>
+
+                        <div class="shop-short-by">
+                            <select class="nice-select" aria-label=".form-select-sm example">
+                                <option selected="">Short by Default</option>
+                                <option value="1">Short by Popularity</option>
+                                <option value="2">Short by Rated</option>
+                                <option value="3">Short by Latest</option>
+                                <option value="3">Short by Price</option>
+                                <option value="3">Short by Price</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Shopt Top Bar Right End -->
+
+                </div>
+                <!--shop toolbar end-->
+
+                <div id="productList">
+                </div>
+
+
+
+            </div>
+            <div class="col-lg-3 col-12">
+                <!-- Sidebar Widget Start -->
+                <aside class="sidebar_widget m-t-50 mt-lg-0">
+                    <div class="widget_inner">
+                        <div class="widget-list m-b-50">
+                            <h3 class="widget-title m-b-30">Search</h3>
+                            <div class="search-box">
+                                <input type="text" class="form-control" placeholder="Search Our Store" aria-label="Search Our Store">
+                                <button class="search-icon" type="button">
+                                    <i class="icon-magnifier"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="widget-list m-b-50">
+                            <h3 class="widget-title m-b-30">Categories</h3>
+                            <div class="sidebar-body">
+                                <ul class="sidebar-list">
+                                    <li><a href="#/">All Product</a></li>
+                                    <li><a href="#/">Best Seller (5)</a></li>
+                                    <li><a href="#/">Featured (4)</a></li>
+                                    <li><a href="#/">New Products (6)</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="widget-list m-b-50">
+                            <h3 class="widget-title m-b-30">Color</h3>
+                            <div class="sidebar-body">
+                                <ul class="checkbox-container categories-list">
+                                    <li>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck12">
+                                            <label class="custom-control-label" for="customCheck12">black (20)</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck13">
+                                            <label class="custom-control-label" for="customCheck13">red (6)</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck14">
+                                            <label class="custom-control-label" for="customCheck14">blue (8)</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck11">
+                                            <label class="custom-control-label" for="customCheck11">green (5)</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck15">
+                                            <label class="custom-control-label" for="customCheck15">pink (4)</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="widget-list m-b-50">
+                            <h3 class="widget-title m-b-30">Tags</h3>
+                            <div class="sidebar-body">
+                                <ul class="tags m-b-n10">
+                                    <li><a href="#/">Pet Food</a></li>
+                                    <li><a href="#/">Animals</a></li>
+                                    <li><a href="#/">Domestic</a></li>
+                                    <li><a href="#/">Wild</a></li>
+                                    <li><a href="#/">Dogs</a></li>
+                                    <li><a href="#/">Cats</a></li>
+                                    <li><a href="#/">Hubby</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="widget-list">
+                            <h3 class="widget-title m-b-30">Recent Products</h3>
+                            <div class="sidebar-body product-list-wrapper m-b-n30">
+
+                                <!-- Single Product List Start -->
+                                <div class="single-product-list m-b-30">
+
+                                    <!-- Product List Thumb Start -->
+                                    <div class="product">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="fit-image first-image" src="assets/images/products/small-product/1.png" alt="Product Image">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Product List Thumb End -->
+                                    <!-- Product List Content Start -->
+                                    <div class="product-list-content">
+                                        <h6 class="product-name">
+                                            <a href="single-product.html">Pet Leaving House</a>
+                                        </h6>
+                                        <span class="price">
+                                            <span class="new">$12.50</span>
+                                            <span class="old">$15.85</span>
+                                        </span>
+                                    </div>
+                                    <!-- Product List Content End -->
+
+                                </div>
+                                <!-- Single Product List End -->
+                                <!-- Single Product List Start -->
+                                <div class="single-product-list m-b-30">
+
+                                    <!-- Product List Thumb Start -->
+                                    <div class="product">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="fit-image first-image" src="assets/images/products/small-product/2.png" alt="Product Image">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Product List Thumb End -->
+                                    <!-- Product List Content Start -->
+                                    <div class="product-list-content">
+                                        <h6 class="product-name">
+                                            <a href="single-product.html">This is the testing</a>
+                                        </h6>
+                                        <span class="price">
+                                            <span class="new">$10.50</span>
+                                            <span class="old">$12.85</span>
+                                        </span>
+                                    </div>
+                                    <!-- Product List Content End -->
+
+                                </div>
+                                <!-- Single Product List End -->
+                                <!-- Single Product List Start -->
+                                <div class="single-product-list m-b-30">
+
+                                    <!-- Product List Thumb Start -->
+                                    <div class="product">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="fit-image first-image" src="assets/images/products/small-product/3.png" alt="Product Image">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Product List Thumb End -->
+                                    <!-- Product List Content Start -->
+                                    <div class="product-list-content">
+                                        <h6 class="product-name">
+                                            <a href="single-product.html">Animals for life</a>
+                                        </h6>
+                                        <span class="price">
+                                            <span class="new">$22.50</span>
+                                            <span class="old">$25.85</span>
+                                        </span>
+                                    </div>
+                                    <!-- Product List Content End -->
+
+                                </div>
+                                <!-- Single Product List End -->
+
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+                <!-- Sidebar Widget End -->
+            </div>
+        </div>
+    </div>
 </div>
+<!-- Shop Section End -->

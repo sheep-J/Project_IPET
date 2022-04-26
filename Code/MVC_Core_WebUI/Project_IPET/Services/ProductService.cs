@@ -60,9 +60,11 @@ namespace Project_IPET.Services
             try
             {
                 string sql = @"SELECT * FROM Categories";
-                result= _dbConnection.Query<CategoriesModel>(sql).ToList();
+                result = _dbConnection.Query<CategoriesModel>(sql).ToList();
 
                 string sql2 = @"SELECT * FROM SubCategories";
+                //List<SubCategoriesModel> subCat =new List<SubCategoriesModel>();
+                var subCat = _dbConnection.Query<SubCategoriesModel>(sql2).ToList();
 
             }
             catch(Exception ex)

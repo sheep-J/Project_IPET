@@ -3,6 +3,7 @@
     public class ProductListRequestModel
     {
         public int CategoryId { get; set; }
+        public int SubCategoryId { get; set; }
         public PageModel Pagination { get; set; }
     }
 }

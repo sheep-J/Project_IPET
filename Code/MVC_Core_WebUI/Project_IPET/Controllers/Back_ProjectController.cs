@@ -13,7 +13,7 @@ namespace Project_IPET.Controllers
             return View();
         }
 
-        public IActionResult Detail()
+        public IActionResult Create()
         {
             return View();
         }

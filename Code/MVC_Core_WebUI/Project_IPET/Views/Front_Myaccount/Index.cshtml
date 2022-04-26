@@ -35,12 +35,12 @@
                                 </a>
                                 <a href="#orders" data-bs-toggle="tab"><i class="fa fa-cart-arrow-down"></i> 訂單資訊</a>
                                 <a href="#donate" data-bs-toggle="tab"><i class="fa fa-handshake-o"></i> 我的捐贈明細</a>
-                                <a href="#adopt" data-bs-toggle="tab"><i class="fa fa-paw"></i> 我的認養明細</a>
+                                @*<a href="#adopt" data-bs-toggle="tab"><i class="fa fa-paw"></i> 我的認養明細</a>*@
                                 <a href="#wishlist" data-bs-toggle="tab"><i class="fa fa-list-alt"></i> 我的願望清單</a>
                                 <a href="#coupon" data-bs-toggle="tab"><i class="fa fa-usd"></i> 我的優惠券</a>
-                                <a href="#reward" data-bs-toggle="tab"><i class="fa fa-product-hunt"></i> 我的積分</a>
+                                @*<a href="#reward" data-bs-toggle="tab"><i class="fa fa-product-hunt"></i> 我的積分</a>*@
                                 <a href="#account-info" data-bs-toggle="tab"><i class="fa fa-user"></i> 個人資訊</a>
-                                <a href="~/Empty_Signin/index"><i class="fa fa-sign-out"></i> Logout</a>
+                                <a href="~/Empty_Signin/index"><i class="fa fa-sign-out"></i> 登出</a>
                             </div>
                         </div>
                         <!-- My Account Tab Menu End -->
@@ -51,11 +51,11 @@
                                 <!-- Single Tab Content Start -->
                                 <div class="tab-pane fade show active" id="dashboad" role="tabpanel">
                                     <div class="myaccount-content">
-                                        <h3 class="title">會員</h3>
+                                        <h3 class="title">初次使用</h3>
                                         <div class="welcome">
-                                            <p>Hello, <strong>Alex Aya</strong> (If Not <strong>Aya !</strong><a href="~/Empty_Signin/index" class="logout"> Logout</a>)</p>
+                                            <p>Hello, <strong>there!</strong></p>
                                         </div>
-                                        <p class="mb-0">From your account dashboard. you can easily check & view your recent orders, manage your shipping and billing addresses and edit your password and account details.</p>
+                                        <p class="mb-0"></p>
                                     </div>
                                 </div>
                                 <!-- Single Tab Content End -->
@@ -212,14 +212,14 @@
                                 </div>
                                 <!-- Single Tab Content End -->
                                 <!-- Single Tab Content Start -->
-                                <div class="tab-pane fade" id="adopt" role="tabpanel">
+                                <!--<div class="tab-pane fade" id="adopt" role="tabpanel">
                                     <div class="myaccount-content">
                                         <h3 class="title">認養明細</h3>
-                                        <div class="myaccount-table table-responsive text-center">
-                                            @*>>here*@
-                                        </div>
+                                        <div class="myaccount-table table-responsive text-center">-->
+                                @*>>here*@
+                                <!--</div>
                                     </div>
-                                </div>
+                                </div>-->
                                 <!-- Single Tab Content End -->
                                 <!-- Single Tab Content Start -->
                                 <div class="tab-pane fade" id="wishlist" role="tabpanel">
@@ -227,6 +227,61 @@
                                         <h3 class="title">願望清單</h3>
                                         <div class="myaccount-table table-responsive text-center">
                                             @*>>here*@
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <td>商品編號</td>
+                                                        <td>商品名稱</td>
+                                                        <td>加入時間</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td><li class="fa fa-eye"></li></td>
+                                                        <td><li class="fa fa-ban"></li></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td><li class="fa fa-eye"></li></td>
+                                                        <td><li class="fa fa-ban"></li></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td><li class="fa fa-eye"></li></td>
+                                                        <td><li class="fa fa-ban"></li></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td><li class="fa fa-eye"></li></td>
+                                                        <td><li class="fa fa-ban"></li></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td><li class="fa fa-eye"></li></td>
+                                                        <td><li class="fa fa-ban"></li></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td>166549</td>
+                                                        <td><li class="fa fa-eye"></li></td>
+                                                        <td><li class="fa fa-ban"></li></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -242,14 +297,14 @@
                                 </div>
                                 <!-- Single Tab Content End -->
                                 <!-- Single Tab Content Start -->
-                                <div class="tab-pane fade" id="reward" role="tabpanel">
+                                <!--<div class="tab-pane fade" id="reward" role="tabpanel">
                                     <div class="myaccount-content">
                                         <h3 class="title">積分</h3>
-                                        <div class="myaccount-table table-responsive text-center">
-                                            @*>>here*@
-                                        </div>
+                                        <div class="myaccount-table table-responsive text-center">-->
+                                @*>>here*@
+                                <!--</div>
                                     </div>
-                                </div>
+                                </div>-->
                                 <!-- Single Tab Content End -->
                                 <!-- Single Tab Content Start -->
                                 <div class="tab-pane fade" id="account-info" role="tabpanel">
@@ -257,51 +312,59 @@
                                         <h3 class="title">會員資訊</h3>
                                         <div class="account-details-form">
                                             <form action="#">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="single-input-item m-b-15">
-                                                            <label for="first-name" class="required m-b-10">First Name</label>
-                                                            <input type="text" id="first-name" placeholder="First Name" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="single-input-item m-b-15">
-                                                            <label for="last-name" class="required m-b-10">Last Name</label>
-                                                            <input type="text" id="last-name" placeholder="Last Name" />
-                                                        </div>
-                                                    </div>
+                                                <div class="single-input-item m-b-15">
+                                                    <label for="name" class="required m-b-10">姓名</label>
+                                                    <input type="text" id="name" placeholder="姓名" />
                                                 </div>
                                                 <div class="single-input-item m-b-15">
-                                                    <label for="display-name" class="required m-b-10">Display Name</label>
-                                                    <input type="text" id="display-name" placeholder="Display Name" />
+                                                    <label for="email" class="required m-b-5">Email</label>
+                                                    <input type="email" id="email" placeholder="Email" />
                                                 </div>
                                                 <div class="single-input-item m-b-15">
-                                                    <label for="email" class="required m-b-5">Email Addres</label>
-                                                    <input type="email" id="email" placeholder="Email Address" />
+                                                    <label for="birth" class="required m-b-5">生日</label>
+                                                    <input type="date" id="birth" placeholder="生日" />
                                                 </div>
-                                                <fieldset>
-                                                    <legend>Password change</legend>
-                                                    <div class="single-input-item m-b-15">
-                                                        <label for="current-pwd" class="required m-b-10">Current Password</label>
-                                                        <input type="password" id="current-pwd" placeholder="Current Password" />
-                                                    </div>
-                                                    <div class="row m-b-n15">
+                                                    <div class="row">
                                                         <div class="col-lg-6">
                                                             <div class="single-input-item m-b-15">
-                                                                <label for="new-pwd" class="required m-b-10">New Password</label>
-                                                                <input type="password" id="new-pwd" placeholder="New Password" />
+                                                                <label for="city" class="required m-b-10">縣市</label>
+                                                                <select id="city"><option></option></select>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <div class="single-input-item m-b-15">
-                                                                <label for="confirm-pwd" class="required m-b-10">Confirm Password</label>
-                                                                <input type="password" id="confirm-pwd" placeholder="Confirm Password" />
+                                                                <label for="region" class="required m-b-10">鄉鎮區</label>
+                                                                <select id="region"><option></option></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <div class="single-input-item m-b-15">
+                                                    <label for="address" class="required m-b-5">地址</label>
+                                                    <input type="text" id="address" placeholder="地址" />
+                                                </div>
+                                                <fieldset>
+                                                    <legend>密碼變更</legend>
+                                                    <div class="single-input-item m-b-15">
+                                                        <label for="current-pwd" class="required m-b-10">舊密碼</label>
+                                                        <input type="password" id="current-pwd" placeholder="確認密碼" />
+                                                    </div>
+                                                    <div class="row m-b-n15">
+                                                        <div class="col-lg-6">
+                                                            <div class="single-input-item m-b-15">
+                                                                <label for="new-pwd" class="required m-b-10">新密碼</label>
+                                                                <input type="password" id="new-pwd" placeholder="請輸入新的密碼……" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="single-input-item m-b-15">
+                                                                <label for="confirm-pwd" class="required m-b-10">確認密碼</label>
+                                                                <input type="password" id="confirm-pwd" placeholder="請確認是否與新密碼相符" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </fieldset>
                                                 <div class="single-input-item single-item-button m-t-30">
-                                                    <button class="btn btn btn-primary btn-hover-dark rounded-0">Save Changes</button>
+                                                    <button class="btn btn btn-primary btn-hover-dark rounded-0">確認變更</button>
                                                 </div>
                                             </form>
                                         </div>

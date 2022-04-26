@@ -17,5 +17,15 @@ namespace Project_IPET.Controllers
         {
             return View();
         }
+
+        public ActionResult CreatePost()
+        {
+            return View();
+        }
+
+        public IActionResult TestProductComment() {
+
+            return View();
+        }
     }
 }

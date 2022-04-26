@@ -1,0 +1,198 @@
+﻿   <!-- Breadcrumb Area Start -->
+<div class="section breadcrumb-area bg-name-bright">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="breadcrumb-title">結帳</h2>
+                    <ul>
+                        <li><a href="#">IPET 寵物店</a></li>
+                        <li>結帳頁面</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Area End -->
+<!-- Checkout Section Start -->
+<div class="section section-margin">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Coupon Accordion Start -->
+                <div class="coupon-accordion">
+
+                    <!-- Title Start -->
+                    <h3 class="title">擁有優惠券嗎? <span id="showcoupon">點擊輸入優惠代碼</span></h3>
+                    <!-- Title End -->
+                    <!-- Checkout Coupon Start -->
+                    <div id="checkout_coupon" class="coupon-checkout-content">
+                        <div class="coupon-info">
+                            <form action="#">
+                                <p class="checkout-coupon d-flex">
+                                    <input placeholder="優惠券代碼" type="text">
+                                    <input class="btn btn-primary btn-hover-dark rounded-0" value="確認優惠" type="submit">
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Checkout Coupon End -->
+
+                </div>
+                <!-- Coupon Accordion End -->
+            </div>
+        </div>
+        <div class="row m-b-n20">
+            <div class="col-lg-6 col-12 m-b-20">
+
+                <!-- Checkbox Form Start -->
+                <form action="#">
+                    <div class="checkbox-form">
+
+                        <!-- Checkbox Form Title Start -->
+                        <h3 class="title">填寫訂單資料</h3>
+                        <!-- Checkbox Form Title End -->
+
+                        <div class="row">
+
+                            <!-- Select Country Name Start -->
+                            <div style="display:flex; justify-content:flex-start;">
+                                <div class="col-md-6 m-b-40">
+                                    <div class="country-select">
+                                        <label>交易模式 : </label>
+                                        <select width="270" style="text-align-last:center; width: 270px" class="myniceselect nice-select rounded-0">
+                                            <option data-display="請選擇">請選擇</option>
+                                            <option value="BuyMode">購買商品</option>
+                                            <option value="DonateMode">捐贈物資</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style="margin-left:15px;" class="col-md-3 m-b-40">
+                                    <div class="country-select">
+                                        <label>寄送方式 : </label>
+                                        <select class="myniceselect nice-select rounded-0">
+                                            <option data-display="請選擇">請選擇</option>
+                                            <option value="HomeDelivery">宅配</option>
+                                            <option value="InStorePickup">超商取貨</option>
+                                            <option value="DonateLimited ">捐贈限定</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style="margin-left:2px;" class="col-md-3 m-b-40">
+                                    <div class="country-select">
+                                        <label>付款方式 : </label>
+                                        <select class="myniceselect nice-select rounded-0">
+                                            <option data-display="請選擇">請選擇</option>
+                                            <option value="CashOnDelivery">貨到付款</option>
+                                            <option value="CreditCard">信用卡</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Select Country Name End -->
+                            <!-- Name Input Start -->
+                            <div class="col-md-6">
+                                <div class="checkout-form-list">
+                                    <label>姓名 :</label>
+                                    <input placeholder="請輸入姓名" type="text">
+                                </div>
+                            </div>
+                            <!-- Name Input End -->
+                            <!-- Phone Number Input Start -->
+                            <div class="col-md-6">
+                                <div class="checkout-form-list">
+                                    <label>電話 :</label>
+                                    <input placeholder="請輸入電話" type="text">
+                                </div>
+                            </div>
+                            <!-- Phone Number Input End -->
+                            <!-- Address Input Start -->
+                            <div class="col-md-12">
+                                <div class="checkout-form-list">
+                                    <label>地址 :</label>
+                                    <input placeholder="請輸入地址" type="text">
+                                </div>
+                            </div>
+                            <!-- Address Input End -->
+                        </div>
+                    </div>
+                </form>
+                <!-- Checkbox Form End -->
+
+            </div>
+
+            <div class="col-lg-6 col-12 m-b-20">
+
+                <!-- Your Order Area Start -->
+                <div class="your-order-area border">
+
+                    <!-- Title Start -->
+                    <h3 class="title">您的訂單明細</h3>
+                    <!-- Title End -->
+                    <!-- Your Order Table Start -->
+                    <div class="your-order-table table-responsive">
+                        <table class="table">
+
+                            <!-- Table Head Start -->
+                            <thead>
+                                <tr class="cart-product-head">
+                                    <th class="cart-product-name text-start">商品明細 :</th>
+                                    <th class="cart-product-total text-end">總計</th>
+                                </tr>
+                            </thead>
+                            <!-- Table Head End -->
+                            <!-- Table Body Start -->
+                            <tbody>
+                                <tr class="cart_item">
+                                    <td class="cart-product-name text-start ps-0">室內成貓-貓飼料<strong class="product-quantity"> × 1 </strong></td>
+                                    <td class="cart-product-total text-end pe-0"><span class="amount">$3050</span></td>
+                                </tr>
+                                <tr class="cart_item">
+                                    <td class="cart-product-name text-start ps-0">原肉零食大禮包(狗零食)<strong class="product-quantity"> × 1</strong></td>
+                                    <td class="cart-product-total text-end pe-0"><span class="amount">$500</span></td>
+                                </tr>
+                                <tr class="cart_item">
+                                    <td class="cart-product-name text-start ps-0">無穀全貓主食鮮味杯3.5oz【雞肉】(1入)(貓主食罐)<strong class="product-quantity"> × 1</strong></td>
+                                    <td class="cart-product-total text-end pe-0"><span class="amount">$80</span></td>
+                                </tr>
+                                <tr class="cart_item">
+                                    <td class="cart-product-name text-start ps-0">BESTBREED 全年齡犬<strong class="product-quantity"> × 1</strong></td>
+                                    <td class="cart-product-total text-end pe-0"><span class="amount">$2850</span></td>
+                                </tr>
+                            </tbody>
+                            <!-- Table Body End -->
+                            <!-- Table Footer Start -->
+                            <tfoot>
+                                <tr class="cart-subtotal">
+                                    <th class="text-start ps-0">購物車總金額</th>
+                                    <td class="text-end pe-0"><span class="amount">$6480</span></td>
+                                </tr>
+                                <tr class="cart-subtotal">
+                                    <th class="text-start ps-0">運費</th>
+                                    <td class="text-end pe-0"><span class="amount">$60</span></td>
+                                </tr>
+                                <tr class="order-total">
+                                    <th style="font-weight:bold;" class="text-start ps-0">訂單總金額</th>
+                                    <td class="text-end pe-0"><strong><span class="amount">$6540</span></strong></td>
+                                </tr>
+                            </tfoot>
+                            <!-- Table Footer End -->
+
+                        </table>
+                    </div>
+                    <!-- Your Order Table End -->
+                    <!-- Payment Accordion Order Button Start -->
+                    <div class="payment-accordion-order-button">
+                        <div class="order-button-payment">
+                            <button class="btn btn-primary btn-hover-dark rounded-0 w-100">確 認 結 帳</button>
+                        </div>
+                    </div>
+                    <!-- Payment Accordion Order Button End -->
+                </div>
+                <!-- Your Order Area End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Checkout Section End -->

@@ -68,58 +68,80 @@
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <td>訂單編號</td>
-                                                        <td>訂單編號</td>
-                                                        <td>訂單編號</td>
-                                                        <td>訂單編號</td>
-                                                        <td>訂單編號</td>
+                                                        <th>序號</th>
+                                                        <th>訂單編號</th>
+                                                        <th>下單日期</th>
+                                                        <th>訂單金額</th>
+                                                        <th>訂單狀態</th>
+                                                        <th>檢視訂單明細</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
+                                                        <td>1</td>
+                                                        <td>12</td>
                                                         <td>166549</td>
                                                         <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
-                                                        <td>166549</td>
+                                                        <td>已取消</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderModal">
+                                                                檢視訂單資訊
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            <!-- orderModal -->
+                                            <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:200px">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">訂單資訊</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <table>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>序</th>
+                                                                        <th>圖片</th>
+                                                                        <th>商品名稱</th>
+                                                                        <th>單價</th>
+                                                                        <th>數量</th>
+                                                                        <th>總金額</th>
+                                                                        <th>評價</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>1</td>
+                                                                        <td><img class="img-thumbnail" src="~/Front/images/project/3.jpg"/></td>
+                                                                        <td>貓食</td>
+                                                                        <td>500</td>
+                                                                        <td>1</td>
+                                                                        <td>500</td>
+                                                                        <td><button>評價</button></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>2</td>
+                                                                        <td><img class="img-thumbnail" src="~/Front/images/project/3.jpg"/></td>
+                                                                        <td>狗食</td>
+                                                                        <td>200</td>
+                                                                        <td>2</td>
+                                                                        <td>400</td>
+                                                                        <td><button>評價</button></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            總金額:900
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

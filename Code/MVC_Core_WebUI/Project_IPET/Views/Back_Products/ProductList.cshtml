@@ -1,23 +1,89 @@
-﻿@*@model ProductListResponseModel
+﻿@model ProductListResponseModel
 @{
     Layout = null;
 }
+<div>
+    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex">
+        <h6 class="text-white text-capitalize ps-3">商品管理頁面</h6>
+        <button class="ms-auto btn bg-gradient-dark mb-0 mt-0 me-2">新增商品</button>
+    </div>
 
-<table class="table table-dark table-hover">
-    <thead>
-         <tr>
-             <th></th>
-             <th></th>
-             <th></th>
-             <th></th>
-         </tr>
-  </thead>
-  <tbody>
-        @foreach (var product in Model.ProductList)
-        {
-            
-        }
-  </tbody>
-</table>
+    <table class="table align-items-center mb-0">
+        <thead>
+            <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">商品單價/進價成本</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">庫存</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品描述</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">是否為熱門商品</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">是否熱門商品</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品評價</th>
+                <th class="text-secondary opacity-7">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.ProductList)
+            {
+                <tr>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <div>
+                                <img src="@product.ProductImageBase64String" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">@product.ProductName</h6>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">@product.UnitPrice</p>
+                        <p class="text-xs text-secondary mb-0">@product.CostPrice</p>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-success">@product.UnitsInStock</span>
+                    </td>
+                    <td class="align-middle">
+                        <span class="text-secondary text-xs font-weight-bold">@product.Description.Substring(0,20) ...</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">
+                            @if(product.HotProduct){
+                                <span>V</span>
+                            }
+                            else
+                            {
+                                <span>X</span>
+                            }
+                        </span>
+                    </td>
+                    <td class="align-middle  text-center">
+                        <span class="text-secondary text-xs font-weight-bold">
+                            @if(product.ProductAvaliable){
+                                <span>V</span>
+                            }
+                            else
+                            {
+                                <span>X</span>
+                            }
+                            </span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">@product.Ranking</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                            刪除
+                        </a>
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                            修改
+                        </a>
+                    </td>
 
-*@
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+

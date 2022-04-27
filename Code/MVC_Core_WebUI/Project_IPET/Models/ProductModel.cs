@@ -7,7 +7,7 @@ namespace Project_IPET.Models
         /// <summary>
         /// 商品Id(PK)
         /// </summary>
-        public int ProdcutID { get; set; }
+        public int ProductID { get; set; }
         /// <summary>
         /// 商品名稱
         /// </summary>
@@ -21,6 +21,10 @@ namespace Project_IPET.Models
         /// </summary>
         public int BrandID { get; set; }
         /// <summary>
+        /// 成本價
+        /// </summary>
+        public decimal CostPrice { get; set; }
+        /// <summary>
         /// 商品單價
         /// </summary>
         public decimal UnitPrice { get; set; }
@@ -32,7 +36,13 @@ namespace Project_IPET.Models
         /// 商品描述
         /// </summary>
         public string Description { get; set; }
-        public bool HotPrice { get; set; }
+        /// <summary>
+        /// 是否為熱門商品
+        /// </summary>
+        public bool HotProduct { get; set; }
+        /// <summary>
+        /// 商品上架狀態
+        /// </summary>
         public bool ProductAvaliable { get; set; }
         public int Ranking { get; set; }
         /// <summary>

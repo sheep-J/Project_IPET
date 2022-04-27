@@ -5,173 +5,206 @@
 
 <head>
     <style>
-    .middle{
-    padding: 0.75rem 1.5rem !important;
-    text-align: center;
-    }
+        .middle {
+            padding: 0.75rem 1.5rem !important;
+            text-align: center;
+        }
     </style>
-    
+
 </head>
 
+
+<button type="button" class="btn btn btn-danger mr-3">整批屏蔽</button>
 <div class="row">
-        <div class="col-12">
-          <div class="card my-4">
+    <div class="col-12">
+        <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">評價列表</h6>
-              </div>
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">評價列表</h6>
+                </div>
             </div>
             <div class="card-body px-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0 fortable" >
-                  <thead>
-                    <tr>
-                     
-                      <th class="middle"><input type="checkbox"></th>
-                       <th class="middle">序號</th>
-                       <th class="middle">產品名稱</th>
-                       <th class="middle">訂單編號</th>
-                       <th class="middle">評價會員</th>
-                       <th class="middle">評價日期</th>
-                       <th class="middle">評價內容</th>
-                       <th class="middle">評價分數</th>
-                       <th class="middle"></th>
-                       <th class="middle"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0 fortable">
+                        <thead>
+                            <tr>
 
-                   <!-- tr Start -->
-                    <tr >
-                      
-                          <td class="middle">
-                            <input type="checkbox">
-                         </td>
-                           <td class="middle">
-                              1
-                         </td>
-                           <td class="middle">
-                             貓抓板
-                         </td>
-                           <td class="middle">
-                                1
-                         </td>
-                           <td class="middle">
-                                sposnny
-                         </td>
-                           <td class="middle">
-                                2022-02-17
-                         </td>
-                           <td class="middle">
-                               收到囉 讚讚!!!
-                         </td>
-                           <td class="middle">
-                            <span class="rating">
-                        <i class="fa fa-star text-warning"></i>
-                        <i class="fa fa-star text-warning"></i>
-                        <i class="fa fa-star text-warning"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o  "></i>
-                            </span>
-                         </td>
-                    </tr>
-                     <!--  tr End  -->
+                                <th class="middle"><input name="clickAll" id="clickAll" type="checkbox"> </th>
+                                <th class="middle">序號</th>
+                                <th class="middle">產品名稱</th>
+                                <th class="middle">訂單編號</th>
+                                <th class="middle">評價會員</th>
+                                <th class="middle">評價日期</th>
+                                <th class="middle">評價內容</th>
+                                <th class="middle">評價分數</th>
+                                <th class="middle">屏蔽評價內容</th>
+                                <th class="middle"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                     
+                            <!-- tr Start -->
+                            <tr>
 
-                  </tbody>
-
-
-                   <tbody>
-
-                   <!-- tr Start -->
-                    <tr >
-                      
-                          <td class="middle">
-                            <input type="checkbox">
-                         </td>
-                           <td class="middle">
-                              1
-                         </td>
-                           <td class="middle">
-                             貓抓板
-                         </td>
-                           <td class="middle">
-                                1
-                         </td>
-                           <td class="middle">
-                                sposnny
-                         </td>
-                           <td class="middle">
-                                2022-02-17
-                         </td>
-                           <td class="middle">
-                               收到囉 讚讚!!!
-                         </td>
-                           <td class="middle">
-                            <span class="rating">
-                        <i class="fa fa-star text-warning"></i>
-                        <i class="fa fa-star text-warning"></i>
-                        <i class="fa fa-star text-warning"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o  "></i>
-                            </span>
-                         </td>
-                    </tr>
-                     <!--  tr End  -->
-
-                     
-
-                  </tbody>
+                                <td class="middle">
+                                    <input name="active_col[]" type="checkbox" value="1">
+                                </td>
+                                <td class="middle">
+                                    1
+                                </td>
+                                <td class="middle">
+                                    貓抓板
+                                </td>
+                                <td class="middle">
+                                    1
+                                </td>
+                                <td class="middle">
+                                    sposnny
+                                </td>
+                                <td class="middle">
+                                    2022-02-17
+                                </td>
+                                <td class="middle">
+                                    收到囉 讚讚!!!
+                                </td>
+                                <td class="middle">
+                                    <span class="rating">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o  "></i>
+                                    </span>
+                                </td>
+                                <td class="middle">
+                                    <button type="button" class="btn btn btn-danger mr-3">
+                                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!--  tr End  -->
 
 
-                   <tbody>
 
-                   <!-- tr Start -->
-                    <tr >
-                      
-                          <td class="middle">
-                            <input type="checkbox">
-                         </td>
-                           <td class="middle">
-                              1
-                         </td>
-                           <td class="middle">
-                             貓抓板
-                         </td>
-                           <td class="middle">
-                                1
-                         </td>
-                           <td class="middle">
-                                sposnny
-                         </td>
-                           <td class="middle">
-                                2022-02-17
-                         </td>
-                           <td class="middle">
-                               收到囉 讚讚!!!
-                         </td>
-                           <td class="middle">
-                            <span class="rating">
-                        <i class="fa fa-star text-warning"></i>
-                        <i class="fa fa-star text-warning"></i>
-                        <i class="fa fa-star text-warning"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o  "></i>
-                            </span>
-                         </td>
-                    </tr>
-                     <!--  tr End  -->
+                        </tbody>
 
-                     
 
-                  </tbody>
-                </table>
-              </div>
+                        <tbody>
+
+                            <!-- tr Start -->
+                            <tr>
+
+                                <td class="middle">
+                                    <input name="active_col[]" type="checkbox" value="2">
+                                </td>
+                                <td class="middle">
+                                    2
+                                </td>
+                                <td class="middle">
+                                    貓抓板
+                                </td>
+                                <td class="middle">
+                                    12
+                                </td>
+                                <td class="middle">
+                                    sposnny
+                                </td>
+                                <td class="middle">
+                                    2022-02-17
+                                </td>
+                                <td class="middle">
+                                    收到囉 讚讚!!!
+                                </td>
+                                <td class="middle">
+                                    <span class="rating">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o  "></i>
+                                    </span>
+                                </td>
+                                <td class="middle">
+                                    <button type="button" class="btn btn btn-danger mr-3">
+                                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!--  tr End  -->
+
+
+
+                        </tbody>
+
+
+                        <tbody>
+
+                            <!-- tr Start -->
+                            <tr>
+
+                                <td class="middle">
+                                    <input name="active_col[]" type="checkbox" value="3">
+                                </td>
+                                <td class="middle">
+                                    3
+                                </td>
+                                <td class="middle">
+                                    貓抓板
+                                </td>
+                                <td class="middle">
+                                    45
+                                </td>
+                                <td class="middle">
+                                    sposnny
+                                </td>
+                                <td class="middle">
+                                    2022-02-17
+                                </td>
+                                <td class="middle">
+                                    收到囉 讚讚!!!
+                                </td>
+                                <td class="middle">
+                                    <span class="rating">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o  "></i>
+                                    </span>
+                                </td>
+                                <td class="middle">
+                                    <button type="button" class="btn btn btn-danger mr-3">
+                                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!--  tr End  -->
+
+
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-   
+    </div>
+</div>
 
-    
+@section Scripts{
+
+    <script>
+
+
+        $("#clickAll").click(function () {
+            if ($("#clickAll").prop("checked"))
+                $("input[name='active_col[]']").prop("checked", true);
+
+            else
+                $("input[name='active_col[]']").prop("checked", false);
+        });
+
+
+    </script>
+
+}
+

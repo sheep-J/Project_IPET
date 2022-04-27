@@ -14,7 +14,10 @@
 </head>
 
 
-<button type="button" class="btn btn btn-danger mr-3">整批屏蔽</button>
+<button type="button" class="btn btn btn-danger mr-3">快速屏蔽</button>
+
+<button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">快速回覆</button>
+
 <div class="row">
     <div class="col-12">
         <div class="card my-4">
@@ -37,8 +40,8 @@
                                 <th class="middle">評價日期</th>
                                 <th class="middle">評價內容</th>
                                 <th class="middle">評價分數</th>
+                                <th class="middle">回覆留言</th>
                                 <th class="middle">屏蔽評價內容</th>
-                                <th class="middle"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,28 +62,34 @@
                                     1
                                 </td>
                                 <td class="middle">
-                                    sposnny
+                                    Alex
                                 </td>
                                 <td class="middle">
                                     2022-02-17
                                 </td>
                                 <td class="middle">
-                                    收到囉 讚讚!!!
+                                    收到囉 666666
                                 </td>
                                 <td class="middle">
                                     <span class="rating">
                                         <i class="fa fa-star text-warning"></i>
                                         <i class="fa fa-star text-warning"></i>
                                         <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o  "></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
                                     </span>
+                                </td>
+                               <td class="middle">
+                                    <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
+                                     <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                                    </button>
                                 </td>
                                 <td class="middle">
                                     <button type="button" class="btn btn btn-danger mr-3">
                                         <i class="fa fa-ban" aria-hidden="true"></i>
                                     </button>
                                 </td>
+                                
                             </tr>
                             <!--  tr End  -->
 
@@ -107,7 +116,7 @@
                                     12
                                 </td>
                                 <td class="middle">
-                                    sposnny
+                                    candy
                                 </td>
                                 <td class="middle">
                                     2022-02-17
@@ -124,11 +133,17 @@
                                         <i class="fa fa-star-o  "></i>
                                     </span>
                                 </td>
+                                 <td class="middle">
+                                    <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
+                                     <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                                    </button>
+                                </td>
                                 <td class="middle">
                                     <button type="button" class="btn btn btn-danger mr-3">
                                         <i class="fa fa-ban" aria-hidden="true"></i>
                                     </button>
                                 </td>
+                                 
                             </tr>
                             <!--  tr End  -->
 
@@ -155,28 +170,36 @@
                                     45
                                 </td>
                                 <td class="middle">
-                                    sposnny
+                                    Jack
                                 </td>
                                 <td class="middle">
                                     2022-02-17
                                 </td>
                                 <td class="middle">
-                                    收到囉 讚讚!!!
+                                    收到  不過等了好久才到
                                 </td>
                                 <td class="middle">
                                     <span class="rating">
                                         <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o  "></i>
                                     </span>
+                                </td>
+
+                                <td class="middle">
+                                    <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
+                                     <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                                    </button>
                                 </td>
                                 <td class="middle">
                                     <button type="button" class="btn btn btn-danger mr-3">
                                         <i class="fa fa-ban" aria-hidden="true"></i>
                                     </button>
                                 </td>
+
+                                 
                             </tr>
                             <!--  tr End  -->
 
@@ -184,6 +207,34 @@
 
                         </tbody>
                     </table>
+
+                      <!-- CommentModal Start-->
+                                            <div class="modal fade" id="MessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">回覆留言</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body ">
+                                                            <div>
+                                                            <textarea cols="55" rows="5"  onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">親切地回覆顧客留言以拉近與顧客的距離</textarea>
+                                                           
+                                                            </div>
+                                                           
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                                            <button type="button" class="btn btn-primary">送出</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                               <!-- CommentModal End-->
+
                 </div>
             </div>
         </div>

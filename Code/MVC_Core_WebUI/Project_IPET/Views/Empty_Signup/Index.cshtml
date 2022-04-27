@@ -6,9 +6,9 @@
                 <div class="breadcrumb-wrapper">
                     <h2 class="breadcrumb-title">建立帳號</h2>
                     @*<ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li>Create Account</li>
-                    </ul>*@
+                            <li><a href="index.html">Home</a></li>
+                            <li>Create Account</li>
+                        </ul>*@
                 </div>
             </div>
         </div>
@@ -24,32 +24,102 @@
 
                     <!-- Register Title & Content Start -->
                     <div class="section-content text-center m-b-30">
-                        <h2 class="title m-b-10">建立帳號</h2>
+                        <h2 class="title m-b-10">建立您的 IPET 帳號</h2>
                     </div>
                     <!-- Register Title & Content End -->
                     <!-- Form Action Start -->
-                    <form action="#" method="post">
-
-                        <!-- Input First Name Start -->
-                        <div class="single-input-item m-b-10">
-                            <input type="text" placeholder="帳號">
+                    <form asp-action="Create" class="form-floating">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <!-- Input Last Name Start -->
+                            <div class="col-lg-6">
+                                <div class="form-floating single-input-item m-b-10">
+                                    <input class="form-control required m-b-10" id="InputLastName" type="text" placeholder="姓氏">
+                                    <label for="InputLastName">姓氏</label>
+                                </div>
+                            </div>
+                            <!-- Input Last Name End -->
+                            <!-- Input First Name Start -->
+                            <div class="col-lg-6">
+                                <div class="form-floating single-input-item m-b-10">
+                                    <input class="form-control required m-b-10" id="InputFirstName" type="text" placeholder="名字">
+                                    <label for="InputLastName">名字</label>
+                                </div>
+                            </div>
+                            <!-- Input First Name End -->
                         </div>
-                        <!-- Input First Name End -->
-                        <!-- Input Last Name Start -->
-                        <div class="single-input-item m-b-10">
-                            <input type="email" placeholder="Email">
+                        <!-- Input UserId Start -->
+                        <div class="form-floating single-input-item m-b-10 justify-content-center align-items-center d-flex">
+                            <input class="form-control required m-b-10" id="InputUserId" type="text" placeholder="使用者名稱">
+                            <label for="InputUserId">使用者名稱</label>
                         </div>
-                        <!-- Input Last Name End -->
+                        <!-- Input UserId End -->
                         <!-- Input Email Start -->
-                        <div class="single-input-item m-b-10">
-                            <input type="password" placeholder="輸入密碼">
+                        <div class="form-floating single-input-item m-b-10">
+                            <input class="form-control" id="InputEmail" type="email" placeholder="您的電子郵件地址">
+                            <label for="InputEmail">您的電子郵件地址</label>
                         </div>
                         <!-- Input Email End -->
-                        <!-- Input Password Start -->
-                        <div class="single-input-item m-b-10">
-                            <input type="password" placeholder="確認密碼">
+                        <div class="row">
+                            <!-- Input current-pwd Start -->
+                            <div class="col-lg-6">
+                                <div class="form-floating single-input-item m-b-10">
+                                    <input class="form-control" id="Inputcurrent-pwd" type="password" placeholder="密碼">
+                                    <label for="Inputcurrent-pwd">密碼</label>
+                                </div>
+                            </div>
+                            <!-- Input current-pwd End -->
+                            <!-- Input confirm-pwd Start -->
+                            <div class="col-lg-6">
+                                <div class="form-floating single-input-item m-b-10">
+                                    <input class="form-control" id="Inputconfirm-pwd" type="password" placeholder="確認">
+                                    <label for="Inputconfirm-pwd">確認</label>
+                                </div>
+                            </div>
+                            <!-- Input confirm-pwd End -->
                         </div>
-                        <!-- Input Password End -->
+                        <!--<div class="single-input-item m-b-10 align-items-center d-flex">
+                            <a href="~/Empty_Signin/index">請改為登入帳戶</a>-->
+                            <!-- NextPage Start -->
+                            <!--<div class="single-input-item">
+                                <div class="login-reg-form-meta m-b-n15">
+                                    <button class="btn btn btn-gray-deep btn-hover-primary m-b-15">繼續</button>
+                                </div>
+                            </div>-->
+                            <!-- NextPage End -->
+                        <!--</div>-->
+                    </form>
+                    <form asp-action="Create">
+                        <!-- Input Phone Start -->
+                        <div class="form-floating single-input-item m-b-10">
+                            <input class="form-control" id="InputPhone" type="text" placeholder="電話號碼">
+                            <label for="InputPhone">電話號碼</label>
+                        </div>
+                        <!-- Input Phone End -->
+                        <div class="row">
+                            <!-- Input City Start -->
+                            <div class="col-lg-6">
+                                <div class="form-floating single-input-item m-b-25">
+                                    <select class="form-select" id="selcity"><option selected>請選擇</option></select>
+                                    <label for="selcity">城市</label>
+                                </div>
+                            </div>
+                            <!-- Input City End -->
+                            <!-- Input Region Start -->
+                            <div class="col-lg-6">
+                                <div class="form-floating single-input-item m-b-25">
+                                    <select class="form-select" id="selregion"><option selected>請選擇</option></select>
+                                    <label for="selregion">區</label>
+                                </div>
+                            </div>
+                            <!-- Input Region End -->
+                        </div>
+                        <!-- Input Address Start -->
+                        <div class="form-floating single-input-item m-b-25">
+                            <input class="form-control" id="InputAddress" type="text" placeholder="地址">
+                            <label for="InputAddress">地址</label>
+                        </div>
+                        <!-- Input Address End -->
                         <!-- Button/Forget Password Start -->
                         <div class="single-input-item">
                             <div class="login-reg-form-meta m-b-n15">

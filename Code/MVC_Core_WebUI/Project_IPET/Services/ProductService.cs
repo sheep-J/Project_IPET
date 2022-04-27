@@ -73,5 +73,26 @@ namespace Project_IPET.Services
             }
             return result;
         }
+
+        public ProductModel GetProduct(int id)
+        {
+            ProductModel result = new ProductModel();
+            try
+            {
+                string sql = @"SELECT * FROM Products p 
+                                            JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+                                            WHERE p.ProductID=@ProductID ";
+                var param = new
+                {
+                    ProductID = id,
+                };
+                result = _dbConnection.QueryFirst<ProductModel>(sql,param);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            return result;
+        }
     }
 }

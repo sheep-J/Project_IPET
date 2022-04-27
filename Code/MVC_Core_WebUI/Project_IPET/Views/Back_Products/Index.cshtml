@@ -1,6 +1,26 @@
-﻿@*@section Scripts{
-    <script>
-
-    </script>
+﻿@section Scripts{
+<script>
+            $(document).ready(function(){
+        getProductList(1);
+    });
+    var categoryId = -1;
+    var pageSize = 9;
+    function getProductList(page){
+        $.ajax({
+                method: "POST",
+                url: "/Back_Products/ProductList",
+                data: {
+                    CategoryId:categoryId,
+                    Pagination:{
+                        Page:page,
+                        PageSize:pageSize
+                    }
+                },
+                success:function(result){
+                    $("#productList").html(result);
+                }
+            });
+    }
+</script>
 }
-<div id="productList"></div>*@
+<div id="productList"></div>

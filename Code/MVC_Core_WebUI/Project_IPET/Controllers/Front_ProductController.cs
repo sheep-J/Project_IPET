@@ -26,5 +26,10 @@ namespace Project_IPET.Controllers
             var result = _productService.GetProductList(request);
             return View(result);
         }
+        public IActionResult ProductDetail(int id)
+        {
+            var result = _productService.GetProduct(id);
+            return View(result);
+        }
     }
 }

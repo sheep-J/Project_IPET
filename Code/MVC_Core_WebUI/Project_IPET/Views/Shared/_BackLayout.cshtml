@@ -25,8 +25,13 @@
 
     <!-- CSS Files -->
     <link id="pagestyle" href="~/Back/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+<<<<<<< HEAD
     
     @await RenderSectionAsync("CSS", required: false)
+=======
+    @await RenderSectionAsync("Styles", required: false)
+
+>>>>>>> main
 </head>
 <body class="g-sidenav-show  bg-gray-200">
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
@@ -392,6 +397,7 @@
     <script src="~/Back/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="~/Back/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="~/Back/js/plugins/chartjs.min.js"></script>
+<<<<<<< HEAD
     @*<script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
 
@@ -639,6 +645,8 @@
             },
         });
     </script>*@
+=======
+>>>>>>> main
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -648,11 +656,16 @@
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
     </script>
+
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<<<<<<< HEAD
     <script src="~/Back/js/material-dashboard.min.js?v=3.0.0"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+=======
+    @*<script src="~/Back/js/material-dashboard.min.js"></script>*@
+>>>>>>> main
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

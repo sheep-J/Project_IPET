@@ -25,13 +25,13 @@
 
     <!-- CSS Files -->
     <link id="pagestyle" href="~/Back/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
-<<<<<<< HEAD
+
     
-    @await RenderSectionAsync("CSS", required: false)
-=======
+   
+
     @await RenderSectionAsync("Styles", required: false)
 
->>>>>>> main
+
 </head>
 <body class="g-sidenav-show  bg-gray-200">
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
@@ -176,7 +176,7 @@
                     </div>
                     <ul class="navbar-nav  justify-content-end">
                         <li class="nav-item d-flex align-items-center">
-                            <a class="nav-link text-body font-weight-bold px-0" href="Empty_Signin/index">
+                            <a class="nav-link text-body font-weight-bold px-0" href="~/Empty_Signin/index">
                                 <i class="fa fa-user me-sm-1"></i>
                                 <span class="d-sm-inline d-none">登入</span>
                             </a>
@@ -415,8 +415,8 @@
 
     @*<script src="~/Back/js/material-dashboard.min.js?v=3.0.0"></script>*@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    @*<script src="~/Back/js/material-dashboard.min.js"></script>*@
+   
+    <script src="~/Back/js/material-dashboard.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

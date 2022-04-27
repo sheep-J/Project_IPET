@@ -7,6 +7,6 @@ namespace Project_IPET.Services
     {
         ProductListResponseModel GetProductList(ProductListRequestModel request);
         List<CategoriesModel> GetCategories();
-        
+        ProductModel GetProduct(int id);
     }
 }

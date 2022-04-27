@@ -12,8 +12,8 @@
         <div class="product">
             <div class="product-inner">
                 <div class="thumb">
-                    <a href="single-product.html" class="image">
-                        <img class="fit-image" src="@product.ProductImageBase64String" alt="Product">
+                    <a class="image" asp-controller="Front_Product" asp-action="ProductDetail" asp-route-id="@product.ProductID">
+                        <img class="fit-image" src="@product.ProductImageBase64String" alt="Product" >
                     </a>
                     <span class="badges">
                         <span class="sale">-0%</span>

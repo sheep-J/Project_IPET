@@ -33,11 +33,14 @@
                                     <i class="fa fa-home"></i>
                                     IPET
                                 </a>
+
+                                
                                 <a href="#orders" data-bs-toggle="tab"><i class="fa fa-cart-arrow-down"></i> 訂單資訊</a>
                                 <a href="#donate" data-bs-toggle="tab"><i class="fa fa-handshake-o"></i> 我的捐贈明細</a>
                                 @*<a href="#adopt" data-bs-toggle="tab"><i class="fa fa-paw"></i> 我的認養明細</a>*@
                                 <a href="#wishlist" data-bs-toggle="tab"><i class="fa fa-list-alt"></i> 我的願望清單</a>
                                 <a href="#coupon" data-bs-toggle="tab"><i class="fa fa-usd"></i> 我的優惠券</a>
+                                <a href="#Comment" data-bs-toggle="tab"><i class="fa fa-thumbs-o-up"></i> 我的評價</a>
                                 @*<a href="#reward" data-bs-toggle="tab"><i class="fa fa-product-hunt"></i> 我的積分</a>*@
                                 <a href="#account-info" data-bs-toggle="tab"><i class="fa fa-user"></i> 個人資訊</a>
                                 <a href="~/Empty_Signin/index"><i class="fa fa-sign-out"></i> 登出</a>
@@ -109,7 +112,7 @@
                                                                         <th>單價</th>
                                                                         <th>數量</th>
                                                                         <th>總金額</th>
-                                                                        <th>評價</th>
+                                                                   
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -120,8 +123,7 @@
                                                                         <td>500</td>
                                                                         <td>1</td>
                                                                         <td>500</td>
-                                                                        <td><button>評價</button></td>
-                                                                    </tr>
+                                                                      
                                                                     <tr>
                                                                         <td>2</td>
                                                                         <td><img class="img-thumbnail" src="~/Front/images/project/3.jpg"/></td>
@@ -129,7 +131,7 @@
                                                                         <td>200</td>
                                                                         <td>2</td>
                                                                         <td>400</td>
-                                                                        <td><button>評價</button></td>
+                                                                       
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -334,7 +336,136 @@
                                     </div>
                                 </div>-->
                                 <!-- Single Tab Content End -->
+
+                                   <!-- Single Tab Content Start -->
+                                <div class="tab-pane fade" id="Comment" role="tabpanel">
+                                    <div >
+                                        <h3 class="title">我的評價</h3>
+                                        <div class="myaccount-table table-responsive text-center">
+
+                                               <table class="table ">
+                                                      <thead>
+                                                        <tr>
+                                                       
+                                                          <th >序號</th>
+                                                          <th >評價狀態</th>
+                                                          <th >商品名稱</th>
+                                                          <th> 評價分數</th>
+                                                          <th> 評價日期</th>
+                                                          <th> 評價內容</th>
+                                                        </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                        <tr>
+                                                          
+                                                          <td>1</td>
+                                                          <td>
+                                                               <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#CommentModal">
+                                                               <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i>
+                                                               </button>
+                                                          </td>
+                                                          <td>單片抓板 (長) (30cmx15cmx3cm)</td>
+                                                          <td>
+                                                               <span class="rating">
+                                                                 <i class="fa fa-star text-warning"></i>
+                                                                 <i class="fa fa-star text-warning"></i>
+                                                                 <i class="fa fa-star text-warning"></i>
+                                                                 <i class="fa fa-star-o"></i>
+                                                                 <i class="fa fa-star-o  "></i>
+                                                               </span>
+                                                          </td>
+                                                          <td>2022-02-17</td>
+                                                          <td>買完我的沙發還是一樣被抓QAQ</td>
+                                                        </tr>
+                                                        <tr>
+                                                       
+                                                         <td>2</td>
+                                                         <td>
+                                                               <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#CommentModal">
+                                                               <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i>
+                                                               </button>
+                                                         </td>
+                                                          <td>原肉零食大禮包(狗零食)</td>
+                                                            <td>
+                                                               <span class="rating">
+                                                                 <i class="fa fa-star text-warning"></i>
+                                                                 <i class="fa fa-star text-warning"></i>
+                                                                 <i class="fa fa-star text-warning"></i>
+                                                                 <i class="fa fa-star text-warning"></i>
+                                                                 <i class="fa fa-star text-warning"></i>
+                                                               </span>
+                                                          </td>
+                                                          <td>2022-03-21</td>
+                                                          <td>阿柴超愛的  我一定會再回購</td>
+                                                        </tr>
+                                                        <tr>
+                                                        
+                                                          <td>3</td>
+                                                          <td>
+                                                               <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#CommentModal">
+                                                               <i class="fa fa-thumbs-o-up " aria-hidden="true"></i>
+                                                               </button>
+                                                          </td>
+                                                           <td>犬用野菜棒30克【南瓜】</td>
+                                                           <td>
+                                                               <span class="rating">
+                                                                 <i class="fa fa-star-o"></i>
+                                                                 <i class="fa fa-star-o"></i>
+                                                                 <i class="fa fa-star-o"></i>
+                                                                 <i class="fa fa-star-o"></i>
+                                                                 <i class="fa fa-star-o  "></i>
+                                                               </span>
+                                                          </td>
+                                                          <td></td>
+                                                          <td></td>
+                                                        </tr>
+                                                      </tbody>
+                                                    </table>
+
+                                               
+                                              <!-- CommentModal Start-->
+                                            <div class="modal fade" id="CommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">我要評價</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body ">
+                                                            <div style="padding-bottom:10px; align-items:center;">
+                                                            <textarea cols="60" rows="5"  onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">感謝你留下你寶貴的評價 </textarea>
+                                                           
+                                                            </div>
+                                                            <div>
+                                                                <span class="rating" >
+                                                                 <i class="fa fa-star-o" style="font-size:3em"></i>
+                                                                 <i class="fa fa-star-o" style="font-size:3em"></i>
+                                                                 <i class="fa fa-star-o" style="font-size:3em"></i>
+                                                                 <i class="fa fa-star-o" style="font-size:3em"></i>
+                                                                 <i class="fa fa-star-o" style="font-size:3em"></i>
+                                                               </span>
+                                                           </div>
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                                            <button type="button" class="btn btn-primary">送出</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                               <!-- CommentModal End-->
+                                        </div>
+                                    </div>
+                                </div>
+
+                              
+                                <!-- Single Tab Content End -->
+
                                 <!-- Single Tab Content Start -->
+                             
                                 <div class="tab-pane fade" id="account-info" role="tabpanel">
                                     <div class="myaccount-content">
                                         <h3 class="title">會員資訊</h3>
@@ -411,5 +542,5 @@
         </div>
 
     </div>
-</div>
+</</div>
 <!-- My Account Section End -->

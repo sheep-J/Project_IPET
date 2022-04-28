@@ -1,5 +1,11 @@
-﻿@section Scripts{
-    <script>var ctx = document.getElementById("chart-bars").getContext("2d");
+﻿
+@{
+    ViewData["Title"] = "儀錶板";
+}
+
+@section Scripts{
+    <script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
 
         new Chart(ctx, {
             type: "bar",
@@ -245,6 +251,7 @@
             },
         });</script>
 }
+
 <div class="row">
     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card">

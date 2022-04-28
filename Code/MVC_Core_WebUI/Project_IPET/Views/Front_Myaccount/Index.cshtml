@@ -487,6 +487,36 @@
                                         <h3 class="title">優惠券</h3>
                                         <div class="myaccount-table table-responsive text-center">
                                             @*>>here*@
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>序號</th>
+                                                        <th>優惠內容</th>
+                                                        <th>優惠類型</th>
+                                                        <th>有效期限</th>
+                                                        <th>擁有數量</th>
+                                                        <th>使用優惠券</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>雙11購物節, 瘋狂下殺</td>
+                                                        <td>滿 1000, 折 100</td>
+                                                        <td>2022/11/12</td>
+                                                        <td>3</td>
+                                                            <td><button type="button" class="btn btn-primary fas fa-dollar-sign" onclick="location.href='@Url.Action("index", "Front_Checkout")'"></button></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>聖誕特惠, 陪您過暖冬</td>
+                                                        <td>滿 2000, 訂單 85 折</td>
+                                                        <td>2022/12/25</td>
+                                                        <td>1</td>
+                                                        <td><button type="button" class="btn btn-primary fas fa-dollar-sign" onclick="location.href='@Url.Action("index", "Front_Checkout")'"></button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>

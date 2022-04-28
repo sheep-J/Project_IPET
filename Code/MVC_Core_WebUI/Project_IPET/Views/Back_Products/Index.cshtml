@@ -1,26 +1,30 @@
-﻿@section Scripts{
-<script>
-            $(document).ready(function(){
-        getProductList(1);
-    });
-    var categoryId = -1;
-    var pageSize = 9;
-    function getProductList(page){
-        $.ajax({
+﻿@{
+    ViewData["Title"] = "商品管理";
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            getProductList(1);
+        });
+        var categoryId = -1;
+        var pageSize = 9;
+        function getProductList(page) {
+            $.ajax({
                 method: "POST",
                 url: "/Back_Products/ProductList",
                 data: {
-                    CategoryId:categoryId,
-                    Pagination:{
-                        Page:page,
-                        PageSize:pageSize
+                    CategoryId: categoryId,
+                    Pagination: {
+                        Page: page,
+                        PageSize: pageSize
                     }
                 },
-                success:function(result){
+                success: function (result) {
                     $("#productList").html(result);
                 }
             });
-    }
-</script>
+        }
+    </script>
 }
 <div id="productList"></div>

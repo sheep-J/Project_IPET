@@ -1,3 +1,130 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "客服管理";
 }
+
+<head>
+    <style>
+        .middle {
+            padding: 0.75rem 1.5rem !important;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">客服列表</h6>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0 fortable ">
+                        <thead>
+                            <tr>
+                                <th class="middle">序號</th>
+                                <th class="middle">姓名</th>
+                                <th class="middle">電子郵件</th>
+                                <th class="middle">標題</th>
+                                <th class="middle">訊息內容</th>
+                                <th class="middle">回覆狀態</th>
+                                <th class="middle">回覆信件</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- tr Start -->
+                            <tr>
+                                <td class="middle">
+                                    1
+                                </td>
+                                <td class="middle">
+                                    小美
+                                </td>
+                                <td class="middle">
+                                    Mary@gmail.com
+                                </td>
+                                <td class="middle">
+                                    有關捐贈
+                                </td>
+                                <td class="middle">
+                                    您好, 剛加入 IPET 網站會員, 請問該如何捐贈商品 ?
+                                </td>
+                                <td style="color:forestgreen" class="middle">
+                                    已回覆
+                                </td>
+                                <td class="middle">
+                                    <button style="margin-top:20px;" disabled="disabled" type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#FeedBackModal">
+                                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!--  tr End  -->
+                        </tbody>
+                        <tbody>
+                            <!-- tr Start -->
+                            <tr>
+                                <td class="middle">
+                                    2
+                                </td>
+                                <td class="middle">
+                                    彼德
+                                </td>
+                                <td class="middle">
+                                    Peter@gmail.com
+                                </td>
+                                <td class="middle">
+                                    商品退貨事宜
+                                </td>
+                                <td class="middle">
+                                    商品有瑕疵, 想辦理退貨。
+                                </td>
+                                <td style="color:firebrick" class="middle">
+                                    尚未回覆
+                                </td>
+                                <td class="middle">
+                                    <button style="margin-top:20px;" type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#FeedBackModal">
+                                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!--  tr End  -->
+                        </tbody>
+                    </table>
+
+                    <!-- CommentModal Start-->
+                    <div class="modal fade" id="FeedBackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">回覆信件</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body ">
+                                    <div>
+                                        <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue"></textarea>
+
+                                    </div>
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary">送出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CommentModal End-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

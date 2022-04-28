@@ -11,6 +11,7 @@
 
     <!--Vendor CSS (Icon Font)-->
     <link rel="stylesheet" href="~/Front/css/vendor/fontawesome.min.css" />
+    <script src="https://kit.fontawesome.com/cfd6e1f3d1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="~/Front/css/vendor/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Front/css/vendor/vendor.min.css" />
     <link rel="stylesheet" href="~/Front/css/vendor/simple-line-icons.min.css" />
@@ -22,10 +23,14 @@
     <link rel="stylesheet" href="~/Front/css/plugins/lightgallery.min.css" />
     <link rel="stylesheet" href="~/Front/css/plugins/aos.min.css" />
     <link rel="stylesheet" href="~/Front/css/plugins/nice-select.min.css" />
-    <link rel="stylesheet" href="~/Front/css/plugins/plugins.min.css"/>
+    <link rel="stylesheet" href="~/Front/css/plugins/plugins.min.css" />
+
+    <link rel="stylesheet" href="~/Front/css/vendor/vendor.min.css">
+    <link rel="stylesheet" href="~/Front/css/plugins/plugins.min.css">
 
     <!--Main Style CSS-->
     <link rel="stylesheet" href="~/Front/css/style.css" />
+
 
 </head>
 <body>
@@ -108,7 +113,7 @@
                                     </div>
                                     <!-- Search Form and Button Start -->
                                     <form class="header-search-form" action="#">
-                                        <input type="text" class="header-search-input" placeholder="Search Our Store">
+                                        <input type="text" class="header-search-input" placeholder="搜尋">
                                         <button class="header-search-button"><i class="icon-magnifier icons"></i></button>
                                     </form>
                                     <!-- Search Form and Button End -->
@@ -377,8 +382,12 @@
     <script src="~/Front/js/plugins/lightgallery-all.min.js"></script>
 
 
+    <script src="~/Front/js/vendor.min.js"></script>
+    <script src="~/Front/js/plugins.min.js"></script>
+
     <!--Main JS-->
     <script src="~/Front/js/main.js"></script>
+
     @RenderSection("Scripts", false);
 </body>
 </html>

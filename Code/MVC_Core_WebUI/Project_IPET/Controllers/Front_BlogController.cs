@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project_IPET.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,15 @@ namespace Project_IPET.Controllers
         }
 
         public IActionResult TestProductComment() {
+
+            return View();
+        }
+
+        public IActionResult SendGmail()
+        {
+
+            CSendGmailService sendmail = new CSendGmailService();
+            sendmail.sendGmail();
 
             return View();
         }

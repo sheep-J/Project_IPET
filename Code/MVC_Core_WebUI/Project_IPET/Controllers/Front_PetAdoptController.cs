@@ -12,5 +12,11 @@ namespace Project_IPET.Controllers
         {
             return View();
         }
+
+        // TODO int? id
+        public IActionResult Details()
+        {
+            return View();
+        }
     }
 }

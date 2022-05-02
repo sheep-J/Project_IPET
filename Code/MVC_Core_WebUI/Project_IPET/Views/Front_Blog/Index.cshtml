@@ -1,5 +1,4 @@
 ﻿
-
 @{
 ViewData["Title"] = "Index";
 }
@@ -36,9 +35,29 @@ ViewData["Title"] = "Index";
 
 
                  <!-- ListView Start -->
-                <div class="col-lg-9 col-12"  id=listview data-aos="fade-right"  data-aos-duration="2000" data-aos-easing="ease-in-sine" >
-                    
-                  
+                <div class="col-lg-9 col-12"   data-aos="fade-right"  data-aos-duration="2000" data-aos-easing="ease-in-sine" >
+                     <!-- Page Start -->
+
+                            <div class="row" >
+                        <div class="col-12 m-b-50">
+                            <nav class="d-flex justify-content-end">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link active" onclick="post(1)" >1</a></li>
+                                    <li class="page-item"><a class="page-link" active" onclick="post(2)">2</a></li>
+                                    <li class="page-item"><a class="page-link" active" onclick="post(3)">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link rounded-0" href="#/" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+            <!-- Page End -->      
+                  <div id=listview>
+
+                  </div>
 
                 </div>
                  <!-- ListView End-->
@@ -212,15 +231,15 @@ ViewData["Title"] = "Index";
    
     <script>
   
-    start();
- 
+    
+   post(1);
    
 
-    function start()
+    function post(page)
     {
        
      POSTMethod("@Url.Content("~/Front_Blog/ListView")",
-     null,
+     {inputpage:page},
        function(response)
        {
            $("#listview").html(response);
@@ -230,10 +249,5 @@ ViewData["Title"] = "Index";
     }
 
  
-
-   
-
-
-
     </script>
-}
+    }

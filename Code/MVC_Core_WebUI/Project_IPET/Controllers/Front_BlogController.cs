@@ -25,13 +25,13 @@ namespace Project_IPET.Controllers
         {
             return View();
         }
-
+        [HttpPost]
         public IActionResult ListView(int inputpage)
         {
             int page = 1;
             int countbypage = 6;
             int totalpost = _myProject.Posts.Count();
-            inputpage = 4 ;
+
 
             if (inputpage > 0)
                 page = inputpage;

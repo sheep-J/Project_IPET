@@ -1,0 +1,98 @@
+﻿@model List<Project_IPET.ViewModels.CPostViewModel>
+                     
+    <head>
+        <style>
+       
+            .Bloghover {
+             padding:30px 20PX;
+             
+            }
+            .Bloghover:hover  {
+             padding-top:15px;
+             background-color:	#FFD1A4;
+             border:1px double 	#FFD1A4;
+             transition:1s
+            }
+           
+
+            
+        </style>
+
+    </head>
+
+
+   
+        <!-- Page Start -->
+
+                            <div class="row" >
+                        <div class="col-12 m-b-50">
+                            <nav class="d-flex justify-content-end">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link active" href="#/">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#/">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#/">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link rounded-0" href="#/" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+            <!-- Page End -->      
+            
+              <!-- Single Blog Start -->           
+      <div  class="row row-cols-lg-2 row-cols-sm-2 row-cols-1 m-b-n40" >        
+                        
+@foreach (var item in Model) 
+{
+          
+                   <div  class="col m-b-40" >  
+                        
+             
+                        <div class="single-blog-wrapper Bloghover">
+                               <!-- 圖片 Start -->
+                                <div class="blog-image thumb-effect">
+                                    <a class="image" href="~/Front_Blog/PostView">
+                                        <img class="fit-image" height=300 src="~/Front/images/blog/medium-size/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image">
+                                    </a>
+                                </div>
+                                <!-- 圖片 End -->
+
+                              
+                                <!-- Blog Content Start -->
+                                <div class="blog-content">
+
+
+                                    <div class="blog-meta">
+                                        <ul>
+                                            <!-- 點讚 Start -->
+                                            <li>
+                                                <a href="#/">
+                                                    <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true">@Html.DisplayFor(modelItem =>item.LikeCount)</i>
+                                                </a>
+
+                                            </li>
+                                             <!-- 點讚 End -->
+
+                                            <li><span>By</span><span>@Html.DisplayFor(modelItem => item.MemberName)</span></li> <!-- 貼文作者 -->
+                                            <li><span>@Html.DisplayFor(modelItem => item.PostDate)</span></li>          <!-- 貼文日期 -->
+
+                                        </ul>
+                                    </div>
+
+                                    <h2 class="blog-title"><a href="~/Front_Blog/PostView">@Html.DisplayFor(modelItem => item.Title)</a></h2>    <!-- 貼文標題 -->
+                                   
+                                    <p  style="overflow:hidden;  text-overflow: ellipsis; height:50px">@Html.DisplayFor(modelItem => item.PostContent)</p>     <!-- 貼文內容 -->
+                                   
+                                    <a class="more-link" href="~/Front_Blog/PostView">繼續閱讀</a>
+                                </div>
+                                <!-- Blog Content End -->
+                         </div>
+                      </div>
+}
+      </div>        
+           <!-- Single Blog End -->
+
+       

@@ -1,4 +1,5 @@
-﻿<!-- Breadcrumb Area Start -->
+﻿@model IEnumerable<Project_IPET.Models.Cart.CartItem>
+
 <div class="section breadcrumb-area bg-name-bright">
     <div class="container">
         <div class="row">
@@ -14,166 +15,85 @@
         </div>
     </div>
 </div>
-<!-- Breadcrumb Area End -->
-<!-- Shopping Cart Section Start -->
+
 <div class="section section-margin">
     <div class="container">
 
         <div class="row">
             <div class="col-12">
-
-                <!-- Cart Table Start -->
                 <div class="cart-table table-responsive">
-                    <table class="table table-bordered">
-
-                        <!-- Table Head Start -->
-                        <thead>
-                            <tr>
-                                <th class="pro-thumbnail">商品照片</th>
-                                <th class="pro-price">商品分類</th>
-                                <th class="pro-title">商品名稱</th>
-                                <th class="pro-price">商品價格</th>
-                                <th class="pro-quantity">商品數量</th>
-                                <th class="pro-subtotal">金額</th>
-                                <th class="pro-remove">移除商品</th>
-                            </tr>
-                        </thead>
-                        <!-- Table Head End -->
-                        <!-- Table Body Start -->
-                        <tbody>
-                            <tr>
-                                <td class="pro-thumbnail"><a href="#"><img class="fit-image" src="~/Front/images/demo/1.jpg" alt="Product" /></a></td>
-                                <td class="pro-price"><span>寵物飼料</span></td>
-                                <td class="pro-title"><a href="#">室內成貓-貓飼料</a></td>
-                                <td class="pro-price"><span>$3050</span></td>
-                                <td class="pro-quantity">
-                                    <div class="quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton">-</div>
-                                            <div class="inc qtybutton">+</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="pro-subtotal"><span>$3050</span></td>
-                                <td class="pro-remove"><a href="#"><i class="ti-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td class="pro-thumbnail"><a href="#"><img class="fit-image" src="~/Front/images/demo/2.jpg" alt="Product" /></a></td>
-                                <td class="pro-price"><span>寵物零食</span></td>
-                                <td class="pro-title"><a href="#">原肉零食大禮包(狗零食)</a></td>
-                                <td class="pro-price"><span>$500</span></td>
-                                <td class="pro-quantity">
-                                    <div class="quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton">-</div>
-                                            <div class="inc qtybutton">+</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="pro-subtotal"><span>$500</span></td>
-                                <td class="pro-remove"><a href="#"><i class="ti-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td class="pro-thumbnail"><a href="#"><img class="fit-image" src="~/Front/images/demo/3.jpg" alt="Product" /></a></td>
-                                <td class="pro-price"><span>寵物罐罐</span></td>
-                                <td class="pro-title"><a href="#">無穀全貓主食鮮味杯3.5oz【雞肉】(1入)(貓主食罐)</a></td>
-                                <td class="pro-price"><span>$80</span></td>
-                                <td class="pro-quantity">
-                                    <div class="quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton">-</div>
-                                            <div class="inc qtybutton">+</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="pro-subtotal"><span>$80</span></td>
-                                <td class="pro-remove"><a href="#"><i class="ti-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td class="pro-thumbnail"><a href="#"><img class="fit-image" src="~/Front/images/demo/4.jpg" alt="Product" /></a></td>
-                                <td class="pro-price"><span>捐贈商品</span></td>
-                                <td class="pro-title"><a href="#">BESTBREED 全年齡犬</a></td>
-                                <td class="pro-price"><span>$2850</span></td>
-                                <td class="pro-quantity">
-                                    <div class="quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton">-</div>
-                                            <div class="inc qtybutton">+</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="pro-subtotal"><span>$2850</span></td>
-                                <td class="pro-remove"><a href="#"><i class="ti-trash"></i></a></td>
-                            </tr>
-                        </tbody>
-                        <!-- Table Body End -->
-
-                    </table>
+                    @if (Model != null)
+                    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="pro-thumbnail">商品照片</th>
+                    <th class="pro-price">商品分類</th>
+                    <th class="pro-title">商品名稱</th>
+                    <th class="pro-price">商品價格</th>
+                    <th class="pro-quantity">商品數量</th>
+                    <th class="pro-subtotal">金額</th>
+                    <th class="pro-remove">移除商品</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+<tbody>
+    <tr>
+        <td class="pro-thumbnail"><a href="#"><img class="fit-image" src=@Html.DisplayFor(modelItem => item.imageSrc) /></a></td>
+        <td class="pro-price"><span>  @Html.DisplayFor(modelItem => item.Category)</span></td>
+        <td class="pro-title"><a href="#">  @Html.DisplayFor(modelItem => item.Name)</a></td>
+        <td class="pro-price"><span> @Html.DisplayFor(modelItem => item.UnitPrice)</span></td>
+        <td class="pro-quantity">
+            <div class="quantity">
+                <div class="cart-plus-minus">
+                    <input class="cart-plus-minus-box" value="@Html.DisplayFor(modelItem => item.Quantity)" type="text">
+                    <div class="dec qtybutton">-</div>
+                    <div class="inc qtybutton">+</div>
                 </div>
-                <!-- Cart Table End -->
-                <!-- Cart Button Start -->
-                <div class="cart-button-section m-b-n20">
+            </div>
+        </td>
+        <td class="pro-subtotal"><span>@Html.DisplayFor(modelItem => item.SubTotal)</span></td>
+        <td class="pro-remove"><a asp-action="RemoveItem" asp-route-Id="@item.Id"><i class="ti-trash"></i></a></td>
+    </tr>
+</tbody>}
+        </table>}
+                </div>
 
-                    <!-- Cart Button left Side Start -->
+                <div class="cart-button-section m-b-n20">
                     <div class="cart-btn-lef-side m-b-20">
                         <a asp-controller="Front_product" asp-action="index" class="btn btn btn-gray-deep btn-hover-primary">繼 續 購 物</a>
                     </div>
-                    <!-- Cart Button left Side End -->
-                    <!-- Cart Button Right Side Start -->
+
                     <div class="cart-btn-right-right m-b-20">
-                        <a href="#" class="btn btn btn-gray-deep btn-hover-primary">清 空 購 物 車</a>
+                        <a asp-action="RemoveAll" class="btn btn btn-gray-deep btn-hover-primary">清 空 購 物 車</a>
                     </div>
-                    <!-- Cart Button Right Side End -->
-
                 </div>
-                <!-- Cart Button End -->
-
             </div>
         </div>
 
         <div class="row m-t-50">
             <div class="col-lg-6 me-0 ms-auto">
-
-                <!-- Cart Calculation Area Start -->
                 <div class="cart-calculator-wrapper">
-
-                    <!-- Cart Calculate Items Start -->
                     <div class="cart-calculate-items">
-
-                        <!-- Cart Calculate Items Title Start -->
                         <h3 class="title">購 物 車 明 細</h3>
-                        <!-- Cart Calculate Items Title End -->
-                        <!-- Responsive Table Start -->
                         <div class="table-responsive">
                             <table class="table">
                                 <tr>
                                     <td>商品數 (種類)</td>
-                                    <td>4</td>
+                                    <td> @ViewBag.Count</td>
                                 </tr>
                                 <tr>
                                     <td>總金額</td>
-                                    <td>$6480</td>
+                                    <td>@ViewBag.Total</td>
                                 </tr>
                             </table>
                         </div>
-                        <!-- Responsive Table End -->
-
                     </div>
-                    <!-- Cart Calculate Items End -->
-                    <!-- Cart Checktout Button Start -->
                     <a asp-controller="Front_Checkout" asp-action="index" class="btn btn btn-gray-deep btn-hover-primary m-t-30">前 往 結 帳</a>
-                    <!-- Cart Checktout Button End -->
-
                 </div>
-                <!-- Cart Calculation Area End -->
-
             </div>
         </div>
 
     </div>
 </div>
-<!-- Shopping Cart Section End -->

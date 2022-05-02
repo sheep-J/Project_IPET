@@ -119,7 +119,7 @@
                     <div class="cart-btn action-btn m-b-30">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
-                                <a class="btn btn-primary btn-hover-dark rounded-0" href="cart.html">Add to cart</a>
+                                <a class="btn btn-primary btn-hover-dark rounded-0" asp-controller="Front_Cart" asp-action="AddToCart" asp-route-id="@Model.ProductID">Add to cart</a>
                             </div>
                             <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
                         </div>

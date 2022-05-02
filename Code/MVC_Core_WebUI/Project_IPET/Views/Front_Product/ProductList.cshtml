@@ -21,7 +21,7 @@
                     <div class="action-wrapper">
                         <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>
                         <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                        <a href="cart.html" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                        <a asp-controller="Front_Cart" asp-action="AddToCart" asp-route-id="@product.ProductID" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
                     </div>
                 </div>
                 <div class="content">
@@ -42,7 +42,7 @@
                 <div class="cart-btn action-btn">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
-                                <a class="btn btn-primary btn-hover-dark rounded-0" href="cart.html">加入購物車</a>
+                                <a class="btn btn-primary btn-hover-dark rounded-0" asp-controller="Front_Cart" asp-action="AddToCart" asp-route-Id="@product.ProductID">加入購物車</a>
                             </div>
                             <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
                             <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>

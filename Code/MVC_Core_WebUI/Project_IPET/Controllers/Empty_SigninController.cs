@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project_IPET.Models;
+using Project_IPET.Models.EF;
 using Project_IPET.ViewModels;
 using System;
 using System.Collections.Generic;

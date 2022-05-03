@@ -3,21 +3,19 @@
     public class CPostToolsService
     {
 
-        public void Page(int count,int totalpost, out int tatalpage )
+        public void Page(int countbypage, int totalpost, out int tatalpage )
         {
 
-           
-
-            if (count == 0)
+            if (countbypage == 0)
             {
                 tatalpage = 1;
 
             }
             else
             {
-                tatalpage = totalpost / count;
+                tatalpage = totalpost / countbypage;
             }
-            if (totalpost % count > 0)
+            if (totalpost % countbypage > 0)
             {
                 tatalpage += 1;
             }

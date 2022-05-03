@@ -1,6 +1,6 @@
 ﻿
 @{
-ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";
 }
 
 <!DOCTYPE html>
@@ -26,7 +26,6 @@ ViewData["Title"] = "Index";
         </div>
     </div>
     <!-- Breadcrumb Area End -->
-
     <!-- Post Section Start -->
     <div class="section section-margin">
         <div class="container">
@@ -34,33 +33,46 @@ ViewData["Title"] = "Index";
             <div class="row flex-row-reverse">
 
 
-                 <!-- ListView Start -->
-                <div class="col-lg-9 col-12"   data-aos="fade-right"  data-aos-duration="2000" data-aos-easing="ease-in-sine" >
-                     <!-- Page Start -->
+                <!-- ListView Start -->
+                <div class="col-lg-9 col-12" data-aos="fade-right" data-aos-duration="2000" data-aos-easing="ease-in-sine">
+                    <!-- Page Start -->
 
-                            <div class="row" >
+                    <div class="row">
                         <div class="col-12 m-b-50">
                             <nav class="d-flex justify-content-end">
                                 <ul class="pagination">
-                                    <li class="page-item"><a class="page-link active" onclick="post(1)" >1</a></li>
-                                    <li class="page-item"><a class="page-link" active" onclick="post(2)">2</a></li>
-                                    <li class="page-item"><a class="page-link" active" onclick="post(3)">3</a></li>
                                     <li class="page-item">
-                                        <a class="page-link rounded-0" href="#/" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
+                                        <a class="page-link " id="page-ctrl-previous" >
+                                            <span >&laquo;</span>
+                                        </a>
+                                    </li>
+                                    @{
+                                        int pagenum = ViewBag.page;
+                                        for (int i = 1; i <= pagenum; i++)
+                                        {
+
+                                            <li class="page-item"><a class="page-link " onclick="post(@i)">@i</a></li>
+
+                                        }
+
+                                    }
+                                    <li class="page-item">
+                                        <a class="page-link " id="page-ctrl-next">
+                                            <span >&raquo;</span>
                                         </a>
                                     </li>
                                 </ul>
+                                <h2 id="pagenumber"></h2>
                             </nav>
                         </div>
                     </div>
-            <!-- Page End -->      
-                  <div id=listview>
+                    <!-- Page End -->
+                    <div id=listview>
 
-                  </div>
+                    </div>
 
                 </div>
-                 <!-- ListView End-->
+                <!-- ListView End-->
 
 
                 <div class="col-lg-3 col-12">
@@ -221,33 +233,64 @@ ViewData["Title"] = "Index";
     </div>
     <!-- Post Section End -->
 
- 
+
 </body>
 
 </html>
 
-
-@section Scripts{
-   
-    <script>
-  
     
-   post(1);
-   
+@section Scripts{
+
+    <script>
+
+        let current;
+
+      post(1);
+
+
+
 
     function post(page)
     {
-       
+
+
      POSTMethod("@Url.Content("~/Front_Blog/ListView")",
      {inputpage:page},
        function(response)
        {
            $("#listview").html(response);
-     
+
        }
      )
+
+        $("#pagenumber").text(`${page}/@ViewBag.page`);
+
+        $("ul.pagination").children("li").children("a").removeClass("active").eq(page).addClass("active");
+
+
+
+        current = parseInt(`${page}`);
+
+        
+
     }
 
- 
+        $("#page-ctrl-previous").click(function () {
+            if (current > 1)
+                post(current - 1);
+
+
+
+        });
+
+        $("#page-ctrl-next").click(function () {
+            if (current <@ViewBag.page)
+            post(current + 1);
+
+        });
+
+
+
     </script>
-    }
+
+}

@@ -23,6 +23,13 @@ namespace Project_IPET.Controllers
         }
         public IActionResult Index()
         {
+            int countbypage =6;
+            int totalpost = _myProject.Posts.Count();
+            CPostToolsService tools = new CPostToolsService();
+            tools.Page(countbypage, totalpost, out int tatalpage);
+
+            ViewBag.page = tatalpage;
+
             return View();
         }
         [HttpPost]

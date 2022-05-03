@@ -1,44 +1,45 @@
-﻿@{
+﻿@model List<CategoriesModel>
+@{
 }
 @section Scripts{
-<script>
-    $(document).ready(function(){
-        getProductList(1);
-    });
-    var categoryId = -1;
-    var pageSize = 9;
-    function getProductList(page){
-        $.ajax({
+    <script>
+        $(document).ready(function () {
+            getProductList(1);
+        });
+        var categoryId = -1;
+        var pageSize = 9;
+        function getProductList(page) {
+            $.ajax({
                 method: "POST",
                 url: "/Front_Product/ProductList",
                 data: {
-                    CategoryId:categoryId,
-                    Pagination:{
-                        Page:page,
-                        PageSize:pageSize
+                    CategoryId: categoryId,
+                    Pagination: {
+                        Page: page,
+                        PageSize: pageSize
                     }
                 },
-                success:function(result){
+                success: function (result) {
                     $("#productList").html(result);
                     var displayStyle = $(".shop_toolbar_btn .active").data("role");
                     var displayStyleClass = "";
-                    if(displayStyle == "grid_3"){
+                    if (displayStyle == "grid_3") {
                         displayStyleClass = "col-lg-4 col-md-4 col-sm-6";
                     }
-                    else{
+                    else {
                         displayStyleClass = "col-12";
                     }
                     $(".product").addClass(displayStyleClass);
                     $(".shop_wrapper").addClass(displayStyle);
                 }
             });
-    }
+        }
 
-    function getProductListWithCategory(id){
-        categoryId = id;
-        getProductList(1);
-    }
-</script>
+        function getProductListWithCategory(id) {
+            categoryId = id;
+            getProductList(1);
+        }
+    </script>
 }
 <!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
@@ -123,6 +124,17 @@
                             <h3 class="widget-title m-b-30">Categories</h3>
                             <div class="sidebar-body">
                                 <ul class="sidebar-list">
+                                    @foreach (var category in Model)
+                                    {
+                                        <li><a href="#/" style="background-color:lightblue">@category.CategoryName</a></li>
+                                        foreach (var subCategory in category.SubCategories)
+                                        {
+                                            <ul>
+                                                <li><a href="#/">@subCategory.SubCategoryName</a></li>
+                                            </ul>
+                                        }
+                                    }
+
                                     <li><a href="#/">All Product</a></li>
                                     <li><a href="#/">Best Seller (5)</a></li>
                                     <li><a href="#/">Featured (4)</a></li>

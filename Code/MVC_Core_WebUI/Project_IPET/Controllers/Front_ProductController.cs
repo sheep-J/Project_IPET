@@ -17,7 +17,8 @@ namespace Project_IPET.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var result = _productService.GetCategories();
+            return View(result);
         }
 
         [HttpPost]

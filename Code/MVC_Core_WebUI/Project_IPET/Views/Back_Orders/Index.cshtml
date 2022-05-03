@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IQueryable<Project_IPET.ViewModels.COrderViewModel>
+@{
     ViewData["Title"] = "訂單管理";
 }
 <table id="orders" class="table table-bordered">
@@ -13,26 +14,34 @@
             <th>明細/編輯/刪除</th>
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>23</td>
-            <td>Alex</td>
-            <th>20220412</th>
-            <th>12000</th>
-            <th>已取消</th>
-            <td>
-                <button type="button" class="btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#detailModal">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <button type="button" class="btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#orderModal">
-                    <i class="fas fa-pen-nib"></i>
-                </button>
-                <button type="button" class="btn btn btn-danger mr-3">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </td>
-        </tr>
+    <tbody id="orderBody">
+        @{
+            int count = 0;
+            foreach (var item in Model)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@Html.DisplayFor(modelItem => item.fId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fMemberName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fRequiredDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fTotal)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fStatus)</td>
+                    <td>
+                        <button name="@Html.DisplayFor(modelItem => item.fId)" type="button" class="detail btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#detailModal">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#orderModal">
+                            <i class="fas fa-pen-nib"></i>
+                        </button>
+                        <button type="button" class="btn btn btn-danger mr-3">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+
     </tbody>
 </table>
 <!-- orderModal -->
@@ -59,13 +68,14 @@
                     </div>
                     <div class="form-group">
                         <label for="CompanyName">訂單狀態</label>
-                        <input type="text" class="form-control" id="orderid" name="orderid" placeholder="訂單狀態">
+                        <select id="orderStatus">
+                        </select>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <a class="btn btn-secondary" asp-action="Index">關閉</a>
-                <a class="btn btn-danger" asp-action="Index">送出</a>
+                <a class="btn btn-danger" asp-action="Edit">送出</a>
             </div>
         </div>
     </div>
@@ -73,7 +83,7 @@
 
 <!-- detailModal -->
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:10%">
-    <div class="modal-dialog" role="document" style="max-width:700px">
+    <div class="modal-dialog" role="document" style="max-width:800px">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">訂單資訊</h5>
@@ -83,48 +93,72 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>序</th>
-                            <th>圖片</th>
-                            <th>商品名稱</th>
-                            <th>單價</th>
-                            <th>數量</th>
-                            <th>總金額</th>
+                            <th style="padding:0.5rem">序</th>
+                            <th style="padding:0.5rem">商品名稱</th>
+                            <th style="padding:0.5rem">單價</th>
+                            <th style="padding:0.5rem">數量</th>
+                            <th style="padding:0.5rem">總金額</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><img class="img-thumbnail" src="~/Front/images/project/3.jpg" style="height:100px" /></td>
-                            <td>貓食</td>
-                            <td>500</td>
-                            <td>1</td>
-                            <td>500</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><img class="img-thumbnail" src="~/Front/images/project/3.jpg" style="height:100px" /></td>
-                            <td>狗食</td>
-                            <td>200</td>
-                            <td>2</td>
-                            <td>400</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td><img class="img-thumbnail" src="~/Front/images/project/3.jpg" style="height:100px" /></td>
-                            <td>狗食</td>
-                            <td>200</td>
-                            <td>2</td>
-                            <td>400</td>
-                        </tr>
+                    <tbody id="detailbody">
                     </tbody>
                 </table>
-                總金額:1300<br />
-                運送地址:<br />
-                收件人:<br />
+                <p id="detailfrieght" style="margin:5px">運費:<br /></p>
+                <p id="detailprice" style="margin:5px">總金額:<br /></p>
+                <p id="detailwhere" style="margin:5px">運送地址:<br /></p>
+                <p id="detailwho" style="margin:5px">收件人:<br /></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        //明細
+        $("#orderBody").on('click','button:nth-child(1)',async function() {
+            const OrderId = $(this).parents('tr').find('td:nth-child(2)').text()
+            const Detailresponse = await fetch("@Url.Content("~/Back_Orders/OrderDeatil?Id=")" + OrderId);
+            renderDeatil(await Detailresponse.json());
+            const Otherresponse = await fetch("@Url.Content("~/Back_Orders/OrderOther?Id=")" + OrderId);
+            renderOther(await Otherresponse.json());
+        })
+
+        function renderOther(datas) {
+            $("#detailfrieght").html(`運費: ${datas.detailfrieght}`)
+            $("#detailprice").html(`總金額: ${datas.detaliprice}`)
+            $("#detailwhere").html(`運送地址: ${datas.detailwhere}`)
+            $("#detailwho").html(`收件人: ${datas.detailwho}`)
+        }
+
+        function renderDeatil(datas) {
+            $("#detailbody").html("");
+            var countdetail = 0;
+            datas.forEach(item => {
+                countdetail++;
+                var tr = document.createElement("tr");
+                //序
+                var td1 = document.createElement("td");
+                td1.innerHTML = countdetail;
+
+                //商品名稱
+                var td2 = document.createElement("td");
+                td2.innerHTML = item.name;
+
+                //單價
+                var td3 = document.createElement("td");
+                td3.innerHTML = item.price;
+
+                var td4 = document.createElement("td");
+                td4.innerHTML = item.quantity;
+
+                var td5 = document.createElement("td");
+                td5.innerHTML = item.total;
+                tr.append(td1,td2,td3,td4,td5);
+                $("#detailbody").append(tr);
+            })
+        }
+    </script>
+}

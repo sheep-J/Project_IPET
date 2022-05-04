@@ -14,7 +14,7 @@ namespace Project_IPET.Services
         {
             _dbConnection = dbConnection;
         }
-        //TODO: LoadBrand and show brand on productpage
+
         public ProductListResponseModel GetProductList(ProductListRequestModel request)
         {
             ProductListResponseModel result = new ProductListResponseModel()
@@ -94,11 +94,34 @@ namespace Project_IPET.Services
                 string sql = @"SELECT * FROM Products p 
                                             JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
                                             WHERE p.ProductID=@ProductID ";
+                //匿名類型
                 var param = new
                 {
                     ProductID = id,
                 };
                 result = _dbConnection.QueryFirst<ProductModel>(sql, param);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return result;
+        }
+        public BrandModel GetBrands(int id)
+        {
+            BrandModel result = new BrandModel();
+
+            try
+            {
+                string sql = @"SELECT * FROM Products p
+                                          JOIN Brand b ON p.BrandID = b.BrandID
+                                           WHERE p.BrandID=@BrandID";
+                //匿名類型
+                var param = new
+                {
+                    BrandId=id,
+                };
+                result = _dbConnection.QueryFirst<BrandModel>(sql, param);
             }
             catch (Exception ex)
             {

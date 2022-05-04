@@ -1,6 +1,6 @@
 ﻿namespace Project_IPET.Services
 {
-    public class CPostToolsService
+    public class CPostTools
     {
 
         public void Page(int countbypage, int totalpost, out int tatalpage )

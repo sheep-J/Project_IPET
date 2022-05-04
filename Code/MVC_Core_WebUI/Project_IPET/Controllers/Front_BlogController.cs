@@ -25,7 +25,7 @@ namespace Project_IPET.Controllers
         {
             int countbypage =6;
             int totalpost = _myProject.Posts.Count();
-            CPostToolsService tools = new CPostToolsService();
+            CPostTools tools = new CPostTools();
             tools.Page(countbypage, totalpost, out int tatalpage);
 
             ViewBag.page = tatalpage;
@@ -43,7 +43,7 @@ namespace Project_IPET.Controllers
             if (inputpage > 0)
                 page = inputpage;
 
-            CPostToolsService tools = new CPostToolsService();
+            CPostTools tools = new CPostTools();
 
             tools.Page(countbypage, totalpost, out int tatalpage);
 

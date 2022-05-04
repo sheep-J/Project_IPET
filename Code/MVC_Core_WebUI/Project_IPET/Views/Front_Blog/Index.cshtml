@@ -42,8 +42,8 @@
                             <nav class="d-flex justify-content-end">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <a class="page-link " id="page-ctrl-previous" >
-                                            <span >&laquo;</span>
+                                        <a class="page-link " id="page-ctrl-previous">
+                                            <span>&laquo;</span>
                                         </a>
                                     </li>
                                     @{
@@ -51,14 +51,14 @@
                                         for (int i = 1; i <= pagenum; i++)
                                         {
 
-                                            <li class="page-item"><a class="page-link " onclick="post(@i)">@i</a></li>
+                                            <li class="page-item " style="display:none"><a class="page-link " onclick="post(@i)">@i</a></li>
 
                                         }
 
                                     }
                                     <li class="page-item">
                                         <a class="page-link " id="page-ctrl-next">
-                                            <span >&raquo;</span>
+                                            <span>&raquo;</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -238,42 +238,40 @@
 
 </html>
 
-    
+
 @section Scripts{
 
     <script>
 
-        let current;
-
+      let current;
+      let totalpage = @ViewBag.page;
       post(1);
 
 
 
 
-    function post(page)
-    {
+        function post(page)
+        {
 
 
-     POSTMethod("@Url.Content("~/Front_Blog/ListView")",
-     {inputpage:page},
-       function(response)
-       {
-           $("#listview").html(response);
+             POSTMethod("@Url.Content("~/Front_Blog/ListView")",
+             {inputpage:page},
+               function(response)
+               {
+                   $("#listview").html(response);
 
-       }
-     )
+               }
+             )
 
-        $("#pagenumber").text(`${page}/@ViewBag.page`);
+            $("#pagenumber").text(`${page}/${totalpage}`);
 
-        $("ul.pagination").children("li").children("a").removeClass("active").eq(page).addClass("active");
+            current = parseInt(`${page}`);
+            let elementli = $("ul.pagination").children("li");
+            elementli.children("a").removeClass("active").eq(page).addClass("active");
 
+            PageList(page, elementli, totalpage);
 
-
-        current = parseInt(`${page}`);
-
-        
-
-    }
+        }
 
         $("#page-ctrl-previous").click(function () {
             if (current > 1)
@@ -284,8 +282,26 @@
         });
 
         $("#page-ctrl-next").click(function () {
-            if (current <@ViewBag.page)
+            if (current < totalpage)
             post(current + 1);
+
+        });
+
+
+        $("#clickAll").click(function () {
+
+            console.log("OK");
+                    //if ($("#clickAll").prop("checked")) {
+
+                    //    console.log(1);
+                    //    $("checkbox[name='Checkbox[]']").prop("checked", true);
+
+                    //}
+
+                    //else {
+                    //    console.log(0);
+                    //    $("checkbox[name='Checkbox[]']").prop("checked", false);
+                    //}
 
         });
 

@@ -86,7 +86,6 @@ namespace Project_IPET.Services
             }
             return result;
         }
-
         public ProductModel GetProduct(int id)
         {
             ProductModel result = new ProductModel();

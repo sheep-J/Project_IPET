@@ -31,9 +31,50 @@ namespace Project_IPET.Controllers
             return View(list);
         }
 
+        [HttpPost]
+        public IActionResult EditOrder(COrderViewModel vModel)
+        {
+            var fId = vModel.fId;
+            var Order = _context.Orders.Find(fId);
+            switch (vModel.fStatus)
+            {
+                case "1":
+                    Order.OrderStatusId = 1;
+                    break;
+                case "2":
+                    Order.OrderStatusId = 2;
+                    break;
+                case "3":
+                    Order.OrderStatusId = 3;
+                    break;
+                case "4":
+                    Order.OrderStatusId = 4;
+                    break;
+                case "5":
+                    Order.OrderStatusId = 5;
+                    break;
+            }
+            _context.SaveChanges();
+            return Content("資料已修改完成");
+        }
+
+        public IActionResult EditOrder(int Id)
+        {
+            var Order = _context.Orders.Where(n => n.OrderId == Id).Select(n => new
+            {
+                Id = Id,
+                MemberName = n.Member.Name,
+                RequiredDate = n.RequiredDate.Substring(0,8),
+                Total = (_context.OrderDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(),
+                Status = n.OrderStatus.OrderStatusName
+            }).FirstOrDefault();
+            return Json(Order);
+        }
+
         public IActionResult OrderDeatil(int Id)
         {
-            var result = _context.OrderDetails.Where(n => n.OrderId == Id).Select(n => new {
+            var result = _context.OrderDetails.Where(n => n.OrderId == Id).Select(n => new
+            {
                 Name = n.Product.ProductName,
                 Price = n.UnitPrice,
                 Quantity = n.Quantity,

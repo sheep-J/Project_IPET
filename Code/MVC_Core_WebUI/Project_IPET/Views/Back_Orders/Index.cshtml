@@ -52,30 +52,38 @@
                 <h5 class="modal-title" id="exampleModalLabel">訂單修改 <span></span></h5>
             </div>
             <div class="modal-body">
-                <form id="addForm">
-                    <input type="hidden" name="ShipperID" id="ShipperID">
+                <form id="EditForm" name="EditForm">
+                    <input type="hidden" name="fId" id="fId">
                     <div class="form-group">
-                        <label for="CompanyName">訂單編號</label>
-                        <input type="text" class="form-control" id="orderid" name="orderid" placeholder="訂單編號">
+                        <label for="fMemberName">會員姓名</label>
+                        <input type="text" class="form-control" id="fMemberName" name="fMemberName" placeholder="會員姓名">
                     </div>
                     <div class="form-group">
-                        <label for="CompanyName">下單日期</label>
-                        <input type="text" class="form-control" id="orderid" name="orderid" placeholder="下單日期">
+                        <label for="fRequiredDate">下單日期</label>
+                        <input type="text" class="form-control" id="fRequiredDate" name="fRequiredDate" placeholder="下單日期">
                     </div>
                     <div class="form-group">
-                        <label for="CompanyName">訂單金額</label>
-                        <input type="text" class="form-control" id="orderid" name="orderid" placeholder="訂單金額">
+                        <label for="fTotal">訂單金額</label>
+                        <input type="text" class="form-control" id="fTotal" name="fTotal" placeholder="訂單金額">
                     </div>
                     <div class="form-group">
-                        <label for="CompanyName">訂單狀態</label>
-                        <select id="orderStatus">
+                        <label for="fStatus">訂單狀態</label>
+                        <select id="fStatus" name="fStatus">
+                            <option value="1">未付款</option>
+                            <option value="2">待出貨</option>
+                            <option value="3">待完成</option>
+                            <option value="4">已完成</option>
+                            <option value="5">已取消</option>
                         </select>
                     </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-secondary" asp-action="Index">關閉</a>
+                        <button class="btn btn-danger" id="btnsubmit">送出</button>
+                    </div>
+                    <div id="editresult">
+                        
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-secondary" asp-action="Index">關閉</a>
-                <a class="btn btn-danger" asp-action="Edit">送出</a>
             </div>
         </div>
     </div>
@@ -117,22 +125,20 @@
 
 @section Scripts{
     <script>
-        //明細
+        //明細按鈕
         $("#orderBody").on('click','button:nth-child(1)',async function() {
-            const OrderId = $(this).parents('tr').find('td:nth-child(2)').text()
+            const OrderId = $(this).parents('tr').find('td:nth-child(2)').text();
             const Detailresponse = await fetch("@Url.Content("~/Back_Orders/OrderDeatil?Id=")" + OrderId);
             renderDeatil(await Detailresponse.json());
             const Otherresponse = await fetch("@Url.Content("~/Back_Orders/OrderOther?Id=")" + OrderId);
             renderOther(await Otherresponse.json());
         })
-
         function renderOther(datas) {
             $("#detailfrieght").html(`運費: ${datas.detailfrieght}`)
             $("#detailprice").html(`總金額: ${datas.detaliprice}`)
             $("#detailwhere").html(`運送地址: ${datas.detailwhere}`)
             $("#detailwho").html(`收件人: ${datas.detailwho}`)
         }
-
         function renderDeatil(datas) {
             $("#detailbody").html("");
             var countdetail = 0;
@@ -160,5 +166,47 @@
                 $("#detailbody").append(tr);
             })
         }
+
+        //修改按鈕
+        $("#orderBody").on('click', 'button:nth-child(2)', async function () {
+            const OrderId = $(this).parents('tr').find('td:nth-child(2)').text();
+            const Editresponse = await fetch("@Url.Content("~/Back_Orders/EditOrder?Id=")" + OrderId);
+            renderEdit(await Editresponse.json());
+        })
+        $("#btnsubmit").on('click', (e) => {
+            e.preventDefault();
+            const formData = new FormData(document.EditForm);
+            fetch("@Url.Content("~/Back_Orders/EditOrder")", {
+                method: "post",
+                body:formData
+            }).then(response => response.text())
+                .then(data => $("#editresult").html(data))
+        })
+        function renderEdit(datas) {
+            $("#fId").val(datas.id);
+            $("#fMemberName").val(datas.memberName);
+            $("#fRequiredDate").val(datas.requiredDate);
+            $("#fTotal").val(datas.total);
+            switch (datas.status) {
+                case '未付款':
+                    $("#fStatus").val(1);
+                    break;
+                case '待出貨':
+                    $("#fStatus").val(2);
+                    break;
+                case '待完成':
+                    $("#fStatus").val(3);
+                    break;
+                case '已完成':
+                    $("#fStatus").val(4);
+                    break;
+                case '已取消':
+                    $("#fStatus").val(5);
+                    break;
+            }
+            //$("#fStatus").html(datas.status);
+        }
+
+        //刪除按鈕
     </script>
 }

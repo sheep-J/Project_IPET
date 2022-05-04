@@ -3,16 +3,16 @@
 }
 
 
-<button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">快速回覆</button>
+<button type="button" class="btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">快速回覆</button>
 
-<button type="button" class="btn btn btn-danger mr-3">快速屏蔽</button>
+<button type="button" class="btn btn-danger mr-3">快速屏蔽</button>
 
 <div class="row">
     <!-- Page Start -->
     <div class="row">
         <div class="col-12 m-b-50">
-            <nav class="d-flex justify-content-end">
-                <ul class="pagination">
+            <nav class="d-flex justify-content-end ">
+                <ul class="pagination ">
                     <li class="page-item">
                         <a class="page-link " id="page-ctrl-previous">
                             <span>&laquo;</span>
@@ -34,7 +34,7 @@
                         </a>
                     </li>
                 </ul>
-                <h2 id="pagenumber"></h2>
+                <h2 id="pagenumber" style="width:100px; text-align: center;"></h2>
             </nav>
         </div>
     </div>
@@ -110,9 +110,9 @@
             $("#pagenumber").text(`${page}/${totalpage}`);
 
             current = parseInt(`${page}`);
+
             let elementli = $("ul.pagination").children("li");
             
-
             PageList(page, elementli, totalpage);
 
         }
@@ -135,7 +135,7 @@
         $(document).on("click", "#clickAll", function () {
 
             let clickAll = $("#listview").find("#clickAll");
-            console.log(clickAll);
+         
             let inputCheckbox = $("#listview").find("input[name='Checkbox[]']");
 
                 if (clickAll.prop("checked"))

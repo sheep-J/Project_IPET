@@ -13,6 +13,12 @@ namespace Project_IPET.Controllers
 {
     public class Empty_SigninController : Controller
     {
+        private readonly MyProjectContext _context;
+        public Empty_SigninController(MyProjectContext context)
+        {
+            _context = context;
+        }
+
         //public IActionResult Index()
         //{
         //    if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
@@ -27,8 +33,7 @@ namespace Project_IPET.Controllers
         [HttpPost]
         public IActionResult Index(CLoginViewModel vModel)
         {
-            MyProjectContext db = new MyProjectContext();
-            Member customer = db.Members.FirstOrDefault(m => m.UserId == vModel.txtAccount);
+            Member customer = _context.Members.FirstOrDefault(m => m.UserId == vModel.txtAccount);
             if (customer != null && customer.Password.Equals(vModel.txtPassword))
             {
                 string json = JsonSerializer.Serialize(customer);

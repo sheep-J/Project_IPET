@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Project_IPET.ViewModels.CCommentViewModel>
+
+<head>
+    <style>
+        .middle {
+            padding: 0.75rem 1.5rem !important;
+            text-align: center;
+            
+        }
+    </style>
+
+</head>
+
+
+        <table class="table align-items-center mb-0 fortable ">
+            <thead>
+                <tr>
+
+
+                    <th class="middle">回覆留言</th>
+                    <th class="middle">屏蔽評價內容</th>
+                    <th class="middle"><input name="clickAll" id="clickAll" type="checkbox"> </th>
+                    <th class="middle">序號</th>
+                    <th class="middle">@Html.DisplayNameFor(model => model.MemberName)</th>
+                    <th class="middle">@Html.DisplayNameFor(model => model.Rating)</th>
+                    <th class="middle">@Html.DisplayNameFor(model => model.CommentDate)</th>
+                    <th class="middle">@Html.DisplayNameFor(model => model.CommentContent)</th>
+                   
+
+                </tr>
+            </thead>
+            @{
+                int number = 0;
+
+
+                foreach (var item in Model)
+                {
+                    number++;
+
+                    <tbody>
+
+                        <!-- tr Start -->
+                                    <tr>
+                                        <td class="middle">
+                                            <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
+                                                <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td class="middle">
+                                            <button type="button" class="btn btn btn-danger mr-3">
+                                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td class="middle">
+                                            <input name="Checkbox[]" type="checkbox" value="@number">
+                                        </td>
+                                        <td class="middle">
+                                            @number
+                                        </td>
+
+                                        <td class="middle">
+                                            @Html.DisplayFor(modelItem => item.MemberName)
+                                        </td>
+                                        <td class="middle">
+                                            <span class="rating">
+                                                <i class="fa fa-star text-warning"></i>
+                                                <i class="fa fa-star text-warning"></i>
+                                                <i class="fa fa-star text-warning"></i>
+                                                <i class="fa fa-star text-warning"></i>
+                                                <i class="fa fa-star text-warning"></i>
+                                            </span>
+                                        </td>
+                                        <td class="middle">
+                                            @Html.DisplayFor(modelItem => item.CommentDate)
+                                        </td>
+                                        <td class="middle">
+                                            @Html.DisplayFor(modelItem => item.CommentContent)
+                                        </td>
+                                      
+
+                                    </tr>
+                        <!--  tr End  -->
+
+
+
+                    </tbody>
+                }
+            }
+        </table>
+            
+          
+
+

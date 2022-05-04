@@ -2,22 +2,43 @@
     ViewData["Title"] = "評價管理";
 }
 
-<head>
-    <style>
-        .middle {
-            padding: 0.75rem 1.5rem !important;
-            text-align: center;
-        }
-    </style>
-
-</head>
-
-
-<button type="button" class="btn btn btn-danger mr-3">快速屏蔽</button>
 
 <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">快速回覆</button>
 
+<button type="button" class="btn btn btn-danger mr-3">快速屏蔽</button>
+
 <div class="row">
+    <!-- Page Start -->
+    <div class="row">
+        <div class="col-12 m-b-50">
+            <nav class="d-flex justify-content-end">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link " id="page-ctrl-previous">
+                            <span>&laquo;</span>
+                        </a>
+                    </li>
+                    @{
+                        int pagenum = ViewBag.page;
+                        for (int i = 1; i <= pagenum; i++)
+                        {
+
+                            <li class="page-item " style="display:none"><a class="page-link " onclick="post(@i)">@i</a></li>
+
+                        }
+
+                    }
+                    <li class="page-item">
+                        <a class="page-link " id="page-ctrl-next">
+                            <span>&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+                <h2 id="pagenumber"></h2>
+            </nav>
+        </div>
+    </div>
+    <!-- Page End -->
     <div class="col-12">
         <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
@@ -25,234 +46,108 @@
                     <h6 class="text-white text-capitalize ps-3">評價列表</h6>
                 </div>
             </div>
+
             <div class="card-body px-0 pb-2">
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0 fortable ">
-                        <thead>
-                            <tr>
+                    <div id="listview">
 
-                                <th class="middle"><input name="clickAll" id="clickAll" type="checkbox"> </th>
-                                <th class="middle">序號</th>
-                                <th class="middle">產品名稱</th>
-                                <th class="middle">訂單編號</th>
-                                <th class="middle">評價會員</th>
-                                <th class="middle">評價日期</th>
-                                <th class="middle">評價內容</th>
-                                <th class="middle">評價分數</th>
-                                <th class="middle">回覆留言</th>
-                                <th class="middle">屏蔽評價內容</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    </div>
+                    <!-- CommentModal Start-->
+                    <div class="modal fade" id="MessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">回覆留言</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body ">
+                                    <div>
+                                        <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">親切地回覆顧客留言以拉近與顧客的距離</textarea>
 
-                            <!-- tr Start -->
-                            <tr>
-
-                                <td class="middle">
-                                    <input name="active_col[]" type="checkbox" value="1">
-                                </td>
-                                <td class="middle">
-                                    1
-                                </td>
-                                <td class="middle">
-                                    貓抓板
-                                </td>
-                                <td class="middle">
-                                    1
-                                </td>
-                                <td class="middle">
-                                    Alex
-                                </td>
-                                <td class="middle">
-                                    2022-02-17
-                                </td>
-                                <td class="middle">
-                                    收到囉 666666
-                                </td>
-                                <td class="middle">
-                                    <span class="rating">
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                    </span>
-                                </td>
-                               <td class="middle">
-                                    <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
-                                     <i class="fas fa-pen-nib" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                                <td class="middle">
-                                    <button type="button" class="btn btn btn-danger mr-3">
-                                        <i class="fa fa-ban" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                                
-                            </tr>
-                            <!--  tr End  -->
+                                    </div>
 
 
 
-                        </tbody>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary">送出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-
-                        <tbody>
-
-                            <!-- tr Start -->
-                            <tr>
-
-                                <td class="middle">
-                                    <input name="active_col[]" type="checkbox" value="2">
-                                </td>
-                                <td class="middle">
-                                    2
-                                </td>
-                                <td class="middle">
-                                    貓抓板
-                                </td>
-                                <td class="middle">
-                                    12
-                                </td>
-                                <td class="middle">
-                                    candy
-                                </td>
-                                <td class="middle">
-                                    2022-02-17
-                                </td>
-                                <td class="middle">
-                                    收到囉 讚讚!!!
-                                </td>
-                                <td class="middle">
-                                    <span class="rating">
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o  "></i>
-                                    </span>
-                                </td>
-                                 <td class="middle">
-                                    <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
-                                     <i class="fas fa-pen-nib" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                                <td class="middle">
-                                    <button type="button" class="btn btn btn-danger mr-3">
-                                        <i class="fa fa-ban" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                                 
-                            </tr>
-                            <!--  tr End  -->
-
-
-
-                        </tbody>
-
-
-                        <tbody>
-
-                            <!-- tr Start -->
-                            <tr>
-
-                                <td class="middle">
-                                    <input name="active_col[]" type="checkbox" value="3">
-                                </td>
-                                <td class="middle">
-                                    3
-                                </td>
-                                <td class="middle">
-                                    貓抓板
-                                </td>
-                                <td class="middle">
-                                    45
-                                </td>
-                                <td class="middle">
-                                    Jack
-                                </td>
-                                <td class="middle">
-                                    2022-02-17
-                                </td>
-                                <td class="middle">
-                                    收到  不過等了好久才到
-                                </td>
-                                <td class="middle">
-                                    <span class="rating">
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o  "></i>
-                                    </span>
-                                </td>
-
-                                <td class="middle">
-                                    <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
-                                     <i class="fas fa-pen-nib" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                                <td class="middle">
-                                    <button type="button" class="btn btn btn-danger mr-3">
-                                        <i class="fa fa-ban" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-
-                                 
-                            </tr>
-                            <!--  tr End  -->
-
-
-
-                        </tbody>
-                    </table>
-
-                      <!-- CommentModal Start-->
-                                            <div class="modal fade" id="MessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">回覆留言</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body ">
-                                                            <div>
-                                                            <textarea cols="55" rows="5"  onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">親切地回覆顧客留言以拉近與顧客的距離</textarea>
-                                                           
-                                                            </div>
-                                                           
-
-
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                                            <button type="button" class="btn btn-primary">送出</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                               <!-- CommentModal End-->
-
+                    <!-- CommentModal End-->
                 </div>
             </div>
+
+
         </div>
-    </div>
-</div>
+            </div>
+        </div>
 
 @section Scripts{
 
     <script>
 
+      let current;
+      let totalpage = @ViewBag.page;
+      post(1);
 
-        $("#clickAll").click(function () {
-            if ($("#clickAll").prop("checked"))
-                $("input[name='active_col[]']").prop("checked", true);
 
-            else
-                $("input[name='active_col[]']").prop("checked", false);
+        function post(page)
+        {
+
+              POSTMethod("@Url.Content("~/Back_Comment/ListView")",
+             {inputpage:page},
+               function(response)
+               {
+                   $("#listview").html(response);
+
+               }
+             )
+
+            $("#pagenumber").text(`${page}/${totalpage}`);
+
+            current = parseInt(`${page}`);
+            let elementli = $("ul.pagination").children("li");
+            
+
+            PageList(page, elementli, totalpage);
+
+        }
+
+        $("#page-ctrl-previous").click(function () {
+            if (current > 1)
+                post(current - 1);
+
+
+
         });
 
+        $("#page-ctrl-next").click(function () {
+            if (current < totalpage)
+            post(current + 1);
+
+        });
+       
+
+        $(document).on("click", "#clickAll", function () {
+
+            let clickAll = $("#listview").find("#clickAll");
+            console.log(clickAll);
+            let inputCheckbox = $("#listview").find("input[name='Checkbox[]']");
+
+                if (clickAll.prop("checked"))
+                    inputCheckbox.prop("checked", true);
+
+                else
+                    inputCheckbox.prop("checked", false);
+           
+
+        });
+     
+       
 
     </script>
 

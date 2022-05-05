@@ -11,6 +11,7 @@ namespace Project_IPET.ViewModels
         public string fMemberName { get; set; }
         public string fRequiredDate { get; set; }
         public string fTotal { get; set; }
+        public string fType { get; set; }
         public string fStatus { get; set; }
     }
 }

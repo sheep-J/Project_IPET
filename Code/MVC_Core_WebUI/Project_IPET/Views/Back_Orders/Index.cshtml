@@ -2,6 +2,11 @@
 @{
     ViewData["Title"] = "訂單管理";
 }
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+}
 <table id="orders" class="table table-bordered">
     <thead>
         <tr>
@@ -10,6 +15,7 @@
             <th>會員姓名</th>
             <th>下單日期</th>
             <th>訂單金額</th>
+            <th>訂單類型</th>
             <th>訂單狀態</th>
             <th>明細/編輯/刪除</th>
         </tr>
@@ -26,6 +32,7 @@
                     <td>@Html.DisplayFor(modelItem => item.fMemberName)</td>
                     <td>@Html.DisplayFor(modelItem => item.fRequiredDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.fTotal)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fType)</td>
                     <td>@Html.DisplayFor(modelItem => item.fStatus)</td>
                     <td>
                         <button name="@Html.DisplayFor(modelItem => item.fId)" type="button" class="detail btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#detailModal">
@@ -34,9 +41,7 @@
                         <button type="button" class="btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#orderModal">
                             <i class="fas fa-pen-nib"></i>
                         </button>
-                        <button type="button" class="btn btn btn-danger mr-3">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
+                        @Html.ActionLink("刪除", "delete", "Back_Orders", new { id = item.fId }, new { @class = "btn btn btn-danger mr-3", onclick = "return confirm('確定要刪除嗎')" })
                     </td>
                 </tr>
             }
@@ -67,6 +72,10 @@
                         <input type="text" class="form-control" id="fTotal" name="fTotal" placeholder="訂單金額">
                     </div>
                     <div class="form-group">
+                        <label for="fType">訂單類型</label>
+                        <input type="text" class="form-control" id="fType" name="fType" placeholder="訂單類型">
+                    </div>
+                    <div class="form-group">
                         <label for="fStatus">訂單狀態</label>
                         <select id="fStatus" name="fStatus">
                             <option value="1">未付款</option>
@@ -81,7 +90,7 @@
                         <button class="btn btn-danger" id="btnsubmit">送出</button>
                     </div>
                     <div id="editresult">
-                        
+
                     </div>
                 </form>
             </div>
@@ -112,6 +121,7 @@
                     </tbody>
                 </table>
                 <p id="detailfrieght" style="margin:5px">運費:<br /></p>
+                <p id="detailtype" style="margin:5px">訂單類型:</p>
                 <p id="detailprice" style="margin:5px">總金額:<br /></p>
                 <p id="detailwhere" style="margin:5px">運送地址:<br /></p>
                 <p id="detailwho" style="margin:5px">收件人:<br /></p>
@@ -124,7 +134,25 @@
 </div>
 
 @section Scripts{
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
     <script>
+        $('#orders').DataTable({
+            "language": {
+                "lengthMenu": "顯示 _MENU_ 項結果",
+                "paginate": {
+                    "first": "第一頁",
+                    "previous": "上一頁",
+                    "next": "下一頁",
+                    "last": "最後一頁"
+                },
+                "info": "顯示第 _START_ 至 _END_ 項結果，共 _TOTAL_ 項",
+            },
+            //設定參數
+            scrollY: 500,
+            lengthMenu: [25, 50, 100, 150]
+        });
+
+
         //明細按鈕
         $("#orderBody").on('click','button:nth-child(1)',async function() {
             const OrderId = $(this).parents('tr').find('td:nth-child(2)').text();
@@ -136,6 +164,7 @@
         function renderOther(datas) {
             $("#detailfrieght").html(`運費: ${datas.detailfrieght}`)
             $("#detailprice").html(`總金額: ${datas.detaliprice}`)
+            $("#detailtype").html(`訂單類型: ${datas.detailtype}`)
             $("#detailwhere").html(`運送地址: ${datas.detailwhere}`)
             $("#detailwho").html(`收件人: ${datas.detailwho}`)
         }
@@ -157,11 +186,14 @@
                 var td3 = document.createElement("td");
                 td3.innerHTML = item.price;
 
+                //數量
                 var td4 = document.createElement("td");
                 td4.innerHTML = item.quantity;
 
+                //總金額
                 var td5 = document.createElement("td");
                 td5.innerHTML = item.total;
+
                 tr.append(td1,td2,td3,td4,td5);
                 $("#detailbody").append(tr);
             })
@@ -186,6 +218,7 @@
             $("#fId").val(datas.id);
             $("#fMemberName").val(datas.memberName);
             $("#fRequiredDate").val(datas.requiredDate);
+            $("#fType").val(datas.type);
             $("#fTotal").val(datas.total);
             switch (datas.status) {
                 case '未付款':
@@ -206,7 +239,5 @@
             }
             //$("#fStatus").html(datas.status);
         }
-
-        //刪除按鈕
     </script>
 }

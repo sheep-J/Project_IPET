@@ -25,7 +25,7 @@ namespace Project_IPET.Controllers
         {
             int countbypage = 10;
             int totalpost = _myProject.Comments.Count();
-            CPostTools tools = new CPostTools();
+            CTools tools = new CTools();
             tools.Page(countbypage, totalpost, out int tatalpage);
 
             ViewBag.page = tatalpage;
@@ -44,7 +44,7 @@ namespace Project_IPET.Controllers
             if (inputpage > 0)
                 page = inputpage;
 
-            CPostTools tools = new CPostTools();
+            CTools tools = new CTools();
 
             tools.Page(countbypage, totalpost, out int tatalpage);
 
@@ -68,5 +68,31 @@ namespace Project_IPET.Controllers
 
             return PartialView(posts);
         }
+
+        public CProductRatingViewModel ProductRating(string productname)
+        {
+
+            if (productname == null)
+            {
+                return null;
+            }
+            else
+            {
+                var averagerating = _myProject.Comments
+                    .Where(p => p.Product.ProductName == productname)
+                    .Select(p => p.Rating).Average();
+                var totalcommentcount = _myProject.Comments
+                    .Where(p => p.Product.ProductName == productname)
+                    .Count();
+                var vmodel = new CProductRatingViewModel();
+                vmodel.AverageRating = averagerating;
+                vmodel.TotalCommentCount = totalcommentcount;
+
+                return vmodel;
+            }
+
+        }
+
+
     }
 }

@@ -25,6 +25,8 @@ namespace Project_IPET.ViewModels
         public string BannedContent { get; set; }
         [DisplayName("回覆狀態")]
         public bool Reply { get; set; }
+        [DisplayName("會員照片")]
+        public byte[] MemberImage { get; set; }
 
     }
 }

@@ -25,7 +25,7 @@ namespace Project_IPET.Controllers
         {
             int countbypage =6;
             int totalpost = _myProject.Posts.Count();
-            CPostTools tools = new CPostTools();
+            CTools tools = new CTools();
             tools.Page(countbypage, totalpost, out int tatalpage);
 
             ViewBag.page = tatalpage;
@@ -43,7 +43,7 @@ namespace Project_IPET.Controllers
             if (inputpage > 0)
                 page = inputpage;
 
-            CPostTools tools = new CPostTools();
+            CTools tools = new CTools();
 
             tools.Page(countbypage, totalpost, out int tatalpage);
 
@@ -77,18 +77,27 @@ namespace Project_IPET.Controllers
             return View();
         }
 
-        public IActionResult TestProductComment() {
 
-            return View();
-        }
-
-        public IActionResult SendGmail()
+        public IActionResult TestProductComment(string productname)
         {
 
-            CSendGmailService sendmail = new CSendGmailService();
-            sendmail.sendGmail();
+            productname = "室內成貓-貓飼料";
 
-            return View();
+            var productcomment = _myProject.Comments
+                                 .OrderByDescending(d=>d.CommentDate)
+                                 .Where(p=>p.Product.ProductName == productname)
+                                 .Select(n => new CCommentViewModel {
+
+                                     MemberName = n.OrderDetail.Order.Member.Name,
+                                     MemberImage = n.OrderDetail.Order.Member.Avatar,
+                                     Rating = n.Rating,
+                                     CommentDate = n.CommentDate,
+                                     CommentContent = n.CommentContent,
+                                    
+                                 }).ToList();
+
+            return View(productcomment);
         }
+
     }
 }

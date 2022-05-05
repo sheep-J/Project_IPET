@@ -1,9 +1,11 @@
-﻿namespace Project_IPET.Services
-{
-    public class CPostTools
-    {
+﻿using Project_IPET.Models.EF;
 
-        public void Page(int countbypage, int totalpost, out int tatalpage )
+namespace Project_IPET.Services
+{
+    public class CTools
+    {
+        
+        public void Page(int countbypage, int totalpost, out int tatalpage)
         {
 
             if (countbypage == 0)
@@ -21,5 +23,6 @@
             }
 
         }
+
     }
 }

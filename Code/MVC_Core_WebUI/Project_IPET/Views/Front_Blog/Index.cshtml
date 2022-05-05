@@ -62,7 +62,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <h2 id="pagenumber"></h2>
+                                <h2 id="pagenumber" style="width:100px; text-align: center;"></h2>
                             </nav>
                         </div>
                     </div>
@@ -267,6 +267,7 @@
 
             current = parseInt(`${page}`);
             let elementli = $("ul.pagination").children("li");
+
             elementli.children("a").removeClass("active").eq(page).addClass("active");
 
             PageList(page, elementli, totalpage);

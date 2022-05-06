@@ -92,8 +92,9 @@ namespace Project_IPET.Services
             ProductModel result = new ProductModel();
             try
             {
-                string sql = @"SELECT * FROM Products p 
+                string sql = @"SELECT p.*,b.BrandName FROM Products p 
                                             JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+                                            JOIN Brand b ON p.BrandID=b.BrandID
                                             WHERE p.ProductID=@ProductID ";
                 //匿名類型
                 var param = new

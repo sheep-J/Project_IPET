@@ -37,15 +37,13 @@ namespace Project_IPET.Controllers
         {
             int page = 1;
             int countbypage = 6;
-            int totalpost = _myProject.Posts.Count();
+           
 
 
             if (inputpage > 0)
                 page = inputpage;
 
-            CTools tools = new CTools();
-
-            tools.Page(countbypage, totalpost, out int tatalpage);
+         
 
             var posts = _myProject.Posts.Where(c => c.ReplyToPost == null).Select(n => new CPostViewModel
             {

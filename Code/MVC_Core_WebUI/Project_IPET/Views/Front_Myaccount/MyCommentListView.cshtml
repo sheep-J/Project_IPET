@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Project_IPET.ViewModels.CCommentViewModel>
+
+
+
+<h3 class="title">我的評價</h3>
+<div class="myaccount-table table-responsive text-center">
+
+
+    
+        @{int number = 0; }
+       
+    <table class="table ">
+
+        <thead>
+            <tr>
+
+                <th>序號</th>
+                <th>評價狀態</th>
+                <th>@Html.DisplayNameFor(model => model.ProductName)</th>
+                <th>@Html.DisplayNameFor(model => model.Rating)</th>
+                <th>@Html.DisplayNameFor(model => model.CommentDate)</th>
+                <th>@Html.DisplayNameFor(model => model.CommentContent)</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            number++;
+            <tbody>
+                <tr>
+
+                    <td>@number</td>
+                    <td>
+
+                        <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#CommentModal">
+                            @if (Html.DisplayFor(modelItem => item.CommentDate) != null)
+                            {
+                                <i class="fa fa-thumbs-o-up text-primary fs-3" aria-hidden="true"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-thumbs-o-up  fs-3" aria-hidden="true"></i>
+                            }
+
+                        </button>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                    <td>
+                        <span class="rating">
+                            <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
+                            <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
+                            <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </span>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.CommentDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CommentContent)</td>
+                </tr>
+
+            </tbody>
+        }
+    </table>
+        
+   
+
+
+</div>

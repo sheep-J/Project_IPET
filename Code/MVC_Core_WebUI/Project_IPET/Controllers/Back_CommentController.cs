@@ -38,15 +38,13 @@ namespace Project_IPET.Controllers
         {
             int page = 1;
             int countbypage = 10;
-            int totalpost = _myProject.Comments.Count();
+          
 
 
             if (inputpage > 0)
                 page = inputpage;
 
-            CTools tools = new CTools();
-
-            tools.Page(countbypage, totalpost, out int tatalpage);
+          
 
             var posts = _myProject.Comments.Select(n => new CCommentViewModel
             {

@@ -9,5 +9,6 @@ namespace Project_IPET.Services
         List<CategoriesModel> GetCategories();
         ProductModel GetProduct(int id);
         BrandModel GetBrands(int id);
+
     }
 }

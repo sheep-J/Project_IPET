@@ -30,6 +30,7 @@ namespace Project_IPET.Services
                                                 JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
                                                 JOIN Categories c ON sc.CategoryID = c.CategoryID 
                                                 JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+                                                JOIN Brand b ON p.BrandID = b.BrandID
                                                 WHERE 1=1";
 
                 if (request.CategoryId != -1)
@@ -44,7 +45,7 @@ namespace Project_IPET.Services
                 };
                 result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sql, column), param); //拿第一個cell
 
-                column = "p.*,sc.SubCategoryName,c.CategoryName,pp.ProductImage";
+                column = "p.*,sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName";
                 sql += " ORDER BY p.ProductID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";
 
                 result.ProductList = _dbConnection.Query<ProductModel>(string.Format(sql, column), param).ToList();
@@ -113,7 +114,7 @@ namespace Project_IPET.Services
 
             try
             {
-                string sql = @"SELECT * FROM Products p
+                string sql = @"SELECT b.BrandName FROM Products p
                                           JOIN Brand b ON p.BrandID = b.BrandID
                                            WHERE p.BrandID=@BrandID";
                 //匿名類型

@@ -59,7 +59,7 @@
                 </div>
                 <!--上方工具條 end-->
                 <!-- 主要顯示頁面 Start -->
-                <div class="row shop_wrapper grid_list">
+                <div class="row shop_wrapper grid_list" id="ProjectList">
                     @{
                         for(int i = 0;i<3;i++)
                         {
@@ -119,9 +119,27 @@
 
                 </div>
                 <!--下方頁面顯示 end-->
-
             </div>
         </div>
     </div>
 </div>
 <!-- Shop Section End -->
+
+
+@section Scripts{
+    <script>
+        LoadProject();
+        async function LoadProject() {
+            const Projectrespnose = await fetch("@Url.Content("~/Front_Project/readProject")")
+            renderProject(await Projectrespnose.json());
+        }
+        function renderProject(datas) {
+            datas.forEach(item => {
+                var contain = document.createElement("div");
+                contain.className = "col-12 product";
+
+                //開始建項目細目202256
+            })
+        }
+    </script>
+}

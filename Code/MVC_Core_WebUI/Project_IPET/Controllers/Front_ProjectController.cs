@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project_IPET.Models.EF;
+using Project_IPET.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,12 @@ namespace Project_IPET.Controllers
 {
     public class Front_ProjectController : Controller
     {
+        private readonly MyProjectContext _context;
+        public Front_ProjectController(MyProjectContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -19,6 +27,20 @@ namespace Project_IPET.Controllers
             //找到已付款的訂單, 找出是誰, 消費甚麼, 數量多少
             //上述所有物件包裝成vModel回傳至View()
             return View();
+        }
+
+        public IActionResult readProject()
+        {
+            var list = _context.ProjectDetails.Select(n => new CFrontProjectViewModel
+            {
+                fId = n.PrjId,
+                fTitle = n.Title,
+                fContent = n.PrjContent,
+                fDescription = n.Description,
+                fPrjImage = n.PrjImage,
+                fDeadline = (n.Endtime - DateTime.Now.Date).ToString()
+            });
+            return Json(list);
         }
     }
 }

@@ -35,7 +35,7 @@
                     <td>@Html.DisplayFor(modelItem => item.fType)</td>
                     <td>@Html.DisplayFor(modelItem => item.fStatus)</td>
                     <td>
-                        <button name="@Html.DisplayFor(modelItem => item.fId)" type="button" class="detail btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#detailModal">
+                        <button type="button" class="detail btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#detailModal">
                             <i class="fas fa-bars"></i>
                         </button>
                         <button type="button" class="btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#orderModal">
@@ -120,11 +120,11 @@
                     <tbody id="detailbody">
                     </tbody>
                 </table>
-                <p id="detailfrieght" style="margin:5px">運費:<br /></p>
+                <p id="detailfrieght" style="margin:5px">運費:</p>
                 <p id="detailtype" style="margin:5px">訂單類型:</p>
-                <p id="detailprice" style="margin:5px">總金額:<br /></p>
-                <p id="detailwhere" style="margin:5px">運送地址:<br /></p>
-                <p id="detailwho" style="margin:5px">收件人:<br /></p>
+                <p id="detailprice" style="margin:5px">總金額:</p>
+                <p id="detailwhere" style="margin:5px">運送地址:</p>
+                <p id="detailwho" style="margin:5px">收件人:</p>
             </div>
             <div class="modal-footer">
                 <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

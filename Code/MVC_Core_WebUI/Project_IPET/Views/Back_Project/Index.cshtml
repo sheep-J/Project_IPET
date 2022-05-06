@@ -1,53 +1,56 @@
-﻿
+﻿@model IQueryable<Project_IPET.ViewModels.CProjectViewModel>
 @{
     ViewData["Title"] = "專案管理";
 }
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+}
 
-<h1>專案管理</h1>
 <a id="buttonAdd" class="btn btn-primary mb-3" asp-action="Create"><i class="fas fa-plus-square"> 新增專案</i></a>
 
-<table id="shippers" class="table table-bordered">
+<table id="Projects" class="table table-bordered">
     <thead>
         <tr>
             <th>序號</th>
             <th>專案編號</th>
             <th>專案名稱</th>
             <th>目標金額</th>
+            <th>基金會</th>
+            <th>開始時間</th>
+            <th>結束時間</th>
             <th>動作</th>
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>23</td>
-            <td>七月救濟浪浪</td>
-            <td>10000</td>
-            <td>
-                <button type="button" class="btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#projectModal">
-                    <i class="fas fa-pen-nib"></i>
-                </button>
-                <button type="button" class="btn btn btn-danger mr-3">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>31</td>
-            <td>九月救濟浪浪</td>
-            <td>5000</td>
-            <td>
-                <button type="button" class="btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#projectModal">
-                    <i class="fas fa-pen-nib"></i>
-                </button>
-                <button type="button" class="btn btn btn-danger mr-3">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </td>
-        </tr>
+    <tbody id="ProjectBody">
+        @{
+            int count = 0;
+            foreach (var item in Model)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@Html.DisplayFor(modelItem => item.fId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fGoal)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fFoundation)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fStarttime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fEndtime)</td>
+                    <td>
+                        <button type="button" class="detail btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#detailModal">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#orderModal">
+                            <i class="fas fa-pen-nib"></i>
+                        </button>
+                        @*@Html.ActionLink("刪除", "delete", "Back_Orders", new { id = item.fId }, new { @class = "btn btn btn-danger mr-3", onclick = "return confirm('確定要刪除嗎')" })*@
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>
-<!-- Modal -->
+<!-- 編輯Modal -->
 <div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -94,3 +97,109 @@
         </div>
     </div>
 </div>
+
+<!-- DetailModal -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:10%">
+    <div class="modal-dialog" role="document" style="max-width:800px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">訂單資訊</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <caption class="caption-top">專案商品列表:</caption>
+                    <thead>
+                        <tr>
+                            <th style="padding:0.5rem">序</th>
+                            <th style="padding:0.5rem">商品名稱</th>
+                            <th style="padding:0.5rem">單價</th>
+                            <th style="padding:0.5rem">數量</th>
+                            <th style="padding:0.5rem">總金額</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailbody">
+                    </tbody>
+                </table>
+                <p id="detailfoundation" style="margin:5px">基金會:</p>
+                <p id="detailgoal" style="margin:5px">目標金額:</p>
+                <p id="detailstarttime" style="margin:5px">開始日期:</p>
+                <p id="detailendtime" style="margin:5px">結束日期:</p>
+            </div>
+            <div class="modal-footer">
+                <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+    <script>
+        $('#Projects').DataTable({
+            "language": {
+                "lengthMenu": "顯示 _MENU_ 項結果",
+                "paginate": {
+                    "first": "第一頁",
+                    "previous": "上一頁",
+                    "next": "下一頁",
+                    "last": "最後一頁"
+                },
+                "info": "顯示第 _START_ 至 _END_ 項結果，共 _TOTAL_ 項",
+            },
+            //設定參數
+            scrollY: 500,
+            lengthMenu: [25, 50, 100, 150]
+        });
+
+        //明細按鈕
+        $("#ProjectBody").on('click', 'button:nth-child(1)', async function () {
+            const ProjectId = $(this).parents('tr').find('td:nth-child(2)').text();
+            const Productresponse = await fetch("@Url.Content("~/Back_Project/ProjectProduct?Id=")" + ProjectId);
+            renderProduct(await Productresponse.json());
+            const Otherresponse = await fetch("@Url.Content("~/Back_Project/ProjectDetail?Id=")" + ProjectId);
+            renderOther(await Otherresponse.json());
+        })
+
+        function renderProduct(datas) {
+            $("#detailbody").html("");
+            var countdetail = 0;
+            datas.forEach(item => {
+                countdetail++;
+                var tr = document.createElement("tr");
+                //序
+                var td1 = document.createElement("td");
+                td1.innerHTML = countdetail;
+
+                //商品名稱
+                var td2 = document.createElement("td");
+                td2.innerHTML = item.productName;
+
+                //單價
+                var td3 = document.createElement("td");
+                td3.innerHTML = item.unitPrice;
+
+                //數量
+                var td4 = document.createElement("td");
+                td4.innerHTML = item.unitsInStock;
+
+                //總金額
+                var td5 = document.createElement("td");
+                td5.innerHTML = (item.unitPrice * item.unitsInStock);
+
+                tr.append(td1, td2, td3, td4, td5);
+                $("#detailbody").append(tr);
+            })
+        }
+        function renderOther(datas) {
+            $("#detailfoundation").html(`基金會: ${datas[0].detailfoundation}`)
+            $("#detailgoal").html(`目標金額: ${datas[0].detailgoal}`)
+            $("#detailstarttime").html(`開始日期: ${datas[0].detailstarttime}`)
+            $("#detailendtime").html(`結束日期: ${datas[0].detailendtime}`)
+        }
+    </script>
+}

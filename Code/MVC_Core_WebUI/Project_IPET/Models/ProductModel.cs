@@ -21,6 +21,10 @@ namespace Project_IPET.Models
         /// </summary>
         public int BrandID { get; set; }
         /// <summary>
+        /// 品牌名稱
+        /// </summary>
+        public string BrandName { get; set; }
+        /// <summary>
         /// 成本價
         /// </summary>
         public decimal CostPrice { get; set; }

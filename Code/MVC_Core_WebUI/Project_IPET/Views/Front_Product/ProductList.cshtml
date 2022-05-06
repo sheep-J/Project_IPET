@@ -26,6 +26,7 @@
                 </div>
                 <div class="content">
                     <h5 class="title"><a href="single-product.html">@product.ProductName</a></h5>
+                    <h2 class="title"><a href="single-product.html">@product.BrandName</a></h2>
                     <span class="rating">
                         <i class="fa fa-star-o"></i>
                         <i class="fa fa-star-o"></i>
@@ -39,7 +40,7 @@
                     </span>
                     <p>@product.Description</p>
                     <!-- Cart Button Start -->
-                <div class="cart-btn action-btn">
+                    <div class="cart-btn action-btn">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
                                 <a class="btn btn-primary btn-hover-dark rounded-0" asp-controller="Front_Cart" asp-action="AddToCart" asp-route-Id="@product.ProductID">加入購物車</a>
@@ -49,7 +50,7 @@
                         </div>
                     </div>
                     <!-- Cart Button End -->
-            </div>
+                </div>
             </div>
         </div>
         <!-- Single Product End -->

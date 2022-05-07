@@ -31,14 +31,27 @@ namespace Project_IPET.Controllers
 
         public IActionResult readProject()
         {
-            var list = _context.ProjectDetails.Select(n => new CFrontProjectViewModel
+            var list = _context.ProjectDetails.Where(n => DateTime.Compare((DateTime)n.Endtime, DateTime.Now.Date) != -1).Select(n => new CFrontProjectViewModel
             {
                 fId = n.PrjId,
                 fTitle = n.Title,
                 fContent = n.PrjContent,
                 fDescription = n.Description,
                 fPrjImage = n.PrjImage,
-                fDeadline = (n.Endtime - DateTime.Now.Date).ToString()
+                fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString()
+            });
+            return Json(list);
+        }
+        public IActionResult readProjectHistory()
+        {            
+            var list = _context.ProjectDetails.Where(n=>DateTime.Compare((DateTime)n.Endtime,DateTime.Now.Date)==-1).Select(n => new CFrontProjectViewModel
+            {
+                fId = n.PrjId,
+                fTitle = n.Title,
+                fContent = n.PrjContent,
+                fDescription = n.Description,
+                fPrjImage = n.PrjImage,
+                fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString()
             });
             return Json(list);
         }

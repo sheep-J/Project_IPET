@@ -1,67 +1,101 @@
 ﻿@model IEnumerable<Project_IPET.ViewModels.CCommentViewModel>
 
+<style>
+    .tdContent {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    
 
+    }
+
+</style>
 
 <h3 class="title">我的評價</h3>
 <div class="myaccount-table table-responsive text-center">
 
 
-    
-        @{int number = 0; }
-       
-    <table class="table ">
 
-        <thead>
-            <tr>
-
-                <th>序號</th>
-                <th>評價狀態</th>
-                <th>@Html.DisplayNameFor(model => model.ProductName)</th>
-                <th>@Html.DisplayNameFor(model => model.Rating)</th>
-                <th>@Html.DisplayNameFor(model => model.CommentDate)</th>
-                <th>@Html.DisplayNameFor(model => model.CommentContent)</th>
-            </tr>
-        </thead>
-        @foreach (var item in Model)
-        {
-            number++;
-            <tbody>
-                <tr>
-
-                    <td>@number</td>
-                    <td>
-
-                        <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#CommentModal">
-                            @if (Html.DisplayFor(modelItem => item.CommentDate) != null)
-                            {
-                                <i class="fa fa-thumbs-o-up text-primary fs-3" aria-hidden="true"></i>
-                            }
-                            else
-                            {
-                                <i class="fa fa-thumbs-o-up  fs-3" aria-hidden="true"></i>
-                            }
-
-                        </button>
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
-                    <td>
-                        <span class="rating">
-                            <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
-                            <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
-                            <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                        </span>
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => item.CommentDate)</td>
-                    <td>@Html.DisplayFor(modelItem => item.CommentContent)</td>
-                </tr>
-
-            </tbody>
-        }
-    </table>
-        
    
+    @if (Model != null)
+    {
+        <table class="table " style="table-layout:fixed;">
 
+            <thead>
+                <tr>
+                    <th class="tdContent">評價狀態</th>
+                    <th class="tdContent">@Html.DisplayNameFor(model => model.ProductName)</th>
+                    <th class="tdContent">@Html.DisplayNameFor(model => model.Rating)</th>
+                    <th class="tdContent">@Html.DisplayNameFor(model => model.CommentDate)</th>
+                    <th class="tdContent">@Html.DisplayNameFor(model => model.CommentContent)</th>
+                    <th class="tdContent">@Html.DisplayNameFor(model => model.ReplyContent)</th>
+                </tr>
+            </thead>
+
+
+            @foreach (var item in Model)
+            {
+             
+                <tbody style="height:81px;">
+                    <tr>
+
+                        
+                        <td class="tdContent">
+
+                           
+                                @if (string.IsNullOrEmpty(@item.CommentDate))
+                                {
+                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#CommentModal">
+                                        <i class="fa fa-thumbs-o-up  fs-3" aria-hidden="true"></i>
+                                     </button>
+                                }
+                                else
+                                {
+                                   
+                                    <i class="fa fa-thumbs-o-up text-primary fs-3" aria-hidden="false"></i>
+                                   
+                                }
+
+                           
+                        </td>
+                        <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ProductName)">@Html.DisplayFor(modelItem => item.ProductName)</td>
+                        <td class="tdContent">
+                            <span class="rating">
+
+                                @if (@item.Rating == null || @item.Rating == 0)
+                                {
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        <i class="fa fa-star-o"></i>
+                                    }
+                                }
+                                else
+                                {
+                                    @for (int i = 1; i <= @item.Rating; i++)
+                                    {
+                                        <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
+                                    }
+
+                                    @for (int i = 1; i <= (5 - @item.Rating); i++)
+                                    {
+                                        <i class="fa fa-star-o"></i>
+                                    }
+                                }
+
+                            </span>
+                        </td>
+                        <td class="tdContent">@Html.DisplayFor(modelItem => item.CommentDate)</td>
+                        <td class="tdContent"  title="@Html.DisplayFor(modelItem => item.CommentContent)">@Html.DisplayFor(modelItem => item.CommentContent)</td>
+                        <td class="tdContent"  title="@Html.DisplayFor(modelItem => item.ReplyContent)">@Html.DisplayFor(modelItem => item.ReplyContent)</td>
+                    </tr>
+
+                </tbody>
+            }
+        </table>
+    }
+    else
+    {
+        <h1>@ViewBag.NOData</h1>
+    }
 
 </div>

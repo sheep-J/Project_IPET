@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Project_IPET.Models;
 using Project_IPET.Models.EF;
 using Project_IPET.Services;
 using Project_IPET.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Project_IPET.Controllers
@@ -38,27 +41,27 @@ namespace Project_IPET.Controllers
         {
             int page = 1;
             int countbypage = 10;
-          
+
 
 
             if (inputpage > 0)
                 page = inputpage;
 
-          
+
 
             var posts = _myProject.Comments.Select(n => new CCommentViewModel
             {
-                 CommentId = n.CommentId,
-                 ProductName = n.Product.ProductName,
-                 OrderId = n.OrderDetail.OrderId,
-                 MemberName =n.OrderDetail.Order.Member.Name,
-                 Rating = n.Rating,
-                 CommentDate =n.CommentDate,
-                 CommentContent = n.CommentContent,
-                 ReplyContent = n.ReplyContent,
-                 Reply = n.Reply,
-                 BannedContent = n.BannedContent,
-                 Banned = n.Banned,
+                CommentId = n.CommentId,
+                ProductName = n.Product.ProductName,
+                OrderId = n.OrderDetail.OrderId,
+                MemberName = n.OrderDetail.Order.Member.Name,
+                Rating = n.Rating,
+                CommentDate = n.CommentDate,
+                CommentContent = n.CommentContent,
+                ReplyContent = n.ReplyContent,
+                Reply = n.Reply,
+                BannedContent = n.BannedContent,
+                Banned = n.Banned,
 
             }).Skip((page - 1) * countbypage).Take(countbypage).ToList();
 
@@ -67,7 +70,8 @@ namespace Project_IPET.Controllers
             return PartialView(posts);
         }
 
-        public CProductRatingViewModel ProductRating(string productname)
+        [HttpPost]
+        public decimal[] ProductRating(string productname)
         {
 
             if (productname == null)
@@ -79,14 +83,15 @@ namespace Project_IPET.Controllers
                 var averagerating = _myProject.Comments
                     .Where(p => p.Product.ProductName == productname)
                     .Select(p => p.Rating).Average();
+
+            
                 var totalcommentcount = _myProject.Comments
                     .Where(p => p.Product.ProductName == productname)
                     .Count();
-                var vmodel = new CProductRatingViewModel();
-                vmodel.AverageRating = averagerating;
-                vmodel.TotalCommentCount = totalcommentcount;
 
-                return vmodel;
+                decimal[] Rating = { decimal.Round((decimal)averagerating, 1), totalcommentcount };
+
+               return Rating;
             }
 
         }

@@ -41,6 +41,7 @@ namespace Project_IPET
                 return conn;
             });
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IPetService, PetService>();
 
             //Entity Framework連線字串請放在這
 

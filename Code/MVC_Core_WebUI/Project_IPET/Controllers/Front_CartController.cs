@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_IPET.Helpers;
-using Project_IPET.Models.Cart;
+using Project_IPET.Models;
 using Project_IPET.Models.EF;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace Project_IPET.Controllers
 
         public IActionResult Index()
         {
-            List<CartItem> CartItems = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "Cart");
+            List<CartModel> CartItems = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
 
             if (CartItems != null)
             {
@@ -43,7 +43,7 @@ namespace Project_IPET.Controllers
             var product = _context.Products.Single(m => m.ProductId.Equals(id));
 
             // TODO 優化計算項目
-            CartItem item = new CartItem()
+            CartModel item = new CartModel()
             {
                 Id = product.ProductId,
                 Product = product,
@@ -55,17 +55,17 @@ namespace Project_IPET.Controllers
                 imageSrc = ConvertImage(GetProductImage(product.ProductId))
             };
 
-            if (SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "Cart") == null)
+            if (SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart") == null)
             {
                 // 如果沒有已存在購物車, 則建立新的購物車
-                List<CartItem> cart = new List<CartItem>();
+                List<CartModel> cart = new List<CartModel>();
                 cart.Add(item);
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "Cart", cart);
             }
             else
             {
                 // 如果已存在購物車, 檢查有無相同的商品 , 有的話只調整數量
-                List<CartItem> cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "Cart");
+                List<CartModel> cart = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
 
                 int index = cart.FindIndex(m => m.Product.ProductId.Equals(id));
 
@@ -89,7 +89,7 @@ namespace Project_IPET.Controllers
 
         public IActionResult RemoveItem(int id)
         {
-            List<CartItem> cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "Cart");
+            List<CartModel> cart = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
             int index = cart.FindIndex(m => m.Product.ProductId.Equals(id));
             cart.RemoveAt(index);
 
@@ -108,7 +108,7 @@ namespace Project_IPET.Controllers
 
         public IActionResult RemoveAll()
         {
-            List<CartItem> cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "Cart");
+            List<CartModel> cart = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
             cart.RemoveRange(0, cart.Count);
 
             if (cart.Count < 1)

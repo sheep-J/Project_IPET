@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Project_IPET.Models.Cart
+namespace Project_IPET.Models
 {
-    public class CartItem
+    public class CartModel
     {
         /// <summary>
         /// 商品編號

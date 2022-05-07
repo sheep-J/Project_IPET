@@ -1,4 +1,26 @@
-﻿<link rel="stylesheet" href="~/Front/css/pet.css" />
+﻿@section Scripts{
+    <script>
+        $(document).ready(function () {
+            GetPetList(1);
+        });
+        var pageSize = 9;
+        function GetPetList(page) {
+            $.ajax({
+                method: "POST",
+                url: "/Front_PetAdopt/PetList",
+                data: {
+                    Pagination: {
+                        Page: page,
+                        PageSize: pageSize
+                    }
+                },
+                success: function (result) {
+                    $("#PetList").html(result);
+                }
+            });
+        }
+    </script>
+}
 
 <!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
@@ -27,79 +49,4 @@
     </div>
 </form>
 
-<div>
-    @{
-        string[] name = new string[] { "Yoru", "豆沙", "Miffy", "古力姆", "芒果", "阿寶", "饅頭", "小折", "麥麥" };
-        string[] type = new string[] { "貓", "貓", "狗", "貓", "狗", "狗", "狗", "狗", "貓" };
-        string[] sex = new string[] { "公", "母", "公", "公", "母", "母", "母", "公", "公" };
-        string[] address = new string[] { "新北市 新莊區", "臺北市 中山區", "臺北市 內湖區", "新竹縣 竹北市", "苗栗縣 三義鄉", "台中市 清水區", "南投縣 草屯鎮", "彰化縣 秀水鄉", "雲林縣 虎尾鎮" };
-        string[] detail = new string[] { "成年中型橘貓", "成年小型米克斯", "幼年小型米克斯", "成年小型虎斑", "幼年小型米克斯", "成年中型米克斯", "幼年小型米克斯", "成年中型柯基", "幼年小型虎斑" };
-
-        for (int i = 1; i <= 9; i++)
-        {
-            string image = "/Front/images/pet/" + i + ".jpg";
-
-            <div style="display: inline-flex; margin-left: 160px; width:416px; height:590px;">
-                <section class="about-dev">
-                    <header class="profile-card_header">
-                        <div class="profile-card_header-container">
-                            <div class="profile-card_header-imgbox">
-                                <img src="@image" alt="" width="200" height="200" />
-                            </div>
-                            <h1>@name[i - 1]<span>@address[i - 1]</span></h1>
-                        </div>
-                    </header>
-                    <div class="profile-card_about">
-                        <ul class="list-unstyled mb-2">
-                            <li class="mb-1">
-                                <h4>
-                                    <i class="fa fa-vcard mr-2" aria-hidden="true"></i>  @type[i - 1]
-                                </h4>
-                            </li>
-                            <li class="mb-1">
-                                <h4>
-                                    <i class="fa-solid fa-venus-mars"> </i> @sex[i - 1]
-                                </h4>
-                            </li>
-                            <li class="mb-1">
-                                <h4><i class="fa fa-paw mr-2" aria-hidden="true"></i> @detail[i - 1]</h4>
-                            </li>
-                        </ul>
-                        <hr class="style-one" />
-                        <p style="font-weight:bold;">因為一些私人因素想要幫 @name[i - 1] 找新主人。</p>
-                        <footer class="profile-card_footer">
-                            <div class="social-row">
-
-                            </div>
-                            <p><a class="back-to-profile" asp-action="Details">詳細資訊</a></p>
-                        </footer>
-                    </div>
-                </section>
-            </div>
-        }
-    }
-</div>
-<!-- Shop Wrapper End -->
-<!--shop toolbar start-->
-<div class="shop_toolbar_wrapper justify-content-center m-t-50">
-
-    <!-- Shopt Top Bar Right Start -->
-    <div class="shop-top-bar-right">
-        <nav>
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link active" href="#/">1</a></li>
-                <li class="page-item"><a class="page-link" href="#/">2</a></li>
-                <li class="page-item"><a class="page-link" href="#/">3</a></li>
-                <li class="page-item">
-                    <a class="page-link rounded-0" href="#/" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-    <!-- Shopt Top Bar Right End -->
-
-</div>
-<!--shop toolbar end-->
-<!-- Shop Section End -->
+<div id="PetList"></div>

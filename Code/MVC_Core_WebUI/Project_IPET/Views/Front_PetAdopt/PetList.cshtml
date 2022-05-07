@@ -1,0 +1,120 @@
+﻿@model PetListModel.Response
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/Front/css/pet.css" />
+
+<div>
+    @{
+        @foreach (var pet in Model.PetList)
+        {
+            <div style="display: inline-flex; margin-left: 160px; width:416px; height:590px;">
+                <section class="about-dev">
+                    <header class="profile-card_header">
+                        <div class="profile-card_header-container">
+                            <div class="profile-card_header-imgbox">
+                                <img src="@pet.PetImageBase64String" alt="" width="200" height="200" />
+                            </div>
+                            <h1>@pet.PetName<span>@pet.CityRegion</span></h1>
+                        </div>
+                    </header>
+                    <div class="profile-card_about">
+                        <ul class="list-unstyled mb-2">
+                            <li class="mb-1">
+                                <h4>
+                                    <i class="fa fa-vcard mr-2" aria-hidden="true"></i> @pet.PetCategory
+                                </h4>
+                            </li>
+                            <li class="mb-1">
+                                <h4>
+                                    <i class="fa-solid fa-venus-mars"> </i> @pet.PetGender
+                                </h4>
+                            </li>
+                            <li class="mb-1">
+                                <h4><i class="fa fa-paw mr-2" aria-hidden="true"></i> @pet.Detail</h4>
+                            </li>
+                        </ul>
+                        <hr class="style-one" />
+                        <p style="font-weight:bold;">@pet.PetDescription.Substring(0, 14)...</p>
+                        <footer class="profile-card_footer">
+                            <div class="social-row">
+
+                            </div>
+                            <p><a class="back-to-profile" asp-controller="Front_PetAdopt" asp-action="PetDetail" asp-route-id="@pet.PetID">詳細資訊</a></p>
+                        </footer>
+                    </div>
+                </section>
+            </div>
+        }
+    }
+</div>
+<!-- Shop Wrapper End -->
+<!--shop toolbar start-->
+<div class="shop_toolbar_wrapper justify-content-center m-t-50">
+
+    <!-- Shopt Top Bar Right Start -->
+    <div class="shop-top-bar-right">
+        <nav>
+            <ul class="pagination">
+                @{
+                    int startPage = 0;
+                    int endPage = 0;
+                    if (Model.Pagination.TotalPage < 9)
+                    {
+                        startPage = 1;
+                        endPage = Model.Pagination.TotalPage;
+                    }
+                    else if (Model.Pagination.Page > 4 && Model.Pagination.Page < Model.Pagination.TotalPage - 3)
+                    {
+                        startPage = Model.Pagination.Page - 4;
+                        endPage = Model.Pagination.Page + 4;
+                    }
+                    else if (Model.Pagination.Page >= Model.Pagination.TotalPage - 3)
+                    {
+                        startPage = Model.Pagination.TotalPage - 8;
+                        endPage = Model.Pagination.TotalPage;
+                    }
+                    else
+                    {
+                        startPage = 1;
+                        endPage = 9;
+                    }
+
+                    @if (Model.Pagination.Page > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link rounded-0" onclick="GetPetList(1)" href="#/" aria-label="Prev">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+                    }
+
+                    for (int i = startPage; i <= endPage; i++)
+                    {
+                        <li class="page-item">
+                            @if (i == Model.Pagination.Page)
+                            {
+                                <a class="page-link active" onclick="GetPetList(@i)" href="#">@i</a>
+                            }
+                            else
+                            {
+                                <a class="page-link" onclick="GetPetList(@i)" href="#">@i</a>
+                            }
+                        </li>
+                    }
+                }
+                @if (Model.Pagination.Page < Model.Pagination.TotalPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link rounded-0" onclick="GetPetList(@(Model.Pagination.TotalPage) )" href="#/" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+        </nav>
+    </div>
+    <!-- Shopt Top Bar Right End -->
+</div>

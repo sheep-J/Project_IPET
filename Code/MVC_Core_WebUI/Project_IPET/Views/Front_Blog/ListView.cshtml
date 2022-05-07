@@ -13,7 +13,13 @@
              border:1px double 	#FFD1A4;
              transition:1s
             }
-           
+            .Content {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+    
+
+           }
 
             
         </style>
@@ -64,9 +70,9 @@
                                         </ul>
                                     </div>
 
-                                    <h2 class="blog-title"><a href="~/Front_Blog/PostView">@Html.DisplayFor(modelItem => item.Title)</a></h2>    <!-- 貼文標題 -->
+                                    <h2 class="blog-title Content"><a href="~/Front_Blog/PostView">@Html.DisplayFor(modelItem => item.Title)</a></h2>    <!-- 貼文標題 -->
                                    
-                                    <p  style="overflow:hidden;  text-overflow: ellipsis; height:50px">@Html.DisplayFor(modelItem => item.PostContent)</p>     <!-- 貼文內容 -->
+                                    <p  class="Content">@Html.DisplayFor(modelItem => item.PostContent)</p>     <!-- 貼文內容 -->
                                    
                                     <a class="more-link" href="~/Front_Blog/PostView">繼續閱讀</a>
                                 </div>

@@ -5,6 +5,9 @@
         .middle {
             padding: 0.75rem 1.5rem !important;
             text-align: center;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
     </style>
 
@@ -44,7 +47,7 @@
                                             <input name="Checkbox[]" type="checkbox" value="@number">
                                             @number
                                         </td>
-                                        <td class="col-md-1 middle">
+                                        <td class="col-md-1 middle" >
                                             @Html.DisplayFor(modelItem => item.MemberName)
                                         </td>
                                         <td class="col-md-2 middle">
@@ -73,13 +76,13 @@
 
                                             </span>
                                         </td>
-                                        <td class="col-md-2 middle">
+                                        <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentDate)">
                                             @Html.DisplayFor(modelItem => item.CommentDate)
                                         </td>
-                                        <td class="col-md-2 middle">
+                                        <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentContent)">
                                             @Html.DisplayFor(modelItem => item.CommentContent)
                                         </td>
-                                         <td class="col-md-2 middle">
+                                         <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.ReplyContent)">
                                             @Html.DisplayFor(modelItem => item.ReplyContent)
                                         </td>
                                         <td class="col-md-1 middle">

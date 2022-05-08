@@ -47,7 +47,7 @@ namespace Project_IPET.Models
         /// <summary>
         /// 商品上架狀態
         /// </summary>
-        public bool ProductAvaliable { get; set; }
+        public bool ProductAvailable { get; set; }
         public int Ranking { get; set; }
         /// <summary>
         /// 商品圖片
@@ -59,7 +59,14 @@ namespace Project_IPET.Models
         public string ProductImageBase64String { 
             get
             {
-                return "data:image/jpg;base64," + Convert.ToBase64String(ProductImage, 0, ProductImage.Length);
+                if(ProductImage != null)
+                {
+                    return "data:image/jpg;base64," + Convert.ToBase64String(ProductImage, 0, ProductImage.Length);
+                }
+                else
+                {
+                    return "";
+                }
             }
         }
     }

@@ -1,0 +1,135 @@
+﻿@{
+    ViewData["Title"] = "新增產品";
+}
+@section Scripts{
+<script>
+    $(document).ready(function(){
+        $("#btnOK").click(createProduct);
+        getCategories();
+        $("#ddlCategories").change(showSubCategories);
+        showBrands();
+    });
+    var categories;
+    function createProduct() {
+
+        $.ajax({
+            method: "POST",
+            url: "/Back_Products/CreateProduct",
+            data: {
+                productName:$("#txtProductName").val(),
+                productPhoto:$('ProductPhoto').val(),
+                subCategoryId:$("#ddlSubCategories").val(),
+                brandId:$('#ddlBrand').val(),
+                hotProduct:$("#chkHotProduct").prop("checked"),
+                costPrice:$("#txtCostPrice").val(),
+                unitPrice:$("#txtUnitPrice").val(),
+                unitsInStock:$('#txtUnitsInStock').val(),
+                description:$('#txtDescription').val(),
+                productAvailable:$("#chkProductAvailable").prop("checked"),
+            },
+            success: function (result) {
+                if(result){
+                    alert("新增成功");
+                    window.location.href = "/Back_Products/Index";
+                }
+                else{
+                    alert("新增失敗");
+                }
+            }
+        });
+    }
+    function getCategories(){
+        $.ajax({
+            method: "GET",
+            url: "/Back_Products/GetCategories",
+            success: function (result) {
+                categories = result;
+                showCategories();
+                showSubCategories();
+            }
+        });
+    }
+    function showCategories(){
+        $.each(categories,function(i,category){
+           var opt = $("<option></option>").text(category.categoryName).val(category.categoryId);
+            $("#ddlCategories").append(opt);
+        });
+    }
+    function showSubCategories(){
+         var selectedCategoryId =  $("#ddlCategories").val();
+         var selectedCategory = categories.find(c=>c.categoryId == selectedCategoryId);
+
+         $("#ddlSubCategories").html("");
+         $.each(selectedCategory.subCategories,function(i,subCategory){
+           var opt = $("<option></option>").text(subCategory.subCategoryName).val(subCategory.subCategoryId);
+            $("#ddlSubCategories").append(opt);
+        });
+    }
+    function showBrands(){
+        $.ajax({
+            method: "GET",
+            url: "/Back_Products/GetBrands",
+            success: function (result) {
+               $.each(result,function(i,brand){
+               var opt = $("<option></option>").text(brand.brandName).val(brand.brandID);
+                $("#ddlBrand").append(opt);
+                });
+            }
+        });
+    }
+
+</script>
+}
+
+<form role="form" class="text-start">
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">產品名稱</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtProductName">
+    </div>
+    <div class="mb-3">
+        <label for="ProductPhoto" class="form-label">商品照片</label>
+        <input class="form-control form-control-sm" id="ProductPhoto" type="file">
+    </div>
+    <div class="input-group input-group-static mb-4">
+        <label for="ddlCategories" class="ms-0">類別</label>
+        <select id="ddlCategories" class="form-control" aria-label="Default select example">
+        </select>
+    </div>
+    <div class="input-group input-group-static mb-4">
+        <label for="ddlSubCategories" class="ms-0">子類別</label>
+        <select id="ddlSubCategories" class="form-control" aria-label="Default select example">
+        </select>
+    </div>
+    <div class="input-group input-group-static mb-4">
+        <label for="ddlBrand" class="ms-0">品牌</label>
+        <select id="ddlBrand" class="form-control" aria-label="Default select example">
+        </select>
+    </div>
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">進貨成本</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtCostPrice">
+    </div>
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">商品售價</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtUnitPrice">
+    </div>
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">商品庫存</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtUnitsInStock">
+    </div>
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">商品描述</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtDescription">
+    </div>
+    <div class="form-check form-switch d-flex align-items-center mb-3">
+        <input class="form-check-input" type="checkbox" id="chkHotProduct">
+        <label class="form-check-label mb-0 ms-2" for="chkHotProduct">是否為熱門商品</label>
+    </div>
+    <div class="form-check form-switch d-flex align-items-center mb-3">
+        <input class="form-check-input" type="checkbox" id="chkProductAvailable">
+        <label class="form-check-label mb-0 ms-2" for="chkProductAvailable">產品是否上架</label>
+    </div>
+    <div class="text-center">
+        <button id="btnOK" type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">確定</button>
+    </div>
+</form>

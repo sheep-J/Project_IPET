@@ -1,82 +1,106 @@
 ﻿@{
     ViewData["Title"] = "新增產品";
 }
+@section Styles{
+    <style>
+        .preview-img{
+            width:100px;
+            margin:3px;
+        }
+    </style>
+}
 @section Scripts{
 <script>
-    $(document).ready(function(){
-        $("#btnOK").click(createProduct);
-        getCategories();
-        $("#ddlCategories").change(showSubCategories);
-        showBrands();
-    });
-    var categories;
-    function createProduct() {
+      $(document).ready(function(){
+          $("#btnOK").click(createProduct);
+          getCategories();
+          $("#ddlCategories").change(showSubCategories);
+          showBrands();
+      });
+      var categories;
+      function createProduct() {
+          const formData = new FormData()
+          formData.append('productName', $("#txtProductName").val());
+          formData.append('subCategoryId', $("#ddlSubCategories").val());
+          formData.append('brandId', $('#ddlBrand').val());
+          formData.append('hotProduct', $("#chkHotProduct").prop("checked"));
+          formData.append('costPrice', $("#txtCostPrice").val());
+          formData.append('unitPrice', $("#txtUnitPrice").val());
+          formData.append('unitsInStock', $('#txtUnitsInStock').val());
+          formData.append('description', $('#txtDescription').val());
+          formData.append('productAvailable', $("#chkProductAvailable").prop("checked"));
+          var input = $("#productPhoto")[0];
+          var files = input.files;
+          for (var i = 0; i != files.length; i++) {
+              formData.append("files", files[i]);
+          }
 
-        $.ajax({
-            method: "POST",
-            url: "/Back_Products/CreateProduct",
-            data: {
-                productName:$("#txtProductName").val(),
-                productPhoto:$('ProductPhoto').val(),
-                subCategoryId:$("#ddlSubCategories").val(),
-                brandId:$('#ddlBrand').val(),
-                hotProduct:$("#chkHotProduct").prop("checked"),
-                costPrice:$("#txtCostPrice").val(),
-                unitPrice:$("#txtUnitPrice").val(),
-                unitsInStock:$('#txtUnitsInStock').val(),
-                description:$('#txtDescription').val(),
-                productAvailable:$("#chkProductAvailable").prop("checked"),
-            },
-            success: function (result) {
-                if(result){
-                    alert("新增成功");
-                    window.location.href = "/Back_Products/Index";
-                }
-                else{
-                    alert("新增失敗");
-                }
-            }
-        });
-    }
-    function getCategories(){
-        $.ajax({
-            method: "GET",
-            url: "/Back_Products/GetCategories",
-            success: function (result) {
-                categories = result;
-                showCategories();
-                showSubCategories();
-            }
-        });
-    }
-    function showCategories(){
-        $.each(categories,function(i,category){
-           var opt = $("<option></option>").text(category.categoryName).val(category.categoryId);
-            $("#ddlCategories").append(opt);
-        });
-    }
-    function showSubCategories(){
-         var selectedCategoryId =  $("#ddlCategories").val();
-         var selectedCategory = categories.find(c=>c.categoryId == selectedCategoryId);
 
-         $("#ddlSubCategories").html("");
-         $.each(selectedCategory.subCategories,function(i,subCategory){
-           var opt = $("<option></option>").text(subCategory.subCategoryName).val(subCategory.subCategoryId);
-            $("#ddlSubCategories").append(opt);
-        });
-    }
-    function showBrands(){
-        $.ajax({
-            method: "GET",
-            url: "/Back_Products/GetBrands",
-            success: function (result) {
-               $.each(result,function(i,brand){
-               var opt = $("<option></option>").text(brand.brandName).val(brand.brandID);
-                $("#ddlBrand").append(opt);
-                });
-            }
-        });
-    }
+          $.ajax({
+              method: "POST",
+              url: "/Back_Products/CreateProduct",
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function (result) {
+                  if(result){
+                      alert("新增成功");
+                      window.location.href = "/Back_Products/Index";
+                  }
+                  else{
+                      alert("新增失敗");
+                  }
+              }
+          });
+      }
+      function getCategories(){
+          $.ajax({
+              method: "GET",
+              url: "/Back_Products/GetCategories",
+              success: function (result) {
+                  categories = result;
+                  showCategories();
+                  showSubCategories();
+              }
+          });
+      }
+      function showCategories(){
+          $.each(categories,function(i,category){
+             var opt = $("<option></option>").text(category.categoryName).val(category.categoryId);
+              $("#ddlCategories").append(opt);
+          });
+      }
+      function showSubCategories(){
+           var selectedCategoryId =  $("#ddlCategories").val();
+           var selectedCategory = categories.find(c=>c.categoryId == selectedCategoryId);
+
+           $("#ddlSubCategories").html("");
+           $.each(selectedCategory.subCategories,function(i,subCategory){
+             var opt = $("<option></option>").text(subCategory.subCategoryName).val(subCategory.subCategoryId);
+              $("#ddlSubCategories").append(opt);
+          });
+      }
+      function showBrands(){
+          $.ajax({
+              method: "GET",
+              url: "/Back_Products/GetBrands",
+              success: function (result) {
+                 $.each(result,function(i,brand){
+                 var opt = $("<option></option>").text(brand.brandName).val(brand.brandID);
+                  $("#ddlBrand").append(opt);
+                  });
+              }
+          });
+      }
+
+      function previewImages(event){
+          $("#previewImages").html("");
+          $.each(event.target.files,function(i,file){
+              var src = URL.createObjectURL(file);
+              var img = $("<img>").attr("src",src).addClass("preview-img");
+              $("#previewImages").append(img);
+          });
+      }
 
 </script>
 }
@@ -85,10 +109,6 @@
     <div class="input-group input-group-outline my-3">
         <label class="form-label">產品名稱</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtProductName">
-    </div>
-    <div class="mb-3">
-        <label for="ProductPhoto" class="form-label">商品照片</label>
-        <input class="form-control form-control-sm" id="ProductPhoto" type="file">
     </div>
     <div class="input-group input-group-static mb-4">
         <label for="ddlCategories" class="ms-0">類別</label>
@@ -129,6 +149,15 @@
         <input class="form-check-input" type="checkbox" id="chkProductAvailable">
         <label class="form-check-label mb-0 ms-2" for="chkProductAvailable">產品是否上架</label>
     </div>
+
+    <div class="buttons">
+        <div class="upload-button">
+            <div class="label">產品圖片</div>
+            <input id="productPhoto" type="file" size="1" multiple onchange="previewImages(event);"/>
+        </div>
+    </div>
+    <div id="previewImages" class="d-flex justify-content-start align-items-center"></div>
+
     <div class="text-center">
         <button id="btnOK" type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">確定</button>
     </div>

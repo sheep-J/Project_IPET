@@ -27,38 +27,47 @@ namespace Project_IPET.Controllers
         {
             return View();
         }
-        
+       
         public  IActionResult MyCommentListView()
         {
-          
+            List<CCommentViewModel> mycommentview= null;
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-            if (json != null)
+          
+
+            if (!string.IsNullOrEmpty(json))
             {
                 Member userobj = JsonSerializer.Deserialize<Member>(json);
                 int userid = userobj.MemberId;
 
 
-
-
-                var mycommentview = _myProject.Comments
-                                    .Where(u => u.OrderDetail.Order.MemberId == userid)
-                                    .Select(n => new CCommentViewModel
-                                    {
-                                        ProductName = n.Product.ProductName,
-                                        Rating = n.Rating,
-                                        CommentDate = n.CommentDate,
-                                        CommentContent = n.CommentContent,
-                                    }).ToList();
-
+                mycommentview = _myProject.Comments
+                                   .Where(u => u.OrderDetail.Order.MemberId == userid)
+                                   .OrderByDescending(d => d.CommentDate)
+                                   .Select(n => new CCommentViewModel
+                                   {
+                                       ProductName = n.Product.ProductName,
+                                       Rating = n.Rating,
+                                       CommentDate = n.CommentDate.Substring(0,10),
+                                       CommentContent = n.CommentContent,
+                                       ReplyContent = n.ReplyContent,
+                                   }).ToList();
 
                 return PartialView(mycommentview);
 
             }
             else
             {
-                return null;
+                ViewBag.NOData = "尚未有任何評價";
+                return PartialView();
             }
         }
+        public IActionResult CreateyComment()
+        {
 
+
+           
+
+            return View();
+        }
     }
 }

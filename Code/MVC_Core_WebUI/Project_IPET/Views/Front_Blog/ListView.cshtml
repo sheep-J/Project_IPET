@@ -13,7 +13,13 @@
              border:1px double 	#FFD1A4;
              transition:1s
             }
-           
+            .Content {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+    
+
+           }
 
             
         </style>
@@ -36,7 +42,7 @@
                         <div class="single-blog-wrapper Bloghover">
                                <!-- 圖片 Start -->
                                 <div class="blog-image thumb-effect">
-                                    <a class="image" href="~/Front_Blog/PostView">
+                                    <a class="image" asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">
                                         <img class="fit-image" height=300 src="~/Front/images/blog/medium-size/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image">
                                     </a>
                                 </div>
@@ -64,11 +70,11 @@
                                         </ul>
                                     </div>
 
-                                    <h2 class="blog-title"><a href="~/Front_Blog/PostView">@Html.DisplayFor(modelItem => item.Title)</a></h2>    <!-- 貼文標題 -->
+                                    <h2 class="blog-title Content"><a asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@Html.DisplayFor(modelItem => item.PostId)">@Html.DisplayFor(modelItem => item.Title)</a></h2>    <!-- 貼文標題 -->
                                    
-                                    <p  style="overflow:hidden;  text-overflow: ellipsis; height:50px">@Html.DisplayFor(modelItem => item.PostContent)</p>     <!-- 貼文內容 -->
+                                    <p  class="Content">@Html.DisplayFor(modelItem => item.PostContent)</p>     <!-- 貼文內容 -->
                                    
-                                    <a class="more-link" href="~/Front_Blog/PostView">繼續閱讀</a>
+                                    <a class="more-link" asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@Html.DisplayFor(modelItem => item.PostId)">繼續閱讀</a>
                                 </div>
                                 <!-- Blog Content End -->
                          </div>

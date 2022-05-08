@@ -1,4 +1,6 @@
-﻿<!-- Breadcrumb Area Start -->
+﻿
+
+<!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
     <div class="container">
         <div class="row">
@@ -493,16 +495,16 @@
 
 
                               
-                            
+                       
                                 <!-- Single Tab Content Start -->
                             <div class="tab-pane fade" id="Comment" role="tabpanel">
-
+                                <div class="myaccount-content" id="MyCommentListView">
                                 <!-- MyComment Start -->
 
-
+                                
 
                                 <!--  加入MyCommentPartialView Start -->
-                                <div id="MyCommentListView">
+                                
 
                                 </div>
 
@@ -520,20 +522,23 @@
                                                     <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">感謝你留下你寶貴的評價 </textarea>
 
                                                 </div>
-                                                <div>
-                                                    <span class="rating">
-                                                        <i class="fa fa-star-o" style="font-size:3em"></i>
-                                                        <i class="fa fa-star-o" style="font-size:3em"></i>
-                                                        <i class="fa fa-star-o" style="font-size:3em"></i>
-                                                        <i class="fa fa-star-o" style="font-size:3em"></i>
-                                                        <i class="fa fa-star-o" style="font-size:3em"></i>
-                                                    </span>
+                                                <div class="rating">
+                                                       <i class="fa fa-star ratingi " style="font-size:3em"></i>
+                                                        @for(int i = 0; i < 4; i++)
+                                                        {
+                                                        
+                                                       <i class="fa fa-star-o ratingi " style="font-size:3em"></i>
+                                                        
+                                                        }
+                                                        
                                                 </div>
-
+                                                <div >
+                                                    <h3 id="startext" style="text-align:center; padding-top:10px;">請點擊星星評分</h3>
+                                                </div>
 
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-target="#Cancel">取消</button>
                                                 <button type="button" class="btn btn-primary">送出</button>
                                             </div>
                                         </div>
@@ -638,22 +643,59 @@
 
 @section Scripts{ 
     <script>
+        //Comment  Start 
+                
+                //呼叫MyCommentListView Start 
+                mycomment();
 
-        mycomment();
+                function mycomment() {
 
-        function mycomment() {
+                    POSTMethod("@Url.Content("~/Front_Myaccount/MyCommentListView")",
+                        null,
+                        function (response) {
+                          
+                            $("#MyCommentListView").html(response);
 
-            POSTMethod("@Url.Content("~/Front_Myaccount/MyCommentListView")",
-                null,
-                function (response) {
-                    console.log(response);
-                    $("#MyCommentListView").html(response);
+                        }
+                    )
 
                 }
-            )
+                //呼叫MyCommentListView End 
 
-        }
+                //新增評價星星效果 Start
+                let ck =false;
+                let starnumber;
+                $(document).on("mouseover", ".ratingi", function () {
+
+                    $(this).prevAll().removeClass("fa fa-star-o").addClass("fa fa-star");
+                    $(this).removeClass("fa fa-star-o").addClass("fa fa-star");
+                    $(this).nextAll().removeClass("fa fa-star").addClass("fa fa-star-o");
+                    $(this).next().removeClass("fa fa-star").addClass("fa fa-star-o");
+                    starnumber =$(this).index()+1;
+                    $("#startext").html(`評分中...${starnumber}顆星`);
+                    ck = false;
+                
+                })
+
+                $(document).on("mouseleave", ".ratingi", function () {
+
+                    if (!ck)
+                    {
+                        $(this).removeClass("fa fa-star").addClass("fa fa-star-o");
+                        $(this).siblings().removeClass("fa fa-star").addClass("fa fa-star-o");
+                        $("#startext").text("請點擊星星評分");
+                    }
+                })
+
+                 $(document).on("click", ".ratingi", function () {
+
+                      $("#startext").html(`評分為${starnumber}顆星`);
+                      ck = true;
+
+                })
+                //新增評價星星效果 End
 
 
+       //Comment  End 
     </script>
 }

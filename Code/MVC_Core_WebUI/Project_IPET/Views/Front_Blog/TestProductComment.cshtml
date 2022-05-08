@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Project_IPET.ViewModels.CCommentViewModel>
+
 @{
     ViewData["Title"] = "TestProductComment";
 }
@@ -101,4 +102,78 @@
 
 <p style="padding-bottom:100px;">分隔欄</p>
 
+                                      <!-- Rating Start -->
+                                   
+                                      <span class="rating">
+                                         
+                                              @for(int i = 0; i < 5; i++)
+                                              {
+                                                   
+                                                  <i class="fa fa-star-o ratingi " ></i>
+                                                  
+                                                        
+                                              }  
+                                           <span id="averagerating"></span>   
+                                           <span id="totalcommentcount"></span>   
+                                        </span>
+                                        
+                                      
+                                      <!-- Rating End -->
 
+<p style="padding-bottom:100px;">分隔欄</p>
+
+
+
+
+                                      
+                                        
+                                     
+                                      
+
+
+
+
+@section Scripts{
+
+<script>
+    
+    init(product);
+
+    function init(product)
+    {
+         POSTMethod
+         (
+             "@Url.Content("~/Back_Comment/ProductRating")",
+             {productname:product},
+             function(response)
+             {
+                   averagerating = response[0];
+                   $("#averagerating").html(`${averagerating}顆星`);
+                   totalcommentcount = response[1];
+                   $("#totalcommentcount").html(`(共${totalcommentcount}筆評價)`);
+          
+                  let maxnumber = 0; 
+
+                  for(i = 0 ;i <= averagerating-1;i++)
+                  {
+                     $(".ratingi").eq(i).removeClass("fa fa-star-o").addClass("fa fa-star").css("font-size","1.2em");
+                     if( i > maxnumber )
+                     {
+                       maxnumber = i;
+                     }
+                  }
+                  if((averagerating % 1)!=0 )
+                  {
+                         $(".ratingi").eq(maxnumber+1).removeClass("fa fa-star-o").addClass("fa fa-star-half-o");
+                  }
+            
+             }
+         
+          )
+
+    }
+
+
+</script>
+
+}

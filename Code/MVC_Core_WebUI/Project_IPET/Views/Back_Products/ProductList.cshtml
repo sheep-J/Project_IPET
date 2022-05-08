@@ -3,10 +3,7 @@
     Layout = null;
 }
 <div>
-    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex">
-        <h6 class="text-white text-capitalize ps-3">商品管理頁面</h6>
-        <button class="ms-auto btn bg-gradient-dark mb-0 mt-0 me-2">新增商品</button>
-    </div>
+   
 
     <table class="table align-items-center mb-0">
         <thead>
@@ -43,7 +40,7 @@
                         <span class="badge badge-sm bg-gradient-success">@product.UnitsInStock</span>
                     </td>
                     <td class="align-middle">
-                        <span class="text-secondary text-xs font-weight-bold">@product.Description.Substring(0,20) ...</span>
+                        <span class="text-secondary text-xs font-weight-bold">@product.Description.Substring(0,product.Description.Length < 20 ? product.Description.Length : 20) ...</span>
                     </td>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">
@@ -58,7 +55,7 @@
                     </td>
                     <td class="align-middle  text-center">
                         <span class="text-secondary text-xs font-weight-bold">
-                            @if(product.ProductAvaliable){
+                            @if(product.ProductAvailable){
                                 <span>V</span>
                             }
                             else

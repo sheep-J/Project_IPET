@@ -28,10 +28,10 @@ namespace Project_IPET.Services
             {
                 string column = "COUNT(1)";
                 string sql = @"SELECT {0}
-                                                FROM Pets p 
+                                                FROM Pets p
                                                 JOIN Cities c ON p.PetCityID =c.CityID 
                                                 JOIN Region r ON p.PetRegionID = r.RegionID 
-                                                JOIN  PetImagePath pip ON p.PetID =pip.PetID
+                                                JOIN (SELECT PetID, MIN(PetImage) PetImage FROM PetImagePath GROUP BY PetID) pip ON p.PetID =pip.PetID
                                                 WHERE 1=1";
                 var param = new
                 {

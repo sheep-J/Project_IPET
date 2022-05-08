@@ -29,7 +29,7 @@ namespace Project_IPET.Services
                                                 FROM Products p 
                                                 JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
                                                 JOIN Categories c ON sc.CategoryID = c.CategoryID 
-                                                JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+                                                LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
                                                 JOIN Brand b ON p.BrandID = b.BrandID
                                                 WHERE 1=1";
 
@@ -101,7 +101,7 @@ namespace Project_IPET.Services
                 {
                     ProductID = id,
                 };
-                result = _dbConnection.QueryFirst<ProductModel>(sql, param);
+                result = _dbConnection.QueryFirst<ProductModel>(sql, param); 
             }
             catch (Exception ex)
             {
@@ -109,21 +109,45 @@ namespace Project_IPET.Services
             }
             return result;
         }
-        public BrandModel GetBrands(int id)
+        /// <summary>
+        /// 新增產品(INSERT)到DB
+        /// </summary>
+        /// <param name="product">填好資料後，要傳入一個product給DB</param>
+        public void CreateProduct(ProductModel product)
         {
-            BrandModel result = new BrandModel();
-
             try
             {
-                string sql = @"SELECT b.BrandName FROM Products p
-                                          JOIN Brand b ON p.BrandID = b.BrandID
-                                           WHERE p.BrandID=@BrandID";
+                string sql = @"INSERT INTO  Products 
+                                            (ProductName, SubCategoryID, BrandID, CostPrice, UnitPrice, UnitsInStock, Description, ProductAvailable)
+                                            VALUES 
+                                            (@ProductName, @SubCategoryID, @BrandID, @CostPrice, @UnitPrice, @UnitsInStock, @Description, @ProductAvailable)";
                 //匿名類型
                 var param = new
                 {
-                    BrandId=id,
+                    ProductName = product.ProductName,
+                    SubCategoryID=product.SubCategoryID,
+                    BrandID=product.BrandID,
+                    CostPrice=product.CostPrice,
+                    UnitPrice=product.UnitPrice,
+                    UnitsInStock=product.UnitsInStock,
+                    Description = product.Description,
+                    ProductAvailable =product.ProductAvailable
                 };
-                result = _dbConnection.QueryFirst<BrandModel>(sql, param);
+                //Execute:回傳影響的資料列行數(int)
+                 _dbConnection.Execute(sql, param);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public List<BrandModel> GetBrands()
+        {
+            List<BrandModel> result = new List<BrandModel>();
+            try
+            {
+                string sql = @"SELECT * FROM Brand";
+                result = _dbConnection.Query<BrandModel>(sql).ToList();
             }
             catch (Exception ex)
             {

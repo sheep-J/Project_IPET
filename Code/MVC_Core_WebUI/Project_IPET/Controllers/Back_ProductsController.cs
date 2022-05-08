@@ -26,5 +26,37 @@ namespace Project_IPET.Controllers
             var result = _productService.GetProductList(request);
             return View(result);
         }
+
+        public IActionResult CreateProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public bool CreateProduct(ProductModel product)
+        {
+            bool result = true;
+            try
+            {
+                //傳進資料庫
+                _productService.CreateProduct(product);
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public List<CategoriesModel> GetCategories()
+        {
+            var result = _productService.GetCategories();
+            return result;
+        }
+        public List<BrandModel> GetBrands()
+        {
+            var result = _productService.GetBrands();
+            return result;
+        }
     }
 }

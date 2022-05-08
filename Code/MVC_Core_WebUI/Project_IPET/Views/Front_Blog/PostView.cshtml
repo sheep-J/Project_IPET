@@ -1,4 +1,4 @@
-﻿
+﻿@model List<Project_IPET.ViewModels.CPostViewModel>
 @{
     ViewData["Title"] = "PostView";
 }
@@ -33,54 +33,51 @@
                     <!-- Blog Details Wrapper Start -->
                     <div class="blog-details-wrapper">
 
+                        @foreach (var item in Model)
+                        {
                         <!-- Blog Details Content Start -->
                         <div class="blog-details-content">
 
                             <!-- Blog Image Start -->
                             <div class="blog-image">
-                                <img src="~/Front/images/blog/large-size/1-1.jpg" alt="Blog Image" class="fit-image">
+                                <img src="~/Front/images/blog/large-size/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image" class="fit-image">
                             </div>
                             <!-- Blog Image End -->
                             <!-- Blog details title & Meta Start -->
                             <div class="blog-details-title-meta">
-                                <h2 class="title">Temporibus Autem Quibusdam</h2>
+                                <h2 class="title">@Html.DisplayFor(modelItem => item.Title)</h2>
                                 <ul class="blog-meta">
                                     <li>
-                                        <a href="~/Front_Blog/PostView">
-                                            <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true">1234536</i>
+                                        <a href="#">
+                                            <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true">@Html.DisplayFor(modelItem => item.LikeCount)</i>
                                         </a>
 
                                     </li>
-                                    <li>By: <span>Admin</span>  <span>  03, April, 2022</span></li>
-                                    <li>02 則留言</li>
+                                    <li>By: <span>@Html.DisplayFor(modelItem => item.MemberName)</span>  貼文日期: <span>@Html.DisplayFor(modelItem => item.PostDate)</span></li>
+                                    <li>@Html.DisplayFor(modelItem => item.ReplyConut) 則留言</li>
                                 </ul>
                             </div>
                             <!-- Blog details title & Meta End -->
                             <!-- Content Start -->
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            <!-- Blogquote Start -->
-                            <blockquote>Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño.</blockquote>
-                            <!-- Blogquote End -->
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+                            <p>@Html.DisplayFor(modelItem => item.PostContent)</p>
+                          
                             <!-- Content End -->
                             <!-- Blog Details Tags & Social Shear Start -->
                             <div class="blog-details-tag-social m-b-n20">
 
                                 <!-- Blog Details Tags Start -->
                                 <div class="blog-details-tag m-b-20">
-                                    <ul>
-                                        <li><a href="#/">Cat</a></li>
-                                        <li><a href="#/">Dog</a></li>
-                                        <li><a href="#/">Fish</a></li>
-                                    </ul>
+                                 貼文類型: @Html.DisplayFor(modelItem => item.PostType) 
                                 </div>
                                 <!-- Blog Details Tags End -->
-
 
                             </div>
                             <!-- Blog Details Tags & Social Shear End -->
                         </div>
                         <!-- Blog Details Content End -->
+                        }
+
+
                         <!-- Blog Details Post area Start -->
                         <div class="blog-details-comment-area m-b-n30">
                             <h2 class="blog-desc-title m-b-30 m-t-40">留言</h2>

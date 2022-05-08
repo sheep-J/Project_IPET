@@ -65,12 +65,31 @@ namespace Project_IPET.Controllers
             return PartialView(posts);
         }
 
-        public ActionResult PostView()
+        public IActionResult PostView(int id)
         {
-            return View();
+       
+            var postdetail = _myProject.Posts.Where(m => m.PostId == id)
+                             .Select(p => new CPostViewModel
+                             {
+                                 PostImage = p.PostImage,
+                                 Title = p.Title,
+                                 MemberName = p.Member.Name,
+                                 LikeCount = p.LikeCount,
+                                 PostDate = p.PostDate,
+                                 PostContent = p.PostContent,
+                                 PostId = id,
+                                 PostType = p.PostType.PostTypeName,
+                                 ReplyConut = _myProject.Posts.Where(r => r.ReplyToPost == id).Select(r => r.ReplyToPost).Count(),
+
+
+
+
+                             }).ToList();
+
+            return View(postdetail);
         }
 
-        public ActionResult CreatePost()
+        public IActionResult CreatePost()
         {
             return View();
         }

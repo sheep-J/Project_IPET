@@ -35,89 +35,64 @@
 
                         @foreach (var item in Model)
                         {
-                        <!-- Blog Details Content Start -->
-                        <div class="blog-details-content">
+                            <!-- Blog Details Content Start -->
+                            <div class="blog-details-content">
 
-                            <!-- Blog Image Start -->
+                                <!-- Blog Image Start -->
                             <div class="blog-image">
-                                <img src="~/Front/images/blog/large-size/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image" class="fit-image">
-                            </div>
-                            <!-- Blog Image End -->
-                            <!-- Blog details title & Meta Start -->
+                                    <img src="~/Front/images/blog/large-size/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image" class="fit-image">
+                                </div>
+                                <!-- Blog Image End -->
+                                <!-- Blog details title & Meta Start -->
                             <div class="blog-details-title-meta">
-                                <h2 class="title">@Html.DisplayFor(modelItem => item.Title)</h2>
-                                <ul class="blog-meta">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true">@Html.DisplayFor(modelItem => item.LikeCount)</i>
-                                        </a>
+                                    <h2 class="title">@Html.DisplayFor(modelItem => item.Title)</h2>
+                                    <ul class="blog-meta">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true">@Html.DisplayFor(modelItem => item.LikeCount)</i>
+                                            </a>
 
-                                    </li>
-                                    <li>By: <span>@Html.DisplayFor(modelItem => item.MemberName)</span> - 貼文日期: <span>@Html.DisplayFor(modelItem => item.PostDate)</span></li>
-                                    <li>@Html.DisplayFor(modelItem => item.ReplyConut) 則留言</li>
-                                </ul>
-                            </div>
-                            <!-- Blog details title & Meta End -->
-                            <!-- Content Start -->
+                                        </li>
+                                        <li>By: <span>@Html.DisplayFor(modelItem => item.MemberName)</span> - 貼文日期: <span>@Html.DisplayFor(modelItem => item.PostDate)</span></li>
+                                        <li>@Html.DisplayFor(modelItem => item.ReplyConut) 則留言</li>
+                                    </ul>
+                                </div>
+                                <!-- Blog details title & Meta End -->
+                                <!-- Content Start -->
                             <p>@Html.DisplayFor(modelItem => item.PostContent)</p>
-                          
-                            <!-- Content End -->
-                            <!-- Blog Details Tags & Social Shear Start -->
+
+                                <!-- Content End -->
+                                <!-- Blog Details Tags & Social Shear Start -->
                             <div class="blog-details-tag-social m-b-n20">
 
-                                <!-- Blog Details Tags Start -->
+                                    <!-- Blog Details Tags Start -->
                                 <div class="blog-details-tag m-b-20">
-                                 貼文類型: @Html.DisplayFor(modelItem => item.PostType) 
-                                </div>
-                                <!-- Blog Details Tags End -->
+                                        貼文類型: @Html.DisplayFor(modelItem => item.PostType)
+                                    </div>
+                                    <!-- Blog Details Tags End -->
 
                             </div>
-                            <!-- Blog Details Tags & Social Shear End -->
+                                <!-- Blog Details Tags & Social Shear End -->
                         </div>
-                        <!-- Blog Details Content End -->
-                        }
+                            <!-- Blog Details Content End -->
+                            }
+
+                            <!-- Blog Details Post area Start -->
+                            <div id="replylistview">
 
 
-                        <!-- Blog Details Post area Start -->
-                        <div class="blog-details-comment-area m-b-n30">
-                            <h2 class="blog-desc-title m-b-30 m-t-40">留言</h2>
-                            <div class="blog-details-comment-wrapper m-b-30">
-                                <div class="thumb">
-                                    <img class="fit-image" src="~/Front/images/blog/small-size/4.jpg" alt="Blog Review">
-                                </div>
-                                <div class="content">
-                                    <h4 class="title">Catherin Betty</h4>
-                                    <ul class="meta">
-                                        <li>27 Oct 2021</li>
-                                    </ul>
-                                    <p>Praesent bibendum risus pellentesque faucibus rhoncus. Etiam a mollis odio. Integer urna nisl, fermentum eu mollis et, gravida eu elit. Excepteur sint occaecat cupidatat.</p>
-                                </div>
                             </div>
-
-                            <div class="blog-details-comment-wrapper m-b-30">
-                                <div class="thumb">
-                                    <img class="fit-image" src="~/Front/images/blog/small-size/5.jpg" alt="Blog Review">
-                                </div>
-                                <div class="content">
-                                    <h4 class="title">Alex Due</h4>
-                                    <ul class="meta">
-                                        <li>27 Oct 2021</li>
-                                    </ul>
-                                    <p>Praesent bibendum risus pellentesque faucibus rhoncus. Etiam a mollis odio. Integer urna nisl, fermentum eu mollis et, gravida eu elit. Excepteur sint occaecat cupidatat.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Blog Details Post area End -->
+                            <!-- Blog Details Post area End -->
                         <!-- Post Post Area Start -->
                         <div class="comment-post-area">
-                            <h2 class="blog-desc-title m-b-30 p-t-40">留言回覆貼文</h2>
+                            <h2 class="blog-desc-title m-b-30 p-t-40">留言回覆</h2>
                             <form action="#">
                                 <div class="row">
                                     <!-- 會員 Name -->
                                     <!-- Name Input Start -->
                                     <div class="col-md-6 col-custom">
                                         <div class="input-item m-b-20">
-                                            <h6 class="title">會員名稱: Alex Due</h6>
+                                            <h6 class="title">會員名稱: @ViewBag.MemberName</h6>
                                         </div>
                                     </div>
                                     <!-- Name Input End -->
@@ -150,3 +125,33 @@
 </body>
 
 </html>
+
+
+@section Scripts{
+    <script>
+
+        let postId = @ViewBag.PostID;
+
+        init(postId);
+        console.log(postId);
+        function init(postId)
+        {
+            
+            console.log(postId);
+             POSTMethod("@Url.Content("~/Front_Blog/ReplyListView")",
+              {inputpostId:postId},
+               function(response)
+               {
+                   console.log(response);
+                   $("#replylistview").html(response);
+
+               }
+             )
+            
+        }
+             
+
+
+    
+    </script>
+}

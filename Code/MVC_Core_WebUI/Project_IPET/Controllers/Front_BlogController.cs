@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Project_IPET.Models;
 using Project_IPET.Models.EF;
 using Project_IPET.Services;
 using Project_IPET.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Project_IPET.Controllers
@@ -24,7 +28,7 @@ namespace Project_IPET.Controllers
         public IActionResult Index()
         {
             int countbypage =6;
-            int totalpost = _myProject.Posts.Count();
+            int totalpost = _myProject.Posts.Where(c => c.ReplyToPost == null).Count();
             CTools tools = new CTools();
             tools.Page(countbypage, totalpost, out int tatalpage);
 
@@ -61,7 +65,23 @@ namespace Project_IPET.Controllers
 
         public IActionResult PostView(int id)
         {
-       
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                Member userobj = JsonSerializer.Deserialize<Member>(json);
+                string userid = userobj.Name;
+                ViewBag.MemberName = userid;
+
+            }
+            else
+            {
+
+                ViewBag.MemberName = "尚未登入會員";
+                
+            }
+
+
             var postdetail = _myProject.Posts.Where(m => m.PostId == id)
                              .Select(p => new CPostViewModel
                              {
@@ -76,18 +96,42 @@ namespace Project_IPET.Controllers
                                  ReplyConut = _myProject.Posts.Where(r => r.ReplyToPost == id).Select(r => r.ReplyToPost).Count(),
 
                              }).ToList();
+            ViewBag.PostID = id;
 
             return View(postdetail);
         }
 
+        public IActionResult ReplyListView(int inputpostId)
+        {
+            var replylistview = _myProject.Posts.Where(p => p.ReplyToPost != null && p.ReplyToPost == inputpostId)
+                                .OrderByDescending(d =>d.PostDate)
+                                .Select(p => new CPostViewModel {
+
+                                    MemberImage = p.Member.Avatar.ToString(),//ToDo: 等資料庫確定會員照片格式
+                                    MemberName = p.Member.Name,
+                                    PostDate=p.PostDate,
+                                    PostContent=p.PostContent,
+
+                                }).ToList();    
+
+
+            return PartialView(replylistview);
+        }
+
+
+
         public IActionResult CreatePost()
         {
+           
             return View();
         }
 
 
-        public IActionResult TestProductComment(string productname)
+
+        // 取得商品評價留言 Html Start
+        public IActionResult ProductComment(string productname)
         {
+            productname = "室內成貓-貓飼料";
 
             var productcomment = _myProject.Comments
                                  .OrderByDescending(d=>d.CommentDate)
@@ -104,6 +148,6 @@ namespace Project_IPET.Controllers
 
             return View(productcomment);
         }
-
+        // 取得商品評價留言 Html End
     }
 }

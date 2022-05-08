@@ -69,7 +69,7 @@ namespace Project_IPET.Controllers
 
 
         [HttpPost]
-        public decimal[] ProductRating(string productname)
+        public decimal[] GetProductRating(string productname)
         {
 
             if (productname == null)

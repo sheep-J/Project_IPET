@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Project_IPET.Models
 {
@@ -48,25 +50,33 @@ namespace Project_IPET.Models
         /// 商品上架狀態
         /// </summary>
         public bool ProductAvailable { get; set; }
-        public int Ranking { get; set; }
+
         /// <summary>
-        /// 商品圖片
+        /// 商品圖片for list
         /// </summary>
         public byte[] ProductImage { get; set; }
         /// <summary>
-        /// 商品圖片轉byte
+        /// 商品圖片轉byte for list
         /// </summary>
-        public string ProductImageBase64String { 
+        public string ProductImageBase64String
+        {
             get
             {
-                if(ProductImage != null)
-                {
-                    return "data:image/jpg;base64," + Convert.ToBase64String(ProductImage, 0, ProductImage.Length);
-                }
-                else
-                {
-                    return "";
-                }
+                return ProductImage == null ? "" : "data:image/jpg;base64," + Convert.ToBase64String(ProductImage, 0, ProductImage.Length);
+            }
+        }
+
+        /// <summary>
+        /// 多張商品圖片 for detail
+        /// </summary>
+        public List<byte[]> ProductImages { get; set; }
+        /// <summary>
+        /// 多張商品圖片轉byte for detail
+        /// </summary>
+        public List<string> ProductImageBase64Strings { 
+            get
+            {
+                return ProductImages == null ? new List<string>() : ProductImages.Select(ProductImage => "data:image/jpg;base64," + Convert.ToBase64String(ProductImage, 0, ProductImage.Length)).ToList();
             }
         }
     }

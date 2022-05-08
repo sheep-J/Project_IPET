@@ -31,7 +31,7 @@ namespace Project_IPET.Services
                                                 JOIN Categories c ON sc.CategoryID = c.CategoryID 
                                                 LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
                                                 JOIN Brand b ON p.BrandID = b.BrandID
-                                                WHERE 1=1";
+                                                WHERE pp.IsMainImage = 1 ";
 
                 if (request.CategoryId != -1)
                 {
@@ -93,15 +93,19 @@ namespace Project_IPET.Services
             try
             {
                 string sql = @"SELECT p.*,pp.ProductImage,b.BrandName FROM Products p 
-                                            JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
                                             JOIN Brand b ON p.BrandID=b.BrandID
-                                            WHERE p.ProductID=@ProductID ";
+                                            LEFT JOIN ProductImagePath pp ON p.ProductID =pp.ProductID 
+                                            WHERE p.ProductID=@ProductID";
                 //匿名類型
                 var param = new
                 {
                     ProductID = id,
                 };
-                result = _dbConnection.QueryFirst<ProductModel>(sql, param); 
+                var list = _dbConnection.Query<ProductModel>(sql, param);
+
+                result = list.FirstOrDefault();
+                result.ProductImages = list.Select(p => p.ProductImage).ToList();
+
             }
             catch (Exception ex)
             {
@@ -118,23 +122,38 @@ namespace Project_IPET.Services
             try
             {
                 string sql = @"INSERT INTO  Products 
-                                            (ProductName, SubCategoryID, BrandID, CostPrice, UnitPrice, UnitsInStock, Description, ProductAvailable)
+                                            (ProductName, SubCategoryID, BrandID, CostPrice, UnitPrice, UnitsInStock, Description, HotProduct, ProductAvailable)
+                                            OUTPUT INSERTED.ProductID
                                             VALUES 
-                                            (@ProductName, @SubCategoryID, @BrandID, @CostPrice, @UnitPrice, @UnitsInStock, @Description, @ProductAvailable)";
+                                            (@ProductName, @SubCategoryID, @BrandID, @CostPrice, @UnitPrice, @UnitsInStock, @Description, @HotProduct, @ProductAvailable)";
+                string imageSql = @"INSERT INTO [dbo].[ProductImagePath] ([ProductID],[ProductImage],[IsMainImage])
+                                    VALUES (@ProductID,@ProductImage,@IsMainImage)";
                 //匿名類型
                 var param = new
                 {
                     ProductName = product.ProductName,
-                    SubCategoryID=product.SubCategoryID,
-                    BrandID=product.BrandID,
-                    CostPrice=product.CostPrice,
-                    UnitPrice=product.UnitPrice,
-                    UnitsInStock=product.UnitsInStock,
+                    SubCategoryID = product.SubCategoryID,
+                    BrandID = product.BrandID,
+                    CostPrice = product.CostPrice,
+                    UnitPrice = product.UnitPrice,
+                    UnitsInStock = product.UnitsInStock,
                     Description = product.Description,
-                    ProductAvailable =product.ProductAvailable
+                    HotProduct = product.HotProduct,
+                    ProductAvailable = product.ProductAvailable
                 };
-                //Execute:回傳影響的資料列行數(int)
-                 _dbConnection.Execute(sql, param);
+                //
+                product.ProductID = _dbConnection.QuerySingle<int>(sql, param);
+
+                for(int i = 0;i<product.ProductImages.Count; i++)
+                {
+                    var paramImg = new
+                    {
+                        ProductID = product.ProductID,
+                        ProductImage = product.ProductImages[i],
+                        IsMainImage = i == 0 // i == 0 ? true : false
+                    };
+                    _dbConnection.Execute(imageSql, paramImg);
+                }
             }
             catch (Exception ex)
             {

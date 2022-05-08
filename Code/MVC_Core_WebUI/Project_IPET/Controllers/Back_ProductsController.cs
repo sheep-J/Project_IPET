@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Project_IPET.Models;
 using Project_IPET.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Project_IPET.Controllers
@@ -33,11 +36,20 @@ namespace Project_IPET.Controllers
         }
 
         [HttpPost]
-        public bool CreateProduct(ProductModel product)
+        public bool CreateProduct(ProductModel product, IList<IFormFile> files)
         {
             bool result = true;
             try
             {
+                product.ProductImages = new List<byte[]>();
+                foreach (IFormFile source in files)
+                {
+                    string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.Trim('"');
+                    MemoryStream ms = new MemoryStream();
+                    source.CopyTo(ms);
+                    product.ProductImages.Add(ms.ToArray());
+                }
+
                 //傳進資料庫
                 _productService.CreateProduct(product);
             }
@@ -58,5 +70,6 @@ namespace Project_IPET.Controllers
             var result = _productService.GetBrands();
             return result;
         }
+
     }
 }

@@ -23,10 +23,22 @@ namespace Project_IPET.Controllers
         public IActionResult AddToCart(int? id)
         {
             //找到prjId為參數的專案
+            var project = _context.ProjectDetails.Where(n=>n.PrjId==id).Select(p=>new CProjectDetailViewModel {
+                fId = p.PrjId,
+                fTitle = p.Title,
+                fDescription = p.Description,
+                fGoal = p.Goal.ToString(),
+                fPrjContent = p.PrjContent,
+                fStarttime = ((DateTime)p.Starttime).Day.ToString(),
+                fEndtime = ((DateTime)p.Endtime).Day.ToString(),
+                fPrjImage = p.PrjImage,
+                fFoundation = p.Foundation.FoundationName,
+                fDeadline = ((TimeSpan)(p.Endtime - DateTime.Now.Date)).Days.ToString()
+            }).FirstOrDefault();
             //找到prjId為參數的connect再去找商品
             //找到已付款的訂單, 找出是誰, 消費甚麼, 數量多少
             //上述所有物件包裝成vModel回傳至View()
-            return View();
+            return View(project);
         }
 
         public IActionResult readProject()
@@ -54,6 +66,60 @@ namespace Project_IPET.Controllers
                 fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString()
             });
             return Json(list);
+        }
+
+        public IActionResult readContent(int Id)
+        {
+            var content = _context.ProjectDetails.Where(n => n.PrjId == Id).Select(n => n.PrjContent).FirstOrDefault();
+            return Json(content);
+        }
+
+        public IActionResult readPercent(int Id)
+        {
+            var list = _context.PrjConnects.Where(n => n.PrjId == Id);
+            int total = 0;
+            foreach (var item in list.ToList())
+            {
+                var orderlist = _context.OrderDetails.Where(n => n.ProductId == item.ProductId).Sum(n => n.UnitPrice * n.Quantity);
+                total += (int)orderlist;
+            }
+            var goal = _context.ProjectDetails.Where(n => n.PrjId == Id).Select(n => n.Goal).FirstOrDefault();
+            int persent = (total / (int)goal) * 100;
+            return Json(persent);
+        }
+
+        public IActionResult readCount(int Id)
+        {
+            int count = 0;
+            var list = _context.PrjConnects.Where(n => n.PrjId == Id).ToList();
+            foreach (var item in list)
+            {
+                var order = _context.OrderDetails.Where(n => n.ProductId == item.ProductId).ToList();
+                foreach(var o in order)
+                {
+                    count++;
+                }
+            }
+            return Json(count);
+        }
+
+        public IActionResult readList(int Id)
+        {
+            List<CProjectBuylist> buylist = new List<CProjectBuylist>();
+            var list = _context.PrjConnects.Where(n => n.PrjId == Id).ToList();
+            foreach (var item in list)
+            {
+                var orderlist = _context.OrderDetails.Where(n => n.ProductId == item.ProductId).Select(o => new CProjectBuylist
+                {
+                    UserName = o.Order.Member.Name,
+                    ProductName = o.Product.ProductName
+                }).ToList();
+                foreach (var o in orderlist)
+                {
+                    buylist.Add(o);
+                }
+            }
+            return Json(buylist);
         }
     }
 }

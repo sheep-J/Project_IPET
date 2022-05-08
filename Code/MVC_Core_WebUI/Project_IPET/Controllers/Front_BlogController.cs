@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Project_IPET.Models;
 using Project_IPET.Models.EF;
 using Project_IPET.Services;
@@ -27,7 +28,7 @@ namespace Project_IPET.Controllers
         public IActionResult Index()
         {
             int countbypage =6;
-            int totalpost = _myProject.Posts.Count();
+            int totalpost = _myProject.Posts.Where(c => c.ReplyToPost == null).Count();
             CTools tools = new CTools();
             tools.Page(countbypage, totalpost, out int tatalpage);
 
@@ -121,6 +122,7 @@ namespace Project_IPET.Controllers
 
         public IActionResult CreatePost()
         {
+           
             return View();
         }
 

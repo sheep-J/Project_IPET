@@ -136,42 +136,44 @@
 @section Scripts{
 
 <script>
-    let product ="室內成貓-貓飼料"
-   
+    
     init(product);
-
-   
-    let ratinghtml = "";
 
     function init(product)
     {
-         POSTMethod("@Url.Content("~/Back_Comment/ProductRating")",
-         {productname:product},
-         function(response){
-         
-           averagerating = response[0];
-           $("#averagerating").html(`${averagerating}顆星`);
-           totalcommentcount = response[1];
-           $("#totalcommentcount").html(`(共${totalcommentcount}筆評價)`);
-          
-          let maxnumber = 0; 
-          for(i = 0 ;i < averagerating-1 ;i++)
-          {
-             $(".ratingi").eq(i).removeClass("fa fa-star-o").addClass("fa fa-star").css("font-size","1.2em");
-             if( i > maxnumber)
+         POSTMethod
+         (
+             "@Url.Content("~/Back_Comment/ProductRating")",
+             {productname:product},
+             function(response)
              {
-               maxnumber = i;
-             }
+                   averagerating = response[0];
+                   $("#averagerating").html(`${averagerating}顆星`);
+                   totalcommentcount = response[1];
+                   $("#totalcommentcount").html(`(共${totalcommentcount}筆評價)`);
+          
+                  let maxnumber = 0; 
+
+                  for(i = 0 ;i <= averagerating-1;i++)
+                  {
+                     $(".ratingi").eq(i).removeClass("fa fa-star-o").addClass("fa fa-star").css("font-size","1.2em");
+                     if( i > maxnumber )
+                     {
+                       maxnumber = i;
+                     }
+                  }
+                  if((averagerating % 1)!=0 )
+                  {
+                         $(".ratingi").eq(maxnumber+1).removeClass("fa fa-star-o").addClass("fa fa-star-half-o");
+                  }
             
-          }
-           if((averagerating - maxnumber)!=0)
-              $(".ratingi").eq(maxnumber+1).removeClass("fa fa-star-o").addClass("fa fa-star-half-o");
-
-         }
+             }
          
-    )
+          )
 
-}
+    }
+
+
 </script>
 
 }

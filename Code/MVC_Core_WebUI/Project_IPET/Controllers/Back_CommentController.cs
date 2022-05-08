@@ -42,12 +42,8 @@ namespace Project_IPET.Controllers
             int page = 1;
             int countbypage = 10;
 
-
-
             if (inputpage > 0)
                 page = inputpage;
-
-
 
             var posts = _myProject.Comments.Select(n => new CCommentViewModel
             {
@@ -65,10 +61,12 @@ namespace Project_IPET.Controllers
 
             }).Skip((page - 1) * countbypage).Take(countbypage).ToList();
 
-
-
             return PartialView(posts);
         }
+
+        
+
+
 
         [HttpPost]
         public decimal[] ProductRating(string productname)

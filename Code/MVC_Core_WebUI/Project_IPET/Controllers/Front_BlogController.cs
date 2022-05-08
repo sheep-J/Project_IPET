@@ -38,12 +38,8 @@ namespace Project_IPET.Controllers
             int page = 1;
             int countbypage = 6;
            
-
-
             if (inputpage > 0)
                 page = inputpage;
-
-         
 
             var posts = _myProject.Posts.Where(c => c.ReplyToPost == null).Select(n => new CPostViewModel
             {
@@ -59,8 +55,6 @@ namespace Project_IPET.Controllers
                 MemberId = n.MemberId,
 
             }).Skip((page - 1) * countbypage).Take(countbypage).ToList();
-
-
 
             return PartialView(posts);
         }
@@ -81,9 +75,6 @@ namespace Project_IPET.Controllers
                                  PostType = p.PostType.PostTypeName,
                                  ReplyConut = _myProject.Posts.Where(r => r.ReplyToPost == id).Select(r => r.ReplyToPost).Count(),
 
-
-
-
                              }).ToList();
 
             return View(postdetail);
@@ -97,8 +88,6 @@ namespace Project_IPET.Controllers
 
         public IActionResult TestProductComment(string productname)
         {
-
-            productname = "室內成貓-貓飼料";
 
             var productcomment = _myProject.Comments
                                  .OrderByDescending(d=>d.CommentDate)

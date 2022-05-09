@@ -68,73 +68,44 @@
                                 <div class="tab-pane fade" id="orders" role="tabpanel">
                                     <div class="myaccount-content">
                                         <h3 class="title">我的訂單</h3>
-                                        <div class="myaccount-table table-responsive text-center">
+                                        <div class="myaccount-table table-responsive text-center" id="orderdiv">
                                             @*>>here*@
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th>序號</th>
-                                                        <th>訂單編號</th>
+                                                        <th style="display:none">訂單編號</th>
                                                         <th>下單日期</th>
                                                         <th>訂單金額</th>
                                                         <th>訂單狀態</th>
                                                         <th>檢視訂單明細</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>12</td>
-                                                        <td>2022/01/28</td>
-                                                        <td>1200</td>
-                                                        <td>已取消</td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderModal">
-                                                                檢視訂單資訊
-                                                            </button>
-                                                        </td>
-                                                    </tr>
+                                                <tbody id="orderlist">
+                                                    @* renderOrder *@
                                                 </tbody>
                                             </table>
                                             <!-- orderModal -->
-                                            <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
-                                                <div class="modal-dialog" role="document">
+                                            <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%;">
+                                                <div class="modal-dialog" role="document" style="max-width:650px">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLabel">訂單資訊</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <table>
+                                                            <table style="margin:auto">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>序</th>
-                                                                        <th>圖片</th>
                                                                         <th>商品名稱</th>
                                                                         <th>單價</th>
                                                                         <th>數量</th>
                                                                         <th>總金額</th>
-
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>1</td>
-                                                                        <td><img class="img-thumbnail" src="~/Front/images/project/3.jpg" /></td>
-                                                                        <td>貓食</td>
-                                                                        <td>500</td>
-                                                                        <td>1</td>
-                                                                        <td>500</td>
-
-                                                                    <tr>
-                                                                        <td>2</td>
-                                                                        <td><img class="img-thumbnail" src="~/Front/images/project/3.jpg" /></td>
-                                                                        <td>狗食</td>
-                                                                        <td>200</td>
-                                                                        <td>2</td>
-                                                                        <td>400</td>
-
-                                                                    </tr>
+                                                                <tbody id="orderdetail">
+                                                                    @* 訂單明細 *@
                                                                 </tbody>
                                                             </table>
                                                             總金額:900
@@ -643,9 +614,9 @@
 
 @section Scripts{ 
     <script>
-        //Comment  Start 
-                
-                //呼叫MyCommentListView Start 
+        //Comment  Start
+
+                //呼叫MyCommentListView Start
                 mycomment();
 
                 function mycomment() {
@@ -653,14 +624,14 @@
                     POSTMethod("@Url.Content("~/Front_Myaccount/MyCommentListView")",
                         null,
                         function (response) {
-                          
+
                             $("#MyCommentListView").html(response);
 
                         }
                     )
 
                 }
-                //呼叫MyCommentListView End 
+                //呼叫MyCommentListView End
 
                 //新增評價星星效果 Start
                 let ck =false;
@@ -674,7 +645,7 @@
                     starnumber =$(this).index()+1;
                     $("#startext").html(`評分中...${starnumber}顆星`);
                     ck = false;
-                
+
                 })
 
                 $(document).on("mouseleave", ".ratingi", function () {
@@ -696,6 +667,81 @@
                 //新增評價星星效果 End
 
 
-       //Comment  End 
+       //Comment  End
+
+        //我的訂單
+        LoadOrder();
+        async function LoadOrder() {
+            const Orderresponse = await fetch("@Url.Content("~/Front_Myaccount/LoadOrder")");
+            renderOrder(await Orderresponse.json());
+        }
+        function renderOrder(data){
+            if (data == "請先登入" || data == "無訂單紀錄") {
+                $("#orderdiv").html(`<h2>${data}</h2>`)
+            } else {
+                var count = 0;
+                data.forEach((item) => {
+                    count++;
+                    var contain = document.createElement("div");
+                    contain.className = "action quickview product";
+                    contain.title = "Quickview";
+                    contain.style = "margin-bottom: 10px; border: 2px solid #f6ab49;";
+                    contain.setAttribute("data-bs-toggle", "modal");
+                    contain.setAttribute("data-bs-target", "#prodmodal");
+                    var tr = document.createElement("tr");
+                    const cell1 = document.createElement("td");
+                    cell1.innerText = count;
+                    const cell2 = document.createElement("td");
+                    cell2.style.display = "none";
+                    cell2.innerText = item.fId;
+                    const cell3 = document.createElement("td");
+                    cell3.innerText = item.fDate;
+                    const cell4 = document.createElement("td");
+                    cell4.innerText = item.fTotal;
+                    const cell5 = document.createElement("td");
+                    cell5.innerText = item.fStatus;
+                    const btn = document.createElement("button");
+                    btn.type = "button"; btn.className = "btn btn-primary";
+                    btn.setAttribute("data-bs-toggle", "modal");
+                    btn.setAttribute("data-bs-target", "#orderModal");
+                    btn.innerText = "檢視";
+                    const cell6 = document.createElement("td");
+                    cell6.append(btn);
+                    tr.append(cell1, cell2, cell3, cell4, cell5, cell6);
+                    $("#orderlist").append(tr);
+                })
+            }
+
+        }
+
+        $("#orderlist").on('click','button:nth-child(1)',async function() {
+            const OrderId = $(this).parents('tr').find('td:nth-child(2)').text();
+            const Detailresponse = await fetch("@Url.Content("~/Back_Orders/OrderDeatil?Id=")" + OrderId);
+            renderOrderDetail(await Detailresponse.json());
+            @*const Otherresponse = await fetch("@Url.Content("~/Back_Orders/OrderOther?Id=")" + OrderId);
+            renderOther(await Otherresponse.json());*@
+        })
+        function renderOrderDetail(data) {            
+            var list = document.getElementById("orderdetail");
+            var count = 0;
+            list.innerHTML = "";
+            data.forEach((item) => {
+                count++;
+                var tr = document.createElement("tr");
+                var cell1 = document.createElement("td");
+                cell1.innerHTML = count;
+                var cell2 = document.createElement("td");
+                cell2.innerHTML = item.Name;
+                var cell3 = document.createElement("td");
+                cell3.innerHTML = item.Price;
+                var cell4 = document.createElement("td");
+                cell4.innerHTML = item.Quantity;
+                var cell5 = document.createElement("td");
+                cell5.innerHTML = item.Total
+                tr.append(cell1, cell2, cell3, cell4, cell5);
+                
+                list.append(tr);
+            })
+        }
     </script>
 }

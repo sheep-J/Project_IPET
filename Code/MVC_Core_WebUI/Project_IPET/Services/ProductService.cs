@@ -24,6 +24,55 @@ namespace Project_IPET.Services
             };
             try
             {
+                #region
+                //string sql = @"SELECT COUNT(1)
+                //                                FROM Products p 
+                //                                JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
+                //                                JOIN Categories c ON sc.CategoryID = c.CategoryID 
+                //                                LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+                //                                JOIN Brand b ON p.BrandID = b.BrandID
+                //                                JOIN Comment cm ON p.ProductID = cm.ProductID
+                //                                WHERE pp.IsMainImage = 1 ";
+
+                //if (request.CategoryId != -1)
+                //{
+                //    sql += " AND c.CategoryID = @CategoryID";
+                //}
+                //var param = new
+                //{
+                //    CategoryID = request.CategoryId,
+                //    PageSize = request.Pagination.PageSize,
+                //    Page = request.Pagination.Page,
+                //};
+                //result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sql), param); //拿第一個cell
+
+                //string sql2 = @"SELECT p.*,sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName,cm.Rating
+                //                                FROM Products p 
+                //                                JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
+                //                                JOIN Categories c ON sc.CategoryID = c.CategoryID 
+                //                                LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+                //                                JOIN Brand b ON p.BrandID = b.BrandID
+                //                                JOIN Comment cm ON p.ProductID = cm.ProductID
+                //                                WHERE pp.IsMainImage = 1 ";
+                //if (request.CategoryId != -1)
+                //{
+                //    sql += " AND c.CategoryID = @CategoryID";
+                //}
+                //var param = new
+                //{
+                //    CategoryID = request.CategoryId,
+                //    PageSize = request.Pagination.PageSize,
+                //    Page = request.Pagination.Page,
+                //};
+                //result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sql, column), param); //拿第一個cell
+
+                //column = "p.*,sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName,cm.Rating";
+                //sql += " ORDER BY p.ProductID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";
+
+                //result.ProductList = _dbConnection.Query<ProductModel>(string.Format(sql, column), param).ToList();
+
+                #endregion
+                #region 沒有groupby前的指令(但rating會出錯，因為一個商品可能有多個評價導致顯示出錯)
                 string column = "COUNT(1)";
                 string sql = @"SELECT {0}
                                                 FROM Products p 
@@ -45,10 +94,11 @@ namespace Project_IPET.Services
                 };
                 result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sql, column), param); //拿第一個cell
 
-                column = "p.*,sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName";
+                column = "p.*,sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName ";
                 sql += " ORDER BY p.ProductID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";
 
                 result.ProductList = _dbConnection.Query<ProductModel>(string.Format(sql, column), param).ToList();
+                #endregion
             }
             catch (Exception ex)
             {
@@ -92,7 +142,8 @@ namespace Project_IPET.Services
             ProductModel result = new ProductModel();
             try
             {
-                string sql = @"SELECT p.*,pp.ProductImage,b.BrandName FROM Products p 
+                string sql = @"SELECT p.*,pp.ProductImage,b.BrandName,s.CategoryID  FROM Products p 
+                                            JOIN SubCategories s ON  p.SubCategoryID=s.SubCategoryID
                                             JOIN Brand b ON p.BrandID=b.BrandID
                                             LEFT JOIN ProductImagePath pp ON p.ProductID =pp.ProductID 
                                             WHERE p.ProductID=@ProductID";
@@ -127,7 +178,7 @@ namespace Project_IPET.Services
                                             VALUES 
                                             (@ProductName, @SubCategoryID, @BrandID, @CostPrice, @UnitPrice, @UnitsInStock, @Description, @HotProduct, @ProductAvailable)";
                 string imageSql = @"INSERT INTO [dbo].[ProductImagePath] ([ProductID],[ProductImage],[IsMainImage])
-                                    VALUES (@ProductID,@ProductImage,@IsMainImage)";
+                                                        VALUES (@ProductID,@ProductImage,@IsMainImage)";
                 //匿名類型
                 var param = new
                 {
@@ -144,7 +195,7 @@ namespace Project_IPET.Services
                 //
                 product.ProductID = _dbConnection.QuerySingle<int>(sql, param);
 
-                for(int i = 0;i<product.ProductImages.Count; i++)
+                for (int i = 0; i < product.ProductImages.Count; i++)
                 {
                     var paramImg = new
                     {
@@ -174,5 +225,80 @@ namespace Project_IPET.Services
             }
             return result;
         }
+
+        public void EditProduct(ProductModel product)
+        {
+            ProductModel result = new ProductModel();
+            try
+            {
+                string sql = @"UPDATE Products 
+                                            SET ProductName=@ProductName, SubCategoryID=@SubCategoryID, BrandID=@BrandID, CostPrice=@CostPrice, UnitPrice=@UnitPrice, 
+                                                    UnitsInStock=@UnitsInStock, Description=@Description, HotProduct=@HotProduct, ProductAvailable=@ProductAvailable 
+                                            WHERE ProductID=@ProductID";
+                //1. 先刪除商品所有的照片
+                string deleteImageSql = @"DELETE FROM ProductImagePath
+                                                                    WHERE ProductID=@ProductID";
+                //2. 再進行新增照片的動作，以達到修改商品照片的目的!
+                string imageSql = @"INSERT INTO [dbo].[ProductImagePath] ([ProductID],[ProductImage],[IsMainImage])
+                                                        VALUES (@ProductID,@ProductImage,@IsMainImage)";
+
+                //匿名類型
+                var param = new
+                {
+                    ProductID=product.ProductID,
+                    ProductName = product.ProductName,
+                    SubCategoryID = product.SubCategoryID,
+                    BrandID = product.BrandID,
+                    CostPrice = product.CostPrice,
+                    UnitPrice = product.UnitPrice,
+                    UnitsInStock = product.UnitsInStock,
+                    Description = product.Description,
+                    HotProduct = product.HotProduct,
+                    ProductAvailable = product.ProductAvailable
+                };
+
+                _dbConnection.Execute(sql, param); //1. 修改商品內容
+                _dbConnection.Execute(deleteImageSql, param); //1.1 刪除商品所有的照片
+
+                for (int i = 0; i < product.ProductImages.Count; i++)
+                {
+                    var paramImg = new
+                    {
+                        ProductID = product.ProductID,
+                        ProductImage = product.ProductImages[i],
+                        IsMainImage = i == 0 // i == 0 ? true : false
+                    };
+                    _dbConnection.Execute(imageSql, paramImg); //2. 新增商品圖片進去DB
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public void DeleteProduct(int id)
+        {
+            ProductModel result = new ProductModel();
+            try
+            {
+                string sql = @"DELETE FROM Products 
+                                            WHERE ProductID=@ProductID;
+                                            DELETE FROM ProductImagePath
+                                            WHERE ProductID=@ProductID";
+                //匿名類型
+                var param = new
+                {
+                    ProductID = id
+                };
+
+                _dbConnection.Execute(sql, param);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
     }
 }

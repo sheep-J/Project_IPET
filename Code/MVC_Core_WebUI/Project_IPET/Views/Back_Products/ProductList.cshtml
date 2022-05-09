@@ -3,7 +3,7 @@
     Layout = null;
 }
 <div>
-   
+
 
     <table class="table align-items-center mb-0">
         <thead>
@@ -14,8 +14,8 @@
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品描述</th>
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">是否為熱門商品</th>
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">是否熱門商品</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品評價</th>
-                <th class="text-secondary opacity-7">操作</th>
+@*                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品評價</th>*@
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">操作</th>
             </tr>
         </thead>
         <tbody>
@@ -44,7 +44,8 @@
                     </td>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">
-                            @if(product.HotProduct){
+                            @if (product.HotProduct)
+                            {
                                 <span>V</span>
                             }
                             else
@@ -55,25 +56,22 @@
                     </td>
                     <td class="align-middle  text-center">
                         <span class="text-secondary text-xs font-weight-bold">
-                            @if(product.ProductAvailable){
+                            @if (product.ProductAvailable)
+                            {
                                 <span>V</span>
                             }
                             else
                             {
                                 <span>X</span>
                             }
-                            </span>
+                        </span>
                     </td>
+@*                    <td class="align-middle  text-center">
+                        <p class="text-xs font-weight-bold mb-0">@product.Rating</p>
+                    </td>*@
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"></span>
-                    </td>
-                    <td class="align-middle text-center">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                            刪除
-                        </a>
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                            修改
-                        </a>
+                        <a class="btn bg-gradient-info" asp-controller="Back_Products" asp-action="EditProduct" asp-route-id="@product.ProductID">修改</a>
+                        <a class="btn bg-gradient-danger" onclick="deleteProduct(@product.ProductID)" >刪除</a>
                     </td>
 
                 </tr>

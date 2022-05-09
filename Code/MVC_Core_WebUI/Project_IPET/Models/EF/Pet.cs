@@ -13,15 +13,17 @@ namespace Project_IPET.Models.EF
         }
 
         public int PetId { get; set; }
+        public string PetName { get; set; }
         public string PetVariety { get; set; }
-        public int PetCategoryId { get; set; }
-        public int PetGender { get; set; }
+        public string PetCategory { get; set; }
+        public string PetGender { get; set; }
         public string PetSize { get; set; }
         public string PetColor { get; set; }
         public string PetAge { get; set; }
-        public int PetFix { get; set; }
+        public string PetFix { get; set; }
         public int PetCityId { get; set; }
         public int PetRegionId { get; set; }
+        public string PublishedDate { get; set; }
         public string PetDescription { get; set; }
         public string PetContact { get; set; }
         public string PetContactPhone { get; set; }

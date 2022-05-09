@@ -27,9 +27,8 @@ namespace Project_IPET.Models.EF
         public decimal UnitPrice { get; set; }
         public int UnitsInStock { get; set; }
         public string Description { get; set; }
-        public bool? HotProduct { get; set; }
+        public bool HotProduct { get; set; }
         public bool? ProductAvailable { get; set; }
-        public int? Ranking { get; set; }
 
         public virtual Brand Brand { get; set; }
         public virtual SubCategory SubCategory { get; set; }

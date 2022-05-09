@@ -9,6 +9,7 @@ namespace Project_IPET.Models.EF
     {
         public Region()
         {
+            Members = new HashSet<Member>();
             Pets = new HashSet<Pet>();
         }
 
@@ -17,6 +18,7 @@ namespace Project_IPET.Models.EF
         public int CityId { get; set; }
 
         public virtual City City { get; set; }
+        public virtual ICollection<Member> Members { get; set; }
         public virtual ICollection<Pet> Pets { get; set; }
     }
 }

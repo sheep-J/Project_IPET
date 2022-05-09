@@ -32,9 +32,11 @@ namespace Project_IPET
             // 啟用 Session
             services.AddSession();
             services.AddControllersWithViews();
+
             //DI 依賴注入 (Dependency Injection) 
             //卉榆使用Dapper的連線方式到DB，其他人使用的Entity Framework連線字串請放在這串下方，謝謝。
-            services.AddScoped<IDbConnection, SqlConnection>(serviceProvider => {
+            services.AddScoped<IDbConnection, SqlConnection>(serviceProvider =>
+            {
                 SqlConnection conn = new SqlConnection();
                 //指派連線字串
                 conn.ConnectionString = Configuration.GetConnectionString("MyProjectDbConnectionString");
@@ -44,10 +46,29 @@ namespace Project_IPET
             services.AddScoped<IPetService, PetService>();
 
             //Entity Framework連線字串請放在這
-
             services.AddDbContext<MyProjectContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MyProjectDbConnectionString"));
+            });
+
+            //自動發送郵件
+            services.Configure<CEmailSettings>(Configuration.GetSection("CEmailSettings"));
+            services.AddTransient<IEmailSenderService, EmailSenderService>();
+            //services.AddMvc();
+
+            //TODO 寄信時若是中文標題則無法正常顯示問題(亂碼)
+            // 待 解決中文字符編碼被轉換成亂碼問題
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.UseMemberCasing();
+            });
+            services.AddRazorPages().AddNewtonsoftJson(options =>
+            {
+                options.UseMemberCasing();
+            });
+            services.AddMvc().AddNewtonsoftJson(options =>
+            {
+                options.UseMemberCasing();
             });
 
         }

@@ -33,6 +33,7 @@ namespace Project_IPET.Models.EF
         public int RoleId { get; set; }
         public bool Banned { get; set; }
 
+        public virtual Region Region { get; set; }
         public virtual ICollection<CouponDetail> CouponDetails { get; set; }
         public virtual ICollection<MyFavorite> MyFavorites { get; set; }
         public virtual ICollection<Notify> Notifies { get; set; }

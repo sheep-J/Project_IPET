@@ -28,6 +28,7 @@ function PageList(page, elementli, totalpage)
     }
 
     if (last > totalpage) {
+        
         for (i = totalpage - 4; i < totalpage + 1; i++)
             elementli.eq(i).css("display", "inline");
     }

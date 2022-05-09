@@ -39,7 +39,6 @@ namespace Project_IPET.Models.EF
         public virtual DbSet<OrderStatus> OrderStatuses { get; set; }
         public virtual DbSet<PaymentType> PaymentTypes { get; set; }
         public virtual DbSet<Pet> Pets { get; set; }
-        public virtual DbSet<PetCategory> PetCategories { get; set; }
         public virtual DbSet<PetImagePath> PetImagePaths { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<PostLiked> PostLikeds { get; set; }
@@ -306,6 +305,11 @@ namespace Project_IPET.Models.EF
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("UserID");
+
+                entity.HasOne(d => d.Region)
+                    .WithMany(p => p.Members)
+                    .HasForeignKey(d => d.RegionId)
+                    .HasConstraintName("FK_Members_Region");
             });
 
             modelBuilder.Entity<MemberRole>(entity =>
@@ -514,7 +518,9 @@ namespace Project_IPET.Models.EF
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.PetCategoryId).HasColumnName("PetCategoryID");
+                entity.Property(e => e.PetCategory)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.PetCityId).HasColumnName("PetCityID");
 
@@ -530,9 +536,17 @@ namespace Project_IPET.Models.EF
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.PetDescription)
+                entity.Property(e => e.PetFix)
                     .IsRequired()
-                    .HasMaxLength(200);
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.PetGender)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.PetName)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.PetRegionId).HasColumnName("PetRegionID");
 
@@ -541,6 +555,10 @@ namespace Project_IPET.Models.EF
                     .HasMaxLength(50);
 
                 entity.Property(e => e.PetVariety)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.PublishedDate)
                     .IsRequired()
                     .HasMaxLength(50);
 
@@ -555,15 +573,6 @@ namespace Project_IPET.Models.EF
                     .HasForeignKey(d => d.PetRegionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Pet_Region");
-            });
-
-            modelBuilder.Entity<PetCategory>(entity =>
-            {
-                entity.Property(e => e.PetCategoryId).HasColumnName("PetCategoryID");
-
-                entity.Property(e => e.PetCategoryName)
-                    .IsRequired()
-                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<PetImagePath>(entity =>
@@ -678,6 +687,10 @@ namespace Project_IPET.Models.EF
                     .IsRequired()
                     .HasMaxLength(400);
 
+                entity.Property(e => e.ProductAvailable)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.ProductName)
                     .IsRequired()
                     .HasMaxLength(150);
@@ -706,8 +719,6 @@ namespace Project_IPET.Models.EF
                 entity.Property(e => e.ProductImagePathId).HasColumnName("ProductImagePathID");
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-                entity.Property(e => e.ProductImagePath1).HasColumnName("ProductImagePath");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductImagePaths)

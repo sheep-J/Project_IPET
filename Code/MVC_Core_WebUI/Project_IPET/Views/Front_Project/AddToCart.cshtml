@@ -60,6 +60,7 @@
         </div>
         <!--上方主要資訊-->
         <!--左邊專案內容-->
+        <div class="col-md-2" style="color: #666; font-size: 16px; margin-bottom:4px">&diams; 主辦方: IPET寵物店</div><div class="col-md-10" style="color: #666; font-size: 16px; margin-bottom: 4px">&diams; 捐贈單位: @Model.fFoundation</div>
         <div class="col-md-9">
             <!--選單-->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -99,12 +100,12 @@
         </div>
         <!--左邊專案內容-->
         <!--商品一號-->
-        <div class="col-md-3">
+        <div class="col-md-3" id="prodlist">
             <label style="color: #666; font-size: 20px; font-weight: 900">專案商品列表:</label><br />
-            @for (int i = 0; i < 3; i++)
+            @*@for (int i = 0; i < 1; i++)
             {
                 string prdid = "prd" + i;
-                <div class="action quickview product" data-bs-toggle="modal" data-bs-target="#@prdid" title="Quickview" style="margin-bottom: 10px; border: 2px solid #f6ab49;">
+                <div class="action quickview product" data-bs-toggle="modal" data-bs-target="#prodmodal" title="Quickview" style="margin-bottom: 10px; border: 2px solid #f6ab49;">
                     <div class="product-inner" style="padding:5px">
                         <div class="thumb">
                             <a class="image">
@@ -114,124 +115,110 @@
                         <span style="font-size:12px">剩餘數量: <span style="color: #f6ab49;font-weight:800">10</span></span>
                         <hr style="margin:2px" />
                         <div class="content">
-                            <h5 class="title"><a href="single-product.html">Pet Food Corner</a></h5>
-                            <!--<span class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-half-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                    </span>-->
+                            <h5 class="title">Pet Food Corner</h5>
                             <span class="price">
                                 <span class="new">$105.00</span>
                             </span>
                         </div>
                     </div>
                 </div>
+            }*@
+            <!--Model開始-->
+            <!--id為 prd編號-->
+            <div class="modalquickview modal fade" id="prodmodal" tabindex="-1" aria-labelledby="quick-view" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <button class="btn close" data-bs-dismiss="modal">×</button>
+                        <div class="row">
+                            <div class="col-md-6 col-12">
 
-                <!--Model開始-->
-                <!--id為 prd編號-->
-                <div class="modalquickview modal fade" id="@prdid" tabindex="-1" aria-labelledby="quick-view" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <button class="btn close" data-bs-dismiss="modal">×</button>
-                            <div class="row">
-                                <div class="col-md-6 col-12">
+                                <!-- Product Details Image Start -->
+                                <div class="modal-product-carousel">
 
-                                    <!-- Product Details Image Start -->
-                                    <div class="modal-product-carousel">
-
-                                        <!-- Single Product Image Start -->
-                                        <div class="swiper-container">
-                                            <div class="swiper-wrapper">
-                                                <a class="swiper-slide" href="#">
-                                                    <img class="w-100" src="~/Front/images/project/3.jpg" alt="Product">
-                                                </a>
-                                                <a class="swiper-slide" href="#">
-                                                    <img class="w-100" src="~/Front/images/project/3.jpg" alt="Product">
-                                                </a>
-                                                <a class="swiper-slide" href="#">
-                                                    <img class="w-100" src="~/Front/images/project/3.jpg" alt="Product">
-                                                </a>
-                                            </div>
-
-                                            <!-- Swiper Pagination Start -->
-                                            <!-- <div class="swiper-pagination d-md-none"></div> -->
-                                            <!-- Swiper Pagination End -->
-                                            <!-- Next Previous Button Start -->
-                                            <div class="swiper-product-button-next swiper-button-next"><i class="ti-arrow-right"></i></div>
-                                            <div class="swiper-product-button-prev swiper-button-prev"><i class="ti-arrow-left"></i></div>
-                                            <!-- Next Previous Button End -->
+                                    <!-- Single Product Image Start -->
+                                    <div class="swiper-container">
+                                        <div class="swiper-wrapper" id="piclist">
+                                            @*<a class="swiper-slide" href="#">
+                                                <img class="w-100" alt="Product">
+                                            </a>*@
                                         </div>
-                                        <!-- Single Product Image End -->
 
+                                        <!-- Swiper Pagination Start -->
+                                        <!-- <div class="swiper-pagination d-md-none"></div> -->
+                                        <!-- Swiper Pagination End -->
+                                        <!-- Next Previous Button Start -->
+                                        @*<div class="swiper-product-button-next swiper-button-next"><i class="ti-arrow-right"></i></div>
+                                        <div class="swiper-product-button-prev swiper-button-prev"><i class="ti-arrow-left"></i></div>*@
+                                        <!-- Next Previous Button End -->
                                     </div>
-                                    <!-- Product Details Image End -->
+                                    <!-- Single Product Image End -->
 
                                 </div>
-                                <div class="col-md-6 col-12 overflow-hidden position-relative">
+                                <!-- Product Details Image End -->
 
-                                    <!-- Product Summery Start -->
-                                    <div class="product-summery position-relative">
+                            </div>
+                            <div class="col-md-6 col-12 overflow-hidden position-relative">
 
-                                        <!-- Product Head Start -->
-                                        <div class="product-head m-b-15">
-                                            <h2 class="product-title">Single Product Slider</h2>
-                                        </div>
-                                        <!-- Product Head End -->
-                                        <!-- Rating Start -->
-                                        <span class="rating justify-content-start m-b-10">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </span>
-                                        <!-- Rating End -->
-                                        <!-- Price Box Start -->
-                                        <div class="price-box m-b-10">
-                                            <span class="regular-price">$70.00</span>
-                                        </div>
-                                        <!-- Price Box End -->
-                                        <!-- Product Inventory Start -->
-                                        <div class="product-inventroy m-b-15">
-                                            <span class="inventroy-title"> <strong>Availability:</strong></span>
-                                            <span class="inventory-varient">12 Left in Stock</span>
-                                        </div>
-                                        <!-- Product Inventory End -->
-                                        <!-- Description Start -->
-                                        <p class="desc-content m-b-25">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                                        <!-- Description End -->
-                                        <!-- Quantity Start -->
-                                        <div class="quantity d-flex align-items-center justify-content-start m-b-25">
-                                            <span class="m-r-10"><strong>Qty: </strong></span>
-                                            <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box" value="1" type="text">
-                                                <div class="dec qtybutton"></div>
-                                                <div class="inc qtybutton"></div>
-                                            </div>
-                                        </div>
-                                        <!-- Quantity End -->
-                                        <!-- Cart Button Start -->
-                                        <div class="cart-btn action-btn m-b-30">
-                                            <div class="action-cart-btn-wrapper d-flex justify-content-start">
-                                                <div class="add-to_cart">
-                                                    <a class="btn btn-primary btn-hover-dark rounded-0" href="cart.html">Add to cart</a>
-                                                </div>
-                                                <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
-                                            </div>
-                                        </div>
-                                        <!-- Cart Button End -->
+                                <!-- Product Summery Start -->
+                                <div class="product-summery position-relative">
+
+                                    <!-- Product Head Start -->
+                                    <div class="product-head m-b-15">
+                                        <h2 class="product-title" id="PTitle">Single Product Slider</h2>
                                     </div>
-                                    <!-- Product Summery End -->
-
+                                    <!-- Product Head End -->
+                                    <!-- Rating Start -->
+                                    @*<span class="rating justify-content-start m-b-10">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </span>*@
+                                    <!-- Rating End -->
+                                    <!-- Price Box Start -->
+                                    <div class="price-box m-b-10">
+                                        <span class="regular-price" id="PPrice">$70.00</span>
+                                    </div>
+                                    <!-- Price Box End -->
+                                    <!-- Product Inventory Start -->
+                                    <div class="product-inventroy m-b-15">
+                                        <span class="inventroy-title"> <strong>剩餘數量:</strong></span>
+                                        <span class="inventory-varient" id="PStock">12 Left in Stock</span>
+                                    </div>
+                                    <!-- Product Inventory End -->
+                                    <!-- Description Start -->
+                                    <p class="desc-content m-b-25" id="PDes">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                                    <!-- Description End -->
+                                    <!-- Quantity Start -->
+                                    <div class="quantity d-flex align-items-center justify-content-start m-b-25">
+                                        <span class="m-r-10"><strong>Qty: </strong></span>
+                                        <div class="cart-plus-minus">
+                                            <input class="cart-plus-minus-box" value="1" type="text">
+                                            <div class="dec qtybutton"></div>
+                                            <div class="inc qtybutton"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Quantity End -->
+                                    <!-- Cart Button Start -->
+                                    <div class="cart-btn action-btn m-b-30">
+                                        <div class="action-cart-btn-wrapper d-flex justify-content-start">
+                                            <div class="add-to_cart">
+                                                <a class="btn btn-primary btn-hover-dark rounded-0" href="cart.html">Add to cart</a>
+                                            </div>
+                                            <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
+                                        </div>
+                                    </div>
+                                    <!-- Cart Button End -->
                                 </div>
+                                <!-- Product Summery End -->
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--Model結束-->
-            }
+            </div>
+            <!--Model結束-->
         </div>
         <!--商品一號end-->
         
@@ -244,10 +231,13 @@
     <script>
         var id = document.getElementById("fId").innerHTML;
         var list = document.getElementById("buylist");
+        var prodlist = document.getElementById("prodlist");
+
         LoadContent();
         LoadPercent();
         LoadCount();
         LoadList();
+        LoadProd();
 
         async function LoadContent() {
             const Contentrespnose = await fetch("@Url.Content("~/Front_Project/readContent?Id=")" + id)
@@ -288,6 +278,90 @@
                 tr.append(tdname, tdprod);
                 list.append(tr);
             })
+        }
+
+        async function LoadProd() {
+            const Prodresponse = await fetch("@Url.Content("~/Front_Project/readProd?Id=")" + id)
+            renderProd(await Prodresponse.json());
+        }
+        function renderProd(data) {
+            data.forEach((item) => {
+                var contain = document.createElement("div");
+                contain.className = "action quickview product";
+                contain.title = "Quickview";
+                contain.style = "margin-bottom: 10px; border: 2px solid #f6ab49;";
+                contain.setAttribute("data-bs-toggle", "modal");
+                contain.setAttribute("data-bs-target", "#prodmodal");
+
+                var fid = document.createElement("p");
+                fid.innerHTML = item.fId;
+                fid.style.display = "none";
+
+                var inner = document.createElement("div");
+                inner.className = "product-inner";
+                inner.style = "padding:5px";
+
+                var thumb = document.createElement("div");
+                thumb.className = "thumb";
+                var imga = document.createElement("a");
+                imga.className = "image";
+                var img = document.createElement("img");
+                img.className = "fit-image";
+                img.alt = item.fName;
+                img.src = `/Front_Project/takeProdpic?Id=${item.fId}`;
+                imga.append(img);
+                thumb.append(imga);
+
+                var quantity = document.createElement("span");
+                quantity.style = "font-size:12px";
+                quantity.innerHTML = "剩餘數量: ";
+                var prodcount = document.createElement("span");
+                prodcount.style = "color: #f6ab49;font-weight:800";
+                prodcount.innerHTML = item.fQuantity;
+                quantity.append(prodcount);
+
+                var hr = document.createElement("hr");
+                hr.style = "margin:2px";
+
+                var content = document.createElement("div");
+                content.className = "content";
+                var title = document.createElement("h5");
+                title.className = "title";
+                title.innerHTML = item.fName;
+                var price = document.createElement("span");
+                price.className = "price";
+                var priceinner = document.createElement("span");
+                priceinner.className = "new";
+                priceinner.innerHTML = `$${item.fPrice}`;
+                price.append(priceinner);
+                content.append(title, price);
+
+                inner.append(thumb, quantity, hr, content);
+                contain.append(fid,inner);
+                prodlist.append(contain);
+            })
+        }
+        $("#prodlist").on('click', 'div.quickview',async function () {
+            var fId = $(this).children(":first").text();
+            const Detailresponse = await fetch("@Url.Content("~/Front_Project/readProdDetail?Id=")" + fId)
+            renderDetail(await Detailresponse.json());
+        })
+        function renderDetail(data) {
+            var imga = document.createElement("a");
+            imga.className = "swiper-slide";
+            var img = document.createElement("img");
+            img.className = "w-100";
+            img.alt = data[0].name;
+            img.src = `/Front_Project/takeProdpic?Id=${data[0].id}`;
+            imga.append(img);
+            var piclist = document.getElementById("piclist");
+            piclist.innerHTML = "";
+            piclist.append(imga);
+
+            $("#PTitle").html(data[0].name)
+            $("#PPrice").html(data[0].price)
+            $("#PStock").html(data[0].stock)
+            $("#PDes").html(data[0].des)
         }
     </script>
 }

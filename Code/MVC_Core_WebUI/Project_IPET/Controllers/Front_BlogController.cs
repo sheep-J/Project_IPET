@@ -25,7 +25,7 @@ namespace Project_IPET.Controllers
             _myProject = myProject;
 
         }
-        public IActionResult Index()
+        public IActionResult Index( )
         {
             int countbypage =6;
             int totalpost = _myProject.Posts.Where(c => c.ReplyToPost == null).Count();
@@ -36,6 +36,7 @@ namespace Project_IPET.Controllers
 
             return View();
         }
+
         [HttpPost]
         public IActionResult ListView(int inputpage)
         {
@@ -122,10 +123,67 @@ namespace Project_IPET.Controllers
 
         public IActionResult CreatePost()
         {
-           
-            return View();
-        }
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
 
+            if (string.IsNullOrEmpty(json))
+            {
+                return RedirectToAction("Index");
+            }
+          
+
+            var data = _myProject.PostTypes.Select(p=>p).ToList();
+
+
+            List<SelectListItem> mySelectItemList = new List<SelectListItem>();
+            foreach (var item in data)
+            {
+                mySelectItemList.Add(new SelectListItem()
+                {
+                    Text = item.PostTypeName,
+                    Value = item.PostTypeId.ToString(),
+                    Selected = false
+                });
+            }
+            CPostViewModel model = new CPostViewModel() 
+            {
+                MyList = mySelectItemList
+            };
+           
+            return View(model);
+          
+        }
+        [HttpPost]
+        public IActionResult CreatePost(CPostViewModel vModel) 
+        {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            Member userobj = JsonSerializer.Deserialize<Member>(json);
+            int userid = userobj.MemberId;
+            
+            //if (vModel.photo != null)
+            //{
+            //    string photoName = Guid.NewGuid().ToString() + ".jpg";
+            //    vModel.FImagePath = photoName;
+            //    vModel.photo.CopyTo(                //CopyTo要Stream非字串 所以要new FileStream
+            //        new FileStream(
+            //            _environment.WebRootPath + "/Images/" + photoName
+            //            , FileMode.Create));
+            //}
+            var newpost = _myProject.Posts.Select(p =>new Post
+            {
+               MemberId = userid,
+               Title = vModel.Title,
+               PostContent = vModel.PostContent,
+               PostDate = DateTime.Now.ToShortDateString(),
+               PostTypeId = int.Parse(vModel.PostType),
+               Banned = false,
+               BannedContent = "********************",
+               LikeCount = 0,
+               
+        });
+            _myProject.Add(newpost);
+            _myProject.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
 
         // 取得商品評價留言 Html Start

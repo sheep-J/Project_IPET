@@ -105,11 +105,11 @@ namespace Project_IPET.Controllers
 
         public IActionResult readList(int Id)
         {
-            List<CProjectBuylist> buylist = new List<CProjectBuylist>();
+            List<CProjectBuylistViewModel> buylist = new List<CProjectBuylistViewModel>();
             var list = _context.PrjConnects.Where(n => n.PrjId == Id).ToList();
             foreach (var item in list)
             {
-                var orderlist = _context.OrderDetails.Where(n => n.ProductId == item.ProductId).Select(o => new CProjectBuylist
+                var orderlist = _context.OrderDetails.Where(n => n.ProductId == item.ProductId).Select(o => new CProjectBuylistViewModel
                 {
                     UserName = o.Order.Member.Name,
                     ProductName = o.Product.ProductName
@@ -120,6 +120,38 @@ namespace Project_IPET.Controllers
                 }
             }
             return Json(buylist);
+        }
+
+        public IActionResult readProd(int Id)
+        {
+            var list = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n=>new CProjectProdViewModel
+            {
+                fId = n.Product.ProductId,
+                fName = n.Product.ProductName,
+                fDes = n.Product.Description,
+                fPrice = (int)n.Product.UnitPrice,
+                fQuantity = n.Product.UnitsInStock,
+            }).ToList();
+
+            return Json(list);
+        }
+        public IActionResult takeProdpic(int Id)
+        {
+            var img = _context.Products.Where(n => n.ProductId == Id).Select(n => n.ProductImagePaths.FirstOrDefault().ProductImage).FirstOrDefault();
+            return File(img, "image/jepg");
+        }
+
+        public IActionResult readProdDetail(int Id)
+        {
+            var prod = _context.Products.Where(n => n.ProductId == Id).Select(n => new
+            {
+                id = n.ProductId,
+                name = n.ProductName,
+                des = n.Description,
+                price = n.UnitPrice,
+                stock = n.UnitsInStock,
+            }).ToList();
+            return Json(prod);
         }
     }
 }

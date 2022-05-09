@@ -69,5 +69,29 @@ namespace Project_IPET.Controllers
 
             return View();
         }
+
+
+        public IActionResult LoadOrder()
+        {
+            string user = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            //if (!string.IsNullOrEmpty(user)) {
+                //Member nowuser = JsonSerializer.Deserialize<Member>(user);
+                //int userid = nowuser.MemberId;
+
+                var list = _myProject.Orders.Where(n => n.MemberId == 3 && n.TransactionTypeId == 1).Select(n => new CUserOrderViewModel
+                {
+                    fId = n.OrderId,
+                    fDate = n.RequiredDate.Substring(0, 8),
+                    fTotal = (_myProject.OrderDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(),
+                    fStatus = n.OrderStatus.OrderStatusName
+                }).ToList();
+
+                if (list == null)
+                    return Json("無訂單紀錄");
+                return Json(list);
+            //}
+            //else
+            //    return Json("請先登入");
+        }
     }
 }

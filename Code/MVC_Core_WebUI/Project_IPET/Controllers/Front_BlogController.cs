@@ -168,7 +168,7 @@ namespace Project_IPET.Controllers
             //            _environment.WebRootPath + "/Images/" + photoName
             //            , FileMode.Create));
             //}
-            var newpost = _myProject.Posts.Select(p =>new Post
+            var newpost = new Post
             {
                MemberId = userid,
                Title = vModel.Title,
@@ -179,7 +179,7 @@ namespace Project_IPET.Controllers
                BannedContent = "********************",
                LikeCount = 0,
                
-        });
+            };
             _myProject.Add(newpost);
             _myProject.SaveChanges();
             return RedirectToAction("Index");

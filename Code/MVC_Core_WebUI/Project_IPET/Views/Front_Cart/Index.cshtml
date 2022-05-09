@@ -42,8 +42,8 @@
     <tr>
         <td class="pro-thumbnail"><a href="#"><img class="fit-image" src=@Html.DisplayFor(modelItem => item.imageSrc) /></a></td>
         <td class="pro-price"><span>  @Html.DisplayFor(modelItem => item.Category)</span></td>
-        <td class="pro-title"><a href="#">  @Html.DisplayFor(modelItem => item.Name)</a></td>
-        <td class="pro-price"><span> @Html.DisplayFor(modelItem => item.UnitPrice)</span></td>
+        <td class="pro-title"><a href="#">  @Html.DisplayFor(modelItem => item.Product.ProductName)</a></td>
+        <td class="pro-price"><span> @Html.DisplayFor(modelItem => item.Product.UnitPrice)</span></td>
         <td class="pro-quantity">
             <div class="quantity">
                 <div class="cart-plus-minus">
@@ -54,7 +54,7 @@
             </div>
         </td>
         <td class="pro-subtotal"><span>@Html.DisplayFor(modelItem => item.SubTotal)</span></td>
-        <td class="pro-remove"><a asp-action="RemoveItem" asp-route-Id="@item.Id"><i class="ti-trash"></i></a></td>
+        <td class="pro-remove"><a asp-action="RemoveItem" asp-route-Id="@item.ProductID"><i class="ti-trash"></i></a></td>
     </tr>
 </tbody>}
         </table>}

@@ -1,0 +1,121 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var session = HttpContextAccessor.HttpContext.Session;
+    string jsoncart = session.GetString("Cart");
+    if (jsoncart != null)
+    {
+        var Currentcart = JsonConvert.DeserializeObject<List<CartModel>>(jsoncart);
+
+        decimal CartTotal = 0;
+        for (int i = 0; i < Currentcart.Count; i++)
+        {
+            CartTotal += Currentcart[i].SubTotal;
+        }
+
+        <!-- Header Action Button Start -->
+        <div class="header-action-btn header-action-btn-cart d-none d-sm-flex">
+            <a class="cart-visible" href="javascript:void(0)">
+                <i class="icon-handbag icons"></i>
+                <span class="header-action-num">@Currentcart.Count</span>
+            </a>
+
+            <!-- Header Cart Content Start -->
+            <div class="header-cart-content">
+
+                <!-- Cart Procut Wrapper Start  -->
+                <div class="cart-product-wrapper">
+
+                    @foreach (var cartitem in Currentcart)
+                    {
+                        <!-- Cart Product/Price Start -->
+                        <div class="cart-product-inner p-b-20 m-b-20 border-bottom">
+
+                            <!-- Single Cart Product Start -->
+                            <div class="single-cart-product">
+                                <div class="cart-product-thumb">
+                                    <a href="#"><img src="@cartitem.imageSrc" alt=""></a>
+                                </div>
+                                <div class="cart-product-content">
+                                    <h3 class="title"><a href="#">@cartitem.Product.ProductName</a></h3>
+                                    <div class="product-quty-price">
+                                        <span class="cart-quantity">數量: <strong> @cartitem.Quantity </strong></span>
+                                        <span class="price">
+                                            <span class="new">$@cartitem.SubTotal</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Single Cart Product End -->
+                            <!-- Product Remove Start -->
+                            <div class="cart-product-remove">
+                                <a asp-controller="Front_Cart" asp-action="RemoveItem" asp-route-Id="@cartitem.ProductID"><i class="icon-close"></i></a>
+                            </div>
+                            <!-- Product Remove End -->
+                        </div>
+                        <!-- Cart Product/Price End -->
+                    }
+
+                </div>
+                <div style="margin-top:20px"></div>
+                <!-- Cart Procut Wrapper -->
+                <!-- Cart Product Total Start -->
+                <div class="cart-product-total p-b-20 m-b-20 border-bottom">
+                    <span class="value">購物車總金額</span>
+                    <span class="price">$@CartTotal</span>
+                </div>
+                <!-- Cart Product Total End -->
+                <!-- Cart Product Button Start -->
+                <div class="cart-product-btn m-t-20">
+                    <a asp-controller="Front_Cart" asp-action="index" class="btn btn-outline-light btn-hover-primary w-100">檢 視 購 物 車</a>
+                    <a asp-controller="Front_Checkout" asp-action="index" class="btn btn-outline-light btn-hover-primary w-100 m-t-20">前 往 結 帳</a>
+                </div>
+                <!-- Cart Product Button End -->
+
+            </div>
+            <!-- Header Cart Content End -->
+
+        </div>
+        <!-- Header Action Button End -->
+    }
+    else
+    {
+
+        <!-- Header Action Button Start -->
+        <div class="header-action-btn header-action-btn-cart d-none d-sm-flex">
+            <a class="cart-visible" href="javascript:void(0)">
+                <i class="icon-handbag icons"></i>
+                <span class="header-action-num">0</span>
+            </a>
+
+            <!-- Header Cart Content Start -->
+            <div class="header-cart-content">
+
+                <!-- Cart Procut Wrapper Start  -->
+                <div class="cart-product-wrapper">
+
+                </div>
+                <div style="margin-top:20px"></div>
+                <!-- Cart Procut Wrapper -->
+                <!-- Cart Product Total Start -->
+                <div class="cart-product-total p-b-20 m-b-20 " style="display: flex; justify-content: center; ">
+                    <span class="value">購物車目前無商品</span>
+                </div>
+                <!-- Cart Product Total End -->
+                <!-- Cart Product Button Start -->
+                <div class="cart-product-btn m-t-20">
+                    <a asp-controller="Front_Cart" asp-action="index" class="btn btn-outline-light btn-hover-primary w-100">檢 視 購 物 車</a>
+                    <a asp-controller="Front_Checkout" asp-action="index" class="btn btn-outline-light btn-hover-primary w-100 m-t-20">前 往 結 帳</a>
+                </div>
+                <!-- Cart Product Button End -->
+
+            </div>
+            <!-- Header Cart Content End -->
+
+        </div>
+        <!-- Header Action Button End -->
+
+    }
+}

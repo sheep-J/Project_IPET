@@ -11,5 +11,7 @@ namespace Project_IPET.Services
         ProductModel GetProduct(int id);
         void CreateProduct(ProductModel product); 
         List<BrandModel> GetBrands();
+        void  EditProduct(ProductModel product);
+        void DeleteProduct(int id);
     }
 }

@@ -1,6 +1,8 @@
-﻿@{
-    ViewData["Title"] = "新增商品";
+﻿@model ProductModel
+@{
+    ViewData["Title"] = "修改商品內容";
 }
+
 @section Styles{
     <style>
         .preview-img{
@@ -12,14 +14,19 @@
 @section Scripts{
 <script>
       $(document).ready(function(){
-          $("#btnOK").click(createProduct);
+          $("#btnOK").click(editProduct);
           getCategories();
           $("#ddlCategories").change(showSubCategories);
           showBrands();
       });
       var categories;
-      function createProduct() {
+      var subCategoryId = @Model.SubCategoryID;
+      var categoryId=@Model.CategoryID;
+      var brandId=@Model.BrandID;
+
+      function editProduct() {
           const formData = new FormData()
+          formData.append('productId',@Model.ProductID);
           formData.append('productName', $("#txtProductName").val());
           formData.append('subCategoryId', $("#ddlSubCategories").val());
           formData.append('brandId', $('#ddlBrand').val());
@@ -38,17 +45,17 @@
 
           $.ajax({
               method: "POST",
-              url: "/Back_Products/CreateProduct",
+              url: "/Back_Products/EditProduct",
               data: formData,
               processData: false,
               contentType: false,
               success: function (result) {
                   if(result){
-                      alert("新增成功");
+                      alert("修改成功");
                       window.location.href = "/Back_Products/Index";
                   }
                   else{
-                      alert("新增失敗");
+                      alert("修改失敗");
                   }
               }
           });
@@ -69,6 +76,7 @@
              var opt = $("<option></option>").text(category.categoryName).val(category.categoryId);
               $("#ddlCategories").append(opt);
           });
+          $("#ddlCategories").val(categoryId);
       }
       function showSubCategories(){
            var selectedCategoryId =  $("#ddlCategories").val();
@@ -79,6 +87,7 @@
              var opt = $("<option></option>").text(subCategory.subCategoryName).val(subCategory.subCategoryId);
               $("#ddlSubCategories").append(opt);
           });
+          $("#ddlSubCategories").val(subCategoryId);
       }
       function showBrands(){
           $.ajax({
@@ -89,6 +98,7 @@
                  var opt = $("<option></option>").text(brand.brandName).val(brand.brandID);
                   $("#ddlBrand").append(opt);
                   });
+              $("#ddlBrand").val(brandId);
               }
           });
       }
@@ -108,45 +118,45 @@
 <form role="form" class="text-start">
     <div class="input-group input-group-outline my-3">
         <label class="form-label">產品名稱</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtProductName">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtProductName" value="@Model.ProductName">
     </div>
     <div class="input-group input-group-static mb-4">
         <label for="ddlCategories" class="ms-0">類別</label>
-        <select id="ddlCategories" class="form-control" aria-label="Default select example">
+        <select id="ddlCategories" class="form-control" aria-label="Default select example" >
         </select>
     </div>
     <div class="input-group input-group-static mb-4">
         <label for="ddlSubCategories" class="ms-0">子類別</label>
-        <select id="ddlSubCategories" class="form-control" aria-label="Default select example">
+        <select id="ddlSubCategories" class="form-control" aria-label="Default select example" >
         </select>
     </div>
     <div class="input-group input-group-static mb-4">
         <label for="ddlBrand" class="ms-0">品牌</label>
-        <select id="ddlBrand" class="form-control" aria-label="Default select example">
+        <select id="ddlBrand" class="form-control" aria-label="Default select example" >
         </select>
     </div>
     <div class="input-group input-group-outline my-3">
         <label class="form-label">進貨成本</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtCostPrice">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtCostPrice" value="@Model.CostPrice">
     </div>
     <div class="input-group input-group-outline my-3">
         <label class="form-label">商品售價</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtUnitPrice">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtUnitPrice" value="@Model.UnitPrice">
     </div>
     <div class="input-group input-group-outline my-3">
         <label class="form-label">商品庫存</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtUnitsInStock">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtUnitsInStock" value="@Model.UnitsInStock">
     </div>
     <div class="input-group input-group-outline my-3">
         <label class="form-label">商品描述</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtDescription">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtDescription" value="@Model.Description">
     </div>
     <div class="form-check form-switch d-flex align-items-center mb-3">
-        <input class="form-check-input" type="checkbox" id="chkHotProduct">
+        <input class="form-check-input" type="checkbox" id="chkHotProduct"  checked="@Model.HotProduct">
         <label class="form-check-label mb-0 ms-2" for="chkHotProduct">是否為熱門商品</label>
     </div>
     <div class="form-check form-switch d-flex align-items-center mb-3">
-        <input class="form-check-input" type="checkbox" id="chkProductAvailable">
+        <input class="form-check-input" type="checkbox" id="chkProductAvailable" checked="@Model.ProductAvailable">
         <label class="form-check-label mb-0 ms-2" for="chkProductAvailable">產品是否上架</label>
     </div>
 
@@ -162,3 +172,4 @@
         <button id="btnOK" type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">確定</button>
     </div>
 </form>
+

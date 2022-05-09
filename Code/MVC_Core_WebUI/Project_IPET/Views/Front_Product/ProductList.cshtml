@@ -3,6 +3,14 @@
     Layout = null;
 }
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#AddProductGrid").click(AddToCart);
+            $("#AddProductList").click(AddToCart);
+        });
+    </script>
+}
 
 <!-- Shop Wrapper Start -->
 <div class="row shop_wrapper">
@@ -13,7 +21,7 @@
             <div class="product-inner">
                 <div class="thumb">
                     <a class="image" asp-controller="Front_Product" asp-action="ProductDetail" asp-route-id="@product.ProductID">
-                        <img class="fit-image" src="@product.ProductImageBase64String" alt="Product" >
+                        <img class="fit-image" src="@product.ProductImageBase64String" alt="Product">
                     </a>
                     <span class="badges">
                         <span class="sale">-0%</span>
@@ -21,12 +29,12 @@
                     <div class="action-wrapper">
                         <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>
                         <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                        <a asp-controller="Front_Cart" asp-action="AddToCart" asp-route-id="@product.ProductID" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                        <a id="AddProductGrid" onclick="AddToCart('@product.ProductID')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
                     </div>
                 </div>
                 <div class="content">
                     <h5 class="title"><a href="single-product.html">@product.ProductName</a></h5>
-                    <h2 class="title" ><a href="single-product.html">@product.BrandName</a></h2>
+                    <h2 class="title"><a href="single-product.html">@product.BrandName</a></h2>
                     <span class="rating">
                         <i class="fa fa-star-o"></i>
                         <i class="fa fa-star-o"></i>
@@ -43,7 +51,7 @@
                     <div class="cart-btn action-btn">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
-                                <a class="btn btn-primary btn-hover-dark rounded-0" asp-controller="Front_Cart" asp-action="AddToCart" asp-route-Id="@product.ProductID">加入購物車</a>
+                                <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID')" href="javascript:void(0);">加入購物車</a>
                             </div>
                             <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
                             <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>

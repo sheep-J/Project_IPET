@@ -149,7 +149,7 @@ namespace Project_IPET.Controllers
                 MyList = mySelectItemList
             };
            
-            return View();
+            return View(model);
           
         }
         [HttpPost]
@@ -174,7 +174,7 @@ namespace Project_IPET.Controllers
                Title = vModel.Title,
                PostContent = vModel.PostContent,
                PostDate = DateTime.Now.ToShortDateString(),
-               //PostTypeId = int.Parse(vModel.PostTypeId),
+               PostTypeId = int.Parse(vModel.PostType),
                Banned = false,
                BannedContent = "********************",
                LikeCount = 0,

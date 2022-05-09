@@ -41,7 +41,7 @@
 
         <!--新增貼文區 Start-->
         
-        <form  action="~/Front_Blog/Index" method="post" class=" section section-margin " style="padding:0 5px" runat="server">
+        <form  action="~/Front_Blog/CreatePost" method="post" class=" section section-margin " style="padding:0 5px" runat="server">
             <div style="margin:0 25%;">
 
                 <!--標題 Start-->
@@ -57,7 +57,7 @@
                         <div style="padding-left:20px;">
                             <h4>分類</h4>
                           
-                             @*  @Html.DropDownListFor(m=>m.PostType, Model.MyList , new { @class = "form-control" ,name="PostType",id="PostType",})*@
+                               @Html.DropDownListFor(m => m.PostType, Model.MyList , new { @class = "form-control" ,name="PostType", id="PostType"})
                        
                           
                         </div>

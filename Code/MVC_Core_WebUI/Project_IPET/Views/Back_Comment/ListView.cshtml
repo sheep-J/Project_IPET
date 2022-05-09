@@ -19,8 +19,8 @@
             <thead>
                 <tr class="row">
 
+                  
                     <th class="col-md-1 middle"><input name="clickAll" id="clickAll" type="checkbox">序號</th>
-                    
                     <th class="col-md-1 middle">@Html.DisplayNameFor(model => model.MemberName)</th>
                     <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.Rating)</th>
                     <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.CommentDate)</th>
@@ -39,69 +39,72 @@
                 {
                     number++;
 
-                    <tbody >
+                <tbody>
+                    
+                    <!-- tr Start -->
+                        <tr class="row ">
+                                <td>
+                                <input name="CommentId[]" type="hidden" value="@item.CommentId">
+                                </td>
+                            <td class="col-md-1 middle">
+                                <input name="Checkbox[]" type="checkbox" value="@number">
+                                @number
+                            </td>
+                            <td class="col-md-1 middle">
+                                @Html.DisplayFor(modelItem => item.MemberName)
+                            </td>
+                            <td class="col-md-2 middle">
 
-                        <!-- tr Start -->
-                                    <tr class="row ">
-                                        <td class="col-md-1 middle">
-                                            <input name="Checkbox[]" type="checkbox" value="@number">
-                                            @number
-                                        </td>
-                                        <td class="col-md-1 middle" >
-                                            @Html.DisplayFor(modelItem => item.MemberName)
-                                        </td>
-                                        <td class="col-md-2 middle">
+                                <span class="rating">
 
-                                            <span class="rating" > 
+                                    @if (@item.Rating == null || @item.Rating == 0)
+                                    {
+                                        @for (int i = 0; i < 5; i++)
+                                        {
+                                            <i class="fa fa-star-o"></i>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @for (int i = 1; i <= @item.Rating; i++)
+                                        {
+                                            <i class="fa fa-star text-warning"></i>
+                                        }
 
-                                            @if (@item.Rating == null || @item.Rating == 0)
-                                            { 
-                                                @for(int i = 0; i < 5 ;i++)
-                                                { 
-                                                    <i class="fa fa-star-o"  ></i>
-                                                }  
-                                            }
-                                            else
-                                            {
-                                                  @for(int i = 1; i <= @item.Rating ;i++)
-                                                  { 
-                                                      <i class="fa fa-star text-warning"  ></i>
-                                                  } 
-                                              
-                                                  @for(int i = 1; i <= (5 - @item.Rating) ;i++)
-                                                  {
-                                                      <i class="fa fa-star-o" ></i>
-                                                  }  
-                                            }
+                                        @for (int i = 1; i <= (5 - @item.Rating); i++)
+                                        {
+                                            <i class="fa fa-star-o"></i>
+                                        }
+                                    }
 
-                                            </span>
-                                        </td>
-                                        <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentDate)">
-                                            @Html.DisplayFor(modelItem => item.CommentDate)
-                                        </td>
-                                        <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentContent)">
-                                            @Html.DisplayFor(modelItem => item.CommentContent)
-                                        </td>
-                                         <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.ReplyContent)">
-                                            @Html.DisplayFor(modelItem => item.ReplyContent)
-                                        </td>
-                                        <td class="col-md-1 middle">
-                                                <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
-                                                    <i class="fas fa-pen-nib" aria-hidden="true"></i>
-                                                </button>
-                                        </td>
-                                        <td class="col-md-1 middle">
-                                                <button type="button" class="btn btn btn-danger mr-3">
-                                                    <i class="fa fa-ban" aria-hidden="true"></i>
-                                                </button>
-                                        </td>
+                                </span>
+                            </td>
+                            <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentDate)">
+                                @Html.DisplayFor(modelItem => item.CommentDate)
+                            </td>
+                            <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentContent)">
+                                @Html.DisplayFor(modelItem => item.CommentContent)
+                            </td>
+                            <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.ReplyContent)">
+                                @Html.DisplayFor(modelItem => item.ReplyContent)
+                            </td>
+                            <td class="col-md-1 middle">
+                                <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
+                                    <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                            <td class="col-md-1 middle">
+                                <button type="button" class="btn btn btn-danger mr-3">
+                                    <i class="fa fa-ban" aria-hidden="true"></i>
+                                </button>
+                            </td>
 
-                                    </tr>
-                        <!--  tr End  -->
+                        </tr>
+                    <!--  tr End  -->
 
 
 
-                    </tbody>
+                </tbody>
                 }
             }
         </table>

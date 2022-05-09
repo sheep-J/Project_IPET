@@ -19,6 +19,10 @@ namespace Project_IPET.Models
         /// </summary>
         public int SubCategoryID { get; set; }
         /// <summary>
+        /// 主分類Id(FK)
+        /// </summary>
+        public int CategoryID { get; set; }
+        /// <summary>
         /// 品牌Id(FK)
         /// </summary>
         public int BrandID { get; set; }
@@ -79,5 +83,10 @@ namespace Project_IPET.Models
                 return ProductImages == null ? new List<string>() : ProductImages.Select(ProductImage => "data:image/jpg;base64," + Convert.ToBase64String(ProductImage, 0, ProductImage.Length)).ToList();
             }
         }
+
+        /// <summary>
+        /// 商品評價
+        /// </summary>
+        public int Rating { get; set; }
     }
 }

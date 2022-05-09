@@ -1,6 +1,48 @@
-﻿@{
-    ViewData["Title"] = "會員管理";
-}
+﻿
+
+@{ ViewData["Title"] = "會員管理"; }
+
+<div class="row mb-3 mt-1">
+    <div class="col-lg-4 d-flex align-items-center justify-content-start">
+        <div class="nav-wrapper position-relative end-0">
+            <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                <li class="nav-item" style="padding-right:10px">
+                    <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="#profile-tabs-icons" role="tab" aria-controls="preview" aria-selected="true">
+                        <span class="material-icons align-middle mb-1">
+                            info
+                        </span>
+                        Info
+                    </a>
+                </li>
+                <li class="nav-item" style="padding-right:5px">
+                    <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#dashboard-tabs-icons" role="tab" aria-controls="code" aria-selected="false">
+                        <span class="material-icons align-middle mb-1">
+                            account_box
+                        </span>
+                        Details
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-3 d-flex align-items-center justify-content-start">
+        <div class="form-check form-switch" style="padding-right:20px">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="maleFilter">
+            <label class="form-check-label" for="flexSwitchCheckChecked">男</label>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="femaleFilter">
+            <label class="form-check-label" for="flexSwitchCheckChecked">女</label>
+        </div>
+    </div>
+    <div class="col-lg-3"></div>
+    <div class="col-lg-2 d-flex align-items-center justify-content-end">
+            <div class="input-group input-group-outline">
+                <label class="form-label">Search……</label>
+                <input name="txtKeyword" value="" type="text" class="form-control">
+            </div>
+        </div>
+</div>
 
 <div class="row">
     <div class="col-12">
@@ -12,491 +54,99 @@
             </div>
             <div class="card-body px-0 pb-2">
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0">
-                        <thead>
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">會員</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">帳號</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">性別</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">生日</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">地址</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">註冊日期</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">banned</th>
-                                <th class="text-secondary opacity-7"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="~/Back/images/team-1.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">曾丞冰</h6>
-                                            <p class="text-xs text-secondary mb-0">Andrea@gmail.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Andrea</span>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm bg-gradient-danger">Famale</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">1968/06/05</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">0921369258</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">月眉一路3號</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">2022/02/13</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <li class="fa fa-ban"></li>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="~/Back/images/team-3.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user2">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">王怡潔</h6>
-                                            <p class="text-xs text-secondary mb-0">Bettie@yahoo.com.tw</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Bettie</span>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm bg-gradient-danger">Famale</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">1983/08/21</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">0960080359</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">八寮灣1號</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">2022/02/18</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <li class="fa fa-ban"></li>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="~/Back/images/team-4.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">程以郁</h6>
-                                            <p class="text-xs text-secondary mb-0">Joleen@yahoo.com.tw</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Joleen</span>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm bg-gradient-danger">Famale</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">2009/06/07</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">0955558286</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">二坪路12號</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">2022/02/17</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <li class="fa fa-ban"></li>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="~/Back/images/team-5.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user4">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">郭婉瑜</h6>
-                                            <p class="text-xs text-secondary mb-0">Goldie@gmail.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Goldie</span>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm bg-gradient-danger">Famale</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">1983/08/01</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">0929555107</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">廷平路15號</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">2022/02/14</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <li class="fa fa-ban"></li>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="~/Back/images/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user5">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">陳季俊</h6>
-                                            <p class="text-xs text-secondary mb-0">Sid@yahoo.com.tw</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Sid</span>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm bg-gradient-info">Male</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">1986/09/25</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">0971841256</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">大武山四街33號</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">2022/02/20</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <li class="fa fa-ban"></li>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="~/Back/images/ivana-squares.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user6">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">喬芸蓮</h6>
-                                            <p class="text-xs text-secondary mb-0">Kelleigh@outlook.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Kelleigh</span>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm bg-gradient-danger">Famale</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">1995/05/05</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">0937587529</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">佳豐路35號</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">2022/03/01</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <li class="fa fa-ban"></li>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="~/Back/images/marie.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user7">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">林子貞</h6>
-                                            <p class="text-xs text-secondary mb-0">Celeste@outlook.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Celeste</span>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm bg-gradient-danger">Famale</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">1964/06/12</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">0928619481</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">新富街20號</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">2022/03/02</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <li class="fa fa-ban"></li>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div id="ListView">
+                        @*ListView here*@
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-@*<div class="row">
-        <div class="col-12">
-            <div class="card my-4">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">Projects table</h6>
-                    </div>
-                </div>
-                <div class="card-body px-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center justify-content-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Budget</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Completion</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div>
-                                                <img src="~/Back/images/small-logos/logo-asana.svg" class="avatar avatar-sm rounded-circle me-2" alt="spotify">
-                                            </div>
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">Asana</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">$2,500</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">working</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="me-2 text-xs font-weight-bold">60%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <button class="btn btn-link text-secondary mb-0">
-                                            <i class="fa fa-ellipsis-v text-xs"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div>
-                                                <img src="~/Back/images/small-logos/github.svg" class="avatar avatar-sm rounded-circle me-2" alt="invision">
-                                            </div>
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">Github</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">$5,000</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">done</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="me-2 text-xs font-weight-bold">100%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v text-xs"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div>
-                                                <img src="~/Back/images/small-logos/logo-atlassian.svg" class="avatar avatar-sm rounded-circle me-2" alt="jira">
-                                            </div>
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">Atlassian</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">$3,400</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">canceled</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="me-2 text-xs font-weight-bold">30%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="30" style="width: 30%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v text-xs"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div>
-                                                <img src="~/Back/images/small-logos/bootstrap.svg" class="avatar avatar-sm rounded-circle me-2" alt="webdev">
-                                            </div>
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">Bootstrap</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">$14,000</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">working</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="me-2 text-xs font-weight-bold">80%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="80" style="width: 80%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v text-xs"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div>
-                                                <img src="~/Back/images/small-logos/logo-slack.svg" class="avatar avatar-sm rounded-circle me-2" alt="slack">
-                                            </div>
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">Slack</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">$1,000</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">canceled</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="me-2 text-xs font-weight-bold">0%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width: 0%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v text-xs"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div>
-                                                <img src="~/Back/images/small-logos/devto.svg" class="avatar avatar-sm rounded-circle me-2" alt="xd">
-                                            </div>
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">Devto</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">$2,300</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">done</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="me-2 text-xs font-weight-bold">100%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v text-xs"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item none">
+            <a class="page-link" id="page-ctrl-previous">
+                <span class="material-icons">
+                    keyboard_arrow_left
+                </span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        @{
+            int pageNum = ViewBag.PAGE;
+
+            for (int i = 1; i <= pageNum; i++)
+            {
+                <li class="page-item"><a class="page-link" onclick="listviewShow(@i)">@i</a></li>
+            }
+        }
+        <li class="page-item">
+            <a class="page-link" id="page-ctrl-next">
+                <span class="material-icons">
+                    keyboard_arrow_right
+                </span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
 
+@section Scripts
+{
+    <script>
+    let current;
+    let totalPage = @ViewBag.PAGE;
+    listviewShow(1);
+    keywordResponse();
+
+    //#region ListView
+        function listviewShow(page) {
+                    $.post('@Url.Content("~/Back_Members/ListView")', { inputPage: page })
+                        .done((response) => {
+                            $("#ListView").html(response);
+                        })
+
+            current = parseInt(`${page}`);
+            let elementli = $("ul.pagination").children("li");
+            elementli.removeClass("active").eq(page).addClass("active")
+            PageList(page, elementli, totalPage)
+        }
+        $("#page-ctrl-previous").click(function () {
+            if (current > 1)
+                listviewShow(current - 1);
+        });
+        $("#page-ctrl-next").click(function () {
+            if (current < totalPage)
+                listviewShow(current + 1);
+        });
+            //#endregion
+
+    function keywordResponse() {
+        let keyword = $('input[name="txtKeyword"]');
+        let keyValue = $('input[name="txtKeyword"]').val();
+        @*keyword.blur(async() => {
+            console.log(keyword.val());
+            const response = await fetch("@Url.Content("~/Back_Members/ListView")?txtKeyword=" + keyword.val())
+            console.log(response);*@
+
+        @*keyword.blur(() => {
+              $.post('@Url.Content("~/Back_Members/ListView")', { txtKeyword: keyValue })
+                        .done((response) => {
+                            /*keyword.val(response);*/
+                            console.log(response)
+                        })
+                  .fail((response) => {
+                      console.log(ErrorEvent)
+                  })*@
+        /*})*/
+
+        if (keyword.val() == '')
+            console.log('empty');
+            else
+            console.log('no empty');
+    }
+
+    </script>
+}

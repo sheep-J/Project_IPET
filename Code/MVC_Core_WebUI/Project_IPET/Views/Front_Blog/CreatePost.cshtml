@@ -41,7 +41,7 @@
 
         <!--新增貼文區 Start-->
         
-        <form  action="~/Front_Blog/CreatePost" method="post" class=" section section-margin " style="padding:0 5px" runat="server">
+        <form  action="~/Front_Blog/CreatePost" method="post" enctype="multipart/form-data" class=" section section-margin " style="padding:0 5px" runat="server">
             <div style="margin:0 25%;">
 
                 <!--標題 Start-->
@@ -72,7 +72,10 @@
                 <!-- 貼文內容區  End-->
                 <!--圖片上傳 Start-->
                 <div class="custom-file">
-                    <input  class="form-control custom-file-input spacing-10" accept="image/*" type='file' id="PostImage" name="PostImage" >
+
+
+                    <input class="form-control-file" accept="image/*" type="file" name="PostPhoto" id="PostPhoto"/>
+                  
                 </div>
                 <!--圖片預覽 Start-->
                 <div>
@@ -93,8 +96,8 @@
 
 
         <script>
-            PostImage.onchange = evt => {
-                const [file] = PostImage.files
+            PostPhoto.onchange = evt => {
+                const [file] = PostPhoto.files
                 if (file) {
                     imgshow.src = URL.createObjectURL(file)
                 }

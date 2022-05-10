@@ -40,7 +40,7 @@
 
                                 <!-- Blog Image Start -->
                             <div class="blog-image">
-                                    <img src="~/Front/images/blog/large-size/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image" class="fit-image">
+                                    <img src="~/Front/images/blog/UploadImage/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image" class="fit-image">
                                 </div>
                                 <!-- Blog Image End -->
                                 <!-- Blog details title & Meta Start -->
@@ -86,7 +86,7 @@
                         <!-- Post Post Area Start -->
                         <div class="comment-post-area">
                             <h2 class="blog-desc-title m-b-30 p-t-40">留言回覆</h2>
-                            <form action="#">
+                            <form asp-controller="Front_Blog" asp-action="PostView" asp-route-id=@ViewBag.Id  method="post" >
                                 <div class="row">
                                     <!-- 會員 Name -->
                                     <!-- Name Input Start -->
@@ -99,7 +99,7 @@
                                     <!-- Message Input Start -->
                                     <div class="col-12 col-custom">
                                         <div class="input-item m-b-20">
-                                            <textarea cols="30" rows="10" name="comment" class="rounded-0 w-100 custom-textarea input-area" placeholder="Message" spellcheck="false" data-gramm="false"></textarea>
+                                            <textarea cols="30" rows="10" id="PostContent" name="PostContent" class="form-control rounded-0 w-100 custom-textarea input-area" placeholder="Message" spellcheck="false" data-gramm="false"></textarea>
                                         </div>
                                     </div>
                                     <!-- Message Input End -->

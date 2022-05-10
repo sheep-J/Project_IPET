@@ -34,7 +34,7 @@ namespace Project_IPET.Controllers
         {
           
             int countbypage =6;
-            int totalpost = _context.Posts
+            int totalpost = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
                 .Where(c => c.ReplyToPost == null).Count();
             CTools tools = new CTools();
             tools.Page(countbypage, totalpost, out int tatalpage);
@@ -47,27 +47,15 @@ namespace Project_IPET.Controllers
         [HttpPost]
         public IActionResult ListView(int inputpage, PostFilterModel postFilter)
         {
-            
+         
             int page = 1;
             int countbypage = 6;
             if (inputpage > 0)
                 page = inputpage;
 
-            var posts = _context.Posts
-                .Where(c => c.ReplyToPost == null)
-                .Select(n => new CPostViewModel
-            {
-             
-                PostId = n.PostId,
-                Title = n.Title,
-                PostContent = n.PostContent,
-                PostDate = n.PostDate,
-                LikeCount = n.LikeCount,
-                PostImage = n.PostImage,
-                MemberName = n.Member.Name,
-                MemberId = n.MemberId,
-
-            }).Skip((page - 1) * countbypage).Take(countbypage).ToList();
+            var posts = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
+                      .Where(c => c.ReplyToPost == null)
+                      .Skip((page - 1) * countbypage).Take(countbypage).ToList();
 
             return PartialView(posts);
         }
@@ -120,7 +108,7 @@ namespace Project_IPET.Controllers
                                  PostContent = p.PostContent,
                                  PostId = id,
                                  PostType = p.PostType.PostTypeName,
-                                 ReplyConut = _context.Posts.Where(r => r.ReplyToPost == id).Select(r => r.ReplyToPost).Count(),
+                                 ReplyCount = _context.Posts.Where(r => r.ReplyToPost == id).Select(r => r.ReplyToPost).Count(),
 
                              }).ToList();
             ViewBag.PostID = id;

@@ -183,7 +183,7 @@
                 price.append(des);
 
                 var maincontent = document.createElement("p");
-                maincontent.innerHTML = `${item.fContent}`;
+                maincontent.innerHTML = `${item.fContent.replace('<br/>','。').substring(0,50)}...`;
 
                 var btn = document.createElement("div");
                 btn.className = "cart-btn action-btn";

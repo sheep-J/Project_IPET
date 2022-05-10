@@ -90,10 +90,10 @@ namespace Project_IPET.Controllers
         {
             var result = _context.OrderDetails.Where(n => n.OrderId == Id).Select(n => new
             {
-                Name = n.Product.ProductName,
-                Price = n.UnitPrice,
-                Quantity = n.Quantity,
-                Total = (n.UnitPrice * n.Quantity)
+                name = n.Product.ProductName,
+                price = n.UnitPrice,
+                quantity = n.Quantity,
+                total = (n.UnitPrice * n.Quantity)
             });
             return Json(result);
         }

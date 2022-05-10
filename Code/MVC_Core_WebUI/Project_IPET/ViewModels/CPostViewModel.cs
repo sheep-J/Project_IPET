@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Project_IPET.Models.EF;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -24,10 +24,18 @@ namespace Project_IPET.ViewModels
         public int ReplyConut { get; set; }
         [DisplayName("貼文分類:")]
         public string PostType { get; set; }
+         public string PostTypeId { get; set; }
 
         [DisplayName("貼文圖片:")]
         public string PostImage { get; set; }
 
-      
+        public IFormFile PostPhoto { get; set; }
+
+        public IEnumerable<SelectListItem> MyList { get; set; }
+
+        public bool Banned { get; set; }
+        public string BannedContent { get; set; }
+
+
     }
 }

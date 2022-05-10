@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Project_IPET.Models;
@@ -7,6 +8,7 @@ using Project_IPET.Services;
 using Project_IPET.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -18,14 +20,15 @@ namespace Project_IPET.Controllers
     {
         private readonly MyProjectContext _myProject;
 
+        private IWebHostEnvironment _environment;
 
-        public Front_BlogController(MyProjectContext myProject)
+        public Front_BlogController(MyProjectContext myProject, IWebHostEnvironment p)
         {
-
+            _environment = p;
             _myProject = myProject;
 
         }
-        public IActionResult Index()
+        public IActionResult Index( )
         {
             int countbypage =6;
             int totalpost = _myProject.Posts.Where(c => c.ReplyToPost == null).Count();
@@ -36,6 +39,7 @@ namespace Project_IPET.Controllers
 
             return View();
         }
+
         [HttpPost]
         public IActionResult ListView(int inputpage)
         {
@@ -54,7 +58,6 @@ namespace Project_IPET.Controllers
                 PostDate = n.PostDate,
                 LikeCount = n.LikeCount,
                 PostImage = n.PostImage,
-                Tag = n.Tag,
                 MemberName = n.Member.Name,
                 MemberId = n.MemberId,
 
@@ -63,15 +66,17 @@ namespace Project_IPET.Controllers
             return PartialView(posts);
         }
 
-        public IActionResult PostView(int id)
+        public IActionResult PostView(int id,CPostViewModel vModel)
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-
+            int userid = 0;
+            ViewBag.Id = id;
             if (!string.IsNullOrEmpty(json))
             {
                 Member userobj = JsonSerializer.Deserialize<Member>(json);
-                string userid = userobj.Name;
-                ViewBag.MemberName = userid;
+                string userName = userobj.Name;
+                userid =userobj.MemberId; ;
+                ViewBag.MemberName = userName;
 
             }
             else
@@ -81,7 +86,23 @@ namespace Project_IPET.Controllers
                 
             }
 
+            if (!string.IsNullOrEmpty(json) && !string.IsNullOrEmpty(vModel.PostContent)) 
+            { 
+                var newReply = new Post
+                {
+                    MemberId = userid,
+                    PostContent = vModel.PostContent,
+                    PostDate = DateTime.Now.ToString(),
+                    PostTypeId = 6,
+                    Banned = false,
+                    BannedContent = "********************",
+                    LikeCount = 0,
+                    ReplyToPost = id,
 
+                };
+                _myProject.Add(newReply);
+                _myProject.SaveChanges();
+            }
             var postdetail = _myProject.Posts.Where(m => m.PostId == id)
                              .Select(p => new CPostViewModel
                              {
@@ -122,10 +143,68 @@ namespace Project_IPET.Controllers
 
         public IActionResult CreatePost()
         {
-           
-            return View();
-        }
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
 
+            if (string.IsNullOrEmpty(json))
+            {
+                return RedirectToAction("Index");
+            }
+          
+
+            var data = _myProject.PostTypes.Select(p=>p).ToList();
+
+
+            List<SelectListItem> mySelectItemList = new List<SelectListItem>();
+            foreach (var item in data)
+            {
+                mySelectItemList.Add(new SelectListItem()
+                {
+                    Text = item.PostTypeName,
+                    Value = item.PostTypeId.ToString(),
+                    Selected = false
+                });
+            }
+            CPostViewModel model = new CPostViewModel() 
+            {
+                MyList = mySelectItemList
+            };
+           
+            return View(model);
+          
+        }
+        [HttpPost]
+        public IActionResult CreatePost(CPostViewModel vModel) 
+        {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            Member userobj = JsonSerializer.Deserialize<Member>(json);
+            int userid = userobj.MemberId;
+
+            if (vModel.PostPhoto != null)
+            {
+                string photoName = Guid.NewGuid().ToString() + ".jpg";
+                vModel.PostImage = photoName;
+                vModel.PostPhoto.CopyTo(             
+                    new FileStream(
+                        _environment.WebRootPath + "/Front/Images/blog/UploadImage/" + photoName
+                        , FileMode.Create));
+            }
+            var newpost = new Post
+            {
+               MemberId = userid,
+               Title = vModel.Title,
+               PostContent = vModel.PostContent,
+               PostDate = DateTime.Now.ToString(),
+               PostTypeId = int.Parse(vModel.PostType),
+               PostImage =vModel.PostImage,
+               Banned = false,
+               BannedContent = "********************",
+               LikeCount = 0,
+               
+            };
+            _myProject.Add(newpost);
+            _myProject.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
 
         // 取得商品評價留言 Html Start

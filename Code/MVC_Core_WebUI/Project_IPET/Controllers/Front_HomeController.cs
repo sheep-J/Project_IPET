@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Project_IPET.Models;
+using Project_IPET.Models.EF;
+using Project_IPET.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,14 +15,38 @@ namespace Project_IPET.Controllers
     {
         private readonly ILogger<Front_HomeController> _logger;
 
-        public Front_HomeController(ILogger<Front_HomeController> logger)
+        private readonly MyProjectContext _myProject;
+
+        public Front_HomeController(ILogger<Front_HomeController> logger, MyProjectContext myProject)
         {
             _logger = logger;
+            _myProject = myProject;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+
+        public IActionResult BlogView()
+        {
+            var posts = _myProject.Posts.Where(c => c.ReplyToPost == null)
+                .OrderByDescending(d=>d.PostDate)
+                .Select(n => new CPostViewModel
+            {
+                PostId = n.PostId,
+                Title = n.Title,
+                PostContent = n.PostContent,
+                PostDate = n.PostDate,
+                LikeCount = n.LikeCount,
+                PostImage = n.PostImage,
+                MemberName = n.Member.Name,
+                MemberId = n.MemberId,
+
+            }).Take(3).ToList();
+
+            return PartialView(posts); 
         }
 
         public IActionResult Privacy()

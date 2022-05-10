@@ -58,7 +58,6 @@ namespace Project_IPET.Controllers
                 PostDate = n.PostDate,
                 LikeCount = n.LikeCount,
                 PostImage = n.PostImage,
-                Tag = n.Tag,
                 MemberName = n.Member.Name,
                 MemberId = n.MemberId,
 

@@ -93,5 +93,75 @@ namespace Project_IPET.Controllers
             //else
             //    return Json("請先登入");
         }
+        public IActionResult ReadOrderDeatil(int Id)
+        {
+            var result = _myProject.OrderDetails.Where(n => n.OrderId == Id).Select(n => new
+            {
+                name = n.Product.ProductName,
+                price = n.UnitPrice,
+                quantity = n.Quantity,
+                total = (n.UnitPrice * n.Quantity)
+            }).ToList();
+            return Json(result);
+        }
+        public IActionResult ReadOrderOther(int Id)
+        {
+            var result = _myProject.Orders.Where(n => n.OrderId == Id).Select(o => new
+            {
+                frieght = o.Frieght,
+                total = (_myProject.OrderDetails.Where(a => a.OrderId == o.OrderId).Sum(n => n.UnitPrice * n.Quantity) + o.Frieght).ToString(),
+                where = o.ShippedTo,
+                who = o.OrderName,
+                phone = o.OrderPhone
+            }).FirstOrDefault();
+            return Json(result);
+        }
+
+        public IActionResult LoadDonate()
+        {
+            string user = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            //if (!string.IsNullOrEmpty(user)) {
+            //Member nowuser = JsonSerializer.Deserialize<Member>(user);
+            //int userid = nowuser.MemberId;
+
+            var list = _myProject.Orders.Where(n => n.MemberId == 3 && n.TransactionTypeId == 2).Select(n => new
+            {
+                fId = n.OrderId,
+                fDate = n.RequiredDate.Substring(0, 8),
+                fTotal = (_myProject.DonationDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(),
+                fStatus = n.OrderStatus.OrderStatusName,
+                fFound = n.DonationDetails.FirstOrDefault().Foundation.FoundationName
+            }).ToList();
+
+            if (list == null)
+                return Json("無捐贈紀錄");
+            return Json(list);
+            //}
+            //else
+            //    return Json("請先登入");
+        }
+        public IActionResult ReadDonateDetail(int Id)
+        {
+            var list = _myProject.DonationDetails.Where(n => n.OrderId == Id).Select(n => new
+            {
+                name = n.Product.ProductName,
+                price = n.UnitPrice,
+                quantity = n.Quantity,
+                total = (n.UnitPrice*n.Quantity)
+            }).ToList();
+            return Json(list);
+        }
+        public IActionResult ReadDonateOther(int Id)
+        {
+            var result = _myProject.Orders.Where(n => n.OrderId == Id).Select(o => new
+            {
+                frieght = o.Frieght,
+                total = (_myProject.DonationDetails.Where(a => a.OrderId == o.OrderId).Sum(n => n.UnitPrice * n.Quantity) + o.Frieght).ToString(),
+                where = o.DonationDetails.FirstOrDefault().Foundation.FoundationName,
+                who = o.OrderName,
+                phone = o.OrderPhone
+            }).FirstOrDefault();
+            return Json(result);
+        }
     }
 }

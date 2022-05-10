@@ -4,6 +4,7 @@ using Project_IPET.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Project_IPET.Controllers
@@ -20,7 +21,7 @@ namespace Project_IPET.Controllers
         {
             return View();
         }
-        public IActionResult AddToCart(int? id)
+        public IActionResult Detail(int? id)
         {
             //找到prjId為參數的專案
             var project = _context.ProjectDetails.Where(n=>n.PrjId==id).Select(p=>new CProjectDetailViewModel {

@@ -1,6 +1,6 @@
 ﻿@model Project_IPET.ViewModels.CProjectDetailViewModel
 @{
-    ViewData["Title"] = "AddToCart";
+    ViewData["Title"] = "Detail";
     Layout = "_FrontLayout";
 }
 <!-- Breadcrumb Area Start -->
@@ -164,7 +164,7 @@
 
                                     <!-- Product Head Start -->
                                     <div class="product-head m-b-15">
-                                        <h2 class="product-title" id="PTitle">Single Product Slider</h2>
+                                        <h2 class="product-title" id="PTitle">@*商品名稱*@</h2>
                                     </div>
                                     <!-- Product Head End -->
                                     <!-- Rating Start -->
@@ -178,38 +178,41 @@
                                     <!-- Rating End -->
                                     <!-- Price Box Start -->
                                     <div class="price-box m-b-10">
-                                        <span class="regular-price" id="PPrice">$70.00</span>
+                                        <span class="regular-price" id="PPrice">@*商品價格*@</span>
                                     </div>
                                     <!-- Price Box End -->
                                     <!-- Product Inventory Start -->
                                     <div class="product-inventroy m-b-15">
                                         <span class="inventroy-title"> <strong>剩餘數量:</strong></span>
-                                        <span class="inventory-varient" id="PStock">12 Left in Stock</span>
+                                        <span class="inventory-varient" id="PStock">@*商品庫存*@</span>
                                     </div>
                                     <!-- Product Inventory End -->
                                     <!-- Description Start -->
-                                    <p class="desc-content m-b-25" id="PDes">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                                    <p class="desc-content m-b-25" id="PDes">@*商品描述*@</p>
                                     <!-- Description End -->
                                     <!-- Quantity Start -->
                                     <div class="quantity d-flex align-items-center justify-content-start m-b-25">
-                                        <span class="m-r-10"><strong>Qty: </strong></span>
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton"></div>
-                                            <div class="inc qtybutton"></div>
-                                        </div>
+                                        <span class="m-r-10"><strong>數量: </strong></span>
+                                        <form method="post" action="~/Front_Cart/AddToCart">
+                                            <div>
+                                                <input name="id" type="hidden" id="prdid" />
+                                                <input name="qty" class="cart-plus-minus-box" value="1" type="number" id="selectQty">
+                                                @*<div class="dec qtybutton"></div>
+                                                <div class="inc qtybutton"></div>*@
+                                            </div>
+                                            <!-- Cart Button Start -->
+                                            <div class="cart-btn action-btn m-b-30" style="bottom:10px;position:absolute;">
+                                                <div class="action-cart-btn-wrapper d-flex justify-content-start">
+                                                    <div class="add-to_cart">
+                                                        <input type="submit" id="addtocart" class="btn btn-primary btn-hover-dark rounded-0" value="加入購物車"/>
+                                                    </div>
+                                                    <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
+                                                </div>
+                                            </div>
+                                            <!-- Cart Button End -->
+                                        </form>
                                     </div>
                                     <!-- Quantity End -->
-                                    <!-- Cart Button Start -->
-                                    <div class="cart-btn action-btn m-b-30">
-                                        <div class="action-cart-btn-wrapper d-flex justify-content-start">
-                                            <div class="add-to_cart">
-                                                <a class="btn btn-primary btn-hover-dark rounded-0" href="cart.html">Add to cart</a>
-                                            </div>
-                                            <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                    <!-- Cart Button End -->
                                 </div>
                                 <!-- Product Summery End -->
 
@@ -358,8 +361,10 @@
             piclist.innerHTML = "";
             piclist.append(imga);
 
+            $("#prdid").attr("value",data[0].id);
+            $("#selectQty").val("1").attr("max", data[0].stock).attr("min", "1");
             $("#PTitle").html(data[0].name)
-            $("#PPrice").html(data[0].price)
+            $("#PPrice").html(`$NT ${data[0].price}`)
             $("#PStock").html(data[0].stock)
             $("#PDes").html(data[0].des)
         }

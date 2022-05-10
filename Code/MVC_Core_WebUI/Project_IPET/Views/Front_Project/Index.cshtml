@@ -150,7 +150,7 @@
                 thumb.className = "thumb";
 
                 var imgcontain = document.createElement("a");
-                imgcontain.className = "image"; imgcontain.href = `/Front_Project/AddToCart?Id=${item.fId}`;
+                imgcontain.className = "image"; imgcontain.href = `/Front_Project/Detail?Id=${item.fId}`;
                 var img = document.createElement("img");
                 img.className = "fit-image"; img.src = `/Front/images/project/${item.fPrjImage}`;
                 imgcontain.append(img);
@@ -173,7 +173,7 @@
                 var title = document.createElement("h5");
                 title.className = "title";
                 var titlea = document.createElement("a");
-                titlea.href = `/Front_Project/AddToCart?Id=${item.fId}`; titlea.innerHTML = `${item.fTitle}`;
+                titlea.href = `/Front_Project/Detail?Id=${item.fId}`; titlea.innerHTML = `${item.fTitle}`;
                 title.append(titlea);
 
                 var price = document.createElement("span");
@@ -192,7 +192,7 @@
                 var cart = document.createElement("div");
                 cart.className = "add-to_cart";
                 var cartaction = document.createElement("a");
-                cartaction.className = "btn btn-primary btn-hover-dark rounded-0"; cartaction.innerHTML = "參與專案"; cartaction.href = `/Front_Project/AddToCart?Id=${item.fId}`;
+                cartaction.className = "btn btn-primary btn-hover-dark rounded-0"; cartaction.innerHTML = "參與專案"; cartaction.href = `/Front_Project/Detail?Id=${item.fId}`;
                 cart.append(cartaction);
                 wrapper.append(cart);
                 btn.append(wrapper);

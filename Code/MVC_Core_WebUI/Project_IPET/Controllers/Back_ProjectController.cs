@@ -36,23 +36,42 @@ namespace Project_IPET.Controllers
             return View();
         }
 
+        //public IActionResult ProjectProduct(int Id)
+        //{
+        //    var productlist = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n=>n.ProductId).ToList();
 
+        //    var list = new List<Product>();
+        //    foreach (var item in productlist)
+        //    {
+        //        var prod = _context.Products.FirstOrDefault(n => n.ProductId == item);
+        //        list.Add(prod);
+        //    }
+        //    return Json(list);
+        //}
+        //新版取得專案商品(數量為庫存加售出)
         public IActionResult ProjectProduct(int Id)
         {
-            var productlist = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n=>n.ProductId);
-
-            var list = new List<Product>();
-            foreach (var item in productlist.ToList())
+            List<dynamic> list = new List<dynamic>();
+            var prod = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n => n.ProductId).ToList();
+            foreach (var item in prod)
             {
-                var prod = _context.Products.FirstOrDefault(n => n.ProductId == item);
-                list.Add(prod);
+                var other = _context.Products.Where(n => n.ProductId == item).Select(n => new
+                {
+                    name = n.ProductName,
+                    price = n.UnitPrice,
+                    stock = n.UnitsInStock + _context.OrderDetails.Where(n => n.ProductId == item).Sum(n => n.Quantity)
+                }).FirstOrDefault();
+                list.Add(other);
             }
             return Json(list);
         }
+
         public IActionResult ProjectDetail(int Id)
         {
             var Project = _context.ProjectDetails.Where(n=>n.PrjId == Id).Select(p=>new
             {
+                detailimg = p.PrjImage,
+                detailtitle = p.Title,
                 detailfoundation = p.Foundation.FoundationName,
                 detailgoal = p.Goal,
                 detailstarttime = p.Starttime.ToString(),

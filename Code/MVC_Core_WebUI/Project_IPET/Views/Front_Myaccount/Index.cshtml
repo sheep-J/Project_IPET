@@ -69,7 +69,6 @@
                                     <div class="myaccount-content">
                                         <h3 class="title">我的訂單</h3>
                                         <div class="myaccount-table table-responsive text-center" id="orderdiv">
-                                            @*>>here*@
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
@@ -87,32 +86,39 @@
                                             </table>
                                             <!-- orderModal -->
                                             <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%;">
-                                                <div class="modal-dialog" role="document" style="max-width:650px">
+                                                <div class="modal-dialog" role="document" style="max-width:800px;text-align:left!important;font-size:16px">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLabel">訂單資訊</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <table style="margin:auto">
+                                                            <table style="margin:auto;width:700px">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>序</th>
+                                                                        <th style="display:none">訂單編號</th>
                                                                         <th>商品名稱</th>
                                                                         <th>單價</th>
                                                                         <th>數量</th>
-                                                                        <th>總金額</th>
+                                                                        <th>金額</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody id="orderdetail">
                                                                     @* 訂單明細 *@
                                                                 </tbody>
                                                             </table>
-                                                            總金額:900
+                                                            <div style="margin-left:15px">
+                                                                <div id="detailfrieght"></div>
+                                                                <div id="detailprice"></div>
+                                                                <div id="detailwhere"></div>
+                                                                <div id="detailwho"></div>
+                                                                <div id="detailphone"></div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                            @*<button type="button" class="btn btn-primary">Save changes</button>*@
                                                         </div>
                                                     </div>
                                                 </div>
@@ -125,80 +131,63 @@
                                 <div class="tab-pane fade" id="donate" role="tabpanel">
                                     <div class="myaccount-content">
                                         <h3 class="title">捐贈明細</h3>
-                                        <div class="myaccount-table table-responsive text-center">
-                                            @*>>here*@
+                                        <div class="myaccount-table table-responsive text-center" id="donatediv">
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th>序號</th>
-                                                        <th>訂單編號</th>
+                                                        <th>序</th>
+                                                        <th style="display:none">訂單編號</th>
                                                         <th>下單日期</th>
                                                         <th>訂單金額</th>
                                                         <th>訂單狀態</th>
                                                         <th>受贈單位</th>
-                                                        <th>檢視訂單明細</th>
+                                                        <th>檢視捐贈明細</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>55</td>
-                                                        <td>2021/11/01</td>
-                                                        <td>5000</td>
-                                                        <td>已送達</td>
-                                                        <td>流浪動物之家</td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#donateModal">
-                                                                檢視訂單資訊
-                                                            </button>
-                                                        </td>
-                                                    </tr>
+                                                <tbody id="donatelist">
+                                                    @* 捐贈明細 *@
                                                 </tbody>
                                             </table>
                                             <!-- donateModal -->
                                             <div class="modal fade" id="donateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
-                                                <div class="modal-dialog" role="document">
+                                                <div class="modal-dialog" role="document" style="max-width:800px;text-align:left!important;font-size:16px">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLabel">訂單資訊</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <table>
+                                                            <table style="margin:auto;width:700px">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>序</th>
-                                                                        <th>圖片</th>
                                                                         <th>商品名稱</th>
                                                                         <th>單價</th>
                                                                         <th>數量</th>
                                                                         <th>總金額</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody>
+                                                                <tbody id="donatedetail">
                                                                     <tr>
                                                                         <td>1</td>
-                                                                        <td><img class="img-thumbnail" src="~/Front/images/project/3.jpg" /></td>
                                                                         <td>貓食</td>
                                                                         <td>500</td>
                                                                         <td>1</td>
                                                                         <td>500</td>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <td>2</td>
-                                                                        <td><img class="img-thumbnail" src="~/Front/images/project/3.jpg" /></td>
-                                                                        <td>狗食</td>
-                                                                        <td>200</td>
-                                                                        <td>2</td>
-                                                                        <td>400</td>
-                                                                    </tr>
                                                                 </tbody>
                                                             </table>
-                                                            總金額:900
+                                                            <div style="margin-left:15px">
+                                                                <div id="donatefrieght"></div>
+                                                                <div id="donateprice"></div>
+                                                                <div id="donatewhere"></div>
+                                                                <div id="donatewho"></div>
+                                                                <div id="donatephone"></div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                            @*<button type="button" class="btn btn-primary">Save changes</button>*@
                                                         </div>
                                                     </div>
                                                 </div>
@@ -669,7 +658,7 @@
 
        //Comment  End
 
-        //我的訂單
+        //我的訂單-Start==================================================
         LoadOrder();
         async function LoadOrder() {
             const Orderresponse = await fetch("@Url.Content("~/Front_Myaccount/LoadOrder")");
@@ -682,12 +671,6 @@
                 var count = 0;
                 data.forEach((item) => {
                     count++;
-                    var contain = document.createElement("div");
-                    contain.className = "action quickview product";
-                    contain.title = "Quickview";
-                    contain.style = "margin-bottom: 10px; border: 2px solid #f6ab49;";
-                    contain.setAttribute("data-bs-toggle", "modal");
-                    contain.setAttribute("data-bs-target", "#prodmodal");
                     var tr = document.createElement("tr");
                     const cell1 = document.createElement("td");
                     cell1.innerText = count;
@@ -711,17 +694,16 @@
                     $("#orderlist").append(tr);
                 })
             }
-
         }
-
+        //訂單明細
         $("#orderlist").on('click','button:nth-child(1)',async function() {
             const OrderId = $(this).parents('tr').find('td:nth-child(2)').text();
-            const Detailresponse = await fetch("@Url.Content("~/Back_Orders/OrderDeatil?Id=")" + OrderId);
+            const Detailresponse = await fetch("@Url.Content("~/Front_Myaccount/ReadOrderDeatil?Id=")" + OrderId);
             renderOrderDetail(await Detailresponse.json());
-            @*const Otherresponse = await fetch("@Url.Content("~/Back_Orders/OrderOther?Id=")" + OrderId);
-            renderOther(await Otherresponse.json());*@
+            const Otherresponse = await fetch("@Url.Content("~/Front_Myaccount/ReadOrderOther?Id=")" + OrderId);
+            renderOrderOther(await Otherresponse.json());
         })
-        function renderOrderDetail(data) {            
+        function renderOrderDetail(data) {
             var list = document.getElementById("orderdetail");
             var count = 0;
             list.innerHTML = "";
@@ -731,17 +713,98 @@
                 var cell1 = document.createElement("td");
                 cell1.innerHTML = count;
                 var cell2 = document.createElement("td");
-                cell2.innerHTML = item.Name;
+                cell2.innerHTML = item.name;
                 var cell3 = document.createElement("td");
-                cell3.innerHTML = item.Price;
+                cell3.innerHTML = item.price;
                 var cell4 = document.createElement("td");
-                cell4.innerHTML = item.Quantity;
+                cell4.innerHTML = item.quantity;
                 var cell5 = document.createElement("td");
-                cell5.innerHTML = item.Total
+                cell5.innerHTML = item.total
                 tr.append(cell1, cell2, cell3, cell4, cell5);
-                
                 list.append(tr);
             })
         }
+        function renderOrderOther(data) {
+            $("#detailfrieght").html(`運費: ${data.frieght}`)
+            $("#detailprice").html(`總金額: ${data.total}`)
+            $("#detailwhere").html(`運送地址: ${data.where}`)
+            $("#detailwho").html(`收件人: ${data.who}`)
+            $("#detailphone").html(`連絡電話: ${data.phone}`)
+        }
+        //我的訂單-End====================================================
+        //我的捐贈-Start==================================================
+        LoadDonate();
+        async function LoadDonate() {
+            const Donateresponse = await fetch("@Url.Content("~/Front_Myaccount/LoadDonate")");
+            renderDonate(await Donateresponse.json());
+        }
+        function renderDonate(data) {
+            if (data == "請先登入" || data == "無捐贈紀錄") {
+                $("#donatediv").html(`<h2>${data}</h2>`)
+            } else {
+                var count = 0;
+                data.forEach((item) => {
+                    count++;
+                    var tr = document.createElement("tr");
+                    const cell1 = document.createElement("td");
+                    cell1.innerText = count;
+                    const cell2 = document.createElement("td");
+                    cell2.style.display = "none";
+                    cell2.innerText = item.fId;
+                    const cell3 = document.createElement("td");
+                    cell3.innerText = item.fDate;
+                    const cell4 = document.createElement("td");
+                    cell4.innerText = item.fTotal;
+                    const cell5 = document.createElement("td");
+                    cell5.innerText = item.fStatus;
+                    const cell6 = document.createElement("td");
+                    cell6.innerText = item.fFound;
+                    const btn = document.createElement("button");
+                    btn.type = "button"; btn.className = "btn btn-primary";
+                    btn.setAttribute("data-bs-toggle", "modal");
+                    btn.setAttribute("data-bs-target", "#donateModal");
+                    btn.innerText = "檢視";
+                    const cell7 = document.createElement("td");
+                    cell7.append(btn);
+                    tr.append(cell1, cell2, cell3, cell4, cell5, cell6,cell7);
+                    $("#donatelist").append(tr);
+                })
+            }
+        }
+        $("#donatelist").on('click','button:nth-child(1)',async function() {
+            const OrderId = $(this).parents('tr').find('td:nth-child(2)').text();
+            const Detailresponse = await fetch("@Url.Content("~/Front_Myaccount/ReadDonateDetail?Id=")" + OrderId);
+            renderDonateDetail(await Detailresponse.json());
+            const Otherresponse = await fetch("@Url.Content("~/Front_Myaccount/ReadDonateOther?Id=")" + OrderId);
+            renderDonateOther(await Otherresponse.json());
+        })
+        function renderDonateDetail(data) {
+            var list = document.getElementById("donatedetail");
+            var count = 0;
+            list.innerHTML = "";
+            data.forEach((item) => {
+                count++;
+                var tr = document.createElement("tr");
+                var cell1 = document.createElement("td");
+                cell1.innerHTML = count;
+                var cell2 = document.createElement("td");
+                cell2.innerHTML = item.name;
+                var cell3 = document.createElement("td");
+                cell3.innerHTML = item.price;
+                var cell4 = document.createElement("td");
+                cell4.innerHTML = item.quantity;
+                var cell5 = document.createElement("td");
+                cell5.innerHTML = item.total
+                tr.append(cell1, cell2, cell3, cell4, cell5);
+                list.append(tr);
+            })
+        }
+        function renderDonateOther(data) {
+            $("#donatefrieght").html(`運費: ${data.frieght}`)
+            $("#donateprice").html(`總金額: ${data.total}`)
+            $("#donatewhere").html(`捐贈單位: ${data.where}`)
+            $("#donatephone").html(`連絡電話: ${data.phone}`)
+        }
+        //我的捐贈-End====================================================
     </script>
 }

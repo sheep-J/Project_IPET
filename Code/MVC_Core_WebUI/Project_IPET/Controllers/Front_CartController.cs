@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Project_IPET.Helpers;
 using Project_IPET.Models;
 using Project_IPET.Models.EF;
@@ -37,7 +39,8 @@ namespace Project_IPET.Controllers
             return View(CartItems);
         }
 
-        public IActionResult AddToCart(int id)
+        [HttpPost]
+        public IActionResult AddToCart(int id, int? qty)
         {
 
             var product = _context.Products.Single(m => m.ProductId.Equals(id));
@@ -45,13 +48,11 @@ namespace Project_IPET.Controllers
             // TODO 優化計算項目
             CartModel item = new CartModel()
             {
-                Id = product.ProductId,
+                ProductID = product.ProductId,
                 Product = product,
-                Name = product.ProductName,
                 Category = GetCategoryName(product.SubCategoryId),
-                UnitPrice = product.UnitPrice,
-                Quantity = 1,
-                SubTotal = product.UnitPrice,
+                Quantity = (int)qty,
+                SubTotal = product.UnitPrice * (int)qty,
                 imageSrc = ConvertImage(GetProductImage(product.ProductId))
             };
 
@@ -71,8 +72,8 @@ namespace Project_IPET.Controllers
 
                 if (index != -1)
                 {
-                    cart[index].Quantity += 1;
-                    cart[index].SubTotal += product.UnitPrice;
+                    cart[index].Quantity += (int)qty;
+                    cart[index].SubTotal += product.UnitPrice * (int)qty;
                 }
                 else
                 {

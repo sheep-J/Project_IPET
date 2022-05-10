@@ -18,20 +18,24 @@ namespace Project_IPET.Controllers
 
     public class Front_BlogController : Controller
     {
-        private readonly MyProjectContext _myProject;
+        private readonly MyProjectContext _context;
 
         private IWebHostEnvironment _environment;
 
+      
         public Front_BlogController(MyProjectContext myProject, IWebHostEnvironment p)
         {
             _environment = p;
-            _myProject = myProject;
+            _context = myProject;
+        
 
         }
-        public IActionResult Index( )
+        public IActionResult Index(PostFilterModel postFilter)
         {
+          
             int countbypage =6;
-            int totalpost = _myProject.Posts.Where(c => c.ReplyToPost == null).Count();
+            int totalpost = _context.Posts
+                .Where(c => c.ReplyToPost == null).Count();
             CTools tools = new CTools();
             tools.Page(countbypage, totalpost, out int tatalpage);
 
@@ -41,17 +45,19 @@ namespace Project_IPET.Controllers
         }
 
         [HttpPost]
-        public IActionResult ListView(int inputpage)
+        public IActionResult ListView(int inputpage, PostFilterModel postFilter)
         {
+            
             int page = 1;
             int countbypage = 6;
-           
             if (inputpage > 0)
                 page = inputpage;
 
-            var posts = _myProject.Posts.Where(c => c.ReplyToPost == null).Select(n => new CPostViewModel
+            var posts = _context.Posts
+                .Where(c => c.ReplyToPost == null)
+                .Select(n => new CPostViewModel
             {
-
+             
                 PostId = n.PostId,
                 Title = n.Title,
                 PostContent = n.PostContent,
@@ -100,10 +106,10 @@ namespace Project_IPET.Controllers
                     ReplyToPost = id,
 
                 };
-                _myProject.Add(newReply);
-                _myProject.SaveChanges();
+                _context.Add(newReply);
+                _context.SaveChanges();
             }
-            var postdetail = _myProject.Posts.Where(m => m.PostId == id)
+            var postdetail = _context.Posts.Where(m => m.PostId == id)
                              .Select(p => new CPostViewModel
                              {
                                  PostImage = p.PostImage,
@@ -114,7 +120,7 @@ namespace Project_IPET.Controllers
                                  PostContent = p.PostContent,
                                  PostId = id,
                                  PostType = p.PostType.PostTypeName,
-                                 ReplyConut = _myProject.Posts.Where(r => r.ReplyToPost == id).Select(r => r.ReplyToPost).Count(),
+                                 ReplyConut = _context.Posts.Where(r => r.ReplyToPost == id).Select(r => r.ReplyToPost).Count(),
 
                              }).ToList();
             ViewBag.PostID = id;
@@ -124,7 +130,7 @@ namespace Project_IPET.Controllers
 
         public IActionResult ReplyListView(int inputpostId)
         {
-            var replylistview = _myProject.Posts.Where(p => p.ReplyToPost != null && p.ReplyToPost == inputpostId)
+            var replylistview = _context.Posts.Where(p => p.ReplyToPost != null && p.ReplyToPost == inputpostId)
                                 .OrderByDescending(d =>d.PostDate)
                                 .Select(p => new CPostViewModel {
 
@@ -151,7 +157,7 @@ namespace Project_IPET.Controllers
             }
           
 
-            var data = _myProject.PostTypes.Select(p=>p).ToList();
+            var data = _context.PostTypes.Select(p=>p).ToList();
 
 
             List<SelectListItem> mySelectItemList = new List<SelectListItem>();
@@ -201,8 +207,8 @@ namespace Project_IPET.Controllers
                LikeCount = 0,
                
             };
-            _myProject.Add(newpost);
-            _myProject.SaveChanges();
+            _context.Add(newpost);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -212,7 +218,7 @@ namespace Project_IPET.Controllers
         {
             productname = "室內成貓-貓飼料";
 
-            var productcomment = _myProject.Comments
+            var productcomment = _context.Comments
                                  .OrderByDescending(d=>d.CommentDate)
                                  .Where(p=>p.Product.ProductName == productname)
                                  .Select(n => new CCommentViewModel {

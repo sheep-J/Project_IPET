@@ -86,9 +86,19 @@ namespace Project_IPET.Services
                 {
                     sql += " AND c.CategoryID = @CategoryID";
                 }
+                if (request.SubCategoryId != -1)
+                {
+                    sql += " AND sc.SubCategoryID = @SubCategoryID";
+                }
+                if (!string.IsNullOrWhiteSpace(request.ProductName))
+                {
+                    sql += " AND p.ProductName LIKE '%'+@ProductName+'%'";
+                }
                 var param = new
                 {
                     CategoryID = request.CategoryId,
+                    SubCategoryID=request.SubCategoryId,
+                    ProductName = request.ProductName,
                     PageSize = request.Pagination.PageSize,
                     Page = request.Pagination.Page,
                 };

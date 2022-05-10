@@ -4,14 +4,14 @@
     <div class="swiper-wrapper" id="swiper-wrapper-5af9a443c3bb640b" aria-live="polite" style="transition: all 0ms ease 0s;">
         <div class="hero-slide-item swiper-slide swiper-slide-duplicate swiper-slide-prev swiper-slide-duplicate-next" data-swiper-slide-index="1" role="group" aria-label="1 / 4" style="width: 1902px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition: all 0ms ease 0s;">
             <div class="hero-slide-bg">
-                <img src="assets/images/slider/slider1-2.png" alt="Slider Image">
+                <img src="~/Front/images/slider/slider1.png" alt="Slider Image">
             </div>
             <div class="container">
                 <div class="hero-slide-content text-center text-md-end">
-                    <h5 class="sub-title">我們比您更在乎毛小孩們的健康！</h5>
+                    <h5 class="sub-title">iPet比您更在乎毛小孩們的健康！</h5>
                     <h2 class="title m-0">各式寵物零食及用品</h2>
                     <p>提供多樣化的選擇，照顧家裡的毛寶貝！</p>
-                    <a href="shop.html" class="btn btn-dark btn-hover-primary">開始購物</a>
+                    <a asp-controller="Front_Product" asp-action="Index" class="btn btn-dark btn-hover-primary">開始購物</a>
                 </div>
             </div>
         </div>
@@ -22,16 +22,17 @@
             </div>
             <div class="container">
                 <div class="hero-slide-content text-start">
-                    <h5 class="sub-title">我們比您更在乎毛小孩們的健康！</h5>
+                    <h5 class="sub-title">iPet比您更在乎毛小孩們的健康！</h5>
                     <h2 class="title m-0">各式寵物零食及用品</h2>
                     <p class="ms-0">提供多樣化的選擇，照顧家裡的毛寶貝！</p>
-                    <a href="shop.html" class="btn btn-dark btn-hover-primary">開始購物</a>
+                    <a asp-controller="Front_Product" asp-action="Index" class="btn btn-dark btn-hover-primary">開始購物</a>
                 </div>
             </div>
         </div>
 
         <div class="hero-slide-item swiper-slide swiper-slide-next swiper-slide-duplicate-prev" data-swiper-slide-index="1" role="group" aria-label="3 / 4" style="width: 1902px; opacity: 0; transform: translate3d(-3804px, 0px, 0px); transition: all 0ms ease 0s;">
             <div class="hero-slide-bg">
+                @*<img src="~/Front/images/slider/slider2.png" alt="Slider Image">*@
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/u8rOeYV0wmU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="container">
@@ -39,22 +40,23 @@
                     <h5 class="sub-title">以領養代替購買</h5>
                     <h2 class="title m-0">浪浪需要您的協助！</h2>
                     <p>募集專案開始囉！並提供認養資訊，給浪浪們溫暖的家</p>
-                    <a href="shop.html" class="btn btn-dark btn-hover-primary">募集專案</a>
-                    <a href="shop.html" class="btn btn-dark btn-hover-primary">認養資訊</a>
+                    <a asp-controller="Front_Project" asp-action="Index" class="btn btn-dark btn-hover-primary">募集專案</a>
+                    <a asp-controller="Front_PetAdopt" asp-action="Index" class="btn btn-dark btn-hover-primary">認養資訊</a>
                 </div>
             </div>
         </div>
         <div class="hero-slide-item swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="0" role="group" aria-label="4 / 4" style="width: 1902px; opacity: 0; transform: translate3d(-5706px, 0px, 0px); transition: all 0ms ease 0s;">
             <div class="hero-slide-bg">
-                <img src="assets/images/slider/slider1-1.png" alt="Slider Image">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/u8rOeYV0wmU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                @*<img src="~/Front/images/slider/slider2.png" alt="Slider Image">*@
             </div>
             <div class="container">
                 <div class="hero-slide-content text-start">
                     <h5 class="sub-title">以領養代替購買</h5>
                     <h2 class="title m-0">浪浪需要您的協助！</h2>
                     <p class="ms-0">募集專案開始囉！並提供認養資訊，給浪浪們一個溫暖的家</p>
-                    <a href="shop.html" class="btn btn-dark btn-hover-primary">募集專案</a>
-                    <a href="shop.html" class="btn btn-dark btn-hover-primary">認養資訊</a>
+                    <a asp-controller="Front_Project" asp-action="Index" class="btn btn-dark btn-hover-primary">募集專案</a>
+                    <a asp-controller="Front_PetAdopt" asp-action="Index" class="btn btn-dark btn-hover-primary">認養資訊</a>
                 </div>
             </div>
         </div>

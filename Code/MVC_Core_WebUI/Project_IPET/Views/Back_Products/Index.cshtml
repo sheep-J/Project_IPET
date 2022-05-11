@@ -8,13 +8,18 @@
         getProductList(1);
     });
     var categoryId = -1;
+    var subCategoryId = -1;
     var pageSize = 9;
+    var productName = "";
+
     function getProductList(page) {
         $.ajax({
             method: "POST",
             url: "/Back_Products/ProductList",
             data: {
                 CategoryId: categoryId,
+                ProductName: productName,
+                SubCategoryId: subCategoryId,
                 Pagination: {
                     Page: page,
                     PageSize: pageSize
@@ -25,6 +30,20 @@
             }
         });
     }
+
+    function getProductListWithCategory(id) {
+        categoryId = id;
+        getProductList(1);
+    }
+    function getProductListWithSubCategory(id) {
+        subCategoryId = id;
+        getProductList(1);
+    }
+    function getProductListWithProductName() {
+        productName = $("#searchProductName").val()
+        getProductList(1);
+    }
+
     function deleteProduct(id){
         $.ajax({
             method:"POST",

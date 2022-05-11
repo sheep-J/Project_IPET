@@ -3,70 +3,78 @@
 }
 
 @section Scripts{
-<script>
-    $(document).ready(function () {
-        getProductList(1);
-    });
-    var categoryId = -1;
-    var subCategoryId = -1;
-    var pageSize = 9;
-    var productName = "";
+    <script>
+        $(document).ready(function () {
+            getProductList(1);
+        });
+        var categoryId = -1;
+        var subCategoryId = -1;
+        var pageSize = 9;
+        var productName = "";
 
-    function getProductList(page) {
-        $.ajax({
-            method: "POST",
-            url: "/Back_Products/ProductList",
-            data: {
-                CategoryId: categoryId,
-                ProductName: productName,
-                SubCategoryId: subCategoryId,
-                Pagination: {
-                    Page: page,
-                    PageSize: pageSize
+        function getProductList(page) {
+            $.ajax({
+                method: "POST",
+                url: "/Back_Products/ProductList",
+                data: {
+                    CategoryId: categoryId,
+                    ProductName: productName,
+                    SubCategoryId: subCategoryId,
+                    Pagination: {
+                        Page: page,
+                        PageSize: pageSize
+                    }
+                },
+                success: function (result) {
+                    $("#productList").html(result);
                 }
-            },
-            success: function (result) {
-                $("#productList").html(result);
-            }
-        });
-    }
+            });
+        }
 
-    function getProductListWithCategory(id) {
-        categoryId = id;
-        getProductList(1);
-    }
-    function getProductListWithSubCategory(id) {
-        subCategoryId = id;
-        getProductList(1);
-    }
-    function getProductListWithProductName() {
-        productName = $("#searchProductName").val()
-        getProductList(1);
-    }
+        function getProductListWithCategory(id) {
+            categoryId = id;
+            getProductList(1);
+        }
+        function getProductListWithSubCategory(id) {
+            subCategoryId = id;
+            getProductList(1);
+        }
+        function getProductListWithProductName() {
+            productName = $("#searchProductName").val()
+            getProductList(1);
+        }
 
-    function deleteProduct(id){
-        $.ajax({
-            method:"POST",
-            url: "/Back_Products/DeleteProduct",
-            data: {
-                id: id,
-            },
-            success: function (result) {
-                 if(result){
-                  alert("刪除成功");
-                  window.location.href = "/Back_Products/Index";
-                 }
-                 else{
-                   alert("刪除失敗");
-                 }
-            }
-        });
-    }
-    
-</script>
+        function deleteProduct(id) {
+            $.ajax({
+                method: "POST",
+                url: "/Back_Products/DeleteProduct",
+                data: {
+                    id: id,
+                },
+                success: function (result) {
+                    if (result) {
+                        alert("刪除成功");
+                        window.location.href = "/Back_Products/Index";
+                    }
+                    else {
+                        alert("刪除失敗");
+                    }
+                }
+            });
+        }
+
+    </script>
 }
 <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex">
     <h6 class="text-white text-capitalize ps-3">商品管理頁面</h6>
     <a class="ms-auto btn bg-gradient-dark mb-0 mt-0 me-2" asp-controller="Back_Products" asp-action="CreateProduct">新增商品</a>
 </div>
+@* 商品搜尋功能 *@
+<div class="search">
+    <input type="text" class="form-control" placeholder="搜尋商品名稱" aria-label="Search Our Store" id="searchProductName">
+    <button class="btn btn-primary"  type="button" onclick="getProductListWithProductName()"> 搜尋商品
+    </button>
+    @*<i class="fas fa-search"></i>*@
+</div>
+
 <div id="productList"></div>

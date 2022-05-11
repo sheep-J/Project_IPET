@@ -22,8 +22,15 @@ function PageList(page, elementli, totalpage)
 
     elementli.css("display", "none");
 
+    if (totalpage > 6) {
+        tp = 6;
+    }
+    else {
+        tp = totalpage;
+    }
+
     if (first < 1) {
-        for (i = 1; i < 6; i++)
+        for (i = 1; i < tp; i++)
             elementli.eq(i).css("display", "inline");
     }
 

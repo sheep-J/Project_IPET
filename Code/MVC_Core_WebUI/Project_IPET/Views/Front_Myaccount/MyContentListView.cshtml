@@ -85,7 +85,7 @@
 
     function renderCity(datas) {
         datas.forEach(item => {
-            let opt = new Option(item.CityName, item.CityName);
+            let opt = new Option(item.cityName, item.cityName);
             city.append(opt);
         })
         }
@@ -93,7 +93,7 @@
             if (region.length > 0)
                 region.empty(region.length - 1);
             datas.forEach(item => {
-                let opt = new Option(item.RegionName, item.RegionName);
+                let opt = new Option(item.regionName, item.regionName);
                 region.append(opt);
             })
         }

@@ -21,7 +21,8 @@ namespace Project_IPET.ViewModels
         public string MemberName { get; set; }
         public int MemberId { get; set; }
         public string MemberImage { get; set; }
-        public int ReplyConut { get; set; }
+        public int ReplyCount { get; set; }
+        public string ReplyToPost { get; set; }
         [DisplayName("貼文分類:")]
         public string PostType { get; set; }
          public string PostTypeId { get; set; }

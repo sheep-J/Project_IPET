@@ -18,11 +18,10 @@ namespace Project_IPET.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(/*string txtKeyword*/)
         {
             int countOnePage = 10;
-            //int totalMembers = (new CBackMembersFactory(_context)).memberFilter(txtKeyword,false).Count();
-            int totalMembers = 100;
+            int totalMembers = (new CMembersFactory(_context)).memberFilter(new CMembersFilter()).Count();
             (new CTools()).Page(countOnePage, totalMembers, out int totalPage);
             ViewBag.PAGE = totalPage;
 
@@ -37,8 +36,19 @@ namespace Project_IPET.Controllers
                 page = inputPage;
 
             IEnumerable<CBackMembersViewModel> datas = null;
-            datas = (new CBackMembersFactory(_context)).memberFilter(txtKeyword, false)
-                .Skip((page - 1) * countOnePage).Take(countOnePage).ToList();
+            datas = (new CMembersFactory(_context)).memberFilter(new CMembersFilter
+            {
+                keyword = txtKeyword,
+                male = false,
+                female = false,
+            });
+
+            int totalMembers = datas.Count();
+            (new CTools()).Page(countOnePage, totalMembers, out int totalPage);
+            ViewBag.PAGE = totalPage;
+
+            datas = datas
+                 .Skip((page - 1) * countOnePage).Take(countOnePage).ToList();
 
             return PartialView(datas);
         }

@@ -24,13 +24,6 @@ namespace Project_IPET.Controllers
             _emailSender = emailSender;
         }
 
-        //public IActionResult Index()
-        //{
-        //    if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
-        //        return RedirectToAction("Index", "Front_Home");
-        //    return View();
-        //}
-
         public IActionResult Index()
         {
             return View();
@@ -47,6 +40,7 @@ namespace Project_IPET.Controllers
             }
             return View();
         }
+
 
         public IActionResult ForgetPassword()
         {

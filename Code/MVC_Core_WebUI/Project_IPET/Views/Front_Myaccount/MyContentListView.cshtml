@@ -1,0 +1,101 @@
+﻿@model Project_IPET.ViewModels.CFrontMembersViewModel
+
+<form asp-action="MyContentEdit" class="form-floating">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row">
+        <div class="single-input-item m-b-15">
+            <label for="Name" class="required m-b-10">姓名</label>
+            <input type="text" value="@Html.DisplayFor(model=>model.Name)" name="Name" id="Name" />
+        </div>
+        <div class="single-input-item m-b-15">
+            <label for="Email" class="required m-b-5">Email</label>
+            <input type="email" value="@Html.DisplayFor(model=>model.Email)" name="Email" id="Email" />
+        </div>
+        <div class="single-input-item m-b-15">
+            <label for="Phone" class="required m-b-10">電話</label>
+            <input type="text" value="@Html.DisplayFor(model=>model.Phone)" name="Phone" id="Phone" readonly />
+        </div>
+        <div class="single-input-item m-b-15">
+            <label for="BirthDate" class="required m-b-5">生日</label>
+            <input type="date" value="@Html.DisplayFor(model=>model.BirthDate)" name="BirthDate" id="BirthDate" />
+        </div>
+        <div class="col-lg-6">
+            <div class="single-input-item m-b-15">
+                <label for="selcity" class="required m-b-10">縣市</label>
+                <select name="City" id="selcity"><option>@Html.DisplayFor(model => model.City)</option></select>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="single-input-item m-b-15">
+                <label for="selregion" class="required m-b-10">區</label>
+                <select name="Region" id="selregion"><option>@Html.DisplayFor(model => model.Region)</option></select>
+            </div>
+        </div>
+        <div class="single-input-item m-b-15">
+            <label for="Address" class="required m-b-5">地址</label>
+            <input type="text" value="@Html.DisplayFor(model=>model.Address)" name="Address" id="Address" />
+        </div>
+    </div>
+    <fieldset>
+        <legend>密碼變更</legend>
+        <div class="single-input-item m-b-15">
+            <label for="CurrentPwd" class="required m-b-10">舊密碼</label>
+            <input type="password" name="CurrentPwd" id="CurrentPwd" placeholder="確認密碼" />
+        </div>
+        <div class="row m-b-n15">
+            <div class="col-lg-6">
+                <div class="single-input-item m-b-15">
+                    <label for="NewPwd" class="required m-b-10">新密碼</label>
+                    <input type="password" name="NewPwd" id="NewPwd" placeholder="請輸入新的密碼……" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="single-input-item m-b-15">
+                    <label for="ConfirmPwd" class="required m-b-10">確認密碼</label>
+                    <input type="password" name="ConfirmPwd" id="ConfirmPwd" placeholder="請確認是否與新密碼相符" />
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div class="single-input-item single-item-button m-t-30">
+        <input type="submit" value="確認變更" class="btn btn btn-primary btn-hover-dark rounded-0" />
+    </div>
+</form>
+
+<script>
+        let city = $("#selcity");
+        let region = $("#selregion");
+
+    (async function loadAddress() {
+        //載入縣市
+        let cityResponse = await fetch("@Url.Content("~/MembersApi/City")");
+        renderCity(await cityResponse.json());
+        //載入鄉鎮區
+        let cityname = $("#selcity option:selected").val();
+        let regionResponse = await fetch("@Url.Content("~/MembersApi/Region")?cityname=" + cityname);
+        renderRegion(await regionResponse.json());
+    })();
+
+        city.change(async () => {
+            let cityname = $("#selcity option:selected").val();
+            let regionResponse = await fetch("@Url.Content("~/MembersApi/Region")?cityname=" + cityname);
+            renderRegion(await regionResponse.json());
+        })
+
+    function renderCity(datas) {
+        datas.forEach(item => {
+            let opt = new Option(item.CityName, item.CityName);
+            city.append(opt);
+        })
+        }
+        function renderRegion(datas) {
+            if (region.length > 0)
+                region.empty(region.length - 1);
+            datas.forEach(item => {
+                let opt = new Option(item.RegionName, item.RegionName);
+                region.append(opt);
+            })
+        }
+
+</script>

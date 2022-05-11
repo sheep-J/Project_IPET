@@ -7,13 +7,17 @@
             getProductList(1);
         });
         var categoryId = -1;
+        var subCategoryId=-1;
         var pageSize = 9;
+        var productName="";
         function getProductList(page) {
             $.ajax({
                 method: "POST",
                 url: "/Front_Product/ProductList",
                 data: {
                     CategoryId: categoryId,
+                    ProductName: productName,
+                    SubCategoryId:subCategoryId,
                     Pagination: {
                         Page: page,
                         PageSize: pageSize
@@ -37,6 +41,14 @@
 
         function getProductListWithCategory(id) {
             categoryId = id;
+            getProductList(1);
+        }
+         function getProductListWithSubCategory(id) {
+            subCategoryId = id;
+            getProductList(1);
+        }
+         function getProductListWithProductName() {
+            productName = $("#searchProductName").val()
             getProductList(1);
         }
 
@@ -128,8 +140,8 @@
                         <div class="widget-list m-b-50">
                             <h3 class="widget-title m-b-30">Search</h3>
                             <div class="search-box">
-                                <input type="text" class="form-control" placeholder="搜尋本商店" aria-label="Search Our Store">
-                                <button class="search-icon" type="button">
+                                <input type="text" class="form-control" placeholder="搜尋本商店" aria-label="Search Our Store" id="searchProductName">
+                                <button class="search-icon" type="button" onclick="getProductListWithProductName()">
                                     <i class="icon-magnifier"></i>
                                 </button>
                             </div>
@@ -140,11 +152,11 @@
                                 <ul class="sidebar-list" aria-expanded="true">
                                     @foreach (var category in Model)
                                     {
-                                        <li><a href="#/" style="background-color:lightblue">@category.CategoryName</a></li>
+                                        <li><a href="#/" style="background-color:lightblue" onclick="getProductListWithCategory(@category.CategoryId)">@category.CategoryName</a></li>
                                         foreach (var subCategory in category.SubCategories)
                                         {
                                             <ul>
-                                                <li><a href="#/">@subCategory.SubCategoryName</a></li>
+                                                <li><a href="#/" onclick="getProductListWithSubCategory(@subCategory.SubCategoryId)">@subCategory.SubCategoryName</a></li>
                                             </ul>
                                         }
                                     }

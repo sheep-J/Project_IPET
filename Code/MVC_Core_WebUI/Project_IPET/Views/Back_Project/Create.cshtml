@@ -1,66 +1,95 @@
 ﻿
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "新增專案";
 }
 
 <div class="offset-xl-1 col-xl-10 col-sm-12 mb-xl-0 mb-12">
     <div class="card">
-        <div class="card-header p-3 pt-2">
-            <div class="pt-1">
-                <h2 class="mb-0">新增專案</h2>
-            </div>
-        </div>
-        <hr class="dark horizontal my-0">
-
         <div style="width:80%;margin:20px auto">
-            <form>
-
+            <form asp-action="Create" enctype="multipart/form-data">
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="title" style="font-size:25px;color:black">專案名稱</label>
-                    <input type="text" class="form-control" id="title" placeholder="專案名稱">
+                    <input name="fTitle" type="text" class="form-control" id="title" placeholder="專案名稱" autocomplete="off">
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="description" style="font-size:25px">專案簡介</label>
-                    <input type="text" class="form-control" id="description" placeholder="專案簡介">
+                    <input name="fDes" type="text" class="form-control" id="description" placeholder="專案簡介" autocomplete="off">
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="prjphoto" style="font-size:25px;color:black">專案圖片</label>
-                    <input type="file" class="form-control" id="prjphoto">
+                    <input name="fPhoto" type="file" class="form-control" id="prjphoto" autocomplete="off">
+                </div>
+                <div class="form-group col-xl-5" style="margin:10px 0">
+                    <label style="font-size:25px">基金會</label>
+                    <select name="fFound" id="foundlist">
+                    </select>
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="goal" style="font-size:25px">專案目標</label>
-                    <input type="text" class="form-control" id="goal" placeholder="專案目標">
+                    <input name="fGoal" type="text" class="form-control" id="goal" placeholder="專案目標" autocomplete="off">
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="content" style="font-size:25px">開始日期</label>
-                    <input type="date" class="form-control" id="content" placeholder="開始日期">
+                    <input name="fStart" type="date" class="form-control" id="content" placeholder="開始日期" autocomplete="off">
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="content" style="font-size:25px">結束日期</label>
-                    <input type="date" class="form-control" id="content" placeholder="結束日期">
+                    <input name="fEnd" type="date" class="form-control" id="content" placeholder="結束日期" autocomplete="off">
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="content" style="font-size:25px">專案說明</label><br />
-                    <textarea id="content" style="width:100%" rows="15"></textarea>
+                    <textarea name="fContent" id="content" style="width:100%" rows="15"></textarea>
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="content" style="font-size:25px">專案商品</label><br />
-                    <select>
-                        <option>請選擇商品</option>
-                        <option>狗食</option>
-                    </select>
-                    <select>
-                        <option>請選擇商品</option>
-                        <option>狗食</option>
-                    </select>
-                    <select>
-                        <option>請選擇商品</option>
-                        <option>狗食</option>
-                    </select>
+                    <div id="prodlist">
+                    </div>
                 </div>
-
-                <button type="submit" class="btn btn-primary" asp-action="Index">新增</button>
+                <button type="submit" class="btn btn-primary">新增</button>
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        LoadProds();
+        LoadFounds();
+        async function LoadProds() {
+            const Prodresponse = await fetch("@Url.Content("~/Back_Project/CreateLoadProd")");
+            renderProds(await Prodresponse.json());
+        }
+        function renderProds(datas) {
+            const list = document.getElementById("prodlist");
+            list.innerHTML = "";
+            datas.forEach((prod) => {
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.name = "fProds";
+                checkbox.value = prod.id;
+                checkbox.id = `prod${prod.id}`;
+                const label = document.createElement("label");
+                label.innerHTML = prod.name
+                label.setAttribute("for", `prod${prod.id}`);
+                label.style.position = "absolute";
+                const br = document.createElement("br");
+                list.append(checkbox,label,br);
+            })
+        }
+
+        async function LoadFounds() {
+            const Foundresponse = await fetch("@Url.Content("~/Back_Project/CreateLoadFound")");
+            renderFounds(await Foundresponse.json());
+        }
+        function renderFounds(datas) {
+            const list = document.getElementById("foundlist");
+            list.innerHTML = "";
+            datas.forEach((found) => {
+                const option = document.createElement("option");
+                option.value = found.id;
+                option.innerHTML = found.name;
+                list.append(option);
+            })
+        }
+    </script>
+}

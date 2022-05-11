@@ -22,21 +22,22 @@ namespace Project_IPET.Controllers
 
         private IWebHostEnvironment _environment;
 
-      
+       
         public Front_BlogController(MyProjectContext myProject, IWebHostEnvironment p)
         {
             _environment = p;
             _context = myProject;
-        
+            
 
         }
-        public IActionResult Index(PostFilterModel postFilter)
+        public IActionResult Index()
         {
-          
+            
             int countbypage =6;
-            int totalpost = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
+            int totalpost = _context.Posts
                 .Where(c => c.ReplyToPost == null).Count();
             CTools tools = new CTools();
+          
             tools.Page(countbypage, totalpost, out int tatalpage);
 
             ViewBag.page = tatalpage;
@@ -45,9 +46,9 @@ namespace Project_IPET.Controllers
         }
 
         [HttpPost]
-        public IActionResult ListView(int inputpage, PostFilterModel postFilter)
+        public IActionResult ListView(int inputpage ,CPostViewModel postFilter)
         {
-         
+            
             int page = 1;
             int countbypage = 6;
             if (inputpage > 0)

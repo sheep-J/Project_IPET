@@ -7,8 +7,8 @@ namespace Project_IPET.ViewModels
 {
     public class CPostViewModel
     {
-      
-
+        
+ 
         public int PostId { get; set; }
 
         [DisplayName("貼文標題:")]
@@ -37,6 +37,19 @@ namespace Project_IPET.ViewModels
         public bool Banned { get; set; }
         public string BannedContent { get; set; }
 
+        public string FilterKeyword { get; set; }
+
+
+        public string FilterPostType { get; set; }
+
+
+        public string FilterPostFristDate { get; set; }
+
+
+        public string FilterPostLastDate { get; set; }
+
+
+        public string FilterTag { get; set; }
 
     }
 }

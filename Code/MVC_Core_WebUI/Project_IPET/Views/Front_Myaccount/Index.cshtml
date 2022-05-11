@@ -198,9 +198,9 @@
                                 <!-- Single Tab Content End -->
                                 <!-- Single Tab Content Start -->
                                 <!--<div class="tab-pane fade" id="adopt" role="tabpanel">
-        <div class="myaccount-content">
-            <h3 class="title">認養明細</h3>
-            <div class="myaccount-table table-responsive text-center">-->
+    <div class="myaccount-content">
+        <h3 class="title">認養明細</h3>
+        <div class="myaccount-table table-responsive text-center">-->
                                 @*>>here*@
                                 <!--</div>
         </div>
@@ -444,181 +444,96 @@
                                 <!-- Single Tab Content End -->
                                 <!-- Single Tab Content Start -->
                                 <!--<div class="tab-pane fade" id="reward" role="tabpanel">
-        <div class="myaccount-content">
-            <h3 class="title">積分</h3>
-            <div class="myaccount-table table-responsive text-center">-->
+                                <div class="myaccount-content">
+                                    <h3 class="title">積分</h3>
+                                    <div class="myaccount-table table-responsive text-center">-->
                                 @*>>here*@
                                 <!--</div>
-        </div>
-    </div>-->
-                                <!-- Single Tab Content End -->
-
-
-                              
-                       
-                                <!-- Single Tab Content Start -->
-                            <div class="tab-pane fade" id="Comment" role="tabpanel">
-                                <div class="myaccount-content" id="MyCommentListView">
-                                <!-- MyComment Start -->
-
-                                
-
-                                <!--  加入MyCommentPartialView Start -->
-                                
-
                                 </div>
-
-
-                                <!-- CommentModal Start-->
-                                <div class="modal fade" id="CommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">我要評價</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body ">
-                                                <div style="padding-bottom:10px; align-items:center;">
-                                                    <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">感謝你留下你寶貴的評價 </textarea>
-
+                                </div>-->
+                                <!-- Single Tab Content End -->
+                                <!-- Single Tab Content Start -->
+                                <div class="tab-pane fade" id="Comment" role="tabpanel">
+                                    <div class="myaccount-content" id="MyCommentListView">
+                                        <!-- MyComment Start -->
+                                        <!--  加入MyCommentPartialView Start -->
+                                    </div>
+                                    <!-- CommentModal Start-->
+                                    <div class="modal fade" id="CommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">我要評價</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <div class="rating">
-                                                       <i class="fa fa-star ratingi " style="font-size:3em"></i>
-                                                        @for(int i = 0; i < 4; i++)
+                                                <div class="modal-body ">
+                                                    <div style="padding-bottom:10px; align-items:center;">
+                                                        <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">感謝你留下你寶貴的評價 </textarea>
+                                                    </div>
+                                                    <div class="rating">
+                                                        <i class="fa fa-star ratingi " style="font-size:3em"></i>
+                                                        @for (int i = 0; i < 4; i++)
                                                         {
-                                                        
-                                                       <i class="fa fa-star-o ratingi " style="font-size:3em"></i>
-                                                        
-                                                        }
-                                                        
-                                                </div>
-                                                <div >
-                                                    <h3 id="startext" style="text-align:center; padding-top:10px;">請點擊星星評分</h3>
-                                                </div>
 
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-target="#Cancel">取消</button>
-                                                <button type="button" class="btn btn-primary">送出</button>
+                                                            <i class="fa fa-star-o ratingi " style="font-size:3em"></i>
+
+                                                        }
+                                                    </div>
+                                                    <div>
+                                                        <h3 id="startext" style="text-align:center; padding-top:10px;">請點擊星星評分</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-target="#Cancel">取消</button>
+                                                    <button type="button" class="btn btn-primary">送出</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- CommentModal End-->
+                                    <!-- MyComment End -->
                                 </div>
-
-                                <!-- CommentModal End-->
-                                <!-- MyComment End -->
-
-
-                            </div>
-
-
                                 <!-- Single Tab Content End -->
-                         
-                            
-
-
                                 <!-- Single Tab Content Start -->
-
+                                <!-- MyCotent Start -->
                                 <div class="tab-pane fade" id="account-info" role="tabpanel">
                                     <div class="myaccount-content">
                                         <h3 class="title">會員資訊</h3>
                                         <div class="account-details-form">
-                                            <form action="#">
-                                                <div class="single-input-item m-b-15">
-                                                    <label for="name" class="required m-b-10">姓名</label>
-                                                    <input type="text" id="name" placeholder="姓名" />
-                                                </div>
-                                                <div class="single-input-item m-b-15">
-                                                    <label for="email" class="required m-b-5">Email</label>
-                                                    <input type="email" id="email" placeholder="Email" />
-                                                </div>
-                                                <div class="single-input-item m-b-15">
-                                                    <label for="birth" class="required m-b-5">生日</label>
-                                                    <input type="date" id="birth" placeholder="生日" />
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="single-input-item m-b-15">
-                                                            <label for="city" class="required m-b-10">縣市</label>
-                                                            <select id="city"><option></option></select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="single-input-item m-b-15">
-                                                            <label for="region" class="required m-b-10">鄉鎮區</label>
-                                                            <select id="region"><option></option></select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="single-input-item m-b-15">
-                                                    <label for="address" class="required m-b-5">地址</label>
-                                                    <input type="text" id="address" placeholder="地址" />
-                                                </div>
-                                                <fieldset>
-                                                    <legend>密碼變更</legend>
-                                                    <div class="single-input-item m-b-15">
-                                                        <label for="current-pwd" class="required m-b-10">舊密碼</label>
-                                                        <input type="password" id="current-pwd" placeholder="確認密碼" />
-                                                    </div>
-                                                    <div class="row m-b-n15">
-                                                        <div class="col-lg-6">
-                                                            <div class="single-input-item m-b-15">
-                                                                <label for="new-pwd" class="required m-b-10">新密碼</label>
-                                                                <input type="password" id="new-pwd" placeholder="請輸入新的密碼……" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="single-input-item m-b-15">
-                                                                <label for="confirm-pwd" class="required m-b-10">確認密碼</label>
-                                                                <input type="password" id="confirm-pwd" placeholder="請確認是否與新密碼相符" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </fieldset>
-                                                <div class="single-input-item single-item-button m-t-30">
-                                                    <button class="btn btn btn-primary btn-hover-dark rounded-0">確認變更</button>
-                                                </div>
-                                            </form>
+                                            <div id="MyContentListView">
+                                                @*MyContentListView here*@
+                                            </div>
                                         </div>
                                     </div>
-                                </div> <!-- Single Tab Content End -->
-
+                                </div>
+                                <!-- MyCotent End -->
+                                <!-- Single Tab Content End -->
                             </div>
                         </div>
-                        <!-- My Account Tab Content End -->
-
                     </div>
                 </div>
-                <!-- My Account Page End -->
-
             </div>
         </div>
-
     </div>
 </div>
-<!-- My Account Section End -->
+
 
 
 
 
 @section Scripts{ 
     <script>
-        //Comment  Start
 
+        //Comment  Start
                 //呼叫MyCommentListView Start
                 mycomment();
-
                 function mycomment() {
-
                     POSTMethod("@Url.Content("~/Front_Myaccount/MyCommentListView")",
                         null,
                         function (response) {
-
                             $("#MyCommentListView").html(response);
-
                         }
                     )
-
                 }
                 //呼叫MyCommentListView End
 
@@ -634,11 +549,9 @@
                     starnumber =$(this).index()+1;
                     $("#startext").html(`評分中...${starnumber}顆星`);
                     ck = false;
-
                 })
 
                 $(document).on("mouseleave", ".ratingi", function () {
-
                     if (!ck)
                     {
                         $(this).removeClass("fa fa-star").addClass("fa fa-star-o");
@@ -648,15 +561,12 @@
                 })
 
                  $(document).on("click", ".ratingi", function () {
-
                       $("#startext").html(`評分為${starnumber}顆星`);
                       ck = true;
-
                 })
                 //新增評價星星效果 End
-
-
        //Comment  End
+
 
         //我的訂單-Start==================================================
         LoadOrder();
@@ -806,5 +716,22 @@
             $("#donatephone").html(`連絡電話: ${data.phone}`)
         }
         //我的捐贈-End====================================================
+
+
+        //=================Content  Start=================
+        mycontent();
+        function mycontent() {
+            $.post('@Url.Content("~/Front_Myaccount/MyContentListView")')
+                .done((response) => {
+                    $("#MyContentListView").html(response);
+                })
+                .fail((response) => {
+                    console.log(response.fail)
+                })
+        }
+         //=================Content  End=================
+
+
+
     </script>
 }

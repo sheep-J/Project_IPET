@@ -1,5 +1,4 @@
 ﻿
-
 @{ ViewData["Title"] = "會員管理"; }
 
 <div class="row mb-3 mt-1">
@@ -25,7 +24,7 @@
             </ul>
         </div>
     </div>
-    <div class="col-lg-3 d-flex align-items-center justify-content-start">
+    <div class="col-lg-3 mt-2 d-flex align-items-center justify-content-start">
         <div class="form-check form-switch" style="padding-right:20px">
             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="maleFilter">
             <label class="form-check-label" for="flexSwitchCheckChecked">男</label>
@@ -37,11 +36,20 @@
     </div>
     <div class="col-lg-3"></div>
     <div class="col-lg-2 d-flex align-items-center justify-content-end">
-            <div class="input-group input-group-outline">
-                <label class="form-label">Search……</label>
-                <input name="txtKeyword" value="" type="text" class="form-control">
-            </div>
+        <div class="input-group input-group-outline">
+
+            @*<label class="form-label">Search……</label>
+                <input name="txtKeyword" onchange="listviewShow(this.value)" value="" type="text" class="form-control">
+                <button type="submit">Search</button>*@
+
+            <form asp-action="ListView" method="post">
+            <label class="form-label">Search……</label>
+            <input name="txtKeyword" value="" type="text" class="form-control">
+            <input type="submit" value="Search" />
+            </form>
+
         </div>
+    </div>
 </div>
 
 <div class="row">
@@ -73,14 +81,12 @@
                 <span class="sr-only">Previous</span>
             </a>
         </li>
-        @{
-            int pageNum = ViewBag.PAGE;
+        @{ int pageNum = ViewBag.PAGE;
 
             for (int i = 1; i <= pageNum; i++)
             {
-                <li class="page-item"><a class="page-link" onclick="listviewShow(@i)">@i</a></li>
-            }
-        }
+<li class="page-item"><a class="page-link" onclick="listviewShow(@i) ">@i</a></li>
+ } }
         <li class="page-item">
             <a class="page-link" id="page-ctrl-next">
                 <span class="material-icons">
@@ -92,18 +98,17 @@
     </ul>
 </nav>
 
-
 @section Scripts
 {
     <script>
-    let current;
-    let totalPage = @ViewBag.PAGE;
-    listviewShow(1);
-    keywordResponse();
+        let current;
+        let totalPage = @ViewBag.PAGE;
+        listviewShow(1);
 
     //#region ListView
-        function listviewShow(page) {
-                    $.post('@Url.Content("~/Back_Members/ListView")', { inputPage: page })
+        function listviewShow(page ,keyword) {
+            $.post('@Url.Content("~/Back_Members/ListView")',
+                { inputPage: page , txtKeyword: keyword })
                         .done((response) => {
                             $("#ListView").html(response);
                         })
@@ -112,6 +117,7 @@
             let elementli = $("ul.pagination").children("li");
             elementli.removeClass("active").eq(page).addClass("active")
             PageList(page, elementli, totalPage)
+
         }
         $("#page-ctrl-previous").click(function () {
             if (current > 1)
@@ -122,31 +128,6 @@
                 listviewShow(current + 1);
         });
             //#endregion
-
-    function keywordResponse() {
-        let keyword = $('input[name="txtKeyword"]');
-        let keyValue = $('input[name="txtKeyword"]').val();
-        @*keyword.blur(async() => {
-            console.log(keyword.val());
-            const response = await fetch("@Url.Content("~/Back_Members/ListView")?txtKeyword=" + keyword.val())
-            console.log(response);*@
-
-        @*keyword.blur(() => {
-              $.post('@Url.Content("~/Back_Members/ListView")', { txtKeyword: keyValue })
-                        .done((response) => {
-                            /*keyword.val(response);*/
-                            console.log(response)
-                        })
-                  .fail((response) => {
-                      console.log(ErrorEvent)
-                  })*@
-        /*})*/
-
-        if (keyword.val() == '')
-            console.log('empty');
-            else
-            console.log('no empty');
-    }
 
     </script>
 }

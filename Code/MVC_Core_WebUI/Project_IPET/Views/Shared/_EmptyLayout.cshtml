@@ -23,6 +23,11 @@
 
     <!--Main Style CSS-->
     <link rel="stylesheet" href="~/Front/css/style.css" />
+    @*<link id="pagestyle" href="~/Back/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />*@
+
+
+    @await RenderSectionAsync("Styles", required: false)
+
 
 </head>
 <body>
@@ -52,6 +57,10 @@
 
     <!--Main JS-->
     <script src="~/Front/js/main.js"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
 
 </body>
 </html>

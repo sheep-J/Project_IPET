@@ -77,6 +77,49 @@ function PageList(page, elementli, totalpage)
  //   <!--Page End-- >
 
 
+function PageData(page, postdata, pagesize, totalpost) {
 
+   
+    postdata.css("display","none");
+
+    if (totalpost < pagesize)
+    {
+        for (let i = 0; i < totalpost; i++) {
+            console.log(i);
+            postdata.eq(i).css("display", "inline");
+
+        }
+    }
+
+    if (page == 1) {
+        for (let i = 0; i < pagesize; i++) {
+            console.log(i);
+            postdata.eq(i).css("display", "inline");
+
+        }
+    }
+
+    if (page * pagesize > totalpost)
+    {
+     
+        for (let i = (page - 1) * pagesize; i < totalpost; i++) {
+            console.log(i);
+            postdata.eq(i).css("display", "inline");
+
+        }
+
+    }
+
+    if (page * pagesize < totalpost && page != 1)
+    {
+        for (let i = ( page - 1 )* pagesize; i < page * pagesize; i++) {
+            console.log(i);
+            postdata.eq(i).css("display","inline");
+
+        }
+
+    }
+       
+}
 
 

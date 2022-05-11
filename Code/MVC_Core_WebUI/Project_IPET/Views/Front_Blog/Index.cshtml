@@ -1,11 +1,32 @@
-﻿@model List<Project_IPET.ViewModels.CPostViewModel>
+﻿@model IEnumerable<Project_IPET.ViewModels.CPostViewModel>
 @{
     ViewData["Title"] = "Index";
 }
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <style>
 
+        .Bloghover {
+            padding: 30px 20PX;
+        }
+
+            .Bloghover:hover {
+                padding-top: 15px;
+                background-color: #FFD1A4;
+                border: 1px double #FFD1A4;
+                transition: 1s
+            }
+
+        .Content {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
+
+</head>
 <body>
 
 
@@ -47,7 +68,7 @@
                                         </a>
                                     </li>
                                     @{
-                                        int pagenum = ViewBag.page;
+                                        int pagenum = @ViewBag.tatalpage;
                                         for (int i = 1; i <= pagenum; i++)
                                         {
 
@@ -68,6 +89,68 @@
                     </div>
                     <!-- Page End -->
                     <div id=listview>
+
+
+
+
+                        <!-- Single Blog Start -->
+                        <div class="row row-cols-lg-2 row-cols-sm-2 row-cols-1 m-b-n40"  data-aos="flip-left" data-aos-duration="500" data-aos-easing="ease-in-sine">
+
+                            @{ 
+                                foreach (var item in Model)
+                                {
+
+                                    
+                            <div class="col m-b-40 postdata"  >
+                                
+                                  
+
+                                <div class="single-blog-wrapper Bloghover">
+                                    <!-- 圖片 Start -->
+                                    <div class="blog-image thumb-effect">
+                                        <a class="image" asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">
+                                            <img class="fit-image" height=300 src="~/Front/images/blog/UploadImage/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image">
+                                        </a>
+                                    </div>
+                                    <!-- 圖片 End -->
+                                    <!-- Blog Content Start -->
+                                    <div class="blog-content">
+
+
+                                        <div class="blog-meta">
+                                            <ul>
+                                                <!-- 點讚 Start -->
+                                                <li>
+                                                    <a href="#/">
+                                                        <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true">@Html.DisplayFor(modelItem => item.LikeCount)</i>
+                                                    </a>
+
+                                                </li>
+                                                <!-- 點讚 End -->
+
+                                                <li><span>By</span><span>@Html.DisplayFor(modelItem => item.MemberName)</span></li> <!-- 貼文作者 -->
+                                                <li><span>@Html.DisplayFor(modelItem => item.PostDate)</span></li>          <!-- 貼文日期 -->
+
+                                            </ul>
+                                        </div>
+
+                                        <h2 class="blog-title Content"><a asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.Title)</a></h2>    <!-- 貼文標題 -->
+
+                                        <p class="Content">@Html.DisplayFor(modelItem => item.PostContent)</p>     <!-- 貼文內容 -->
+
+                                        <a class="more-link" asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">繼續閱讀</a>
+                                    </div>
+                                    <!-- Blog Content End -->
+                                </div>
+                            </div>
+                                    }
+                                }
+                        </div>
+                        <!-- Single Blog End -->
+
+
+
+
 
                     </div>
 
@@ -103,8 +186,8 @@
                                 <!-- 時間區間搜尋 -->
                                 <div class="widget-list m-b-50">
                                     <div class="search-box">
-                                        <input type="datetime-local" name="FilterPostFristDate" class="form-control">
-                                        <input type="datetime-local" name="FilterPostLastDate" class="form-control">
+                                        <input type="date" name="FilterPostFristDate" class="form-control">
+                                        <input type="date" name="FilterPostLastDate" class="form-control">
                                     </div>
                                 </div>
                             </form>
@@ -265,40 +348,32 @@
     <script>
 
       let current;
-      let totalpage = @ViewBag.page;
+      let totalpage = @ViewBag.tatalpage;
+      let pagesize = @ViewBag.pagesize;
+      let totalpost =@ViewBag.totalpost;
       post(1);
 
-
-
-
+        
+       
         function post(page)
         {
-
-
-             POSTMethod("@Url.Content("~/Front_Blog/ListView")",
-             {inputpage:page,},
-               function(response)
-               {
-                   $("#listview").html(response);
-
-               }
-             )
 
             $("#pagenumber").text(`${page}/${totalpage}`);
 
             current = parseInt(`${page}`);
             let elementli = $("ul.pagination").children("li");
-
             elementli.children("a").removeClass("active").eq(page).addClass("active");
-
             PageList(page, elementli, totalpage);
+
+            let postdata = $(".postdata")
+           
+            PageData(page, postdata, pagesize,totalpost)
 
         }
 
         $("#page-ctrl-previous").click(function () {
             if (current > 1)
                 post(current - 1);
-
 
 
         });

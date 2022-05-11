@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -43,10 +44,10 @@ namespace Project_IPET.ViewModels
         public string FilterPostType { get; set; }
 
 
-        public string FilterPostFristDate { get; set; }
+        public DateTime? FilterPostFristDate { get; set; }
 
 
-        public string FilterPostLastDate { get; set; }
+        public DateTime? FilterPostLastDate { get; set; }
 
 
         public string FilterTag { get; set; }

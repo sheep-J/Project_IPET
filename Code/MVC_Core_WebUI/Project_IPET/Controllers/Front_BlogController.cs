@@ -28,38 +28,30 @@ namespace Project_IPET.Controllers
             _environment = p;
             _context = myProject;
             
-
         }
-        public IActionResult Index()
+      
+        public IActionResult Index( CPostViewModel postFilter) 
         {
-            
-            int countbypage =6;
-            int totalpost = _context.Posts
+            int totalpost = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
                 .Where(c => c.ReplyToPost == null).Count();
+         
+            int pagesize = 6;
+         
             CTools tools = new CTools();
-          
-            tools.Page(countbypage, totalpost, out int tatalpage);
 
-            ViewBag.page = tatalpage;
+            tools.Page(pagesize, totalpost, out int tatalpage);
 
-            return View();
+            ViewBag.totalpost = totalpost;
+            ViewBag.tatalpage = tatalpage;
+            ViewBag.pagesize = pagesize;
+
+           var posts = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
+                      .Where(c => c.ReplyToPost == null).ToList();
+                  
+
+            return View(posts);
         }
-
-        [HttpPost]
-        public IActionResult ListView(int inputpage ,CPostViewModel postFilter)
-        {
-            
-            int page = 1;
-            int countbypage = 6;
-            if (inputpage > 0)
-                page = inputpage;
-
-            var posts = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
-                      .Where(c => c.ReplyToPost == null)
-                      .Skip((page - 1) * countbypage).Take(countbypage).ToList();
-
-            return PartialView(posts);
-        }
+       
 
         public IActionResult PostView(int id,CPostViewModel vModel)
         {

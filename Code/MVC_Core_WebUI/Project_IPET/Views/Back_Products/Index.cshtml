@@ -72,9 +72,11 @@
 @* 商品搜尋功能 *@
 <div class="search">
     <input type="text" class="form-control" placeholder="搜尋商品名稱" aria-label="Search Our Store" id="searchProductName">
-    <button class="btn btn-primary"  type="button" onclick="getProductListWithProductName()"> 搜尋商品
+    <button class="btn btn-icon btn-2 btn-primary" type="button" onclick="getProductListWithProductName()">
+        <span class="btn-inner--icon"><i class="material-icons">search</i></span>
+        搜尋商品
     </button>
-    @*<i class="fas fa-search"></i>*@
 </div>
+
 
 <div id="productList"></div>

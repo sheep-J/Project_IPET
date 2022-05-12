@@ -52,7 +52,7 @@ namespace Project_IPET.Controllers
                 fDescription = n.Description,
                 fPrjImage = n.PrjImage,
                 fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString()
-            });
+            }).ToList();
             return Json(list);
         }
         public IActionResult readProjectHistory()
@@ -65,7 +65,7 @@ namespace Project_IPET.Controllers
                 fDescription = n.Description,
                 fPrjImage = n.PrjImage,
                 fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString()
-            });
+            }).ToList();
             return Json(list);
         }
 
@@ -77,13 +77,11 @@ namespace Project_IPET.Controllers
 
         public IActionResult readPercent(int Id)
         {
-            var list = _context.PrjConnects.Where(n => n.PrjId == Id);
-            int total = 0;
-            foreach (var item in list.ToList())
+            var list = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n => new
             {
-                var orderlist = _context.OrderDetails.Where(n => n.ProductId == item.ProductId).Sum(n => n.UnitPrice * n.Quantity);
-                total += (int)orderlist;
-            }
+                orderlist = _context.OrderDetails.Where(p => p.ProductId == n.ProductId).Sum(n => n.UnitPrice * n.Quantity)
+            }).ToList();
+            int total = (int)list.Sum(n=>n.orderlist);
             var goal = _context.ProjectDetails.Where(n => n.PrjId == Id).Select(n => n.Goal).FirstOrDefault();
             int persent = (total / (int)goal) * 100;
             return Json(persent);
@@ -92,34 +90,26 @@ namespace Project_IPET.Controllers
         public IActionResult readCount(int Id)
         {
             int count = 0;
-            var list = _context.PrjConnects.Where(n => n.PrjId == Id).ToList();
-            foreach (var item in list)
+            var list = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n=>new
             {
-                var order = _context.OrderDetails.Where(n => n.ProductId == item.ProductId).ToList();
-                foreach(var o in order)
-                {
-                    count++;
-                }
-            }
+                order = _context.OrderDetails.Where(o=>o.ProductId == n.ProductId).Count()
+            }).ToList();
+            count = list.Sum(n => n.order);
             return Json(count);
         }
 
         public IActionResult readList(int Id)
         {
             List<CProjectBuylistViewModel> buylist = new List<CProjectBuylistViewModel>();
-            var list = _context.PrjConnects.Where(n => n.PrjId == Id).ToList();
-            foreach (var item in list)
+            var list = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n=>new
             {
-                var orderlist = _context.OrderDetails.Where(n => n.ProductId == item.ProductId).Select(o => new CProjectBuylistViewModel
+                orderlist = _context.OrderDetails.Where(o=>o.ProductId == n.ProductId).Select(o=>new CProjectBuylistViewModel
                 {
                     UserName = o.Order.Member.Name,
                     ProductName = o.Product.ProductName
-                }).ToList();
-                foreach (var o in orderlist)
-                {
-                    buylist.Add(o);
-                }
-            }
+                }).ToList()
+            }).ToList();
+            list.ForEach(n => buylist.AddRange(n.orderlist));
             return Json(buylist);
         }
 

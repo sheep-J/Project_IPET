@@ -1,4 +1,4 @@
-﻿@model IQueryable<Project_IPET.ViewModels.CProjectViewModel>
+﻿@model List<Project_IPET.ViewModels.CProjectViewModel>
 @{
     ViewData["Title"] = "專案管理";
 }
@@ -43,7 +43,7 @@
                         <button type="button" class="btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#projectModal">
                             <i class="fas fa-pen-nib"></i>
                         </button>
-                        @*@Html.ActionLink("刪除", "delete", "Back_Orders", new { id = item.fId }, new { @class = "btn btn btn-danger mr-3", onclick = "return confirm('確定要刪除嗎')" })*@
+                        @Html.ActionLink("刪除", "Delete", "Back_Project", new { id = item.fId }, new { @class = "btn btn btn-danger mr-3", onclick = "return confirm('確定要刪除嗎')" })
                     </td>
                 </tr>
             }
@@ -59,7 +59,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">專案修改 <span></span></h5>
             </div>
             <div class="modal-body">
-                <form id="addForm" style="margin:10px">
+                <form id="editform" style="margin:10px">
                     <div class="form-group" style="margin:10px 0">
                         <label for="title" style="font-size:25px;color:black">專案名稱</label>
                         <input type="text" class="form-control" id="title" placeholder="專案名稱">
@@ -209,5 +209,13 @@
             $("#detailstarttime").html(`開始日期: ${datas[0].detailstarttime}`)
             $("#detailendtime").html(`結束日期: ${datas[0].detailendtime}`)
         }
+
+        $("#ProjectBody").on('click', 'button:nth-child(2)', async function () {
+            const ProjectId = $(this).parents('tr').find('td:nth-child(2)').text();
+            @*const Productresponse = await fetch("@Url.Content("~/Back_Project/ProjectProduct?Id=")" + ProjectId);
+            renderProduct(await Productresponse.json());
+            const Otherresponse = await fetch("@Url.Content("~/Back_Project/ProjectDetail?Id=")" + ProjectId);
+            renderOther(await Otherresponse.json());*@
+        })
     </script>
 }

@@ -22,7 +22,7 @@ namespace Project_IPET.Controllers
 
         public IActionResult Index()
         {
-            IQueryable<CProjectViewModel> list = null;
+            List<CProjectViewModel> list = null;
             list = _context.ProjectDetails.Select(n => new CProjectViewModel
             {
                 fId = n.PrjId,
@@ -31,7 +31,7 @@ namespace Project_IPET.Controllers
                 fStarttime = n.Starttime.ToString(),
                 fEndtime = n.Endtime.ToString(),
                 fFoundation = n.Foundation.FoundationName
-            });
+            }).ToList();
             return View(list);
         }
 
@@ -50,10 +50,12 @@ namespace Project_IPET.Controllers
             {
                 PhotoName = Guid.NewGuid().ToString() + ".jpg";
                 vModel.fPhotoPath = PhotoName;
-                vModel.fPhoto.CopyTo(
-                    new FileStream(
-                        _environment.WebRootPath + "/Front/images/project/" + PhotoName,
-                        FileMode.Create));
+
+                //dispose,為了刪掉圖片
+                using (FileStream fs = new FileStream(_environment.WebRootPath + "/Front/images/project/" + PhotoName,FileMode.Create))
+                {
+                    vModel.fPhoto.CopyTo(fs);
+                }
             }
             var prj = new ProjectDetail()
             {
@@ -82,6 +84,19 @@ namespace Project_IPET.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Delete(int Id)
+        {
+            var prjconn = _context.PrjConnects.Where(n => n.PrjId == Id).ToList();
+            _context.PrjConnects.RemoveRange(prjconn);
+            _context.SaveChanges();
+            var prj = _context.ProjectDetails.Find(Id);
+            string imgPath = $"{_environment.WebRootPath}/Front/images/project/{prj.PrjImage}";
+            _context.ProjectDetails.Remove(prj);
+            _context.SaveChanges();
+            System.IO.File.Delete(imgPath);
+            return RedirectToAction("Index");
+        }
+
         //取得專案商品(數量為庫存加售出)
         public IActionResult ProjectProduct(int Id)
         {
@@ -100,6 +115,7 @@ namespace Project_IPET.Controllers
             return Json(list);
         }
 
+        //取得訂單除商品以外明細
         public IActionResult ProjectDetail(int Id)
         {
             var Project = _context.ProjectDetails.Where(n => n.PrjId == Id).Select(p => new
@@ -114,21 +130,24 @@ namespace Project_IPET.Controllers
             return Json(Project);
         }
 
-        public IActionResult CreateLoadProd()
-        {
-            var list = _context.Products.Where(n => n.SubCategoryId == 1).Select(n => new
-            {
-                id = n.ProductId,
-                name = n.ProductName
-            }).ToList();
-            return Json(list);
-        }
+        //Create 基金會資料導入
         public IActionResult CreateLoadFound()
         {
             var list = _context.Foundations.Select(n => new
             {
                 id = n.FoundationId,
                 name = n.FoundationName
+            }).ToList();
+            return Json(list);
+        }
+
+        //Create 商品資料導入
+        public IActionResult CreateLoadProd()
+        {
+            var list = _context.Products.Where(n => n.SubCategoryId == 1).Select(n => new
+            {
+                id = n.ProductId,
+                name = n.ProductName
             }).ToList();
             return Json(list);
         }

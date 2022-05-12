@@ -10,6 +10,7 @@
         var subCategoryId=-1;
         var pageSize = 9;
         var productName="";
+
         function getProductList(page) {
             $.ajax({
                 method: "POST",
@@ -39,15 +40,24 @@
             });
         }
 
+        function clearAll(){
+            categoryId = -1;
+            subCategoryId=-1;
+             productName="";
+        }
+
         function getProductListWithCategory(id) {
+            clearAll();
             categoryId = id;
             getProductList(1);
         }
          function getProductListWithSubCategory(id) {
+             clearAll();
             subCategoryId = id;
             getProductList(1);
         }
          function getProductListWithProductName() {
+             clearAll();
             productName = $("#searchProductName").val()
             getProductList(1);
         }
@@ -138,16 +148,16 @@
                 <aside class="sidebar_widget m-t-50 mt-lg-0">
                     <div class="widget_inner">
                         <div class="widget-list m-b-50">
-                            <h3 class="widget-title m-b-30">Search</h3>
+                            <h3 class="widget-title m-b-30">搜尋本商店</h3>
                             <div class="search-box">
-                                <input type="text" class="form-control" placeholder="搜尋本商店" aria-label="Search Our Store" id="searchProductName">
+                                <input type="text" class="form-control" placeholder="商品名稱" aria-label="Search Our Store" id="searchProductName">
                                 <button class="search-icon" type="button" onclick="getProductListWithProductName()">
                                     <i class="icon-magnifier"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="widget-list m-b-50">
-                            <h3 class="widget-title m-b-30">Categories</h3>
+                            <h3 class="widget-title m-b-30">商品分類</h3>
                             <div class="sidebar-body" >
                                 <ul class="sidebar-list" aria-expanded="true">
                                     @foreach (var category in Model)

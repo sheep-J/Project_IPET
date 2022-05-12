@@ -99,7 +99,7 @@ namespace Project_IPET
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Empty_Signin}/{action=Index}/{id?}");
+                    pattern: "{controller=Front_Home}/{action=Index}/{id?}");
             });
         }
     }

@@ -39,8 +39,10 @@
                         @{ 
                             if (item.Gender == "Male") {
                                 <span class="badge badge-sm bg-gradient-info">@Html.DisplayFor(modelItem => item.Gender)</span>}
-                            else {
+                            else if(item.Gender == "Female") {
                                     <span class="badge badge-sm bg-gradient-danger">@Html.DisplayFor(modelItem => item.Gender)</span>}
+                            else {
+                                <span class="badge badge-sm bg-gradient-secondary">@Html.DisplayFor(modelItem => item.Gender)</span> }
                             }
                     </td>
                     <td class="align-middle text-center">
@@ -63,13 +65,3 @@
         }
     </tbody>
 </table>
-
-@section Scripts
-{
-    <script>
-        (function spanAddClass() {
-            $("span:contains('Male')").removeClass("bg-gradient-danger").addClass("bg-gradient-info");
-            /*   $("span:contains('Female')").addClass("bg-gradient-danger");*/
-        })();
-    </script>
-}

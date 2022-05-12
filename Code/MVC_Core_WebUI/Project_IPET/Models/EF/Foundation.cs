@@ -15,6 +15,7 @@ namespace Project_IPET.Models.EF
 
         public int FoundationId { get; set; }
         public string FoundationName { get; set; }
+        public string FoundationAddress { get; set; }
 
         public virtual ICollection<DonationDetail> DonationDetails { get; set; }
         public virtual ICollection<ProjectDetail> ProjectDetails { get; set; }

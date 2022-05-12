@@ -29,14 +29,15 @@ namespace Project_IPET.Controllers
             {
                 ViewBag.Count = CartItems.Count();     // 計算購物車商品數 (種類)
                 ViewBag.Total = CartItems.Sum(item => item.SubTotal);       // 計算購物車總金額
+                return View(CartItems);
             }
             else
             {
                 ViewBag.Count = 0;
                 ViewBag.Total = 0;
+                return RedirectToAction("Index", "Front_Home");
             }
 
-            return View(CartItems);
         }
 
         [HttpPost]

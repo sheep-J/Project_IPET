@@ -55,11 +55,11 @@ namespace Project_IPET.Models
                     datas = datas.Where(p => p.PostType.ToString() == PostFilters.FilterPostType).Select(p => p);
                 }
 
-                if (PostFilters.FilterPostFristDate != null && PostFilters.FilterPostLastDate != null)
+                if (PostFilters.FilterPostFristDate != null && PostFilters.FilterPostLastDate != null  )
                 {
-                    
-                    datas = datas.Where(p => DateTime.Parse(p.PostDate) >= PostFilters.FilterPostFristDate
-                                          && DateTime.Parse(p.PostDate) <= PostFilters.FilterPostLastDate)
+                 
+                    datas = datas.Where(p => DateTime.Parse(p.PostDate).AddDays(1) > PostFilters.FilterPostFristDate
+                                          && DateTime.Parse(p.PostDate).AddDays(-1) < PostFilters.FilterPostLastDate ) 
                                  .Select(p => p);
 
                 }

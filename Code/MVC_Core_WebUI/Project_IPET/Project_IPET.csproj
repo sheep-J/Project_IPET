@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Front\images\blog\UploadImage\" />
+    <Folder Include="wwwroot\Front\images\register\" />
   </ItemGroup>
 
 </Project>

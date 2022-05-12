@@ -264,6 +264,8 @@ namespace Project_IPET.Models.EF
 
                 entity.Property(e => e.FoundationId).HasColumnName("FoundationID");
 
+                entity.Property(e => e.FoundationAddress).HasMaxLength(50);
+
                 entity.Property(e => e.FoundationName)
                     .IsRequired()
                     .HasMaxLength(50);

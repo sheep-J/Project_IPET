@@ -17,7 +17,7 @@ namespace Project_IPET.Models
             _context = context;
         }
 
-        public IEnumerable<CPostViewModel> PostFilter(PostFilterModel PostFilters)
+        public IEnumerable<CPostViewModel> PostFilter(CPostViewModel PostFilters)
         {
             IEnumerable<CPostViewModel> datas = null;
             datas = _context.Posts.Select(n => new CPostViewModel
@@ -33,42 +33,45 @@ namespace Project_IPET.Models
                 PostType = n.PostType.PostTypeName,
                 ReplyToPost =n.ReplyToPost.ToString(),
              
-            }).ToList();
+            });
 
-
-
-            if (!string.IsNullOrEmpty(PostFilters.Keyword)) 
+            if (PostFilters != null)
             {
-                datas = datas.Where(p => p.MemberName == PostFilters.Keyword)
-                             .Where(p => p.PostType == PostFilters.Keyword)
-                             .Where(p => p.PostDate == PostFilters.Keyword)
-                             .Where(p => p.PostContent == PostFilters.Keyword)
-                             .Where(p => p.Tag == PostFilters.Keyword)
-                             .Where(p => p.Title == PostFilters.Keyword)
-                             .Select(p => p);
+
+                if (PostFilters.FilterKeyword != null)
+                {
+                    datas = datas.Where(p => p.MemberName.Contains(PostFilters.FilterKeyword) ||
+                                             p.PostType.Contains(PostFilters.FilterKeyword) ||
+                                             p.PostDate.Contains(PostFilters.FilterKeyword) ||
+                                             p.PostContent.Contains(PostFilters.FilterKeyword) ||
+                                             p.Title.Contains(PostFilters.FilterKeyword)
+                                       )
+                                 .Select(p => p);
+
+                }
+
+                if (PostFilters.FilterPostType != null)
+                {
+                    datas = datas.Where(p => p.PostType.ToString() == PostFilters.FilterPostType).Select(p => p);
+                }
+
+                if (PostFilters.FilterPostFristDate != null && PostFilters.FilterPostLastDate != null)
+                {
+                    
+                    datas = datas.Where(p => DateTime.Parse(p.PostDate) >= PostFilters.FilterPostFristDate
+                                          && DateTime.Parse(p.PostDate) <= PostFilters.FilterPostLastDate)
+                                 .Select(p => p);
+
+                }
+
+                if (PostFilters.FilterTag != null)
+                {
+                    datas = datas.Where(p => p.Tag == PostFilters.FilterTag).Select(p => p);
+                }
+            }
+                                                               
+                return datas.ToList().OrderByDescending(p => DateTime.Parse(p.PostDate));
             
-            }
-
-            if (!string.IsNullOrEmpty(PostFilters.PostType))
-            {
-                datas = datas.Where(p => p.PostType.ToString() == PostFilters.PostType).Select(p => p);
-            }
-
-            if (!string.IsNullOrEmpty(PostFilters.PostFristDate) && !string.IsNullOrEmpty(PostFilters.PostLastDate))
-            {
-
-                datas = datas.Where(p => DateTime.ParseExact(p.PostDate, "yyyy/mm/dd :G(zh-TW)", null) >= DateTime.ParseExact(PostFilters.PostFristDate, "yyyy/mm/dd :G(zh-TW)", null)
-                                      && DateTime.ParseExact(p.PostDate, "yyyy/mm/dd :G(zh-TW)", null) <= DateTime.ParseExact(PostFilters.PostLastDate, "yyyy/mm/dd :G(zh-TW)", null))
-                             .Select(p => p);
-            
-            }
-
-            if (!string.IsNullOrEmpty(PostFilters.Tag))
-            {
-                datas = datas.Where(p => p.Tag == PostFilters.Tag).Select(p => p);
-            }
-            
-            return datas.OrderByDescending(d=>d.PostDate);
         }
 
 

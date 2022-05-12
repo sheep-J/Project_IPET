@@ -75,11 +75,8 @@ namespace Project_IPET.Controllers
 
         public IActionResult delete(int Id)
         {
-            var Detail = _context.OrderDetails.Where(n => n.OrderId == Id);
-            foreach (var item in Detail)
-            {
-                _context.Remove(item);
-            }
+            var Detail = _context.OrderDetails.Where(n => n.OrderId == Id).ToList();
+            _context.OrderDetails.RemoveRange(Detail);
             var Order = _context.Orders.FirstOrDefault(n => n.OrderId == Id);
             _context.Remove(Order);
             _context.SaveChanges();

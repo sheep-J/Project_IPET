@@ -22,43 +22,36 @@ namespace Project_IPET.Controllers
 
         private IWebHostEnvironment _environment;
 
-      
+       
         public Front_BlogController(MyProjectContext myProject, IWebHostEnvironment p)
         {
             _environment = p;
             _context = myProject;
-        
-
+            
         }
-        public IActionResult Index(PostFilterModel postFilter)
+      
+        public IActionResult Index( CPostViewModel postFilter) 
         {
-          
-            int countbypage =6;
             int totalpost = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
                 .Where(c => c.ReplyToPost == null).Count();
-            CTools tools = new CTools();
-            tools.Page(countbypage, totalpost, out int tatalpage);
-
-            ViewBag.page = tatalpage;
-
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult ListView(int inputpage, PostFilterModel postFilter)
-        {
          
-            int page = 1;
-            int countbypage = 6;
-            if (inputpage > 0)
-                page = inputpage;
+            int pagesize = 6;
+         
+            CTools tools = new CTools();
 
-            var posts = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
-                      .Where(c => c.ReplyToPost == null)
-                      .Skip((page - 1) * countbypage).Take(countbypage).ToList();
+            tools.Page(pagesize, totalpost, out int tatalpage);
 
-            return PartialView(posts);
+            ViewBag.totalpost = totalpost;
+            ViewBag.tatalpage = tatalpage;
+            ViewBag.pagesize = pagesize;
+
+           var posts = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
+                      .Where(c => c.ReplyToPost == null).ToList();
+                  
+
+            return View(posts);
         }
+       
 
         public IActionResult PostView(int id,CPostViewModel vModel)
         {
@@ -187,7 +180,7 @@ namespace Project_IPET.Controllers
                MemberId = userid,
                Title = vModel.Title,
                PostContent = vModel.PostContent,
-               PostDate = DateTime.Now.ToString(),
+               PostDate = DateTime.Now.GetDateTimeFormats('f')[0].ToString(),
                PostTypeId = int.Parse(vModel.PostType),
                PostImage =vModel.PostImage,
                Banned = false,

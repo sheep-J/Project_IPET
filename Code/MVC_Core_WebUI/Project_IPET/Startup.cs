@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Project_IPET.Hubs;
 using Project_IPET.Models;
 using Project_IPET.Models.EF;
 using Project_IPET.Services;
@@ -34,6 +35,7 @@ namespace Project_IPET
             services.AddSession();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllersWithViews();
+            services.AddSignalR();
 
             //DI 依賴注入 (Dependency Injection) 
             //卉榆使用Dapper的連線方式到DB，其他人使用的Entity Framework連線字串請放在這串下方，謝謝。
@@ -100,6 +102,8 @@ namespace Project_IPET
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Front_Home}/{action=Index}/{id?}");
+
+                endpoints.MapHub<ChatHub>("/chathub");  //啟動服務
             });
         }
     }

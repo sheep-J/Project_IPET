@@ -10,6 +10,7 @@
         var subCategoryId=-1;
         var pageSize = 9;
         var productName="";
+
         function getProductList(page) {
             $.ajax({
                 method: "POST",
@@ -39,15 +40,24 @@
             });
         }
 
+        function clearAll(){
+            categoryId = -1;
+            subCategoryId=-1;
+             productName="";
+        }
+
         function getProductListWithCategory(id) {
+            clearAll();
             categoryId = id;
             getProductList(1);
         }
          function getProductListWithSubCategory(id) {
+             clearAll();
             subCategoryId = id;
             getProductList(1);
         }
          function getProductListWithProductName() {
+             clearAll();
             productName = $("#searchProductName").val()
             getProductList(1);
         }
@@ -101,7 +111,7 @@
                             <button data-role="grid_list" type="button" class="btn-list" title="List"><i class="ti-align-justify"></i></button>
                         </div>
                         <div class="shop-top-show">
-                            <span>Showing 1–12 of 39 results</span>
+                            <span>顯示商品(9)/(127)</span>
                         </div>
 
                     </div>
@@ -109,16 +119,16 @@
                     <!-- Shopt Top Bar Right Start -->
                     <div class="shop-top-bar-right">
 
-                        <h4 class="title me-2">Short By: </h4>
+                        <h4 class="title me-2">排序： </h4>
 
                         <div class="shop-short-by">
                             <select class="nice-select" aria-label=".form-select-sm example">
-                                <option selected="">Short by Default</option>
-                                <option value="1">Short by Popularity</option>
-                                <option value="2">Short by Rated</option>
-                                <option value="3">Short by Latest</option>
-                                <option value="3">Short by Price</option>
-                                <option value="3">Short by Price</option>
+                                <option selected="">依..排序</option>
+                                <option value="1">依預設</option>
+                                <option value="2">價錢(高至低)</option>
+                                <option value="3">價錢(低至高)</option>
+                                <option value="3">商品評價(高至低)</option>
+                                <option value="3">商品評價(低至高)</option>
                             </select>
                         </div>
                     </div>
@@ -138,16 +148,16 @@
                 <aside class="sidebar_widget m-t-50 mt-lg-0">
                     <div class="widget_inner">
                         <div class="widget-list m-b-50">
-                            <h3 class="widget-title m-b-30">Search</h3>
+                            <h3 class="widget-title m-b-30">搜尋本商店</h3>
                             <div class="search-box">
-                                <input type="text" class="form-control" placeholder="搜尋本商店" aria-label="Search Our Store" id="searchProductName">
+                                <input type="text" class="form-control" placeholder="商品名稱" aria-label="Search Our Store" id="searchProductName">
                                 <button class="search-icon" type="button" onclick="getProductListWithProductName()">
                                     <i class="icon-magnifier"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="widget-list m-b-50">
-                            <h3 class="widget-title m-b-30">Categories</h3>
+                            <h3 class="widget-title m-b-30">商品分類</h3>
                             <div class="sidebar-body" >
                                 <ul class="sidebar-list" aria-expanded="true">
                                     @foreach (var category in Model)
@@ -161,66 +171,65 @@
                                         }
                                     }
 
-                                    <li><a href="#/">All Product</a></li>
-                                    <li><a href="#/">Best Seller (5)</a></li>
-                                    <li><a href="#/">Featured (4)</a></li>
-                                    <li><a href="#/">New Products (6)</a></li>
+                                    <li><a href="#/">所有商品(127)</a></li>
+                                    <li><a href="#/">最佳銷售(5)</a></li>
+                                    <li><a href="#/">最新商品(6)</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="widget-list m-b-50">
-                            <h3 class="widget-title m-b-30">Color</h3>
+                            <h3 class="widget-title m-b-30">品牌</h3>
                             <div class="sidebar-body">
                                 <ul class="checkbox-container categories-list">
                                     <li>
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="customCheck12">
-                                            <label class="custom-control-label" for="customCheck12">black (20)</label>
+                                            <label class="custom-control-label" for="customCheck12">喵皇奴 (20)</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="customCheck13">
-                                            <label class="custom-control-label" for="customCheck13">red (6)</label>
+                                            <label class="custom-control-label" for="customCheck13">愛貝寵 (6)</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="customCheck14">
-                                            <label class="custom-control-label" for="customCheck14">blue (8)</label>
+                                            <label class="custom-control-label" for="customCheck14">摸肚肚 (8)</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="customCheck11">
-                                            <label class="custom-control-label" for="customCheck11">green (5)</label>
+                                            <label class="custom-control-label" for="customCheck11">竹黏幫 (5)</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="customCheck15">
-                                            <label class="custom-control-label" for="customCheck15">pink (4)</label>
+                                            <label class="custom-control-label" for="customCheck15">希爾思 (4)</label>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="widget-list m-b-50">
-                            <h3 class="widget-title m-b-30">Tags</h3>
+                            <h3 class="widget-title m-b-30">標籤</h3>
                             <div class="sidebar-body">
                                 <ul class="tags m-b-n10">
-                                    <li><a href="#/">Pet Food</a></li>
-                                    <li><a href="#/">Animals</a></li>
-                                    <li><a href="#/">Domestic</a></li>
-                                    <li><a href="#/">Wild</a></li>
-                                    <li><a href="#/">Dogs</a></li>
-                                    <li><a href="#/">Cats</a></li>
-                                    <li><a href="#/">Hubby</a></li>
+                                    <li><a href="#/">精選罐罐</a></li>
+                                    <li><a href="#/">幼齡飼料</a></li>
+                                    <li><a href="#/">低鈉</a></li>
+                                    <li><a href="#/">補鈣</a></li>
+                                    <li><a href="#/">貓咪</a></li>
+                                    <li><a href="#/">狗狗</a></li>
+                                    <li><a href="#/">防疫專區</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="widget-list">
-                            <h3 class="widget-title m-b-30">Recent Products</h3>
+                            <h3 class="widget-title m-b-30">最新上架</h3>
                             <div class="sidebar-body product-list-wrapper m-b-n30">
 
                                 <!-- Single Product List Start -->
@@ -230,7 +239,7 @@
                                     <div class="product">
                                         <div class="thumb">
                                             <a href="single-product.html" class="image">
-                                                <img class="fit-image first-image" src="assets/images/products/small-product/1.png" alt="Product Image">
+                                                <img class="fit-image first-image" src="~/Front/images/products/small-product/1.png" alt="Product Image">
                                             </a>
                                         </div>
                                     </div>
@@ -256,7 +265,7 @@
                                     <div class="product">
                                         <div class="thumb">
                                             <a href="single-product.html" class="image">
-                                                <img class="fit-image first-image" src="assets/images/products/small-product/2.png" alt="Product Image">
+                                                <img class="fit-image first-image" src="~/Front/images/products/small-product/1.png" alt="Product Image">
                                             </a>
                                         </div>
                                     </div>
@@ -282,7 +291,7 @@
                                     <div class="product">
                                         <div class="thumb">
                                             <a href="single-product.html" class="image">
-                                                <img class="fit-image first-image" src="assets/images/products/small-product/3.png" alt="Product Image">
+                                                <img class="fit-image first-image" src="~/Front/images/products/small-product/1.png" alt="Product Image">
                                             </a>
                                         </div>
                                     </div>

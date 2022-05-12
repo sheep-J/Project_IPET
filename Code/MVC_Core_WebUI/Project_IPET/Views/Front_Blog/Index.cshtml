@@ -1,11 +1,32 @@
-﻿
+﻿@model IEnumerable<Project_IPET.ViewModels.CPostViewModel>
 @{
     ViewData["Title"] = "Index";
 }
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <style>
 
+        .Bloghover {
+            padding: 30px 20PX;
+        }
+
+            .Bloghover:hover {
+                padding-top: 15px;
+                background-color: #FFD1A4;
+                border: 1px double #FFD1A4;
+                transition: 1s
+            }
+
+        .Content {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
+
+</head>
 <body>
 
 
@@ -39,7 +60,9 @@
 
                     <div class="row">
                         <div class="col-12 m-b-50">
-                            <nav class="d-flex justify-content-end">
+
+                            <nav class="d-flex justify-content-end ">
+
                                 <ul class="pagination">
                                     <li class="page-item">
                                         <a class="page-link " id="page-ctrl-previous">
@@ -47,7 +70,7 @@
                                         </a>
                                     </li>
                                     @{
-                                        int pagenum = ViewBag.page;
+                                        int pagenum = @ViewBag.tatalpage;
                                         for (int i = 1; i <= pagenum; i++)
                                         {
 
@@ -62,12 +85,75 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <h2 id="pagenumber" style="width:100px; text-align: center;"></h2>
+                                <h2 id="pagenumber" style="float:right; display:inline-flex; text-align:center;"></h2>
                             </nav>
+                         
                         </div>
                     </div>
                     <!-- Page End -->
                     <div id=listview>
+
+
+
+
+                        <!-- Single Blog Start -->
+                        <div class="row row-cols-lg-2 row-cols-sm-2 row-cols-1 m-b-n40"  data-aos="flip-left" data-aos-duration="500" data-aos-easing="ease-in-sine">
+
+                            @{ 
+                                foreach (var item in Model)
+                                {
+
+                                    
+                            <div class="col m-b-40 postdata"  >
+                                
+                                  
+
+                                <div class="single-blog-wrapper Bloghover">
+                                    <!-- 圖片 Start -->
+                                    <div class="blog-image thumb-effect">
+                                        <a class="image" asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">
+                                            <img class="fit-image" height=300 src="~/Front/images/blog/UploadImage/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image">
+                                        </a>
+                                    </div>
+                                    <!-- 圖片 End -->
+                                    <!-- Blog Content Start -->
+                                    <div class="blog-content">
+
+
+                                        <div class="blog-meta">
+                                            <ul>
+                                                <!-- 點讚 Start -->
+                                                <li>
+                                                    <a href="#/">
+                                                        <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true">@Html.DisplayFor(modelItem => item.LikeCount)</i>
+                                                    </a>
+
+                                                </li>
+                                                <!-- 點讚 End -->
+
+                                                <li><span>By</span><span>@Html.DisplayFor(modelItem => item.MemberName)</span></li> <!-- 貼文作者 -->
+                                                <li><span>@Html.DisplayFor(modelItem => item.PostDate)</span></li>          <!-- 貼文日期 -->
+
+                                            </ul>
+                                        </div>
+
+                                        <h2 class="blog-title Content"><a asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.Title)</a></h2>    <!-- 貼文標題 -->
+
+                                        <p class="Content">@Html.DisplayFor(modelItem => item.PostContent)</p>     <!-- 貼文內容 -->
+
+                                        <a class="more-link" asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">繼續閱讀</a>
+                                    </div>
+                                    <!-- Blog Content End -->
+                                </div>
+                            </div>
+                                    }
+                                }
+                        </div>
+                        <!-- Single Blog End -->
+
+
+
+
 
                     </div>
 
@@ -86,144 +172,165 @@
                                 <h3 class="widget-title m-b-30">貼文分享</h3>
                                 <a href="~/Front_Blog/CreatePost" class="btn btn-primary btn-hover-dark" style="font-size:large" ;>發新貼文</a>
                             </div>
-                            <!-- 關鍵字搜尋 -->
-                            <div class="widget-list m-b-50">
-                                <h3 class="widget-title m-b-30">關鍵字搜尋</h3>
-                                <div class="search-box">
-                                    <input type="text" class="form-control" placeholder="請輸入關鍵字" aria-label="Search Our Store">
-                                    <button class="search-icon" type="button">
-                                        <i class="icon-magnifier"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <!-- 篩選器 Start-->
+                            <form action="~/Front_Blog/Index" method="post" runat="server">
 
-                            <!-- 依類別 -->
-                            <div class="widget-list m-b-50">
-                                <h3 class="widget-title m-b-30">依類別</h3>
-                                <div class="sidebar-body">
-                                    <ul class="sidebar-list">
-                                        <li><a href="#/">全部</a></li>
-                                        <li><a href="#/">狗 (15)</a></li>
-                                        <li><a href="#/">貓 (11)</a></li>
-                                        <li><a href="#/">用品 (6)</a></li>
-                                        <li><a href="#/">其他 (26)</a></li>
-                                    </ul>
-                                </div>
-                            </div>
 
-                            <!-- 依日期分類 -->
-                            <div class="widget-list p-b-50">
-                                <h3 class="widget-title m-b-30">依日期(年)</h3>
-                                <div class="sidebar-body sidebar-body-archive">
-                                    <h4 class="title"> 2022年</h4>
-                                    <ul class="archive-list d-block">
-                                        <li><span>&#8608;</span><a href="#">There Are Many Pets...</a></li>
-                                        <li><span>&#8608;</span><a href="#">The Standard Chunk Of...</a></li>
-                                        <li><span>&#8608;</span><a href="#">How to Take Care...</a></li>
-                                    </ul>
+                                <!-- 關鍵字搜尋 -->
+                                <div class="widget-list m-b-50">
+                                    <h3 class="widget-title m-b-30">關鍵字搜尋</h3>
+                                    <div class="search-box">
+                                        <input type="text" class="form-control" placeholder="請輸入關鍵字"  name="FilterKeyword" aria-label="Search Our Store">
+                                        <button class="search-icon" type="submit">
+                                            <i class="icon-magnifier"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="sidebar-body sidebar-body-archive m-t-20">
-                                    <h4 class="title"> 2021年</h4>
-                                    <ul class="archive-list d-block">
-                                        <li><span>&#8608;</span><a href="#">There Are Many Pets...</a></li>
-                                        <li><span>&#8608;</span><a href="#">The Standard Chunk Of...</a></li>
-                                        <li><span>&#8608;</span><a href="#">How to Take Care...</a></li>
-                                    </ul>
+                                <!-- 時間區間搜尋 -->
+                                <div class="widget-list m-b-50">
+                                    <div class="search-box">
+                                        <input type="date" name="FilterPostFristDate" class="form-control">
+                                        <input type="date" name="FilterPostLastDate" class="form-control">
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- 最新貼文 -->
-                            <div class="widget-list p-b-50">
-                                <h3 class="widget-title m-b-30">最近貼文</h3>
-                                <div class="sidebar-body blog-list-wrapper m-b-n30">
+                            </form>
+                            
+                                <!-- 依類別 -->
+                                <div class="widget-list m-b-50">
+                                    <h3 class="widget-title m-b-30">依類別</h3>
+                                    <div class="sidebar-body">
+                                        <ul class="sidebar-list">
+                                            <li><a href="#/">全部</a></li>
+                                            <li><a href="#/">狗 (15)</a></li>
+                                            <li><a href="#/">貓 (11)</a></li>
+                                            <li><a href="#/">用品 (6)</a></li>
+                                            <li><a href="#/">其他 (26)</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
 
-                                    <!-- Single Blog List Start -->
-                                    <div class="single-blog-list m-b-30">
+                                <!-- Tags -->
+                                <div class="widget-list">
+                                    <h3 class="widget-title m-b-30">Tags</h3>
+                                    <div class="sidebar-body">
+                                        <ul class="tags m-b-n10">
+                                            <li><a href="#/">罐罐</a></li>
+                                            <li><a href="#/">阿喵</a></li>
+                                            <li><a href="#/">浪浪</a></li>
+                                            <li><a href="#/">狗勾</a></li>
+                                            <li><a href="#/">朕</a></li>
 
-                                        <!-- Blog List Thumb Start -->
-                                        <div class="blog-thumb">
-                                            <a href="blog-details.html" class="image">
-                                                <img class="fit-image" src="~/Front/images/blog/UploadImage/1.jpg" alt="Product Image">
-                                            </a>
-                                        </div>
-                                        <!-- Blog List Thumb End -->
-                                        <!-- Blog List Content Start -->
-                                        <div class="blog-list-content">
-                                            <h6 class="blog-name">
-                                                <a href="blog-details.html" title="How to take care of your fish">How to take care...</a>
-                                            </h6>
-                                            <div class="blog-meta">
-                                                <p>03/04/2022</p>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                          
+                            <br />
+                            <!-- 篩選器 End-->
+                            <!-- 快速連結 Start-->
+
+                            <div>
+                                <!-- 依日期分類 -->
+                                <div class="widget-list p-b-50">
+                                    <h3 class="widget-title m-b-30">依年份</h3>
+                                    <div class="sidebar-body sidebar-body-archive">
+                                        <h4 class="title"> 2022年</h4>
+                                        <ul class="archive-list d-block">
+                                            <li><span>&#8608;</span><a href="#">There Are Many Pets...</a></li>
+                                            <li><span>&#8608;</span><a href="#">The Standard Chunk Of...</a></li>
+                                            <li><span>&#8608;</span><a href="#">How to Take Care...</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="sidebar-body sidebar-body-archive m-t-20">
+                                        <h4 class="title"> 2021年</h4>
+                                        <ul class="archive-list d-block">
+                                            <li><span>&#8608;</span><a href="#">There Are Many Pets...</a></li>
+                                            <li><span>&#8608;</span><a href="#">The Standard Chunk Of...</a></li>
+                                            <li><span>&#8608;</span><a href="#">How to Take Care...</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- 最新貼文 -->
+                                <div class="widget-list p-b-50">
+                                    <h3 class="widget-title m-b-30">最新貼文</h3>
+                                    <div class="sidebar-body blog-list-wrapper m-b-n30">
+
+                                        <!-- Single Blog List Start -->
+                                        <div class="single-blog-list m-b-30">
+
+                                            <!-- Blog List Thumb Start -->
+                                            <div class="blog-thumb">
+                                                <a href="blog-details.html" class="image">
+                                                    <img class="fit-image" src="~/Front/images/blog/UploadImage/1.jpg" alt="Product Image">
+                                                </a>
                                             </div>
+                                            <!-- Blog List Thumb End -->
+                                            <!-- Blog List Content Start -->
+                                            <div class="blog-list-content">
+                                                <h6 class="blog-name">
+                                                    <a href="blog-details.html" title="How to take care of your fish">How to take care...</a>
+                                                </h6>
+                                                <div class="blog-meta">
+                                                    <p>03/04/2022</p>
+                                                </div>
+                                            </div>
+                                            <!-- Blog List Content End -->
+
                                         </div>
-                                        <!-- Blog List Content End -->
+                                        <!-- Single Blog List End -->
+                                        <!-- Single Blog List Start -->
+                                        <div class="single-blog-list m-b-30">
+
+                                            <!-- Blog List Thumb Start -->
+                                            <div class="blog-thumb">
+                                                <a href="blog-details.html" class="image">
+                                                    <img class="fit-image" src="~/Front/images/blog/UploadImage/2.jpg" alt="Product Image">
+                                                </a>
+
+                                            </div>
+                                            <!-- Blog List Thumb End -->
+                                            <!-- Blog List Content Start -->
+                                            <div class="blog-list-content">
+                                                <h6 class="blog-name">
+                                                    <a href="blog-details.html" title="Tips for taking care of dogs">Tips for taking care...</a>
+                                                </h6>
+                                                <div class="blog-meta">
+                                                    <p>13/03/2022</p>
+                                                </div>
+                                            </div>
+                                            <!-- Blog List Content End -->
+
+                                        </div>
+                                        <!-- Single Blog List End -->
+                                        <!-- Single Blog List Start -->
+                                        <div class="single-blog-list m-b-30">
+
+                                            <!-- Blog List Thumb Start -->
+                                            <div class="blog-thumb">
+                                                <a href="blog-details.html" class="image">
+                                                    <img class="fit-image" src="~/Front/images/blog/UploadImage/3.jpg" alt="Product Image">
+                                                </a>
+                                            </div>
+                                            <!-- Blog List Thumb End -->
+                                            <!-- Blog List Content Start -->
+                                            <div class="blog-list-content">
+                                                <h6 class="blog-name">
+                                                    <a href="blog-details.html" title="Beginning a Birding Blog">Beginning a Birding...</a>
+                                                </h6>
+                                                <div class="blog-meta">
+                                                    <p>12/01/2022</p>
+                                                </div>
+                                            </div>
+                                            <!-- Blog List Content End -->
+
+                                        </div>
+                                        <!-- Single Blog List End -->
 
                                     </div>
-                                    <!-- Single Blog List End -->
-                                    <!-- Single Blog List Start -->
-                                    <div class="single-blog-list m-b-30">
-
-                                        <!-- Blog List Thumb Start -->
-                                        <div class="blog-thumb">
-                                            <a href="blog-details.html" class="image">
-                                                <img class="fit-image" src="~/Front/images/blog/UploadImage/2.jpg" alt="Product Image">
-                                            </a>
-
-                                        </div>
-                                        <!-- Blog List Thumb End -->
-                                        <!-- Blog List Content Start -->
-                                        <div class="blog-list-content">
-                                            <h6 class="blog-name">
-                                                <a href="blog-details.html" title="Tips for taking care of dogs">Tips for taking care...</a>
-                                            </h6>
-                                            <div class="blog-meta">
-                                                <p>13/03/2022</p>
-                                            </div>
-                                        </div>
-                                        <!-- Blog List Content End -->
-
-                                    </div>
-                                    <!-- Single Blog List End -->
-                                    <!-- Single Blog List Start -->
-                                    <div class="single-blog-list m-b-30">
-
-                                        <!-- Blog List Thumb Start -->
-                                        <div class="blog-thumb">
-                                            <a href="blog-details.html" class="image">
-                                                <img class="fit-image" src="~/Front/images/blog/UploadImage/3.jpg" alt="Product Image">
-                                            </a>
-                                        </div>
-                                        <!-- Blog List Thumb End -->
-                                        <!-- Blog List Content Start -->
-                                        <div class="blog-list-content">
-                                            <h6 class="blog-name">
-                                                <a href="blog-details.html" title="Beginning a Birding Blog">Beginning a Birding...</a>
-                                            </h6>
-                                            <div class="blog-meta">
-                                                <p>12/01/2022</p>
-                                            </div>
-                                        </div>
-                                        <!-- Blog List Content End -->
-
-                                    </div>
-                                    <!-- Single Blog List End -->
-
                                 </div>
                             </div>
+                            <!-- 快速連結 End-->
 
-                            <!-- Tags -->
-                            <div class="widget-list">
-                                <h3 class="widget-title m-b-30">Tags</h3>
-                                <div class="sidebar-body">
-                                    <ul class="tags m-b-n10">
-                                        <li><a href="#/">罐罐</a></li>
-                                        <li><a href="#/">阿喵</a></li>
-                                        <li><a href="#/">浪浪</a></li>
-                                        <li><a href="#/">狗勾</a></li>
-                                        <li><a href="#/">朕</a></li>
-
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </aside>
                     <!-- Sidebar Widget End -->
@@ -244,40 +351,43 @@
     <script>
 
       let current;
-      let totalpage = @ViewBag.page;
+      let totalpage = @ViewBag.tatalpage;
+      let pagesize = @ViewBag.pagesize;
+      let totalpost =@ViewBag.totalpost;
       post(1);
 
-
-
-
+        
+       
         function post(page)
         {
 
-
-             POSTMethod("@Url.Content("~/Front_Blog/ListView")",
-             {inputpage:page},
-               function(response)
-               {
-                   $("#listview").html(response);
-
-               }
-             )
-
-            $("#pagenumber").text(`${page}/${totalpage}`);
+          
 
             current = parseInt(`${page}`);
             let elementli = $("ul.pagination").children("li");
+            let postdata = $(".postdata")
 
-            elementli.children("a").removeClass("active").eq(page).addClass("active");
+           
 
-            PageList(page, elementli, totalpage);
+            if (totalpost != 0) {
 
+                elementli.children("a").removeClass("active").eq(page).addClass("active");
+                PageList(page, elementli, totalpage);
+                PageData(page, postdata, pagesize, totalpost)
+                $("#pagenumber").text(`${page}/${totalpage}頁數`);
+            }
+            else
+            {
+                $("#pagenumber").text("沒有找到任何貼文");
+                elementli.eq(0).css("display", "none");
+                elementli.eq(totalpage + 1).css("display", "none");
+            }
+           
         }
 
         $("#page-ctrl-previous").click(function () {
             if (current > 1)
                 post(current - 1);
-
 
 
         });
@@ -288,8 +398,8 @@
 
         });
 
-       
-       
+
+
 
 
 

@@ -79,11 +79,12 @@ namespace Project_IPET.Controllers
         public IActionResult LoadOrder()
         {
             string user = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-            //if (!string.IsNullOrEmpty(user)) {
-                //Member nowuser = JsonSerializer.Deserialize<Member>(user);
-                //int userid = nowuser.MemberId;
+            if (!string.IsNullOrEmpty(user))
+            {
+                Member nowuser = JsonSerializer.Deserialize<Member>(user);
+                int userid = nowuser.MemberId;
 
-                var list = _context.Orders.Where(n => n.MemberId == 3 && n.TransactionTypeId == 1).Select(n => new CUserOrderViewModel
+                var list = _context.Orders.Where(n => n.MemberId == userid && n.TransactionTypeId == 1).Select(n => new CUserOrderViewModel
                 {
                     fId = n.OrderId,
                     fDate = n.RequiredDate.Substring(0, 8),
@@ -94,9 +95,9 @@ namespace Project_IPET.Controllers
                 if (list == null)
                     return Json("無訂單紀錄");
                 return Json(list);
-            //}
-            //else
-            //    return Json("請先登入");
+            }
+            else
+                return Json("請先登入");
         }
         public IActionResult ReadOrderDeatil(int Id)
         {
@@ -125,11 +126,12 @@ namespace Project_IPET.Controllers
         public IActionResult LoadDonate()
         {
             string user = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-            //if (!string.IsNullOrEmpty(user)) {
-            //Member nowuser = JsonSerializer.Deserialize<Member>(user);
-            //int userid = nowuser.MemberId;
+            if (!string.IsNullOrEmpty(user))
+            {
+                Member nowuser = JsonSerializer.Deserialize<Member>(user);
+                int userid = nowuser.MemberId;
 
-            var list = _context.Orders.Where(n => n.MemberId == 3 && n.TransactionTypeId == 2).Select(n => new
+                var list = _context.Orders.Where(n => n.MemberId == userid && n.TransactionTypeId == 2).Select(n => new
             {
                 fId = n.OrderId,
                 fDate = n.RequiredDate.Substring(0, 8),
@@ -140,10 +142,10 @@ namespace Project_IPET.Controllers
 
             if (list == null)
                 return Json("無捐贈紀錄");
-            return Json(list);
-            //}
-            //else
-            //    return Json("請先登入");
+                return Json(list);
+            }
+            else
+                return Json("請先登入");
         }
         public IActionResult ReadDonateDetail(int Id)
         {

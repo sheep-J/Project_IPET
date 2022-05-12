@@ -33,7 +33,7 @@ namespace Project_IPET.Models
                 PostType = n.PostType.PostTypeName,
                 ReplyToPost =n.ReplyToPost.ToString(),
              
-            });
+            }).Where(c => c.ReplyToPost == null);
 
             if (PostFilters != null)
             {

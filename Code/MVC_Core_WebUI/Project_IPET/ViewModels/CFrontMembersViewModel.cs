@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Project_IPET.ViewModels
         public string CurrentPwd { get; set; }
         public string NewPwd { get; set; }
         public string ConfirmPwd { get; set; }
+        public IFormFile Photo { get; set; }
         
     }
 }

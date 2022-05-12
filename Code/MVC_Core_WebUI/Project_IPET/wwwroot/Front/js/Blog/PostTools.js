@@ -16,7 +16,7 @@ function POSTMethod(url, datas, success) {
 
 function PageList(page, elementli, totalpage)
 {
-
+    
     let first = page - 2;
     let last = page + 2;
 
@@ -26,7 +26,7 @@ function PageList(page, elementli, totalpage)
         tp = 6;
     }
     else {
-        tp = totalpage;
+        tp = totalpage+1;
     }
 
     if (first < 1) {
@@ -44,9 +44,10 @@ function PageList(page, elementli, totalpage)
         for (i = first; i < last + 1; i++)
             elementli.eq(i).css("display", "inline");
     }
-
-    elementli.eq(0).css("display", "inline");
-    elementli.eq(totalpage + 1).css("display", "inline");
+   
+        elementli.eq(0).css("display", "inline");
+        elementli.eq(totalpage + 1).css("display", "inline");
+   
 
 }
  //頁數陣列Html
@@ -84,6 +85,49 @@ function PageList(page, elementli, totalpage)
  //   <!--Page End-- >
 
 
+function PageData(page, postdata, pagesize, totalpost) {
 
+   
+    postdata.css("display","none");
+
+    if (totalpost < pagesize)
+    {
+        for (let i = 0; i < totalpost; i++) {
+            console.log(i);
+            postdata.eq(i).css("display", "inline");
+
+        }
+    }
+
+    if (page == 1) {
+        for (let i = 0; i < pagesize; i++) {
+            console.log(i);
+            postdata.eq(i).css("display", "inline");
+
+        }
+    }
+
+    if (page * pagesize >= totalpost)
+    {
+     
+        for (let i = (page - 1) * pagesize; i < totalpost; i++) {
+            console.log(i);
+            postdata.eq(i).css("display", "inline");
+
+        }
+
+    }
+
+    if (page * pagesize < totalpost && page != 1)
+    {
+        for (let i = ( page - 1 )* pagesize; i < page * pagesize; i++) {
+            console.log(i);
+            postdata.eq(i).css("display","inline");
+
+        }
+
+    }
+       
+}
 
 

@@ -1,4 +1,5 @@
-﻿<!-- Breadcrumb Area Start -->
+﻿
+<!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
     <div class="container">
         <div class="row">
@@ -20,16 +21,24 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-7 col-md-8 m-auto">
-                <div class="login-wrapper">
+                <div class="login-wrapper" style="margin-bottom:80px;">
 
                     <!-- Register Title & Content Start -->
-                    <div class="section-content text-center m-b-30">
+                    <div class="section-content text-center m-b-20">
                         <h2 class="title m-b-10">建立您的 IPET 帳號</h2>
                     </div>
                     <!-- Register Title & Content End -->
                     <!-- Form Action Start -->
                     <form asp-action="Register" class="form-floating">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <!-- Photo Start -->
+                        <div class="col-lg-auto text-center align-items-center">
+                            <input class="form-control-file" accept="image/*" type="file" id="uploadPhoto" hidden/>
+                            <a class="btn btn-default" onclick="browsePhoto();">
+                                <img src="~/Front/images/register/default/df_1.png" alt="..." id="imgPreview" class="img-fluid img-thumbnail rounded-circle mx-auto mb-3" style="width:100px; height:100px;" />
+                            </a>
+                        </div>
+                        <!-- Photo End-->
                         <div class="row">
                             <!-- LastName Start -->
                             <div class="col-lg-6">
@@ -55,24 +64,28 @@
                         </div>
                         <!-- UserId End -->
                         <!-- Gender Start -->
-                        <div class="col-lg-6">
-                            <div class="form-floating single-input-item m-b-25">
-                                <select class="form-select" name="Gender" id="selgender">
-                                    <option selected>請選擇</option>
-                                    <option>男</option>
-                                    <option>女</option>
-                                    <option>不願透露</option>
-                                </select>
-                                <label for="selgender">性別</label>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-floating single-input-item m-b-25">
+                                    <select class="form-select" name="Gender" id="selgender">
+                                        <option selected>請選擇</option>
+                                        <option>男</option>
+                                        <option>女</option>
+                                        <option>不願透露</option>
+                                    </select>
+                                    <label for="selgender">性別</label>
+                                </div>
                             </div>
+                            <!-- Gender End -->
+                            <!-- BirthDate Start -->
+                            <div class="col-lg-6">
+                                <div class="form-floating single-input-item m-b-10">
+                                    <input class="form-control" name="BirthDate" id="BirthDate" type="date" placeholder="您的出生日期">
+                                    <label for="BirthDate">您的出生日期</label>
+                                </div>
+                            </div>
+                            <!-- BirthDate End -->
                         </div>
-                        <!-- Gender End -->
-                        <!-- BirthDate Start -->
-                        <div class="form-floating single-input-item m-b-10">
-                            <input class="form-control" name="BirthDate" id="BirthDate" type="date" placeholder="您的出生日期">
-                            <label for="BirthDate">您的出生日期</label>
-                        </div>
-                        <!-- BirthDate End -->
                         <!-- Email Start -->
                         <div class="form-floating single-input-item m-b-10">
                             <input class="form-control" name="Email" id="Email" type="email" placeholder="您的電子郵件地址">
@@ -134,10 +147,8 @@
                             </div>
                         </div>
                         <!-- Button/Forget Password End -->
-
                     </form>
                     <!-- Form Action End -->
-
                 </div>
             </div>
         </div>
@@ -145,8 +156,18 @@
 </div>
 <!-- Register Section End -->
 
-@section Scripts{ 
+@section Scripts{
     <script>
+
+        function browsePhoto() {
+            $("#uploadPhoto").trigger("click");
+        }
+        uploadPhoto.onchange = evt => {
+            const [file] = uploadPhoto.files;
+            if (file)
+                imgPreview.src = URL.createObjectURL(file);
+        }
+
         let city = $("#selcity");
         let region = $("#selregion");
 

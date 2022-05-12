@@ -5,19 +5,19 @@ namespace Project_IPET.Services
     public class CTools
     {
         
-        public void Page(int countbypage, int totalpost, out int tatalpage)
+        public void Page(int pagesize, int totalpost, out int tatalpage)
         {
 
-            if (countbypage == 0)
+            if (pagesize == 0)
             {
                 tatalpage = 1;
 
             }
             else
             {
-                tatalpage = totalpost / countbypage;
+                tatalpage = totalpost / pagesize;
             }
-            if (totalpost % countbypage > 0)
+            if (totalpost % pagesize > 0)
             {
                 tatalpage += 1;
             }

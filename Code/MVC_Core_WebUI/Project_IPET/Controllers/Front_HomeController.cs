@@ -29,10 +29,10 @@ namespace Project_IPET.Controllers
         }
 
 
-        public IActionResult BlogView()
+        public IActionResult BlogView(CPostViewModel postFilter)
         {
-            var posts = _myProject.Posts.Where(c => c.ReplyToPost == null)
-                .OrderByDescending(d=>d.PostDate)
+            var posts = new CBFrontPostFilterFactory(_myProject).PostFilter(postFilter)
+                .Where(c => c.ReplyToPost == null)
                 .Select(n => new CPostViewModel
             {
                 PostId = n.PostId,
@@ -41,7 +41,7 @@ namespace Project_IPET.Controllers
                 PostDate = n.PostDate,
                 LikeCount = n.LikeCount,
                 PostImage = n.PostImage,
-                MemberName = n.Member.Name,
+                MemberName = n.MemberName,
                 MemberId = n.MemberId,
 
             }).Take(3).ToList();

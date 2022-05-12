@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -7,8 +8,8 @@ namespace Project_IPET.ViewModels
 {
     public class CPostViewModel
     {
-      
-
+        
+ 
         public int PostId { get; set; }
 
         [DisplayName("貼文標題:")]
@@ -21,7 +22,8 @@ namespace Project_IPET.ViewModels
         public string MemberName { get; set; }
         public int MemberId { get; set; }
         public string MemberImage { get; set; }
-        public int ReplyConut { get; set; }
+        public int ReplyCount { get; set; }
+        public string ReplyToPost { get; set; }
         [DisplayName("貼文分類:")]
         public string PostType { get; set; }
          public string PostTypeId { get; set; }
@@ -36,6 +38,19 @@ namespace Project_IPET.ViewModels
         public bool Banned { get; set; }
         public string BannedContent { get; set; }
 
+        public string FilterKeyword { get; set; }
+
+
+        public string FilterPostType { get; set; }
+
+
+        public DateTime? FilterPostFristDate { get; set; }
+
+
+        public DateTime? FilterPostLastDate { get; set; }
+
+
+        public string FilterTag { get; set; }
 
     }
 }

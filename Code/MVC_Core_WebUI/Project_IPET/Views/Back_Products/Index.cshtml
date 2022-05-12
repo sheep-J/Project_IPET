@@ -70,11 +70,18 @@
     <a class="ms-auto btn bg-gradient-dark mb-0 mt-0 me-2" asp-controller="Back_Products" asp-action="CreateProduct">新增商品</a>
 </div>
 @* 商品搜尋功能 *@
-<div class="search">
+<div class="search"  style="width:300px; height:auto; float:left;">
     <input type="text" class="form-control" placeholder="搜尋商品名稱" aria-label="Search Our Store" id="searchProductName">
     <button class="btn btn-icon btn-2 btn-primary" type="button" onclick="getProductListWithProductName()">
         <span class="btn-inner--icon"><i class="material-icons">search</i></span>
-        搜尋商品
+        搜尋一般商品
+    </button>
+</div>
+<div class="search"  style="width:300px; height:auto; float:right;">
+    <input type="text" class="form-control" placeholder="搜尋商品名稱" aria-label="Search Our Store" id="searchProductName">
+    <button class="btn btn-icon btn-2 btn-primary" type="button" onclick="getProductListWithProductName()">
+        <span class="btn-inner--icon"><i class="material-icons">search</i></span>
+        搜尋捐贈商品
     </button>
 </div>
 

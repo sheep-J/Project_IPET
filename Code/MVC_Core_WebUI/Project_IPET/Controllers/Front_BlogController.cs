@@ -180,7 +180,7 @@ namespace Project_IPET.Controllers
                MemberId = userid,
                Title = vModel.Title,
                PostContent = vModel.PostContent,
-               PostDate = DateTime.Now.ToString(),
+               PostDate = DateTime.Now.GetDateTimeFormats('f')[0].ToString(),
                PostTypeId = int.Parse(vModel.PostType),
                PostImage =vModel.PostImage,
                Banned = false,

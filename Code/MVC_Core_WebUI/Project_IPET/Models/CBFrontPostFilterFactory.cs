@@ -57,9 +57,9 @@ namespace Project_IPET.Models
 
                 if (PostFilters.FilterPostFristDate != null && PostFilters.FilterPostLastDate != null)
                 {
-                   
-                    datas = datas.Where(p => DateTime.ParseExact(p.PostDate, "yyyy-MM-dd HH:mm:ss", null) >= PostFilters.FilterPostFristDate
-                                          && DateTime.ParseExact(p.PostDate, "yyyy-MM-dd HH:mm:ss", null) <= PostFilters.FilterPostLastDate)
+                    
+                    datas = datas.Where(p => DateTime.Parse(p.PostDate) >= PostFilters.FilterPostFristDate
+                                          && DateTime.Parse(p.PostDate) <= PostFilters.FilterPostLastDate)
                                  .Select(p => p);
 
                 }
@@ -69,7 +69,8 @@ namespace Project_IPET.Models
                     datas = datas.Where(p => p.Tag == PostFilters.FilterTag).Select(p => p);
                 }
             }
-                return datas.ToList().OrderByDescending(p => p.PostDate);
+                                                               
+                return datas.ToList().OrderByDescending(p => DateTime.Parse(p.PostDate));
             
         }
 

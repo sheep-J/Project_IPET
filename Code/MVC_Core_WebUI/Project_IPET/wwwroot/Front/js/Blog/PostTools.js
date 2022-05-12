@@ -26,7 +26,7 @@ function PageList(page, elementli, totalpage)
         tp = 6;
     }
     else {
-        tp = totalpage;
+        tp = totalpage+1;
     }
 
     if (first < 1) {

@@ -136,7 +136,7 @@
                     <!-- Description End -->
                     <!-- Quantity Start -->
                     <div class="quantity d-flex align-items-center m-b-25">
-                        <span class="m-r-10"><strong>Qty: </strong></span>
+                        <span class="m-r-10"><strong>數量： </strong></span>
                         <div class="cart-plus-minus">
                             <input id="inputQty" class="cart-plus-minus-box" value="1" type="text">
                             <div class="dec qtybutton"></div>
@@ -148,9 +148,12 @@
                     <div class="cart-btn action-btn m-b-30">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
-                                <a class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@Model.ProductID')" href="javascript:void(0);">Add to cart</a>
+                                <a class="btn btn-primary btn-hover-dark rounded-bottom" onclick="AddToCart('@Model.ProductID')" href="javascript:void(0);">加入購物車<br />（一般購物）</a>
                             </div>
-                            <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
+                            <div class="add-to_cart">
+                                <a class="btn btn-primary btn-hover-dark rounded-pill" onclick="AddToCart('@Model.ProductID')" href="javascript:void(0);">加入購物車<br />（募資專案）</a>
+                            </div>
+                            <a asp-controller="/Front_Myaccount" asp-action="Index"title="願望清單" class="action"><i class="ti-heart"></i></a>
                         </div>
                     </div>
                     <!-- Cart Button End -->
@@ -167,9 +170,9 @@
                     <!-- Social Shear End -->
                     <!-- Payment Option Start -->
                     <div class="payment-option m-t-20 d-flex">
-                        <span><strong>Payment: </strong></span>
+                        <span><strong>付款方式： </strong></span>
                         <a href="#">
-                            <img class="fit-image m-l-5" src="~/Front/images/payment/paypal01.png" alt="Payment Option Image" width="200px" height="100px">
+                            <img class="fit-image m-l-5" src="~/Front/images/payment/paypal01.png" alt="Payment Option Image" width="200" height="100">
                         </a>
                     </div>
                     <!-- Payment Option End -->
@@ -192,195 +195,134 @@
             <div class="col-lg-12 single-product-tab">
                 <ul class="nav nav-tabs m-b-n15" id="myTab" role="tablist">
                     <li class="nav-item m-b-15">
-                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#connect-1" role="tab" aria-selected="true">Description</a>
+                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#connect-1" role="tab" aria-selected="true">關於此商品評論</a>
                     </li>
                     <li class="nav-item m-b-15">
-                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#connect-2" role="tab" aria-selected="false">Reviews</a>
+                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#connect-2" role="tab" aria-selected="false">購物須知</a>
                     </li>
-                    <li class="nav-item m-b-15">
-                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#connect-3" role="tab" aria-selected="false">Shipping Policy</a>
-                    </li>
-                    <li class="nav-item m-b-15">
-                        <a class="nav-link" id="review-tab" data-bs-toggle="tab" href="#connect-4" role="tab" aria-selected="false">Size Chart</a>
-                    </li>
+
                 </ul>
 
                 <div class="tab-content mb-text" id="myTabContent">
+                    <!--商品評論開始-->
                     <div class="tab-pane fade show active" id="connect-1" role="tabpanel" aria-labelledby="home-tab">
                         <div class="desc-content">
-                            <p class="m-b-15">On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.</p>
-                            <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="connect-2" role="tabpanel" aria-labelledby="profile-tab">
-                        <!-- Start Single Content -->
-                        <div class="product_tab_content m-t-40 p-3 border">
+                            <!-- Start Single Content -->
+                            <div class="product_tab_content m-t-40 p-3 border">
 
-                            <!-- Start Single Review -->
-                            <div class="single-review d-flex m-b-20">
+                                <!-- Start Single Review -->
+                                <div class="single-review d-flex m-b-20">
 
-                                <!-- Review Thumb Start -->
-                                <div class="review_thumb">
-                                    <img alt="review images" src="assets/images/review/1.jpg">
-                                </div>
-                                <!-- Review Thumb End -->
-                                <!-- Review Details Start -->
-                                <div class="review_details">
-                                    <div class="review_info m-b-10">
+                                    <!-- Review Thumb Start -->
+                                    <div class="review_thumb">
+                                        <img alt="review images" src="~/Front/images/review/1.jpg">
+                                    </div>
+                                    <!-- Review Thumb End -->
+                                    <!-- Review Details Start -->
+                                    <div class="review_details">
+                                        <div class="review_info m-b-10">
 
-                                        <!-- Rating Start -->
-                                        <span class="rating justify-content-start m-b-15">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </span>
-                                        <!-- Rating End -->
-                                        <!-- Review Title & Date Start -->
-                                        <div class="review-title-date d-flex">
-                                            <h5 class="title">Admin - </h5><span> January 19, 2021</span>
+                                            <!-- Rating Start -->
+                                            <span class="rating justify-content-start m-b-15">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-half-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </span>
+                                            <!-- Rating End -->
+                                            <!-- Review Title & Date Start -->
+                                            <div class="review-title-date d-flex">
+                                                <h5 class="title">Alen - </h5><span> January 19, 2021</span>
+                                            </div>
+                                            <!-- Review Title & Date End -->
+
                                         </div>
-                                        <!-- Review Title & Date End -->
-
+                                        <p>送貨超快，商品也包裝得很完善，我們家主子吃得很滿意，太開心了吧！</p>
                                     </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in viverra ex, vitae vestibulum arcu. Duis sollicitudin metus sed lorem commodo, eu dapibus libero interdum. Morbi convallis viverra erat, et aliquet orci congue vel. Integer in odio enim. Pellentesque in dignissim leo. Vivamus varius ex sit amet quam tincidunt iaculis.</p>
+                                    <!-- Review Details End -->
+
                                 </div>
-                                <!-- Review Details End -->
+                                <!-- End Single Review -->
+                                <!-- Rating Wrap Start -->
+                                <div class="rating_wrap">
+                                    <h5 class="rating-title m-b-10">商家回覆 </h5>
+                                    <p class="m-b-10">感謝您的支持，歡迎再次回購，我們將持續提供優質商品^^</p>
+                                    <h6 class="rating-sub-title m-b-10">您的評價...</h6>
 
-                            </div>
-                            <!-- End Single Review -->
-                            <!-- Rating Wrap Start -->
-                            <div class="rating_wrap">
-                                <h5 class="rating-title m-b-10">Add a review </h5>
-                                <p class="m-b-10">Your email address will not be published. Required fields are marked *</p>
-                                <h6 class="rating-sub-title m-b-10">Your Rating</h6>
+                                    <!-- Rating Start -->
+                                    <span class="rating justify-content-start m-b-15">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </span>
+                                    <!-- Rating End -->
 
-                                <!-- Rating Start -->
-                                <span class="rating justify-content-start m-b-15">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-half-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                </span>
-                                <!-- Rating End -->
+                                </div>
+                                <!-- Rating Wrap End -->
+                                <!-- Comments ans Replay Start -->
+                                <div class="comments-area comments-reply-area">
+                                    <div class="row">
+                                        <div class="col-lg-12 ">
 
-                            </div>
-                            <!-- Rating Wrap End -->
-                            <!-- Comments ans Replay Start -->
-                            <div class="comments-area comments-reply-area">
-                                <div class="row">
-                                    <div class="col-lg-12 ">
+                                            <!-- Comment form Start -->
+                                            <form action="#" class="comment-form-area">
+                                                <div class="row comment-input">
 
-                                        <!-- Comment form Start -->
-                                        <form action="#" class="comment-form-area">
-                                            <div class="row comment-input">
+                                                    <!-- Input Name Start -->
+                                                    <div class="col-md-6 comment-form-author m-b-15">
+                                                        <label>Name</label>
+                                                        <input type="text" required="required" name="您的大名：">
+                                                    </div>
+                                                    <!-- Input Name End -->
+                                                    <!-- Input Email Start -->
+                                                    <div class="col-md-6 comment-form-emai m-b-15">
+                                                        <label>Email</label>
+                                                        <input type="text" required="required" name="您的信箱：">
+                                                    </div>
+                                                    <!-- Input Email End -->
 
-                                                <!-- Input Name Start -->
-                                                <div class="col-md-6 comment-form-author m-b-15">
-                                                    <label>Name</label>
-                                                    <input type="text" required="required" name="Name">
                                                 </div>
-                                                <!-- Input Name End -->
-                                                <!-- Input Email Start -->
-                                                <div class="col-md-6 comment-form-emai m-b-15">
-                                                    <label>Email</label>
-                                                    <input type="text" required="required" name="email">
+                                                <!-- Comment Texarea Start -->
+                                                <div class="comment-form-comment m-b-15">
+                                                    <label>您的評論：</label>
+                                                    <textarea class="comment-notes" required="required"></textarea>
                                                 </div>
-                                                <!-- Input Email End -->
+                                                <!-- Comment Texarea End -->
+                                                <!-- Comment Submit Button Start -->
+                                                <div class="comment-form-submit">
+                                                    <button class="btn btn-primary btn-hover-dark border-0">送出</button>
+                                                </div>
+                                                <!-- Comment Submit Button End -->
 
-                                            </div>
-                                            <!-- Comment Texarea Start -->
-                                            <div class="comment-form-comment m-b-15">
-                                                <label>Comment</label>
-                                                <textarea class="comment-notes" required="required"></textarea>
-                                            </div>
-                                            <!-- Comment Texarea End -->
-                                            <!-- Comment Submit Button Start -->
-                                            <div class="comment-form-submit">
-                                                <button class="btn btn-primary btn-hover-dark border-0">Submit</button>
-                                            </div>
-                                            <!-- Comment Submit Button End -->
+                                            </form>
+                                            <!-- Comment form End -->
 
-                                        </form>
-                                        <!-- Comment form End -->
-
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Comments ans Replay End -->
+                                <!-- Comments ans Replay End -->
 
+                            </div>
+                            <!-- End Single Content -->
                         </div>
-                        <!-- End Single Content -->
                     </div>
-                    <div class="tab-pane fade" id="connect-3" role="tabpanel" aria-labelledby="contact-tab">
+                    <!--商品評論結束-->
+                    <div class="tab-pane fade" id="connect-2" role="tabpanel" aria-labelledby="profile-tab">
                         <!-- Shipping Policy Start -->
                         <div class="shipping-policy m-t-40 m-b-n15">
-                            <h4 class="title m-b-20">Shipping policy for our store</h4>
-                            <p class="m-b-15">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate</p>
+                            <h4 class="title m-b-20">關於本店的寄送方式</h4>
+                            <p class="m-b-15">我們提供兩種購物模式，可直接將本店精心挑選的商品買回，或選擇捐贈幫助浪浪們</p>
                             <ul class="policy-list m-b-15">
-                                <li>1-2 business days (Typically by end of day)</li>
-                                <li><a href="#">30 days money back guaranty</a></li>
-                                <li>24/7 live support</li>
-                                <li>odio dignissim qui blandit praesent</li>
-                                <li>luptatum zzril delenit augue duis dolore</li>
-                                <li>te feugait nulla facilisi.</li>
+                                <li>在七個工作天內(不含例假日)寄送商品</li>
+                                <li>選擇捐贈物資，我們將會將結帳後的商品寄送至各地基金會</li>
+                                <li><a href="#">有任何瑕疵請洽客服聯絡協助</a></li>
                             </ul>
-                            <p class="m-b-15">Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum</p>
-                            <p class="m-b-15">claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per</p>
-                            <p class="m-b-15">seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
+                            <p class="m-b-15">特價商品、寵物衛生相關用品(如尿布)售出後恕不退貨，敬請見諒</p>
                         </div>
                         <!-- Shipping Policy End -->
-                    </div>
-                    <div class="tab-pane fade" id="connect-4" role="tabpanel" aria-labelledby="review-tab">
-                        <div class="size-tab table-responsive-lg m-t-40">
-                            <h4 class="title-3 m-b-20">Size Chart</h4>
-                            <table class="table border mb-0">
-                                <tbody>
-                                    <tr>
-                                        <td class="cun-name"><span>UK</span></td>
-                                        <td>18</td>
-                                        <td>20</td>
-                                        <td>22</td>
-                                        <td>24</td>
-                                        <td>26</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="cun-name"><span>European</span></td>
-                                        <td>46</td>
-                                        <td>48</td>
-                                        <td>50</td>
-                                        <td>52</td>
-                                        <td>54</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="cun-name"><span>usa</span></td>
-                                        <td>14</td>
-                                        <td>16</td>
-                                        <td>18</td>
-                                        <td>20</td>
-                                        <td>22</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="cun-name"><span>Australia</span></td>
-                                        <td>28</td>
-                                        <td>10</td>
-                                        <td>12</td>
-                                        <td>14</td>
-                                        <td>16</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="cun-name"><span>Canada</span></td>
-                                        <td>24</td>
-                                        <td>18</td>
-                                        <td>14</td>
-                                        <td>42</td>
-                                        <td>36</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
 
@@ -397,7 +339,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title text-center">
-                    <h2 class="title">Related Products</h2>
+                    <h2 class="title">您可能有興趣...</h2>
                 </div>
             </div>
         </div>

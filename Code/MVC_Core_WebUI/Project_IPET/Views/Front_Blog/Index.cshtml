@@ -60,7 +60,9 @@
 
                     <div class="row">
                         <div class="col-12 m-b-50">
-                            <nav class="d-flex justify-content-end">
+
+                            <nav class="d-flex justify-content-end ">
+
                                 <ul class="pagination">
                                     <li class="page-item">
                                         <a class="page-link " id="page-ctrl-previous">
@@ -83,8 +85,9 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <h2 id="pagenumber" style="width:100px; text-align: center;"></h2>
+                                <h2 id="pagenumber" style="float:right; display:inline-flex; text-align:center;"></h2>
                             </nav>
+                         
                         </div>
                     </div>
                     <!-- Page End -->
@@ -358,17 +361,28 @@
         function post(page)
         {
 
-            $("#pagenumber").text(`${page}/${totalpage}`);
+          
 
             current = parseInt(`${page}`);
             let elementli = $("ul.pagination").children("li");
-            elementli.children("a").removeClass("active").eq(page).addClass("active");
-            PageList(page, elementli, totalpage);
-
             let postdata = $(".postdata")
-           
-            PageData(page, postdata, pagesize,totalpost)
 
+           
+
+            if (totalpost != 0) {
+
+                elementli.children("a").removeClass("active").eq(page).addClass("active");
+                PageList(page, elementli, totalpage);
+                PageData(page, postdata, pagesize, totalpost)
+                $("#pagenumber").text(`${page}/${totalpage}頁數`);
+            }
+            else
+            {
+                $("#pagenumber").text("沒有找到任何貼文");
+                elementli.eq(0).css("display", "none");
+                elementli.eq(totalpage + 1).css("display", "none");
+            }
+           
         }
 
         $("#page-ctrl-previous").click(function () {

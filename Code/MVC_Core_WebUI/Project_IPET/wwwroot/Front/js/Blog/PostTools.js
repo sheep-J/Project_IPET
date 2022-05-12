@@ -16,7 +16,7 @@ function POSTMethod(url, datas, success) {
 
 function PageList(page, elementli, totalpage)
 {
-
+    
     let first = page - 2;
     let last = page + 2;
 
@@ -37,9 +37,10 @@ function PageList(page, elementli, totalpage)
         for (i = first; i < last + 1; i++)
             elementli.eq(i).css("display", "inline");
     }
-
-    elementli.eq(0).css("display", "inline");
-    elementli.eq(totalpage + 1).css("display", "inline");
+   
+        elementli.eq(0).css("display", "inline");
+        elementli.eq(totalpage + 1).css("display", "inline");
+   
 
 }
  //頁數陣列Html
@@ -99,7 +100,7 @@ function PageData(page, postdata, pagesize, totalpost) {
         }
     }
 
-    if (page * pagesize > totalpost)
+    if (page * pagesize >= totalpost)
     {
      
         for (let i = (page - 1) * pagesize; i < totalpost; i++) {

@@ -74,24 +74,24 @@ namespace prjTest.Models
             });
             //=================== begin filter ===================
 
-            if (!string.IsNullOrEmpty(vModel.keyword))
+            if (!string.IsNullOrEmpty(vModel.Keyword))
                 datas = datas
-                   .Where(m => m.Name.Contains(vModel.keyword) || m.Email.Contains(vModel.keyword) || m.UserId.Contains(vModel.keyword));
+                   .Where(m => m.Name.Contains(vModel.Keyword) || m.Email.Contains(vModel.Keyword) || m.UserId.Contains(vModel.Keyword));
 
-            if (vModel.male == true)
+            if (vModel.Male == true)
             {
                 datas = datas
                       .Where(m => m.Gender == "Male");
-                if(vModel.female)
-                vModel.female = false;
+                if(vModel.Female)
+                vModel.Female = false;
             }
 
-            if (vModel.female == true)
+            if (vModel.Female == true)
             {
                 datas = datas
                     .Where(m => m.Gender == "Female");
-                if (vModel.male)
-                    vModel.male = false;
+                if (vModel.Male)
+                    vModel.Male = false;
             }
 
             return datas.Distinct().ToList();

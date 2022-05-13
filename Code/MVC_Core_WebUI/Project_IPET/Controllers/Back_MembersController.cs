@@ -18,39 +18,18 @@ namespace Project_IPET.Controllers
             _context = context;
         }
 
-        public IActionResult Index(/*string txtKeyword*/)
+        public IActionResult Index(CMembersFilter filter)
         {
             int countOnePage = 10;
-            int totalMembers = (new CMembersFactory(_context)).memberFilter(new CMembersFilter()).Count();
+            int totalMembers = (new CMembersFactory(_context)).memberFilter(filter).Count();
             (new CTools()).Page(countOnePage, totalMembers, out int totalPage);
-            ViewBag.PAGE = totalPage;
+            ViewBag.COUNTONEPAGE = countOnePage;
+            ViewBag.TOTALMEMBERS = totalMembers;
+            ViewBag.TOTALPAGE = totalPage;
 
-            return View();
-        }
-        [HttpPost]
-        public IActionResult ListView(int inputPage, string txtKeyword)
-        {
-            int page = 1;
-            int countOnePage = 10;
-            if (inputPage > 0)
-                page = inputPage;
+            IEnumerable<CBackMembersViewModel> datas = (new CMembersFactory(_context)).memberFilter(filter);
 
-            IEnumerable<CBackMembersViewModel> datas = null;
-            datas = (new CMembersFactory(_context)).memberFilter(new CMembersFilter
-            {
-                keyword = txtKeyword,
-                male = false,
-                female = false,
-            });
-
-            int totalMembers = datas.Count();
-            (new CTools()).Page(countOnePage, totalMembers, out int totalPage);
-            ViewBag.PAGE = totalPage;
-
-            datas = datas
-                 .Skip((page - 1) * countOnePage).Take(countOnePage).ToList();
-
-            return PartialView(datas);
+            return View(datas);
         }
     }
 }

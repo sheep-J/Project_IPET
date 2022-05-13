@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Project_IPET.Models;
 using Project_IPET.Models.EF;
 using System;
 using System.Collections.Generic;
@@ -34,5 +36,18 @@ namespace Project_IPET.Controllers
                 .Select(r => new { r.RegionName }).OrderBy(r => r.RegionName);
             return Json(region);
         }
+
+        public IActionResult Logout()
+        {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            if (!string.IsNullOrEmpty(json))
+            {
+                HttpContext.Session.Remove(CDictionary.SK_LOGINED_USER);
+                return RedirectToAction("Index", "Empty_Signin");
+            }
+            else
+                return RedirectToAction("Index", "Empty_Signin");
+        }
+
     }
 }

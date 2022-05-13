@@ -7,8 +7,8 @@ namespace Project_IPET.ViewModels
 {
     public class CMembersFilter
     {
-        public string keyword { get; set; }
-        public bool male { get; set; }
-        public bool female { get; set; }
+        public string Keyword { get; set; }
+        public bool Male { get; set; }
+        public bool Female { get; set; }
     }
 }

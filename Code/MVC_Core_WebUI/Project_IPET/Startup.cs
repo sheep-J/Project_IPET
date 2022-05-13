@@ -58,22 +58,8 @@ namespace Project_IPET
             //自動發送郵件
             services.Configure<CEmailSettings>(Configuration.GetSection("CEmailSettings"));
             services.AddTransient<IEmailSenderService, EmailSenderService>();
-            //services.AddMvc();
+            services.AddMvc();
 
-            //TODO 寄信時若是中文標題則無法正常顯示問題(亂碼)
-            // 待 解決中文字符編碼被轉換成亂碼問題
-            //services.AddControllers().AddNewtonsoftJson(options =>
-            //{
-            //    options.UseMemberCasing();
-            //});
-            //services.AddRazorPages().AddNewtonsoftJson(options =>
-            //{
-            //    options.UseMemberCasing();
-            //});
-            //services.AddMvc().AddNewtonsoftJson(options =>
-            //{
-            //    options.UseMemberCasing();
-            //});
 
         }
 

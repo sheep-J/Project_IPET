@@ -52,7 +52,7 @@ namespace Project_IPET.Controllers
                 vModel.fPhotoPath = PhotoName;
 
                 //dispose,為了刪掉圖片
-                using (FileStream fs = new FileStream(_environment.WebRootPath + "/Front/images/project/" + PhotoName,FileMode.Create))
+                using (FileStream fs = new FileStream(_environment.WebRootPath + "/Front/images/project/" + PhotoName, FileMode.Create))
                 {
                     vModel.fPhoto.CopyTo(fs);
                 }
@@ -70,7 +70,7 @@ namespace Project_IPET.Controllers
             };
             _context.ProjectDetails.Add(prj);
             _context.SaveChanges();
-            foreach(int prod in vModel.fProds)
+            foreach (int prod in vModel.fProds)
             {
                 int project = _context.ProjectDetails.OrderByDescending(n => n.PrjId).Select(n => n.PrjId).FirstOrDefault();
                 var newconnect = new PrjConnect()
@@ -94,6 +94,55 @@ namespace Project_IPET.Controllers
             _context.ProjectDetails.Remove(prj);
             _context.SaveChanges();
             System.IO.File.Delete(imgPath);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int fId, CProjectCreateViewModel vModel)
+        {
+            string PhotoName = string.Empty;
+            string str = vModel.fContent.Replace(Environment.NewLine, "<br>");
+
+            //刪除連結
+            var conn = _context.PrjConnects.Where(n => n.PrjId == fId).ToList();
+            _context.PrjConnects.RemoveRange(conn);
+
+            //修改專案內容
+            var prj = _context.ProjectDetails.Find(fId);
+            prj.Title = vModel.fTitle;
+            prj.Description = vModel.fDes;
+            prj.FoundationId = vModel.fFound;
+            prj.Goal = Convert.ToDecimal(vModel.fGoal);
+            prj.Starttime = vModel.fStart;
+            prj.Endtime = vModel.fEnd;
+            prj.PrjContent = str;
+
+            //圖片處裡
+            if (vModel.fPhoto != null)
+            {
+                string imgPath = $"{_environment.WebRootPath}/Front/images/project/{prj.PrjImage}";
+                System.IO.File.Delete(imgPath);
+                PhotoName = Guid.NewGuid().ToString() + ".jpg";
+                vModel.fPhotoPath = PhotoName;
+                //dispose,為了刪掉圖片
+                using (FileStream fs = new FileStream(_environment.WebRootPath + "/Front/images/project/" + PhotoName, FileMode.Create))
+                {
+                    vModel.fPhoto.CopyTo(fs);
+                }
+                prj.PrjImage = vModel.fPhotoPath;
+            }
+
+            //重建連結
+            foreach (int prod in vModel.fProds)
+            {
+                var newconnect = new PrjConnect()
+                {
+                    PrjId = fId,
+                    ProductId = prod
+                };
+                _context.PrjConnects.Add(newconnect);
+            }
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -144,12 +193,41 @@ namespace Project_IPET.Controllers
         //Create 商品資料導入
         public IActionResult CreateLoadProd()
         {
-            var list = _context.Products.Where(n => n.SubCategoryId == 1).Select(n => new
+            var list = _context.Products.Where(n => n.SubCategory.CategoryId == 1).Select(n => new
             {
                 id = n.ProductId,
                 name = n.ProductName
             }).ToList();
             return Json(list);
+        }
+
+        //Edit 專案內容導入
+        public IActionResult EditLoad(int Id)
+        {
+            var prj = _context.ProjectDetails.Where(n => n.PrjId == Id).Select(n => new
+            {
+                fId = n.PrjId,
+                fTitle = n.Title,
+                fDes = n.Description,
+                fContent = n.PrjContent,
+                fGoal = n.Goal,
+                fStart = n.Starttime,
+                fEnd = n.Endtime,
+                fImg = n.PrjImage,
+                fFound = n.FoundationId,
+                fAllfund = _context.Foundations.Select(n => new
+                {
+                    id = n.FoundationId,
+                    name = n.FoundationName
+                }).ToList(),
+                fProd = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n => n.ProductId).ToList(),
+                fAllprod = _context.Products.Where(n => n.SubCategory.CategoryId == 1).Select(n => new
+                {
+                    prodId = n.ProductId,
+                    prodName = n.ProductName
+                }).ToList()
+            }).FirstOrDefault();
+            return Json(prj);
         }
     }
 }

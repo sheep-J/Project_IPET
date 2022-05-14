@@ -59,40 +59,54 @@
                 <h5 class="modal-title" id="exampleModalLabel">專案修改 <span></span></h5>
             </div>
             <div class="modal-body">
-                <form id="editform" style="margin:10px">
+                <form id="editform" style="margin:10px" asp-action="Edit" enctype="multipart/form-data">
                     <div class="form-group" style="margin:10px 0">
-                        <label for="title" style="font-size:25px;color:black">專案名稱</label>
-                        <input type="text" class="form-control" id="title" placeholder="專案名稱">
+                        <input type="hidden" class="form-control" id="fId" placeholder="專案名稱" name="fId">
+                    </div>
+                    <div class="form-group" style="margin:10px 0">
+                        <label for="title" style="font-size:25px;">專案名稱</label>
+                        <input type="text" class="form-control" id="title" placeholder="專案名稱" name="fTitle">
                     </div>
                     <div class="form-group" style="margin:10px 0">
                         <label for="description" style="font-size:25px">專案簡介</label>
-                        <input type="text" class="form-control" id="description" placeholder="專案簡介">
+                        <input type="text" class="form-control" id="description" placeholder="專案簡介" name="fDes">
                     </div>
                     <div class="form-group" style="margin:10px 0">
-                        <label for="prjphoto" style="font-size:25px;color:black">專案圖片</label>
-                        <input type="file" class="form-control" id="prjphoto">
+                        <label for="prjphoto" style="font-size:25px;">專案圖片</label>
+                        <input type="file" class="form-control" id="prjphoto" name="fPhoto">
+                        <img class="fit-image" id="imgpre" style="width: 270px; height: 170px; background-attachment: fixed; margin-top:5px" />
+                    </div>
+                    <div class="form-group col-xl-5" style="margin:10px 0">
+                        <label style="font-size:25px">基金會</label>
+                        <select name="fFound" id="foundlist">
+                        </select>
                     </div>
                     <div class="form-group" style="margin:10px 0">
-                        <label for="goal" style="font-size:25px">專案目標</label>
-                        <input type="text" class="form-control" id="goal" placeholder="專案目標">
+                        <label for="fGoal" style="font-size:25px">專案目標</label>
+                        <input type="text" class="form-control" id="fGoal" placeholder="專案目標" name="fGoal">
                     </div>
                     <div class="form-group" style="margin:10px 0">
-                        <label for="content" style="font-size:25px">開始日期</label>
-                        <input type="date" class="form-control" id="content" placeholder="開始日期">
+                        <label for="fStart" style="font-size:25px">開始日期</label>
+                        <input type="date" class="form-control" id="fStart" placeholder="開始日期" name="fStart">
                     </div>
                     <div class="form-group" style="margin:10px 0">
                         <label for="content" style="font-size:25px">結束日期</label>
-                        <input type="date" class="form-control" id="content" placeholder="結束日期">
+                        <input type="date" class="form-control" id="fEnd" placeholder="結束日期" name="fEnd">
                     </div>
                     <div class="form-group" style="margin:10px 0">
                         <label for="content" style="font-size:25px">專案說明</label><br />
-                        <textarea id="content" style="width:100%" rows="15"></textarea>
+                        <textarea name="fContent" id="content" style="width:100%" rows="15"></textarea>
+                    </div>
+                    <div class="form-group" style="margin:10px 0">
+                        <label style="font-size:25px">專案商品</label><br />
+                        <div id="prodlist">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-secondary" asp-action="Index">關閉</a>
+                        <input type="submit" class="btn btn-danger" value="修改">
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-secondary" asp-action="Index">關閉</a>
-                <a class="btn btn-danger" asp-action="Index">送出</a>
             </div>
         </div>
     </div>
@@ -212,10 +226,60 @@
 
         $("#ProjectBody").on('click', 'button:nth-child(2)', async function () {
             const ProjectId = $(this).parents('tr').find('td:nth-child(2)').text();
-            @*const Productresponse = await fetch("@Url.Content("~/Back_Project/ProjectProduct?Id=")" + ProjectId);
-            renderProduct(await Productresponse.json());
-            const Otherresponse = await fetch("@Url.Content("~/Back_Project/ProjectDetail?Id=")" + ProjectId);
+            const Productresponse = await fetch("@Url.Content("~/Back_Project/EditLoad?Id=")" + ProjectId);
+            renderEdit(await Productresponse.json());
+            @*const Otherresponse = await fetch("@Url.Content("~/Back_Project/ProjectDetail?Id=")" + ProjectId);
             renderOther(await Otherresponse.json());*@
+        })
+        function renderEdit(datas) {
+            $("#fId").val(datas.fId);
+            $("#title").val(datas.fTitle);
+            $("#description").val(datas.fDes);
+            $("#imgpre").attr("src", `/Front/images/project/${datas.fImg}`);
+            $("#fGoal").val(datas.fGoal);
+            $("#fStart").val(datas.fStart.substring(0, 10));
+            $("#fEnd").val(datas.fEnd.substring(0, 10));
+            $("#goal").val(datas.fGoal);
+            $("#content").val(datas.fContent.replace(/<br>/g, "\r\n"));
+
+            const foundlist = document.getElementById("foundlist");
+            foundlist.innerHTML = "";
+            datas.fAllfund.forEach((found) => {
+                const foundoption = document.createElement("option");
+                foundoption.value = found.id;
+                foundoption.innerHTML = found.name;
+                if (found.id == datas.fFound)
+                    foundoption.selected = true;
+                foundlist.append(foundoption);
+            })
+
+            const list = document.getElementById("prodlist");
+            list.innerHTML = "";
+            datas.fAllprod.forEach((prod) => {
+                
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.name = "fProds";
+                checkbox.value = prod.prodId;
+                checkbox.id = `prod${prod.prodId}`;
+                if (datas.fProd.includes(prod.prodId))
+                    checkbox.checked = true;
+                const label = document.createElement("label");
+                label.innerHTML = prod.prodName;
+                label.setAttribute("for", `prod${prod.prodId}`);
+                label.style.position = "absolute";
+                const br = document.createElement("br");
+                list.append(checkbox, label, br);
+            })
+        }
+
+        $("#prjphoto").on("change", function (e) {
+            const file = this.files[0];
+            const fr = new FileReader();
+            fr.onload = function (e) {
+                $("#imgpre").attr("src", e.target.result);
+            }
+            fr.readAsDataURL(file);
         })
     </script>
 }

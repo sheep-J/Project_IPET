@@ -194,21 +194,27 @@
                                     </div>
                                 </div>
                             </form>
+                           
                             
+
+                           
+                        
+
                                 <!-- 依類別 -->
                                 <div class="widget-list m-b-50">
                                     <h3 class="widget-title m-b-30">依類別</h3>
                                     <div class="sidebar-body">
                                         <ul class="sidebar-list">
-                                            <li><a href="#/">全部</a></li>
-                                            <li><a href="#/">狗 (15)</a></li>
-                                            <li><a href="#/">貓 (11)</a></li>
-                                            <li><a href="#/">用品 (6)</a></li>
-                                            <li><a href="#/">其他 (26)</a></li>
+                                         @foreach (var item in ViewBag.PostTypeName)
+                                         {
+                                             
+                                            <li><a asp-action="Index" asp-route-PostType="@item">@item</a></li>
+                                     
+                                         }
                                         </ul>
                                     </div>
                                 </div>
-
+                          
                                 <!-- Tags -->
                                 <div class="widget-list">
                                     <h3 class="widget-title m-b-30">Tags</h3>
@@ -226,27 +232,38 @@
 
                           
                             <br />
-                            <!-- 篩選器 End-->
-                            <!-- 快速連結 Start-->
+                            <!-- 篩選器 End -->
+                            <!-- 快速連結 Start -->
 
                             <div>
                                 <!-- 依日期分類 -->
                                 <div class="widget-list p-b-50">
                                     <h3 class="widget-title m-b-30">依年份</h3>
+
+                                   
+                                       
                                     <div class="sidebar-body sidebar-body-archive">
-                                        <h4 class="title"> 2022年</h4>
+                                        <h4 class="title"> 2021年</h4>
                                         <ul class="archive-list d-block">
-                                            <li><span>&#8608;</span><a href="#">There Are Many Pets...</a></li>
-                                            <li><span>&#8608;</span><a href="#">The Standard Chunk Of...</a></li>
-                                            <li><span>&#8608;</span><a href="#">How to Take Care...</a></li>
+                                           
+                                     @foreach (var item in ViewBag.PostDate2021)
+                                     {
+                                             
+                                           <li><span>&#8608;</span><a  asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">@item.PostContent</a></li>
+                                     
+                                     }
                                         </ul>
                                     </div>
                                     <div class="sidebar-body sidebar-body-archive m-t-20">
-                                        <h4 class="title"> 2021年</h4>
+                                        <h4 class="title"> 2020年</h4>
                                         <ul class="archive-list d-block">
-                                            <li><span>&#8608;</span><a href="#">There Are Many Pets...</a></li>
-                                            <li><span>&#8608;</span><a href="#">The Standard Chunk Of...</a></li>
-                                            <li><span>&#8608;</span><a href="#">How to Take Care...</a></li>
+                                           
+                                     @foreach (var item in ViewBag.PostDate2020)
+                                     {
+                                             
+                                           <li><span>&#8608;</span><a  asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">@item.PostContent</a></li>
+                                     
+                                     }
                                         </ul>
                                     </div>
                                 </div>
@@ -256,81 +273,41 @@
                                     <div class="sidebar-body blog-list-wrapper m-b-n30">
 
                                         <!-- Single Blog List Start -->
+                                     @foreach (var item in ViewBag.PostDateNTimeNow)
+                                     {
                                         <div class="single-blog-list m-b-30">
 
                                             <!-- Blog List Thumb Start -->
                                             <div class="blog-thumb">
-                                                <a href="blog-details.html" class="image">
-                                                    <img class="fit-image" src="~/Front/images/blog/UploadImage/1.jpg" alt="Product Image">
+                                                <a asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId" class="image">
+                                                    <img class="fit-image" src="~/Front/images/blog/UploadImage/@item.PostImage" alt="Blog Image">
+                                                     
                                                 </a>
                                             </div>
                                             <!-- Blog List Thumb End -->
                                             <!-- Blog List Content Start -->
                                             <div class="blog-list-content">
                                                 <h6 class="blog-name">
-                                                    <a href="blog-details.html" title="How to take care of your fish">How to take care...</a>
+                                                    <a asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId" title="@item.Title">@item.PostContent</a>
                                                 </h6>
                                                 <div class="blog-meta">
-                                                    <p>03/04/2022</p>
+                                                    <p>@item.PostDate</p>
                                                 </div>
                                             </div>
                                             <!-- Blog List Content End -->
 
                                         </div>
+
+                                    }
                                         <!-- Single Blog List End -->
-                                        <!-- Single Blog List Start -->
-                                        <div class="single-blog-list m-b-30">
-
-                                            <!-- Blog List Thumb Start -->
-                                            <div class="blog-thumb">
-                                                <a href="blog-details.html" class="image">
-                                                    <img class="fit-image" src="~/Front/images/blog/UploadImage/2.jpg" alt="Product Image">
-                                                </a>
-
-                                            </div>
-                                            <!-- Blog List Thumb End -->
-                                            <!-- Blog List Content Start -->
-                                            <div class="blog-list-content">
-                                                <h6 class="blog-name">
-                                                    <a href="blog-details.html" title="Tips for taking care of dogs">Tips for taking care...</a>
-                                                </h6>
-                                                <div class="blog-meta">
-                                                    <p>13/03/2022</p>
-                                                </div>
-                                            </div>
-                                            <!-- Blog List Content End -->
-
-                                        </div>
-                                        <!-- Single Blog List End -->
-                                        <!-- Single Blog List Start -->
-                                        <div class="single-blog-list m-b-30">
-
-                                            <!-- Blog List Thumb Start -->
-                                            <div class="blog-thumb">
-                                                <a href="blog-details.html" class="image">
-                                                    <img class="fit-image" src="~/Front/images/blog/UploadImage/3.jpg" alt="Product Image">
-                                                </a>
-                                            </div>
-                                            <!-- Blog List Thumb End -->
-                                            <!-- Blog List Content Start -->
-                                            <div class="blog-list-content">
-                                                <h6 class="blog-name">
-                                                    <a href="blog-details.html" title="Beginning a Birding Blog">Beginning a Birding...</a>
-                                                </h6>
-                                                <div class="blog-meta">
-                                                    <p>12/01/2022</p>
-                                                </div>
-                                            </div>
-                                            <!-- Blog List Content End -->
-
-                                        </div>
-                                        <!-- Single Blog List End -->
+                                       
 
                                     </div>
                                 </div>
                             </div>
                             <!-- 快速連結 End-->
-
+                             
+                            
                         </div>
                     </aside>
                     <!-- Sidebar Widget End -->
@@ -365,7 +342,7 @@
 
             current = parseInt(`${page}`);
             let elementli = $("ul.pagination").children("li");
-            let postdata = $(".postdata")
+            let postdata = $(".postdata");
 
            
 

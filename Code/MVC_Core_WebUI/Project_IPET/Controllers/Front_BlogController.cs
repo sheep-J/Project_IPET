@@ -29,29 +29,40 @@ namespace Project_IPET.Controllers
             _context = myProject;
             
         }
-      
-        public IActionResult Index( CPostViewModel postFilter) 
+       
+  
+        public IActionResult Index( string PostType, CPostViewModel postFilter) 
         {
-            int totalpost = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
-                .Where(c => c.ReplyToPost == null).Count();
-         
             int pagesize = 6;
-         
+            postFilter.FilterPostType = PostType;
+            int totalpost = new CPostFilterFactory(_context).PostFilter(postFilter)
+                                                            .Where(c => c.ReplyToPost == null).Count();
+
+            var PostTypeName = _context.PostTypes
+                              .OrderBy(p=>p.PostTypeId)
+                              .Select(n=>n.PostTypeName)
+                              .ToList();
+            ViewBag.PostTypeName = PostTypeName;
+
+
             CTools tools = new CTools();
-
             tools.Page(pagesize, totalpost, out int tatalpage);
-
             ViewBag.totalpost = totalpost;
             ViewBag.tatalpage = tatalpage;
             ViewBag.pagesize = pagesize;
 
-           var posts = new CBFrontPostFilterFactory(_context).PostFilter(postFilter)
+
+            ViewBag.PostDate2021 = new CPostFilterFactory(_context).PostOrderByYear(2021);
+            ViewBag.PostDate2020 = new CPostFilterFactory(_context).PostOrderByYear(2020);
+            ViewBag.PostDateNTimeNow = new CPostFilterFactory(_context).PostOrderByYear(DateTime.Now.Year);
+
+            var posts = new CPostFilterFactory(_context).PostFilter(postFilter)
                       .Where(c => c.ReplyToPost == null).ToList();
                   
 
             return View(posts);
         }
-       
+        
 
         public IActionResult PostView(int id,CPostViewModel vModel)
         {
@@ -175,22 +186,28 @@ namespace Project_IPET.Controllers
                         _environment.WebRootPath + "/Front/Images/blog/UploadImage/" + photoName
                         , FileMode.Create));
             }
-            var newpost = new Post
+
+            if (!string.IsNullOrEmpty(vModel.PostContent) && !string.IsNullOrEmpty(vModel.Title))
             {
-               MemberId = userid,
-               Title = vModel.Title,
-               PostContent = vModel.PostContent,
-               PostDate = DateTime.Now.GetDateTimeFormats('f')[0].ToString(),
-               PostTypeId = int.Parse(vModel.PostType),
-               PostImage =vModel.PostImage,
-               Banned = false,
-               BannedContent = "********************",
-               LikeCount = 0,
-               
-            };
-            _context.Add(newpost);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+                var newpost = new Post
+                {
+                    MemberId = userid,
+                    Title = vModel.Title,
+                    PostContent = vModel.PostContent,
+                    PostDate = DateTime.Now.GetDateTimeFormats('f')[0].ToString(),
+                    PostTypeId = int.Parse(vModel.PostType),
+                    PostImage = vModel.PostImage,
+                    Banned = false,
+                    BannedContent = "********************",
+                    LikeCount = 0,
+
+                };
+                _context.Add(newpost);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("CreatePost");
         }
 
 

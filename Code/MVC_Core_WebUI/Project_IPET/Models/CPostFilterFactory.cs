@@ -6,16 +6,37 @@ using System.Linq;
 
 namespace Project_IPET.Models
 {
-    public class CBFrontPostFilterFactory
+    public class CPostFilterFactory
     {
         private readonly MyProjectContext _context;
 
-       
 
-        public CBFrontPostFilterFactory(MyProjectContext context)
+
+        public CPostFilterFactory(MyProjectContext context)
         {
             _context = context;
         }
+
+        public IEnumerable<CPostViewModel> PostOrderByYear(int year)
+        {
+            IEnumerable<CPostViewModel> Post = null;
+                Post = _context.Posts
+                       .Select(p => new CPostViewModel
+                       {
+                           Title = p.Title,
+                           PostImage = p.PostImage,
+                           ReplyToPost = p.ReplyToPost.ToString(),
+                           PostContent = p.PostContent.Substring(0, 15),
+                           PostId = p.PostId,
+                           PostDate = p.PostDate,
+                       }).Where(c => c.ReplyToPost == null);
+
+                Post = Post.Where(p => DateTime.Parse(p.PostDate).Year.Equals(year))
+                      .Select(p => p);
+
+            return Post.OrderByDescending(p => DateTime.Parse(p.PostDate)).Take(3);
+        }
+
 
         public IEnumerable<CPostViewModel> PostFilter(CPostViewModel PostFilters)
         {
@@ -30,9 +51,10 @@ namespace Project_IPET.Models
                 PostImage = n.PostImage,
                 MemberName = n.Member.Name,
                 MemberId = n.MemberId,
+                PostTypeId = n.PostTypeId,
                 PostType = n.PostType.PostTypeName,
-                ReplyToPost =n.ReplyToPost.ToString(),
-             
+                ReplyToPost = n.ReplyToPost.ToString(),
+
             }).Where(c => c.ReplyToPost == null);
 
             if (PostFilters != null)
@@ -55,11 +77,11 @@ namespace Project_IPET.Models
                     datas = datas.Where(p => p.PostType.ToString() == PostFilters.FilterPostType).Select(p => p);
                 }
 
-                if (PostFilters.FilterPostFristDate != null && PostFilters.FilterPostLastDate != null  )
+                if (PostFilters.FilterPostFristDate != null && PostFilters.FilterPostLastDate != null)
                 {
-                 
-                    datas = datas.Where(p => DateTime.Parse(p.PostDate).AddDays(1) > PostFilters.FilterPostFristDate
-                                          && DateTime.Parse(p.PostDate).AddDays(-1) < PostFilters.FilterPostLastDate ) 
+
+                    datas = datas.Where(p => DateTime.Parse(p.PostDate) > PostFilters.FilterPostFristDate
+                                          && DateTime.Parse(p.PostDate).AddDays(-1) <= PostFilters.FilterPostLastDate)
                                  .Select(p => p);
 
                 }
@@ -69,9 +91,9 @@ namespace Project_IPET.Models
                     datas = datas.Where(p => p.Tag == PostFilters.FilterTag).Select(p => p);
                 }
             }
-                                                               
-                return datas.ToList().OrderByDescending(p => DateTime.Parse(p.PostDate));
-            
+
+            return datas.ToList().OrderByDescending(p => DateTime.Parse(p.PostDate));
+
         }
 
 

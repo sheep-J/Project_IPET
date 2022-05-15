@@ -15,54 +15,31 @@ namespace Project_IPET.Controllers
     public class Back_CommentController : Controller
     {
 
-        private readonly MyProjectContext _myProject;
+        private readonly MyProjectContext _context;
 
 
-        public Back_CommentController(MyProjectContext myProject)
+        public Back_CommentController(MyProjectContext context)
         {
 
-            _myProject = myProject;
+            _context = context;
 
         }
-        public IActionResult Index()
+        public IActionResult Index(CCommentViewModel commentFilter)
         {
-            int countbypage = 10;
-            int totalpost = _myProject.Comments.Count();
+            int pagesize = 10;
+            int totalpost = _context.Comments.Count();
+
             CTools tools = new CTools();
-            tools.Page(countbypage, totalpost, out int tatalpage);
-
+            tools.Page(pagesize, totalpost, out int tatalpage);
+            ViewBag.totalpost = totalpost;
             ViewBag.page = tatalpage;
+            ViewBag.pagesize = pagesize;
+            var Comments = new CCommentFilterFactory(_context).CommentFilter(commentFilter).ToList();
 
-            return View();
+            return View(Comments);
         }
 
-        [HttpPost]
-        public IActionResult ListView(int inputpage)
-        {
-            int page = 1;
-            int countbypage = 10;
-
-            if (inputpage > 0)
-                page = inputpage;
-
-            var posts = _myProject.Comments.Select(n => new CCommentViewModel
-            {
-                CommentId = n.CommentId,
-                ProductName = n.Product.ProductName,
-                OrderId = n.OrderDetail.OrderId,
-                MemberName = n.OrderDetail.Order.Member.Name,
-                Rating = n.Rating,
-                CommentDate = n.CommentDate,
-                CommentContent = n.CommentContent,
-                ReplyContent = n.ReplyContent,
-                Reply = n.Reply,
-                BannedContent = n.BannedContent,
-                Banned = n.Banned,
-
-            }).Skip((page - 1) * countbypage).Take(countbypage).ToList();
-
-            return PartialView(posts);
-        }
+       
 
         
 
@@ -78,12 +55,12 @@ namespace Project_IPET.Controllers
             }
             else
             {
-                var averagerating = _myProject.Comments
+                var averagerating = _context.Comments
                     .Where(p => p.Product.ProductName == productname)
                     .Select(p => p.Rating).Average();
 
             
-                var totalcommentcount = _myProject.Comments
+                var totalcommentcount = _context.Comments
                     .Where(p => p.Product.ProductName == productname)
                     .Count();
 

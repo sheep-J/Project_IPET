@@ -31,7 +31,7 @@ namespace Project_IPET.Controllers
 
         public IActionResult BlogView(CPostViewModel postFilter)
         {
-            var posts = new CBFrontPostFilterFactory(_myProject).PostFilter(postFilter)
+            var posts = new CPostFilterFactory(_myProject).PostFilter(postFilter)
                 .Where(c => c.ReplyToPost == null)
                 .Select(n => new CPostViewModel
             {

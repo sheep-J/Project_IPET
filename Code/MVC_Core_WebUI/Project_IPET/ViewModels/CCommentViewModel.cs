@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace Project_IPET.ViewModels
 {
@@ -27,6 +28,26 @@ namespace Project_IPET.ViewModels
         public bool Reply { get; set; }
         [DisplayName("會員照片")]
         public byte[] MemberImage { get; set; }
+
+
+        public string FilterKeyword { get; set; }
+
+
+        public string FilterMemberName { get; set; }
+
+        public int FilterRating { get; set; }
+
+        public bool FilterReply { get; set; }
+
+        public bool FilterBanned { get; set; }
+
+        public DateTime? FilterCommentFristDate { get; set; }
+
+
+        public DateTime? FilterCommentLastDate { get; set; }
+
+
+      
 
     }
 }

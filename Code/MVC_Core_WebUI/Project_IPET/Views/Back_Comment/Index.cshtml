@@ -1,13 +1,26 @@
 ﻿@{
     ViewData["Title"] = "評價管理";
 }
+@model IEnumerable<Project_IPET.ViewModels.CCommentViewModel>
 
+<head>
+    <style>
+        .middle {
+            padding: 0.75rem 1.5rem !important;
+            text-align: center;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
+
+</head>
 
 <button type="button" class="btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">快速回覆</button>
 
 <button type="button" class="btn btn-danger mr-3">快速屏蔽</button>
 
-<div class="row">
+
     <!-- Page Start -->
     <div class="row">
         <div class="col-12 m-b-50">
@@ -48,26 +61,34 @@
             </div>
 
             <div class="card-body px-0 pb-2">
-                <div class="table-responsive p-0">
+                <div class="p-0">
                     <div id="listview">
-
+                           
                     </div>
-                    <!-- CommentModal Start-->
+                 
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+           <!-- CommentModal Start-->
                     <div class="modal fade" id="MessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">回覆留言</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
+                                </div> 
                                 <div class="modal-body ">
                                     <div>
                                         <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">親切地回覆顧客留言以拉近與顧客的距離</textarea>
-
+                                         
                                     </div>
-
-
-
+                                      
+                                       
+                                      
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
@@ -76,16 +97,8 @@
                             </div>
                         </div>
                     </div>
-
+                     
                     <!-- CommentModal End-->
-                </div>
-            </div>
-
-
-        </div>
-            </div>
-        </div>
-
 @section Scripts{
 
     <script>
@@ -95,26 +108,35 @@
       post(1);
 
 
+        <script>
+
+      let current;
+      let totalpage = @ViewBag.page;
+      let pagesize = @ViewBag.pagesize;
+      let totalpost =@ViewBag.totalpost;
+      post(1);
+
+
         function post(page)
         {
-
-              POSTMethod("@Url.Content("~/Back_Comment/ListView")",
-             {inputpage:page},
-               function(response)
-               {
-                   $("#listview").html(response);
-
-               }
-             )
-
+            current = parseInt(`${page}`);
+            let elementli = $("ul.pagination").children("li");
+            let postdata = $(".postdata");
+           
+            if (totalpost != 0) 
+            {
+           
+            PageList(page, elementli, totalpage);
+            PageData(page, postdata, pagesize, totalpost)
             $("#pagenumber").text(`${page}/${totalpage}`);
 
-            current = parseInt(`${page}`);
-
-            let elementli = $("ul.pagination").children("li");
-            
-            PageList(page, elementli, totalpage);
-
+            }
+            else
+            {
+             $("#pagenumber").text("沒有找到資料");
+                elementli.eq(0).css("display", "none");
+                elementli.eq(totalpage + 1).css("display", "none");
+            }
         }
 
         $("#page-ctrl-previous").click(function () {

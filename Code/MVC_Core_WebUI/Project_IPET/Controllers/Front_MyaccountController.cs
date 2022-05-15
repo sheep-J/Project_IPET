@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using prjTest.Models;
 using Project_IPET.Models;
@@ -7,6 +8,7 @@ using Project_IPET.Services;
 using Project_IPET.ViewModels;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 
@@ -16,14 +18,15 @@ namespace Project_IPET.Controllers
     public class Front_MyaccountController : Controller
     {
         private readonly MyProjectContext _context;
+        private readonly IWebHostEnvironment _host;
 
-
-        public Front_MyaccountController(MyProjectContext context)
+        public Front_MyaccountController(MyProjectContext context, IWebHostEnvironment host)
         {
 
             _context = context;
-
+            _host = host;
         }
+
         public IActionResult Index()
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
@@ -188,6 +191,7 @@ namespace Project_IPET.Controllers
                     City = m.Region.City.CityName,
                     Region = m.Region.RegionName,
                     Address = m.Address,
+                    Avatar = m.Avatar,
                 }).FirstOrDefault();
 
             return PartialView(datas);
@@ -197,6 +201,13 @@ namespace Project_IPET.Controllers
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
             int memberId = (new CMembersFactory(_context)).getMemberId(json);
+
+            string ImagesFolder = Path.Combine(_host.WebRootPath,
+                "Front/images/register/members", vModel.Photo.FileName);
+            using (var fileStream = new FileStream(ImagesFolder, FileMode.Create))
+            {
+                vModel.Photo.CopyTo(fileStream);
+            }
 
             if (vModel.NewPwd != null)
             {
@@ -210,6 +221,7 @@ namespace Project_IPET.Controllers
                     member.Phone = vModel.Phone;
                     member.RegionId = (new CMembersFactory(_context)).getRegionId(vModel.Region);
                     member.Address = vModel.Address;
+                    member.Avatar = vModel.Photo.FileName; 
                 };
                 _context.SaveChanges();
                 return RedirectToAction("Index", "Front_Myaccount");

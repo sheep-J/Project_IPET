@@ -8,16 +8,17 @@
         <div style="width:80%;margin:20px auto">
             <form asp-action="Create" enctype="multipart/form-data">
                 <div class="form-group col-xl-5" style="margin:10px 0">
-                    <label for="title" style="font-size:25px;color:black">專案名稱</label>
-                    <input name="fTitle" type="text" class="form-control" id="title" placeholder="專案名稱" autocomplete="off">
+                    <label for="title" style="font-size:25px">專案名稱</label>
+                    <input name="fTitle" type="text" class="form-control" id="title" placeholder="專案名稱" autocomplete="off" style="border:1px solid gray">
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="description" style="font-size:25px">專案簡介</label>
-                    <input name="fDes" type="text" class="form-control" id="description" placeholder="專案簡介" autocomplete="off">
+                    <input name="fDes" type="text" class="form-control" id="description" placeholder="專案簡介" autocomplete="off" style="border:1px solid gray">
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
-                    <label for="prjphoto" style="font-size:25px;color:black">專案圖片</label>
+                    <label for="prjphoto" style="font-size:25px">專案圖片</label>
                     <input name="fPhoto" type="file" class="form-control" id="prjphoto" autocomplete="off">
+                    <img class="fit-image" id="imgpre" style="width: 270px; height: 170px; background-attachment: fixed; margin-top:5px"/>
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label style="font-size:25px">基金會</label>
@@ -26,22 +27,22 @@
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="goal" style="font-size:25px">專案目標</label>
-                    <input name="fGoal" type="text" class="form-control" id="goal" placeholder="專案目標" autocomplete="off">
+                    <input name="fGoal" type="text" class="form-control" id="goal" placeholder="專案目標" autocomplete="off" style="border:1px solid gray">
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="content" style="font-size:25px">開始日期</label>
-                    <input name="fStart" type="date" class="form-control" id="content" placeholder="開始日期" autocomplete="off">
+                    <input name="fStart" type="date" class="form-control" id="content" placeholder="開始日期" autocomplete="off" style="border:1px solid gray">
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="content" style="font-size:25px">結束日期</label>
-                    <input name="fEnd" type="date" class="form-control" id="content" placeholder="結束日期" autocomplete="off">
+                    <input name="fEnd" type="date" class="form-control" id="content" placeholder="結束日期" autocomplete="off" style="border:1px solid gray">
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
                     <label for="content" style="font-size:25px">專案說明</label><br />
                     <textarea name="fContent" id="content" style="width:100%" rows="15"></textarea>
                 </div>
                 <div class="form-group col-xl-5" style="margin:10px 0">
-                    <label for="content" style="font-size:25px">專案商品</label><br />
+                    <label style="font-size:25px">專案商品</label><br />
                     <div id="prodlist">
                     </div>
                 </div>
@@ -91,5 +92,14 @@
                 list.append(option);
             })
         }
+
+        $("#prjphoto").on("change", function (e) {
+            const file = this.files[0];
+            const fr = new FileReader();
+            fr.onload = function (e) {
+                $("#imgpre").attr("src", e.target.result);
+            }
+            fr.readAsDataURL(file);
+        })
     </script>
 }

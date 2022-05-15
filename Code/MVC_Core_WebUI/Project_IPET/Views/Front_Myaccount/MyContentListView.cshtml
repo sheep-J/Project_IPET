@@ -1,9 +1,16 @@
 ﻿@model Project_IPET.ViewModels.CFrontMembersViewModel
 
-<form asp-action="MyContentEdit" class="form-floating">
+<form asp-action="MyContentEdit" class="form-floating" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="row">
+        <div class="col-lg-auto">
+            <input class="form-control-file" accept="image/*" type="file" name="Photo" id="Photo" hidden />
+            <a class="btn btn-default" onclick="browsePhoto();">
+                <img src="~/Front/images/register/members/@Html.DisplayFor(model=>model.Avatar)" alt="..." name="previewPhoto" id="previewPhoto" class="img-fluid img-thumbnail rounded-circle mx-auto mb-3" style="width:100px; height:100px;" />
+            </a>
+        </div>
+
         <div class="single-input-item m-b-15">
             <label for="Name" class="required m-b-10">姓名</label>
             <input type="text" value="@Html.DisplayFor(model=>model.Name)" name="Name" id="Name" />
@@ -64,6 +71,16 @@
 </form>
 
 <script>
+
+    function browsePhoto() {
+        $("#Photo").trigger("click");
+    }
+    Photo.onchange = evt => {
+        const [file] = Photo.files;
+        if (file)
+            previewPhoto.src = URL.createObjectURL(file);
+    }
+
         let city = $("#selcity");
         let region = $("#selregion");
 

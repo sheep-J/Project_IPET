@@ -29,13 +29,13 @@
                     </div>
                     <!-- Register Title & Content End -->
                     <!-- Form Action Start -->
-                    <form asp-action="Register" class="form-floating">
+                    <form asp-action="Register" class="form-floating" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <!-- Photo Start -->
                         <div class="col-lg-auto text-center align-items-center">
-                            <input class="form-control-file" accept="image/*" type="file" id="uploadPhoto" hidden/>
+                            <input class="form-control-file" accept="image/*" type="file" name="Photo" id="Photo" hidden/>
                             <a class="btn btn-default" onclick="browsePhoto();">
-                                <img src="~/Front/images/register/default/df_1.png" alt="..." id="imgPreview" class="img-fluid img-thumbnail rounded-circle mx-auto mb-3" style="width:100px; height:100px;" />
+                                <img src="~/Front/images/register/default/df_1.png" alt="..." name="previewPhoto" id="previewPhoto" class="img-fluid img-thumbnail rounded-circle mx-auto mb-3" style="width:100px; height:100px;" />
                             </a>
                         </div>
                         <!-- Photo End-->
@@ -160,12 +160,12 @@
     <script>
 
         function browsePhoto() {
-            $("#uploadPhoto").trigger("click");
+            $("#Photo").trigger("click");
         }
-        uploadPhoto.onchange = evt => {
-            const [file] = uploadPhoto.files;
+        Photo.onchange = evt => {
+            const [file] = Photo.files;
             if (file)
-                imgPreview.src = URL.createObjectURL(file);
+                previewPhoto.src = URL.createObjectURL(file);
         }
 
         let city = $("#selcity");

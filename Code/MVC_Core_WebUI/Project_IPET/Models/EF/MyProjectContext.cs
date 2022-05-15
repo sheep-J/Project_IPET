@@ -277,6 +277,8 @@ namespace Project_IPET.Models.EF
 
                 entity.Property(e => e.Address).HasMaxLength(50);
 
+                entity.Property(e => e.Avatar).HasMaxLength(50);
+
                 entity.Property(e => e.BirthDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Email)

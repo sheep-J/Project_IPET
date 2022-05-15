@@ -101,15 +101,14 @@ namespace Project_IPET.Controllers
         public IActionResult readList(int Id)
         {
             List<CProjectBuylistViewModel> buylist = new List<CProjectBuylistViewModel>();
-            var list = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n=>new
-            {
-                orderlist = _context.OrderDetails.Where(o=>o.ProductId == n.ProductId).Select(o=>new CProjectBuylistViewModel
+            var list = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n =>
+                _context.OrderDetails.Where(o => o.ProductId == n.ProductId).Select(o => new CProjectBuylistViewModel
                 {
                     UserName = o.Order.Member.Name,
                     ProductName = o.Product.ProductName
                 }).ToList()
-            }).ToList();
-            list.ForEach(n => buylist.AddRange(n.orderlist));
+            ).ToList();
+            list.ForEach(n => buylist.AddRange(n));
             return Json(buylist);
         }
 

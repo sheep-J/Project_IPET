@@ -71,6 +71,7 @@ namespace prjTest.Models
                 Phone = m.Phone,
                 Address = m.Region.City.CityName + m.Region.RegionName + " " + m.Address,
                 RegisteredDate = m.RegisteredDate.ToString("yyyy/MM/dd"),
+                Avatar = m.Avatar,
             });
             //=================== begin filter ===================
 

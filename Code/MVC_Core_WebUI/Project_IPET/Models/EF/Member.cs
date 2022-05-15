@@ -28,7 +28,7 @@ namespace Project_IPET.Models.EF
         public string Address { get; set; }
         public int Gender { get; set; }
         public DateTime BirthDate { get; set; }
-        public byte[] Avatar { get; set; }
+        public string Avatar { get; set; }
         public DateTime RegisteredDate { get; set; }
         public int RoleId { get; set; }
         public bool Banned { get; set; }

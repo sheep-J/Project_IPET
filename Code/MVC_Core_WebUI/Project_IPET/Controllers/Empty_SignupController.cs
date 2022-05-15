@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using prjTest.Models;
 using Project_IPET.Models.EF;
 using Project_IPET.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,9 +14,11 @@ namespace Project_IPET.Controllers
     public class Empty_SignupController : Controller
     {
         private readonly MyProjectContext _context;
-        public Empty_SignupController(MyProjectContext context)
+        private readonly IWebHostEnvironment _host;
+        public Empty_SignupController(MyProjectContext context, IWebHostEnvironment host)
         {
             _context = context;
+            _host = host;
         }
 
         public IActionResult Index()
@@ -25,6 +29,12 @@ namespace Project_IPET.Controllers
         [HttpPost]
         public IActionResult Register(CEmptySignupViewModel vModel)
         {
+            string ImagesFolder = Path.Combine(_host.WebRootPath,
+                "Front/images/register/members", vModel.Photo.FileName);
+            using (var fileStream = new FileStream(ImagesFolder, FileMode.Create))
+            {
+                vModel.Photo.CopyTo(fileStream);
+            }
 
             var member = new Member
             {
@@ -38,6 +48,7 @@ namespace Project_IPET.Controllers
                 RegionId = (new CMembersFactory(_context)).getRegionId(vModel.Region),
                 Address = vModel.Address,
                 RegisteredDate = DateTime.Now,
+                Avatar = vModel.Photo.FileName,
             };
 
             _context.Members.Add(member);

@@ -16,6 +16,7 @@ namespace Project_IPET.ViewModels
         public string Phone { get; set; }
         public string Address { get; set; }
         public string RegisteredDate { get; set; }
+        public string Avatar { get; set; }
 
     }
 }

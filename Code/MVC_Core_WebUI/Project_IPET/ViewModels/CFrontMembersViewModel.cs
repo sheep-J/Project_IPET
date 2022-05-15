@@ -21,6 +21,7 @@ namespace Project_IPET.ViewModels
         public string NewPwd { get; set; }
         public string ConfirmPwd { get; set; }
         public IFormFile Photo { get; set; }
+        public string Avatar { get; set; }
         
     }
 }

@@ -6,6 +6,7 @@ using Project_IPET.Models;
 using Project_IPET.Models.EF;
 using Project_IPET.Services;
 using Project_IPET.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -85,11 +86,36 @@ namespace Project_IPET.Controllers
                 return PartialView();
             }
         }
-        public IActionResult CreateyComment()
+
+        [HttpPost]
+        public IActionResult CreateComment(CCommentViewModel vModel)
         {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            Member userobj = JsonSerializer.Deserialize<Member>(json);
+            int userid = userobj.MemberId;
+
+            if (!string.IsNullOrEmpty(vModel.CommentContent) && !string.IsNullOrEmpty(vModel.Rating.ToString()))
+            {
+                var newpost = new Comment
+                {
+                    ProductId = vModel.ProductId,
+                    OrderDetailId = vModel.OrderDetailId,
+                    Rating = vModel.Rating,
+                    CommentDate = DateTime.Now.GetDateTimeFormats('f')[0].ToString(),
+                    CommentContent = vModel.CommentContent,
+                    ReplyContent = null,
+                    BannedContent = "*******************",
+                    Reply = false,
+                    Banned = false,
+
+                };
+                _context.Add(newpost);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
 
 
-           
 
             return View();
         }

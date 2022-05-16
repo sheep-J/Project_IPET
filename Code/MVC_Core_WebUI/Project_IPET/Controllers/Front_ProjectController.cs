@@ -54,7 +54,7 @@ namespace Project_IPET.Controllers
                 fDescription = n.Description,
                 fPrjImage = n.PrjImage,
                 fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString(),
-                fDeadlineall = ((DateTime)n.Endtime).ToString(@"dd'天'HH\:mm\:ss")
+                fDeadlineall = ((DateTime)n.Endtime).AddDays(1).ToString()
             }).ToList();
             return Json(list);
         }

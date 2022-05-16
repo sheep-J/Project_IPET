@@ -108,11 +108,11 @@
                                 
                                   
 
-                                <div class="single-blog-wrapper Bloghover">
+                                <div class="single-blog-wrapper Bloghover ">
                                     <!-- 圖片 Start -->
                                     <div class="blog-image thumb-effect">
                                         <a class="image" asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">
-                                            <img class="fit-image" height=300 src="~/Front/images/blog/UploadImage/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image">
+                                            <img class="fit-image "   height=300 src="~/Front/images/blog/UploadImage/@Html.DisplayFor(modelItem => item.PostImage)" alt="Blog Image">
                                         </a>
                                     </div>
                                     <!-- 圖片 End -->
@@ -350,7 +350,7 @@
 
                 elementli.children("a").removeClass("active").eq(page).addClass("active");
                 PageList(page, elementli, totalpage);
-                PageData(page, postdata, pagesize, totalpost)
+                PageData(page, postdata, pagesize, totalpost,"inline")
                 $("#pagenumber").text(`${page}/${totalpage}頁數`);
             }
             else

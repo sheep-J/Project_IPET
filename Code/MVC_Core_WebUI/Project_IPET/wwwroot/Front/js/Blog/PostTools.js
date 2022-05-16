@@ -85,7 +85,7 @@ function PageList(page, elementli, totalpage)
  //   <!--Page End-- >
 
 
-function PageData(page, postdata, pagesize, totalpost) {
+function PageData(page, postdata, pagesize, totalpost, display) {
 
    
     postdata.css("display","none");
@@ -93,17 +93,28 @@ function PageData(page, postdata, pagesize, totalpost) {
     if (totalpost < pagesize)
     {
         for (let i = 0; i < totalpost; i++) {
-            /*console.log(i);*/
-            postdata.eq(i).css("display", "flex");
+            console.log(i);
+            if (display == "flex")
+            {
+                postdata.eq(i).css("display", "flex");
+            }
+            if (display == "inline")
+            {
+                postdata.eq(i).css("display", "inline");
+            }
 
         }
     }
 
     if (page == 1) {
         for (let i = 0; i < pagesize; i++) {
-            /*console.log(i);*/
-            postdata.eq(i).css("display", "flex");
-
+            console.log(i);
+            if (display == "flex") {
+                postdata.eq(i).css("display", "flex");
+            }
+            if (display == "inline") {
+                postdata.eq(i).css("display", "inline");
+            }
         }
     }
 
@@ -111,9 +122,13 @@ function PageData(page, postdata, pagesize, totalpost) {
     {
      
         for (let i = (page - 1) * pagesize; i < totalpost; i++) {
-            /*console.log(i);*/
-            postdata.eq(i).css("display", "flex");
-
+            console.log(i);
+            if (display == "flex") {
+                postdata.eq(i).css("display", "flex");
+            }
+            if (display == "inline") {
+                postdata.eq(i).css("display", "inline");
+            }
         }
 
     }
@@ -121,9 +136,13 @@ function PageData(page, postdata, pagesize, totalpost) {
     if (page * pagesize < totalpost && page != 1)
     {
         for (let i = ( page - 1 )* pagesize; i < page * pagesize; i++) {
-            /*console.log(i);*/
-            postdata.eq(i).css("display","flex");
-
+            console.log(i);
+            if (display == "flex") {
+                postdata.eq(i).css("display", "flex");
+            }
+            if (display == "inline") {
+                postdata.eq(i).css("display", "inline");
+            }
         }
 
     }

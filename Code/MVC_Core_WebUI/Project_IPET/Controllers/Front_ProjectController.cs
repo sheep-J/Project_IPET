@@ -34,7 +34,9 @@ namespace Project_IPET.Controllers
                 fEndtime = ((DateTime)p.Endtime).Day.ToString(),
                 fPrjImage = p.PrjImage,
                 fFoundation = p.Foundation.FoundationName,
-                fDeadline = ((TimeSpan)(p.Endtime - DateTime.Now.Date)).Days < 0?"0": ((TimeSpan)(p.Endtime - DateTime.Now.Date)).Days.ToString()
+                fDeadline = ((TimeSpan)(p.Endtime - DateTime.Now.Date)).Days < 0?"0": ((TimeSpan)(p.Endtime - DateTime.Now.Date)).Days.ToString(),
+                fStart = p.Starttime.ToString(),
+                fEnd = p.Endtime.ToString()
             }).FirstOrDefault();
             //找到prjId為參數的connect再去找商品
             //找到已付款的訂單, 找出是誰, 消費甚麼, 數量多少
@@ -51,7 +53,8 @@ namespace Project_IPET.Controllers
                 fContent = n.PrjContent,
                 fDescription = n.Description,
                 fPrjImage = n.PrjImage,
-                fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString()
+                fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString(),
+                fDeadlineall = ((DateTime)n.Endtime).ToString(@"dd'天'HH\:mm\:ss")
             }).ToList();
             return Json(list);
         }
@@ -64,7 +67,8 @@ namespace Project_IPET.Controllers
                 fContent = n.PrjContent,
                 fDescription = n.Description,
                 fPrjImage = n.PrjImage,
-                fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString()
+                fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString(),
+                fDeadlineall = ""
             }).ToList();
             return Json(list);
         }

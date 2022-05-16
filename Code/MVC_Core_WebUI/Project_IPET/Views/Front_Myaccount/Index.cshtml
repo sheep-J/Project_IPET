@@ -273,39 +273,7 @@
                                         <!-- MyComment Start -->
                                         <!--  加入MyCommentPartialView Start -->
                                     </div>
-                                    <!-- CommentModal Start-->
-                                    <div class="modal fade" id="CommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">我要評價</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body ">
-                                                    <div style="padding-bottom:10px; align-items:center;">
-                                                        <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">感謝你留下你寶貴的評價 </textarea>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star ratingi " style="font-size:3em"></i>
-                                                        @for (int i = 0; i < 4; i++)
-                                                        {
-
-                                                            <i class="fa fa-star-o ratingi " style="font-size:3em"></i>
-
-                                                        }
-                                                    </div>
-                                                    <div>
-                                                        <h3 id="startext" style="text-align:center; padding-top:10px;">請點擊星星評分</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-target="#Cancel">取消</button>
-                                                    <button type="button" class="btn btn-primary">送出</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- CommentModal End-->
+                                   
                                     <!-- MyComment End -->
                                 </div>
                                 <!-- Single Tab Content End -->
@@ -352,34 +320,6 @@
                 }
                 //呼叫MyCommentListView End
 
-                //新增評價星星效果 Start
-                let ck =false;
-                let starnumber;
-                $(document).on("mouseover", ".ratingi", function () {
-
-                    $(this).prevAll().removeClass("fa fa-star-o").addClass("fa fa-star");
-                    $(this).removeClass("fa fa-star-o").addClass("fa fa-star");
-                    $(this).nextAll().removeClass("fa fa-star").addClass("fa fa-star-o");
-                    $(this).next().removeClass("fa fa-star").addClass("fa fa-star-o");
-                    starnumber =$(this).index()+1;
-                    $("#startext").html(`評分中...${starnumber}顆星`);
-                    ck = false;
-                })
-
-                $(document).on("mouseleave", ".ratingi", function () {
-                    if (!ck)
-                    {
-                        $(this).removeClass("fa fa-star").addClass("fa fa-star-o");
-                        $(this).siblings().removeClass("fa fa-star").addClass("fa fa-star-o");
-                        $("#startext").text("請點擊星星評分");
-                    }
-                })
-
-                 $(document).on("click", ".ratingi", function () {
-                      $("#startext").html(`評分為${starnumber}顆星`);
-                      ck = true;
-                })
-                //新增評價星星效果 End
        //Comment  End
 
 

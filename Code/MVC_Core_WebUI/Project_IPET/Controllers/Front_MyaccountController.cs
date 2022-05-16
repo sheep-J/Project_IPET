@@ -39,7 +39,7 @@ namespace Project_IPET.Controllers
        
         public  IActionResult MyCommentListView()
         {
-            List<CCommentViewModel> comment= null;
+            
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
           
 
@@ -47,23 +47,37 @@ namespace Project_IPET.Controllers
             {
                 Member userobj = JsonSerializer.Deserialize<Member>(json);
                 int userid = userobj.MemberId;
+               
 
-                //comment = _context
-
-
-                comment = _context.Comments
+                    var nocomment = _context.OrderDetails
+                                   .Where(u => u.Order.MemberId == userid && u.Commented == false )
+                                   .OrderByDescending(d => d.OrderDetailId)
+                                   .Select( n =>  new CCommentViewModel 
+                                   {
+                                      MemberID = userid,
+                                      ProductName = n.Product.ProductName,
+                                      Rating =  null,
+                                      CommentDate = null,
+                                      CommentContent = null,
+                                      ReplyContent = null,
+                                   }).ToList();
+               
+             var comment = _context.Comments
                                    .Where(u => u.OrderDetail.Order.MemberId == userid)
                                    .OrderByDescending(d => d.CommentDate)
                                    .Select(n => new CCommentViewModel
                                    {
-                                       ProductName = n.Product.ProductName,
+                                       MemberID = userid,
+                                       ProductName = n.OrderDetail.Product.ProductName,
                                        Rating = n.Rating,
                                        CommentDate = n.CommentDate.Substring(0,10),
                                        CommentContent = n.CommentContent,
                                        ReplyContent = n.ReplyContent,
                                    }).ToList();
+                nocomment.AddRange(comment);
+               
 
-                return PartialView(comment);
+                return PartialView(nocomment);
 
             }
             else

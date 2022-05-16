@@ -12,6 +12,8 @@ namespace Project_IPET.ViewModels
         public int OrderId { get; set; }
         [DisplayName("評價會員")]
         public string MemberName { get; set; }
+
+        public int MemberID { get; set; }
         [DisplayName("評價星級")]
         public int? Rating { get; set; }
         [DisplayName("評價日期")]

@@ -78,55 +78,57 @@
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
+                        @{ foreach (var item in Model)
+                            {
+                                int count = 0;
+                                <tbody>
 
-                        <tbody>
-                            @{ foreach (var item in Model)
-                                {
-                                    int count = 0;
-                    <tr class="ListView">
-                        <td>
-                            <div class="d-flex px-2 py-1">
-                                <div>
-                                    <img src="~/Front/images/register/members/@Html.DisplayFor(modelItem => item.Avatar)" class="avatar avatar-sm me-3 border-radius-lg" alt="user@{++count;} ">
-                                </div>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.Name)</h6>
-                                    <p class="text-xs text-secondary mb-0">@Html.DisplayFor(modelItem => item.Email)</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold">@Html.DisplayFor(modelItem => item.UserId)</span>
-                        </td>
-                        <td class="align-middle text-center text-sm">
-                            @{ if (item.Gender == "Male")
-                                {
-                <span class="badge badge-sm bg-gradient-info">@Html.DisplayFor(modelItem => item.Gender)</span>}
-            else if (item.Gender == "Female")
-            {
-<span class="badge badge-sm bg-gradient-danger">@Html.DisplayFor(modelItem => item.Gender)</span>}
-else
-{
-<span class="badge badge-sm bg-gradient-secondary">@Html.DisplayFor(modelItem => item.Gender)</span> } }
-                        </td>
-                        <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold">  @Html.DisplayFor(modelItem => item.BirthDate)</span>
-                        </td>
-                        <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.Phone)</span>
-                        </td>
-                        <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.Address)</span>
-                        </td>
-                        <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.RegisteredDate)</span>
-                        </td>
-                        <td class="align-middle text-center">
-                            <a class="fa fa-ban"></a>
-                        </td>
-                    </tr>
- } }
-                        </tbody>
+                                  
+                                    <tr class="ListView">
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="~/Front/images/register/members/@Html.DisplayFor(modelItem => item.Avatar)" class="avatar avatar-sm me-3 border-radius-lg" alt="user@{++count;} ">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.Name)</h6>
+                                                    <p class="text-xs text-secondary mb-0">@Html.DisplayFor(modelItem => item.Email)</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@Html.DisplayFor(modelItem => item.UserId)</span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            @{ if (item.Gender == "Male")
+                                                {
+                                                    <span class="badge badge-sm bg-gradient-info">@Html.DisplayFor(modelItem => item.Gender)</span>}
+                                                else if (item.Gender == "Female")
+                                                {
+                                                    <span class="badge badge-sm bg-gradient-danger">@Html.DisplayFor(modelItem => item.Gender)</span>}
+                                                else
+                                                {
+                                                    <span class="badge badge-sm bg-gradient-secondary">@Html.DisplayFor(modelItem => item.Gender)</span> } }
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">  @Html.DisplayFor(modelItem => item.BirthDate)</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.Phone)</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.Address)</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.RegisteredDate)</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a class="fa fa-ban"></a>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            } }
                     </table>
 
                 </div>
@@ -149,7 +151,8 @@ else
 
             for (int i = 1; i <= pageNum; i++)
             {
-<li class="page-item"><a class="page-link" onclick="listviewShow(@i) ">@i</a></li> } }
+                <li class="page-item"><a class="page-link" onclick="listviewShow(@i) ">@i</a></li>
+ } }
         <li class="page-item">
             <a class="page-link" id="page-ctrl-next">
                 <span class="material-icons">
@@ -185,7 +188,7 @@ else
             if (totalMembers != 0) {
                 elementli.removeClass("active").eq(page).addClass("active")
                 PageList(page, elementli, totalPage)
-                PageData(page, elementdata, countOnePage, totalMembers)
+                PageData(page, elementdata, countOnePage, totalMembers,"flex")
             }
             else {
                 elementli.eq(0).css("display", "none");

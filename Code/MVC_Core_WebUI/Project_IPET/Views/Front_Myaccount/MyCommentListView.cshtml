@@ -5,10 +5,7 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-    
-
     }
-
 </style>
 
 <h3 class="title">我的評價</h3>
@@ -16,153 +13,186 @@
 
 
 
-   
+
     @if (Model != null)
     {
-    <table class="table " style="table-layout:fixed;">
+        <table class="table " style="table-layout:fixed;">
 
-        <thead>
-            <tr>
-                <th class="tdContent">評價狀態</th>
-                <th class="tdContent">@Html.DisplayNameFor(model => model.ProductName)</th>
-                <th class="tdContent">@Html.DisplayNameFor(model => model.Rating)</th>
-                <th class="tdContent">@Html.DisplayNameFor(model => model.CommentDate)</th>
-                <th class="tdContent">@Html.DisplayNameFor(model => model.CommentContent)</th>
-                <th class="tdContent">@Html.DisplayNameFor(model => model.ReplyContent)</th>
-            </tr>
-        </thead>
-
-        <!-- 未評價 Start -->
-
-        @foreach (var item in Model)
-        {
-
-            <tbody style="height:81px;">
+            <thead>
                 <tr>
+                    <th class="tdContent">評價狀態</th>
+                    <th class="tdContent">@Html.DisplayNameFor(model => model.ProductName)</th>
+                    <th class="tdContent">@Html.DisplayNameFor(model => model.Rating)</th>
+                    <th class="tdContent">@Html.DisplayNameFor(model => model.CommentDate)</th>
+                    <th class="tdContent">@Html.DisplayNameFor(model => model.CommentContent)</th>
+                    <th class="tdContent">@Html.DisplayNameFor(model => model.ReplyContent)</th>
+                </tr>
+            </thead>
 
 
-                    <td class="tdContent">
+            <!-- 評價 Start -->
+
+            @foreach (var item in Model)
+            {
+
+                <tbody style="height:81px;">
+                    <tr>
 
 
-                        @if (string.IsNullOrEmpty(@item.CommentDate))
-                        {
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#CommentModal">
-                                <i class="fa fa-thumbs-o-up  fs-3" aria-hidden="true"></i>
-                            </button>
-                        }
-                        else
-                        {
-
-                            <i class="fa fa-thumbs-o-up text-primary fs-3" aria-hidden="false"></i>
-
-                        }
+                        <td class="tdContent">
 
 
-                    </td>
-                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ProductName)">@Html.DisplayFor(modelItem => item.ProductName)</td>
-                    <td class="tdContent">
-                        <span class="rating">
-
-                            @if (@item.Rating == null || @item.Rating == 0)
+                            @if (string.IsNullOrEmpty(@item.CommentDate))
                             {
-                                @for (int i = 0; i < 5; i++)
-                                {
-                                    <i class="fa fa-star-o"></i>
-                                }
+                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#CommentModal">
+                                    <i class="fa fa-thumbs-o-up  fs-3" aria-hidden="true"></i>
+                                </button>
                             }
                             else
                             {
-                                @for (int i = 1; i <= @item.Rating; i++)
-                                {
-                                    <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
-                                }
 
-                                @for (int i = 1; i <= (5 - @item.Rating); i++)
-                                {
-                                    <i class="fa fa-star-o"></i>
-                                }
+                                <i class="fa fa-thumbs-o-up text-primary fs-3" aria-hidden="false"></i>
+
                             }
 
-                        </span>
-                    </td>
-                    <td class="tdContent">@Html.DisplayFor(modelItem => item.CommentDate)</td>
-                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.CommentContent)">@Html.DisplayFor(modelItem => item.CommentContent)</td>
-                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ReplyContent)">@Html.DisplayFor(modelItem => item.ReplyContent)</td>
-                </tr>
 
-            </tbody>
+                        </td>
+                        <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ProductName)">@Html.DisplayFor(modelItem => item.ProductName)</td>
+                        <td class="tdContent">
+                            <span class="rating">
 
-        }
-        <!-- 未評價 End -->
-
-
-        <!-- 已評價 Start -->
-
-        @foreach (var item in Model)
-        {
-
-            <tbody style="height:81px;">
-                <tr>
-
-
-                    <td class="tdContent">
-
-
-                        @if (string.IsNullOrEmpty(@item.CommentDate))
-                        {
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#CommentModal">
-                                <i class="fa fa-thumbs-o-up  fs-3" aria-hidden="true"></i>
-                            </button>
-                        }
-                        else
-                        {
-
-                            <i class="fa fa-thumbs-o-up text-primary fs-3" aria-hidden="false"></i>
-
-                        }
-
-
-                    </td>
-                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ProductName)">@Html.DisplayFor(modelItem => item.ProductName)</td>
-                    <td class="tdContent">
-                        <span class="rating">
-
-                            @if (@item.Rating == null || @item.Rating == 0)
-                            {
-                                @for (int i = 0; i < 5; i++)
+                                @if (@item.Rating == null || @item.Rating == 0)
                                 {
-                                    <i class="fa fa-star-o"></i>
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        <i class="fa fa-star-o"></i>
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                @for (int i = 1; i <= @item.Rating; i++)
+                                else
                                 {
-                                    <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
+                                    @for (int i = 1; i <= @item.Rating; i++)
+                                    {
+                                        <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
+                                    }
+
+                                    @for (int i = 1; i <= (5 - @item.Rating); i++)
+                                    {
+                                        <i class="fa fa-star-o"></i>
+                                    }
                                 }
 
-                                @for (int i = 1; i <= (5 - @item.Rating); i++)
+                            </span>
+                        </td>
+                        <td class="tdContent">@Html.DisplayFor(modelItem => item.CommentDate)</td>
+                        <td class="tdContent" title="@Html.DisplayFor(modelItem => item.CommentContent)">@Html.DisplayFor(modelItem => item.CommentContent)</td>
+                        <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ReplyContent)">@Html.DisplayFor(modelItem => item.ReplyContent)</td>
+                    </tr>
+
+                </tbody>
+
+            }
+            <!-- 評價 End -->
+            <!-- CommentModal Start-->
+            <div class="modal fade" id="CommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">我要評價</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body ">
+                            <div style="padding-bottom:10px; align-items:center;">
+                                <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">感謝你留下你寶貴的評價 </textarea>
+                            </div>
+                            <div class="rating">
+                                <i class="fa fa-star ratingi " style="font-size:3em"></i>
+                                @for (int i = 0; i < 4; i++)
                                 {
-                                    <i class="fa fa-star-o"></i>
+
+                                    <i class="fa fa-star-o ratingi " style="font-size:3em"></i>
+
                                 }
-                            }
-
-                        </span>
-                    </td>
-                    <td class="tdContent">@Html.DisplayFor(modelItem => item.CommentDate)</td>
-                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.CommentContent)">@Html.DisplayFor(modelItem => item.CommentContent)</td>
-                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ReplyContent)">@Html.DisplayFor(modelItem => item.ReplyContent)</td>
-                </tr>
-
-            </tbody>
-
-        }
-        <!-- 已評價 End -->
-    </table>
+                            </div>
+                            <div>
+                                <h3 id="startext" style="text-align:center; padding-top:10px;">請點擊星星評分</h3>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-target="#Cancel">取消</button>
+                            <button type="button" class="btn btn-primary">送出</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CommentModal End-->
+        </table>
     }
     else
     {
         <h1>@ViewBag.NOData</h1>
     }
+    <!-- CommentModal Start-->
+    <div class="modal fade" id="CommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">我要評價</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body ">
+                    <div style="padding-bottom:10px; align-items:center;">
+                        <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">感謝你留下你寶貴的評價 </textarea>
+                    </div>
+                    <div class="rating">
+                        <i class="fa fa-star ratingi " style="font-size:3em"></i>
+                        @for (int i = 0; i < 4; i++)
+                        {
 
+                            <i class="fa fa-star-o ratingi " style="font-size:3em"></i>
+
+                        }
+                    </div>
+                    <div>
+                        <h3 id="startext" style="text-align:center; padding-top:10px;">請點擊星星評分</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-target="#Cancel">取消</button>
+                    <button type="button" class="btn btn-primary">送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- CommentModal End-->
 </div>
+
+
+<script>
+    //新增評價星星效果 Start
+    let ck = false;
+    let starnumber;
+    $(document).on("mouseover", ".ratingi", function () {
+
+        $(this).prevAll().removeClass("fa fa-star-o").addClass("fa fa-star");
+        $(this).removeClass("fa fa-star-o").addClass("fa fa-star");
+        $(this).nextAll().removeClass("fa fa-star").addClass("fa fa-star-o");
+        $(this).next().removeClass("fa fa-star").addClass("fa fa-star-o");
+        starnumber = $(this).index() + 1;
+        $("#startext").html(`評分中...${starnumber}顆星`);
+        ck = false;
+    })
+
+    $(document).on("mouseleave", ".ratingi", function () {
+        if (!ck) {
+            $(this).removeClass("fa fa-star").addClass("fa fa-star-o");
+            $(this).siblings().removeClass("fa fa-star").addClass("fa fa-star-o");
+            $("#startext").text("請點擊星星評分");
+        }
+    })
+
+    $(document).on("click", ".ratingi", function () {
+        $("#startext").html(`評分為${starnumber}顆星`);
+        ck = true;
+    })
+                //新增評價星星效果 End
+</script>

@@ -126,7 +126,7 @@ namespace Project_IPET.Controllers
                                 .OrderByDescending(d =>d.PostDate)
                                 .Select(p => new CPostViewModel {
 
-                                    MemberImage = p.Member.Avatar.ToString(),//ToDo: 等資料庫確定會員照片格式
+                                    MemberImage = p.Member.Avatar,
                                     MemberName = p.Member.Name,
                                     PostDate=p.PostDate,
                                     PostContent=p.PostContent,
@@ -208,6 +208,29 @@ namespace Project_IPET.Controllers
                 return RedirectToAction("Index");
             }
             return RedirectToAction("CreatePost");
+        }
+
+       
+        public IActionResult HomeBlogView(CPostViewModel postFilter) 
+        {
+            var posts = new CPostFilterFactory(_context).PostFilter(postFilter)
+              .Where(c => c.ReplyToPost == null)
+              .Select(n => new CPostViewModel
+              {
+                  PostId = n.PostId,
+                  Title = n.Title,
+                  PostContent = n.PostContent,
+                  PostDate = n.PostDate,
+                  LikeCount = n.LikeCount,
+                  PostImage = n.PostImage,
+                  MemberName = n.MemberName,
+                  MemberId = n.MemberId,
+
+              }).Take(3).ToList();
+
+            return PartialView(posts);
+
+
         }
 
 

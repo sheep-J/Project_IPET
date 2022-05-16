@@ -13,5 +13,6 @@ namespace Project_IPET.ViewModels
         public string fContent { get; set; }
         public string fPrjImage { get; set; }
         public string fDeadline { get; set; }
+        public string fDeadlineall { get; set; }
     }
 }

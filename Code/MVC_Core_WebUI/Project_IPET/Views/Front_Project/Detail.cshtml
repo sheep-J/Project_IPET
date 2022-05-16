@@ -60,7 +60,9 @@
         </div>
         <!--上方主要資訊-->
         <!--左邊專案內容-->
-        <div class="col-md-2" style="color: #666; font-size: 16px; margin-bottom:4px">&diams; 主辦方: IPET寵物店</div><div class="col-md-10" style="color: #666; font-size: 16px; margin-bottom: 4px">&diams; 捐贈單位: @Model.fFoundation</div>
+        <div class="col-md-2" style="color: #666; font-size: 16px; margin-bottom:4px">&diams; 主辦方: IPET寵物店</div>
+        <div class="col-md-2" style="color: #666; font-size: 16px; margin-bottom: 4px">&diams; 捐贈單位: @Model.fFoundation</div>
+        <div class="col-md-8" style="color: #666; font-size: 16px; margin-bottom: 4px">&diams; 時程: @Model.fStart ~ @Model.fEnd</div>
         <div class="col-md-9">
             <!--選單-->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -74,18 +76,18 @@
             <!--選單-->
             <!--選單內容-->
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">   
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div id="content">
-                        我們是IPET， 是由一群年輕人對於浪孩最純真的關懷和照顧集結社會上有能力的人<br />
-                        透過狗糧支持私人狗園能有生存下去的能力， 祈願能帶給浪孩一點溫暖 ♡<br />
-                        吃飯看似稀鬆平常的事情<br />
-                        但對牠們來說卻是如此奢侈<br />
-                        永遠記得第一次與狗園園長見面<br />
-                        那次的交談,從他的眼神跟談吐中<br />
-                        滿滿的全部都是對浪浪愛與不捨<br />
-                        將自己的一生付諸於狗園，一投入就是60個年頭<br />
-                        園長常說： 我們得到的是牠們用眼神的感謝<br />
-                        這些年的無私付出相信毛孩們也都能感受的到<br />
+                        我們是IPET， 是由一群年輕人對於浪孩最純真的關懷和照顧集結社會上有能力的人<br>
+                        透過狗糧支持私人狗園能有生存下去的能力， 祈願能帶給浪孩一點溫暖 ♡<br>
+                        吃飯看似稀鬆平常的事情<br>
+                        但對牠們來說卻是如此奢侈<br>
+                        永遠記得第一次與狗園園長見面<br>
+                        那次的交談,從他的眼神跟談吐中<br>
+                        滿滿的全部都是對浪浪愛與不捨<br>
+                        將自己的一生付諸於狗園，一投入就是60個年頭<br>
+                        園長常說： 我們得到的是牠們用眼神的感謝<br>
+                        這些年的無私付出相信毛孩們也都能感受的到<br>
                     </div>
                     <img src="~/Front/images/project/2.jpg" style="width:800px">
                 </div>
@@ -204,7 +206,7 @@
                                             <div class="cart-btn action-btn m-b-30" style="bottom:10px;position:absolute;">
                                                 <div class="action-cart-btn-wrapper d-flex justify-content-start">
                                                     <div class="add-to_cart">
-                                                        <input type="submit" id="addtocart" class="btn btn-primary btn-hover-dark rounded-0" value="加入購物車"/>
+                                                        <input type="submit" id="addtocart" class="btn btn-primary btn-hover-dark rounded-0" value="加入購物車" />
                                                     </div>
                                                     <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
                                                 </div>
@@ -224,7 +226,7 @@
             <!--Model結束-->
         </div>
         <!--商品一號end-->
-        
+
     </div>
 </div>
 <!-- MainPage Area End -->
@@ -275,12 +277,15 @@
             data.forEach((item) => {
                 var tr = document.createElement("tr");
                 var tdname = document.createElement("td");
-                tdname.innerHTML = item.userName;
+                tdname.innerHTML = replacestr(item.userName,1,"*");
                 var tdprod = document.createElement("td");
                 tdprod.innerHTML = item.productName;
                 tr.append(tdname, tdprod);
                 list.append(tr);
             })
+        }
+        function replacestr(str, index, char){
+            return str.substring(0, index) + char + str.substring(index + 1);
         }
 
         async function LoadProd() {

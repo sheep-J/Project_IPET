@@ -244,11 +244,11 @@ namespace Project_IPET.Controllers
                 .Select(m => new CFrontWishListViewModel
                 {
                     ProductName = m.Product.ProductName,
-                    ProductPrice = "NT"+m.Product.UnitPrice.ToString("##,###:C2"),
-                    Ranking = (new Back_CommentController(_context)).GetProductRating(m.Product.ProductName)[0],
-                    Quantity = m.Product.UnitsInStock.ToString("##,###"),
-                 
+                    ProductPrice = m.Product.UnitPrice,
+                    Quantity = m.Product.UnitsInStock,
+
                 }).ToList();
+            ViewBag.PRODUCT = _context.MyFavorites.Where(m => m.MemberId == memberId).Select(m => m.Product.ProductName);
 
             return PartialView(datas);
         }

@@ -17,12 +17,19 @@
             int count = 0;
             foreach (var item in Model)
             {
+                count++;
                 <tr>
-                    <td>@count++</td>
+                    <td>@count</td>
                     <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                     <td>@Html.DisplayFor(modelItem => item.ProductPrice)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Ranking)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                    <td>
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <i class="fa fa-star-o ratingi"></i>
+                        }
+                    </td>
+                    @if (item.Quantity > 0){<td>@Html.DisplayFor(modelItem => item.Quantity)</td>}
+                        else{<td>0</td>}
                     @*<td><button type="button" class="btn btn-primary fa fa-eye" data-bs-toggle="modal" data-bs-target="#wishModal"></button></td>*@
                     <td><button type="button" class="btn btn-primary fa fa-eye" href="#"></button></td>
                     <td><button type="button" class="btn btn-primary fa fa-ban"></button></td>
@@ -155,3 +162,54 @@
         </div>
     </div>
 </div>-->
+
+<script>
+    let product = @ViewBag.PRODUCT;
+
+    GetProductRating(product);
+
+    function GetProductRating(product)
+    {
+        @* $.post('@Url.Content("~/Back_Comment/GetProductRating")',
+            { ProductName:product })
+            .done((response) => {
+                averagerating = response[0];
+                   $("#averagerating").html(`${averagerating}顆星`);
+                   totalcommentcount = response[1];
+                   $("#totalcommentcount").html(`(共${totalcommentcount}筆評價)`);
+
+                  let maxnumber = 0;
+
+                  for(i = 0 ;i <= averagerating-1;i++)
+                  {
+                     $(".ratingi").eq(i).removeClass("fa fa-star-o").addClass("fa fa-star").css("font-size","1.2em");
+                     if( i > maxnumber )
+                     {
+                       maxnumber = i;
+                     }
+                  }
+                  if((averagerating % 1)!=0 )
+                  {
+                         $(".ratingi").eq(maxnumber+1).removeClass("fa fa-star-o").addClass("fa fa-star-half-o");
+                  }
+            }) *@
+
+         POSTMethod("@Url.Content("~/Back_Comment/GetProductRating")",
+             {productname:product},
+             function(response)
+             {
+                   averagerating = response[0];
+                   let maxnumber = 0;
+
+                  for(i = 0 ;i <= averagerating-1;i++)
+                  {
+                     $(".ratingi").eq(i).removeClass("fa fa-star-o").addClass("fa fa-star").css("font-size","1.2em");
+                     if( i > maxnumber )
+                     {
+                       maxnumber = i;
+                     }
+                  }
+             }
+          )
+    }
+</script>

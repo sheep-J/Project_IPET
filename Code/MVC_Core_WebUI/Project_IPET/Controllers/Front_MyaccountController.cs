@@ -6,6 +6,7 @@ using Project_IPET.Models;
 using Project_IPET.Models.EF;
 using Project_IPET.Services;
 using Project_IPET.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -229,6 +230,26 @@ namespace Project_IPET.Controllers
             return RedirectToAction("Index", "Front_Myaccount");
         }
 
+        [HttpPost]
+        public IActionResult MyWishListView()
+        {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            int memberId = (new CMembersFactory(_context)).getMemberId(json);
+
+            IEnumerable<CFrontWishListViewModel> datas = null;
+            datas = _context.MyFavorites.Where(m => m.MemberId == memberId)
+                .OrderByDescending(m=>m.FavoriteId)
+                .Select(m => new CFrontWishListViewModel
+                {
+                    ProductName = m.Product.ProductName,
+                    ProductPrice = "NT"+m.Product.UnitPrice.ToString("##,###:C2"),
+                    Ranking = (new Back_CommentController(_context)).GetProductRating(m.Product.ProductName)[0],
+                    Quantity = m.Product.UnitsInStock.ToString("##,###"),
+                 
+                }).ToList();
+
+            return PartialView(datas);
+        }
 
 
     }

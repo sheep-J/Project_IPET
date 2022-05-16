@@ -54,6 +54,8 @@ namespace Project_IPET.Controllers
                                    .OrderByDescending(d => d.OrderDetailId)
                                    .Select( n =>  new CCommentViewModel 
                                    {
+                                      ProductId = n.ProductId,
+                                      OrderDetailId = n.OrderDetailId,
                                       MemberID = userid,
                                       ProductName = n.Product.ProductName,
                                       Rating =  null,
@@ -67,6 +69,8 @@ namespace Project_IPET.Controllers
                                    .OrderByDescending(d => d.CommentDate)
                                    .Select(n => new CCommentViewModel
                                    {
+                                       ProductId = n.ProductId,
+                                       OrderDetailId = n.OrderDetailId,
                                        MemberID = userid,
                                        ProductName = n.OrderDetail.Product.ProductName,
                                        Rating = n.Rating,
@@ -107,17 +111,23 @@ namespace Project_IPET.Controllers
                     BannedContent = "*******************",
                     Reply = false,
                     Banned = false,
-
                 };
-                _context.Add(newpost);
-                _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                OrderDetail OrderDetail = _context.OrderDetails
+                                          .FirstOrDefault(p => p.OrderDetailId == vModel.OrderDetailId);
+                if (OrderDetail != null) 
+                {
+                   OrderDetail.Commented = true;
+                   _context.Add(newpost);
+                   _context.SaveChanges();
+                }
+
+               
+
+                return RedirectToAction("Index","Front_Myaccount");
             }
 
-
-
-            return View();
+            return RedirectToAction("Index","Front_Myaccount");
         }
 
 

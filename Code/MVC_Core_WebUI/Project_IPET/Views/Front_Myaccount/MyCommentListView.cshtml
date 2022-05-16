@@ -19,79 +19,146 @@
    
     @if (Model != null)
     {
-        <table class="table " style="table-layout:fixed;">
+    <table class="table " style="table-layout:fixed;">
 
-            <thead>
+        <thead>
+            <tr>
+                <th class="tdContent">評價狀態</th>
+                <th class="tdContent">@Html.DisplayNameFor(model => model.ProductName)</th>
+                <th class="tdContent">@Html.DisplayNameFor(model => model.Rating)</th>
+                <th class="tdContent">@Html.DisplayNameFor(model => model.CommentDate)</th>
+                <th class="tdContent">@Html.DisplayNameFor(model => model.CommentContent)</th>
+                <th class="tdContent">@Html.DisplayNameFor(model => model.ReplyContent)</th>
+            </tr>
+        </thead>
+
+        <!-- 未評價 Start -->
+
+        @foreach (var item in Model)
+        {
+
+            <tbody style="height:81px;">
                 <tr>
-                    <th class="tdContent">評價狀態</th>
-                    <th class="tdContent">@Html.DisplayNameFor(model => model.ProductName)</th>
-                    <th class="tdContent">@Html.DisplayNameFor(model => model.Rating)</th>
-                    <th class="tdContent">@Html.DisplayNameFor(model => model.CommentDate)</th>
-                    <th class="tdContent">@Html.DisplayNameFor(model => model.CommentContent)</th>
-                    <th class="tdContent">@Html.DisplayNameFor(model => model.ReplyContent)</th>
+
+
+                    <td class="tdContent">
+
+
+                        @if (string.IsNullOrEmpty(@item.CommentDate))
+                        {
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#CommentModal">
+                                <i class="fa fa-thumbs-o-up  fs-3" aria-hidden="true"></i>
+                            </button>
+                        }
+                        else
+                        {
+
+                            <i class="fa fa-thumbs-o-up text-primary fs-3" aria-hidden="false"></i>
+
+                        }
+
+
+                    </td>
+                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ProductName)">@Html.DisplayFor(modelItem => item.ProductName)</td>
+                    <td class="tdContent">
+                        <span class="rating">
+
+                            @if (@item.Rating == null || @item.Rating == 0)
+                            {
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    <i class="fa fa-star-o"></i>
+                                }
+                            }
+                            else
+                            {
+                                @for (int i = 1; i <= @item.Rating; i++)
+                                {
+                                    <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
+                                }
+
+                                @for (int i = 1; i <= (5 - @item.Rating); i++)
+                                {
+                                    <i class="fa fa-star-o"></i>
+                                }
+                            }
+
+                        </span>
+                    </td>
+                    <td class="tdContent">@Html.DisplayFor(modelItem => item.CommentDate)</td>
+                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.CommentContent)">@Html.DisplayFor(modelItem => item.CommentContent)</td>
+                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ReplyContent)">@Html.DisplayFor(modelItem => item.ReplyContent)</td>
                 </tr>
-            </thead>
+
+            </tbody>
+
+        }
+        <!-- 未評價 End -->
 
 
-            @foreach (var item in Model)
-            {
-             
-                <tbody style="height:81px;">
-                    <tr>
+        <!-- 已評價 Start -->
 
-                        
-                        <td class="tdContent">
+        @foreach (var item in Model)
+        {
 
-                           
-                                @if (string.IsNullOrEmpty(@item.CommentDate))
+            <tbody style="height:81px;">
+                <tr>
+
+
+                    <td class="tdContent">
+
+
+                        @if (string.IsNullOrEmpty(@item.CommentDate))
+                        {
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#CommentModal">
+                                <i class="fa fa-thumbs-o-up  fs-3" aria-hidden="true"></i>
+                            </button>
+                        }
+                        else
+                        {
+
+                            <i class="fa fa-thumbs-o-up text-primary fs-3" aria-hidden="false"></i>
+
+                        }
+
+
+                    </td>
+                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ProductName)">@Html.DisplayFor(modelItem => item.ProductName)</td>
+                    <td class="tdContent">
+                        <span class="rating">
+
+                            @if (@item.Rating == null || @item.Rating == 0)
+                            {
+                                @for (int i = 0; i < 5; i++)
                                 {
-                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#CommentModal">
-                                        <i class="fa fa-thumbs-o-up  fs-3" aria-hidden="true"></i>
-                                     </button>
+                                    <i class="fa fa-star-o"></i>
                                 }
-                                else
+                            }
+                            else
+                            {
+                                @for (int i = 1; i <= @item.Rating; i++)
                                 {
-                                   
-                                    <i class="fa fa-thumbs-o-up text-primary fs-3" aria-hidden="false"></i>
-                                   
+                                    <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
                                 }
 
-                           
-                        </td>
-                        <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ProductName)">@Html.DisplayFor(modelItem => item.ProductName)</td>
-                        <td class="tdContent">
-                            <span class="rating">
-
-                                @if (@item.Rating == null || @item.Rating == 0)
+                                @for (int i = 1; i <= (5 - @item.Rating); i++)
                                 {
-                                    @for (int i = 0; i < 5; i++)
-                                    {
-                                        <i class="fa fa-star-o"></i>
-                                    }
+                                    <i class="fa fa-star-o"></i>
                                 }
-                                else
-                                {
-                                    @for (int i = 1; i <= @item.Rating; i++)
-                                    {
-                                        <i class="fa fa-star text-warning" style="font-size:1.2em"></i>
-                                    }
+                            }
 
-                                    @for (int i = 1; i <= (5 - @item.Rating); i++)
-                                    {
-                                        <i class="fa fa-star-o"></i>
-                                    }
-                                }
+                        </span>
+                    </td>
+                    <td class="tdContent">@Html.DisplayFor(modelItem => item.CommentDate)</td>
+                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.CommentContent)">@Html.DisplayFor(modelItem => item.CommentContent)</td>
+                    <td class="tdContent" title="@Html.DisplayFor(modelItem => item.ReplyContent)">@Html.DisplayFor(modelItem => item.ReplyContent)</td>
+                </tr>
 
-                            </span>
-                        </td>
-                        <td class="tdContent">@Html.DisplayFor(modelItem => item.CommentDate)</td>
-                        <td class="tdContent"  title="@Html.DisplayFor(modelItem => item.CommentContent)">@Html.DisplayFor(modelItem => item.CommentContent)</td>
-                        <td class="tdContent"  title="@Html.DisplayFor(modelItem => item.ReplyContent)">@Html.DisplayFor(modelItem => item.ReplyContent)</td>
-                    </tr>
+            </tbody>
 
-                </tbody>
-            }
-        </table>
+        }
+        <!-- 已評價 End -->
+    </table>
     }
     else
     {

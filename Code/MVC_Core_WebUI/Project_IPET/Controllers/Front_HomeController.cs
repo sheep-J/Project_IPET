@@ -15,12 +15,12 @@ namespace Project_IPET.Controllers
     {
         private readonly ILogger<Front_HomeController> _logger;
 
-        private readonly MyProjectContext _myProject;
+        
 
-        public Front_HomeController(ILogger<Front_HomeController> logger, MyProjectContext myProject)
+        public Front_HomeController(ILogger<Front_HomeController> logger)
         {
             _logger = logger;
-            _myProject = myProject;
+           
         }
 
         public IActionResult Index()
@@ -29,25 +29,7 @@ namespace Project_IPET.Controllers
         }
 
 
-        public IActionResult BlogView(CPostViewModel postFilter)
-        {
-            var posts = new CPostFilterFactory(_myProject).PostFilter(postFilter)
-                .Where(c => c.ReplyToPost == null)
-                .Select(n => new CPostViewModel
-            {
-                PostId = n.PostId,
-                Title = n.Title,
-                PostContent = n.PostContent,
-                PostDate = n.PostDate,
-                LikeCount = n.LikeCount,
-                PostImage = n.PostImage,
-                MemberName = n.MemberName,
-                MemberId = n.MemberId,
-
-            }).Take(3).ToList();
-
-            return PartialView(posts); 
-        }
+       
 
         public IActionResult Privacy()
         {

@@ -172,9 +172,22 @@
 
                 var title = document.createElement("h5");
                 title.className = "title";
+                title.style.fontSize = "25px";
+
                 var titlea = document.createElement("a");
                 titlea.href = `/Front_Project/Detail?Id=${item.fId}`; titlea.innerHTML = `${item.fTitle}`;
                 title.append(titlea);
+
+                var deadline = document.createElement("p");
+                deadline.style.fontSize = "15px";
+                deadline.style.display = "inline";
+                deadline.id = `deadlinecount${item.fId}`;
+                if (item.fDeadlineall != "") {
+                    deadline.innerHTML = "  剩餘時間:" + item.fDeadlineall;
+                } else {
+                    deadline.innerHTML = "  已經結束";
+                }
+                title.append(deadline);
 
                 var price = document.createElement("span");
                 price.className = "price";

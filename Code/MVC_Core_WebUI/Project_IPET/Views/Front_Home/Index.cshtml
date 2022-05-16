@@ -769,17 +769,13 @@
 
         function init()
         {
-
             post();
-
-
-
         }
 
 
         function post() {
 
-            POSTMethod("@Url.Content("~/Front_Home/BlogView")",
+            POSTMethod("@Url.Content("~/Front_Blog/HomeBlogView")",
                 null,
                 function (response) {
                     $("#blogview").html(response);

@@ -63,7 +63,99 @@
             <div class="card-body px-0 pb-2">
                 <div class="p-0">
                     <div id="listview">
-                           
+                        <table class=" col-md-12 ">
+                            <thead>
+                                <tr class="row">
+
+
+                                    <th class="col-md-1 middle"><input name="clickAll" id="clickAll" type="checkbox">序號</th>
+                                    <th class="col-md-1 middle">@Html.DisplayNameFor(model => model.MemberName)</th>
+                                    <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.Rating)</th>
+                                    <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.CommentDate)</th>
+                                    <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.CommentContent)</th>
+                                    <th class="col-md-2 middle">回覆內容</th>
+                                    <th class="col-md-1 middle">回覆留言</th>
+                                    <th class="col-md-1 middle">屏蔽評價</th>
+
+                                </tr>
+                            </thead>
+                            @{
+                                int number = 0;
+
+
+                                foreach (var item in Model)
+                                {
+                                    number++;
+
+                                    <tbody>
+
+                                        <!-- tr Start -->
+                                        <tr class="row postdata">
+                                            <td>
+                                                <input name="CommentId[]" type="hidden" value="@item.CommentId">
+                                            </td>
+                                            <td class="col-md-1 middle">
+                                                <input name="Checkbox[]" type="checkbox" value="@number">
+                                                @number
+                                            </td>
+                                            <td class="col-md-1 middle">
+                                                @Html.DisplayFor(modelItem => item.MemberName)
+                                            </td>
+                                            <td class="col-md-2 middle">
+
+                                                <span class="rating">
+
+                                                    @if (@item.Rating == null || @item.Rating == 0)
+                                                    {
+                                                        @for (int i = 0; i < 5; i++)
+                                                        {
+                                                            <i class="fa fa-star-o"></i>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @for (int i = 1; i <= @item.Rating; i++)
+                                                        {
+                                                            <i class="fa fa-star text-warning"></i>
+                                                        }
+
+                                                        @for (int i = 1; i <= (5 - @item.Rating); i++)
+                                                        {
+                                                            <i class="fa fa-star-o"></i>
+                                                        }
+                                                    }
+
+                                                </span>
+                                            </td>
+                                            <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentDate)">
+                                                @Html.DisplayFor(modelItem => item.CommentDate)
+                                            </td>
+                                            <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentContent)">
+                                                @Html.DisplayFor(modelItem => item.CommentContent)
+                                            </td>
+                                            <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.ReplyContent)">
+                                                @Html.DisplayFor(modelItem => item.ReplyContent)
+                                            </td>
+                                            <td class="col-md-1 middle">
+                                                <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
+                                                    <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                            <td class="col-md-1 middle">
+                                                <button type="button" class="btn btn btn-danger mr-3">
+                                                    <i class="fa fa-ban" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                        <!--  tr End  -->
+
+
+
+                                    </tbody>
+                                }
+                            }
+                        </table>
                     </div>
                  
                 </div>
@@ -101,14 +193,8 @@
                     <!-- CommentModal End-->
 @section Scripts{
 
-    <script>
-
-      let current;
-      let totalpage = @ViewBag.page;
-      post(1);
-
-
-        <script>
+    
+     <script>
 
       let current;
       let totalpage = @ViewBag.page;
@@ -127,7 +213,7 @@
             {
            
             PageList(page, elementli, totalpage);
-            PageData(page, postdata, pagesize, totalpost)
+                PageData(page, postdata, pagesize, totalpost,"flex")
             $("#pagenumber").text(`${page}/${totalpage}`);
 
             }

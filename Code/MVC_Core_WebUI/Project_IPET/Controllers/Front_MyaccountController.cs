@@ -39,7 +39,7 @@ namespace Project_IPET.Controllers
        
         public  IActionResult MyCommentListView()
         {
-            List<CCommentViewModel> mycommentview= null;
+            List<CCommentViewModel> comment= null;
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
           
 
@@ -48,8 +48,10 @@ namespace Project_IPET.Controllers
                 Member userobj = JsonSerializer.Deserialize<Member>(json);
                 int userid = userobj.MemberId;
 
+                //comment = _context
 
-                mycommentview = _context.Comments
+
+                comment = _context.Comments
                                    .Where(u => u.OrderDetail.Order.MemberId == userid)
                                    .OrderByDescending(d => d.CommentDate)
                                    .Select(n => new CCommentViewModel
@@ -61,7 +63,7 @@ namespace Project_IPET.Controllers
                                        ReplyContent = n.ReplyContent,
                                    }).ToList();
 
-                return PartialView(mycommentview);
+                return PartialView(comment);
 
             }
             else

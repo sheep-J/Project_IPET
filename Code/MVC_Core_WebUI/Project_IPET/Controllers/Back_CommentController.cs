@@ -34,6 +34,7 @@ namespace Project_IPET.Controllers
             ViewBag.totalpost = totalpost;
             ViewBag.page = tatalpage;
             ViewBag.pagesize = pagesize;
+            
             var Comments = new CCommentFilterFactory(_context).CommentFilter(commentFilter).ToList();
 
             return View(Comments);

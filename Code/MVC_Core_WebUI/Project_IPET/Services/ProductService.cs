@@ -21,6 +21,7 @@ namespace Project_IPET.Services
             {
                 ProductList = new List<ProductModel>(),
                 Pagination = request.Pagination,
+
             };
             try
             {
@@ -105,7 +106,25 @@ namespace Project_IPET.Services
                 result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sql, column), param); //拿第一個cell
 
                 column = "p.*,sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName ";
-                sql += " ORDER BY p.ProductID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";
+                //sql += " ORDER BY p.ProductID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";
+                switch (request.SortBy)
+                {
+                    case Enum.SortBy.Default:
+                        sql += " ORDER BY p.ProductID ASC OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY ";
+                        break;
+                    case Enum.SortBy.HighPrice:
+                        sql += " ORDER BY p.UnitPrice DESC OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY  ";
+                        break;
+                    case Enum.SortBy.LowPrice:
+                        sql += " ORDER BY p.UnitPrice ASC OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY  ";
+                        break;
+                    case Enum.SortBy.HighRated:
+                        sql += " ORDER BY c.Rating DESC ";
+                        break;
+                    case Enum.SortBy.LowRated:
+                        sql += " ORDER BY c.Rating ASC ";
+                        break;
+                }
 
                 result.ProductList = _dbConnection.Query<ProductModel>(string.Format(sql, column), param).ToList();
                 #endregion

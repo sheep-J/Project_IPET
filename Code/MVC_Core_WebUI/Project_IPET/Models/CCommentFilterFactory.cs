@@ -63,11 +63,11 @@ namespace Project_IPET.Models
                                  .Select(p => p);
                 }
 
-                if (CCommentFilters.FilterMemberName != null)
-                {
-                    datas = datas.Where(c => c.MemberName == CCommentFilters.FilterMemberName)
-                                 .Select(p => p);
-                }
+                //if (CCommentFilters.FilterMemberName != null)
+                //{
+                //    datas = datas.Where(c => c.MemberName == CCommentFilters.FilterMemberName)
+                //                 .Select(p => p);
+                //}
 
 
 

@@ -24,11 +24,12 @@ namespace Project_IPET.Controllers
             _context = context;
 
         }
-        public IActionResult Index(CCommentViewModel commentFilter)
+        public IActionResult Index(int FilterRating, CCommentViewModel commentFilter)
         {
             int pagesize = 10;
             int totalpost = _context.Comments.Count();
 
+            commentFilter.Rating = FilterRating;
             CTools tools = new CTools();
             tools.Page(pagesize, totalpost, out int tatalpage);
             ViewBag.totalpost = totalpost;
@@ -41,10 +42,6 @@ namespace Project_IPET.Controllers
         }
 
        
-
-        
-
-
 
         [HttpPost]
         public decimal[] GetProductRating(string productname)

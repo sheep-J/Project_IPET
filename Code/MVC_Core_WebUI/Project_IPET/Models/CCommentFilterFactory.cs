@@ -57,7 +57,7 @@ namespace Project_IPET.Models
                                  .Select(p => p);
                 }
 
-                if (CCommentFilters.Rating != null)
+                if (CCommentFilters.Rating != 0)
                 {
                     datas = datas.Where(c => c.Rating == CCommentFilters.FilterRating)
                                  .Select(p => p);

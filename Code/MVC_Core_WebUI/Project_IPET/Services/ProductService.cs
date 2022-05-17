@@ -21,11 +21,24 @@ namespace Project_IPET.Services
             {
                 ProductList = new List<ProductModel>(),
                 Pagination = request.Pagination,
-
             };
             try
             {
                 #region
+                //======================================================
+                //SQL GROUP BY AND ORDER BY 指令
+                //!!!!!!!@@@(但無法與FETCH同時使用)@@@!!!!!!!!!!!!!!
+                /*SELECT 評分=avg(cm.Rating), p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
+                                            FROM Products p 
+                                            JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
+                                            JOIN Categories c ON sc.CategoryID = c.CategoryID 
+                                            LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+                                            JOIN Brand b ON p.BrandID = b.BrandID
+                                            JOIN Comment cm ON p.ProductID = cm.ProductID
+                                            WHERE pp.IsMainImage = 1
+                                            GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
+                                            ORDER BY avg(cm.Rating) ASC*/
+                //======================================================
                 //string sql = @"SELECT COUNT(1)
                 //                                FROM Products p 
                 //                                JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
@@ -118,12 +131,18 @@ namespace Project_IPET.Services
                     case Enum.SortBy.LowPrice:
                         sql += " ORDER BY p.UnitPrice ASC OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY  ";
                         break;
+                        //=====================================
+                        //TODO:
+                        //1. 尚未撈出商品排名
+                        //2. 並且排序(GROUP BY)+算商品評價平均(AVERAGE)顯示在畫面上
+                        //3. 還要判斷該商品若未被評價(ProductID=1未被評價)，必須照樣顯示在ProductList (if判斷Rating==null...?)
                     case Enum.SortBy.HighRated:
-                        sql += " ORDER BY c.Rating DESC ";
+                        sql += " ORDER BY cm.Rating DESC ";
                         break;
                     case Enum.SortBy.LowRated:
-                        sql += " ORDER BY c.Rating ASC ";
+                        sql += " ORDER BY cm.Rating ASC ";
                         break;
+                        //====================================
                 }
 
                 result.ProductList = _dbConnection.Query<ProductModel>(string.Format(sql, column), param).ToList();

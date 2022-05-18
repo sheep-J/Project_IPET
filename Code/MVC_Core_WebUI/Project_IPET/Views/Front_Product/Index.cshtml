@@ -1,5 +1,6 @@
 ﻿@model List<CategoriesModel>
 @{
+    
 }
 @section Scripts{
     <script>
@@ -7,7 +8,7 @@
             getProductList(1);
         });
         var categoryId = -1;
-        var subCategoryId=-1;
+        var subCategoryId = -1;
         var pageSize = 9;
         var productName = "";
         var sortBy = 1;
@@ -20,7 +21,7 @@
                     SortBy: sortBy,
                     CategoryId: categoryId,
                     ProductName: productName,
-                    SubCategoryId:subCategoryId,
+                    SubCategoryId: subCategoryId,
                     Pagination: {
                         Page: page,
                         PageSize: pageSize
@@ -47,10 +48,10 @@
             getProductList(1);
         }
 
-        function clearAll(){
+        function clearAll() {
             categoryId = -1;
-            subCategoryId=-1;
-             productName="";
+            subCategoryId = -1;
+            productName = "";
         }
 
         function getProductListWithCategory(id) {
@@ -58,13 +59,13 @@
             categoryId = id;
             getProductList(1);
         }
-         function getProductListWithSubCategory(id) {
-             clearAll();
+        function getProductListWithSubCategory(id) {
+            clearAll();
             subCategoryId = id;
             getProductList(1);
         }
-         function getProductListWithProductName() {
-             clearAll();
+        function getProductListWithProductName() {
+            clearAll();
             productName = $("#searchProductName").val()
             getProductList(1);
         }
@@ -82,6 +83,16 @@
                 }
             });
         }
+
+        //----------------------------------------
+        $(document).ready(function () {
+            $(".btn-group-toggle1").click(function () {
+                $(".panel-collapse1").toggle();
+            })
+        })
+
+
+
     </script>
 }
 <!-- Breadcrumb Area Start -->
@@ -169,22 +180,23 @@
                                     <h3 class="widget-title m-b-30">商品分類</h3>
                                     <div class="sidebar-body">
                                         <ul class="sidebar-list" aria-expanded="true">
-                                            @foreach (var category in Model)
-                                            {
-                                                <div class="panel-heading">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" href="#collapse1" onclick="getProductListWithCategory(@category.CategoryId)">@category.CategoryName</a>
-                                                    </h4>
-                                                </div>
-                                                foreach (var subCategory in category.SubCategories)
+                                            <div class="panel-heading">
+                                                @foreach (var category in Model)
                                                 {
-                                                    <div  class="panel-collapse collapse">
+                                                <h4 class="panel-title">
+                                                    <a  class="btn-group-toggle1" data-bs-toggle="collapse" href="#collapse_@category.CategoryName" onclick="getProductListWithCategory(@category.CategoryId)" aria-expanded="false" aria-controls="collapse_@category.CategoryName">@category.CategoryName</a>
+                                                </h4>
+                                                    @*<ul type="button" class="panel-title panel-heading" data-toggle="collapse" href="#collapse1" onclick="getProductListWithCategory(@category.CategoryId)">@category.CategoryName</ul>*@
+                                                    <div class="panel-collapse1 collapse" id="collapse_@category.CategoryName">
                                                         <ul class="list-group">
+                                                            @foreach (var subCategory in category.SubCategories)
+                                                            {
                                                             <li class="list-group-item"><a href="#/" onclick="getProductListWithSubCategory(@subCategory.SubCategoryId)">@subCategory.SubCategoryName</a></li>
+                                                            }
                                                         </ul>
                                                     </div>
                                                 }
-                                            }
+                                            </div>
                                             <li><a href="#/">所有商品(127)</a></li>
                                             <li><a href="#/">最佳銷售(5)</a></li>
                                             <li><a href="#/">最新商品(6)</a></li>
@@ -331,7 +343,7 @@
                             </div>
                         </div>
                     </div>
-</aside>
+                </aside>
                 <!-- Sidebar Widget End -->
             </div>
         </div>

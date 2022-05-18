@@ -8,10 +8,8 @@ namespace Project_IPET.ViewModels
         public int CommentId { get; set; }
         [DisplayName("產品名稱")]
         public string ProductName { get; set; }
-        public int ProductId { get; set; }
         [DisplayName("訂單編號")]
         public int OrderId { get; set; }
-        public int OrderDetailId { get; set; }
         [DisplayName("評價會員")]
         public string MemberName { get; set; }
 
@@ -50,8 +48,9 @@ namespace Project_IPET.ViewModels
 
         public DateTime? FilterCommentLastDate { get; set; }
 
+        public int ProductId { get; set; }
+        public int OrderDetailId { get; set; }
 
-      
 
     }
 }

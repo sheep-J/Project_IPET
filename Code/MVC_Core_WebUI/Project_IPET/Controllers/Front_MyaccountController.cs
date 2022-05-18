@@ -36,50 +36,50 @@ namespace Project_IPET.Controllers
                 return View();
             return RedirectToAction("Index", "Empty_Signin");
         }
-       
-        public  IActionResult MyCommentListView()
+
+        public IActionResult MyCommentListView()
         {
-            
+
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-          
+
 
             if (!string.IsNullOrEmpty(json))
             {
                 Member userobj = JsonSerializer.Deserialize<Member>(json);
                 int userid = userobj.MemberId;
-               
 
-                    var nocomment = _context.OrderDetails
-                                   .Where(u => u.Order.MemberId == userid && u.Commented == false )
-                                   .OrderByDescending(d => d.OrderDetailId)
-                                   .Select( n =>  new CCommentViewModel 
-                                   {
-                                      ProductId = n.ProductId,
-                                      OrderDetailId = n.OrderDetailId,
-                                      MemberID = userid,
-                                      ProductName = n.Product.ProductName,
-                                      Rating =  null,
-                                      CommentDate = null,
-                                      CommentContent = null,
-                                      ReplyContent = null,
-                                   }).ToList();
-               
-             var comment = _context.Comments
-                                   .Where(u => u.OrderDetail.Order.MemberId == userid)
-                                   .OrderByDescending(d => d.CommentDate)
-                                   .Select(n => new CCommentViewModel
-                                   {
-                                       ProductId = n.ProductId,
-                                       OrderDetailId = n.OrderDetailId,
-                                       MemberID = userid,
-                                       ProductName = n.OrderDetail.Product.ProductName,
-                                       Rating = n.Rating,
-                                       CommentDate = n.CommentDate.Substring(0,10),
-                                       CommentContent = n.CommentContent,
-                                       ReplyContent = n.ReplyContent,
-                                   }).ToList();
+
+                var nocomment = _context.OrderDetails
+                               .Where(u => u.Order.MemberId == userid && u.Commented == false)
+                               .OrderByDescending(d => d.OrderDetailId)
+                               .Select(n => new CCommentViewModel
+                               {
+                                   ProductId = n.ProductId,
+                                   OrderDetailId = n.OrderDetailId,
+                                   MemberID = userid,
+                                   ProductName = n.Product.ProductName,
+                                   Rating = null,
+                                   CommentDate = null,
+                                   CommentContent = null,
+                                   ReplyContent = null,
+                               }).ToList();
+
+                var comment = _context.Comments
+                                      .Where(u => u.OrderDetail.Order.MemberId == userid)
+                                      .OrderByDescending(d => d.CommentDate)
+                                      .Select(n => new CCommentViewModel
+                                      {
+                                          ProductId = n.ProductId,
+                                          OrderDetailId = n.OrderDetailId,
+                                          MemberID = userid,
+                                          ProductName = n.OrderDetail.Product.ProductName,
+                                          Rating = n.Rating,
+                                          CommentDate = n.CommentDate.Substring(0, 10),
+                                          CommentContent = n.CommentContent,
+                                          ReplyContent = n.ReplyContent,
+                                      }).ToList();
                 nocomment.AddRange(comment);
-               
+
 
                 return PartialView(nocomment);
 
@@ -90,13 +90,8 @@ namespace Project_IPET.Controllers
                 return PartialView();
             }
         }
-
-        [HttpPost]
-        public IActionResult CreateComment(CCommentViewModel vModel)
+        public IActionResult CreateyComment(CCommentViewModel vModel)
         {
-            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-            Member userobj = JsonSerializer.Deserialize<Member>(json);
-            int userid = userobj.MemberId;
 
             if (!string.IsNullOrEmpty(vModel.CommentContent) && !string.IsNullOrEmpty(vModel.Rating.ToString()))
             {
@@ -115,19 +110,19 @@ namespace Project_IPET.Controllers
 
                 OrderDetail OrderDetail = _context.OrderDetails
                                           .FirstOrDefault(p => p.OrderDetailId == vModel.OrderDetailId);
-                if (OrderDetail != null) 
+                if (OrderDetail != null)
                 {
-                   OrderDetail.Commented = true;
-                   _context.Add(newpost);
-                   _context.SaveChanges();
+                    OrderDetail.Commented = true;
+                    _context.Add(newpost);
+                    _context.SaveChanges();
                 }
 
-               
 
-                return RedirectToAction("Index","Front_Myaccount");
+
+                return RedirectToAction("Index", "Front_Myaccount");
             }
 
-            return RedirectToAction("Index","Front_Myaccount");
+            return RedirectToAction("Index", "Front_Myaccount");
         }
 
 
@@ -187,16 +182,16 @@ namespace Project_IPET.Controllers
                 int userid = nowuser.MemberId;
 
                 var list = _context.Orders.Where(n => n.MemberId == userid && n.TransactionTypeId == 2).Select(n => new
-            {
-                fId = n.OrderId,
-                fDate = n.RequiredDate.Substring(0, 8),
-                fTotal = (_context.DonationDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(),
-                fStatus = n.OrderStatus.OrderStatusName,
-                fFound = n.DonationDetails.FirstOrDefault().Foundation.FoundationName
-            }).ToList();
+                {
+                    fId = n.OrderId,
+                    fDate = n.RequiredDate.Substring(0, 8),
+                    fTotal = (_context.DonationDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(),
+                    fStatus = n.OrderStatus.OrderStatusName,
+                    fFound = n.DonationDetails.FirstOrDefault().Foundation.FoundationName
+                }).ToList();
 
-            if (list == null)
-                return Json("無捐贈紀錄");
+                if (list == null)
+                    return Json("無捐贈紀錄");
                 return Json(list);
             }
             else
@@ -209,7 +204,7 @@ namespace Project_IPET.Controllers
                 name = n.Product.ProductName,
                 price = n.UnitPrice,
                 quantity = n.Quantity,
-                total = (n.UnitPrice*n.Quantity)
+                total = (n.UnitPrice * n.Quantity)
             }).ToList();
             return Json(list);
         }
@@ -273,7 +268,7 @@ namespace Project_IPET.Controllers
                     member.Phone = vModel.Phone;
                     member.RegionId = (new CMembersFactory(_context)).getRegionId(vModel.Region);
                     member.Address = vModel.Address;
-                    member.Avatar = vModel.Photo.FileName; 
+                    member.Avatar = vModel.Photo.FileName;
                 };
                 _context.SaveChanges();
                 return RedirectToAction("Index", "Front_Myaccount");
@@ -289,12 +284,14 @@ namespace Project_IPET.Controllers
 
             IEnumerable<CFrontWishListViewModel> datas = null;
             datas = _context.MyFavorites.Where(m => m.MemberId == memberId)
-                .OrderByDescending(m=>m.FavoriteId)
+                .OrderByDescending(m => m.FavoriteId)
                 .Select(m => new CFrontWishListViewModel
                 {
                     ProductName = m.Product.ProductName,
                     ProductPrice = m.Product.UnitPrice,
                     Quantity = m.Product.UnitsInStock,
+                    FavoriteId = m.FavoriteId,
+                    ProductId = m.ProductId,
 
                 }).ToList();
             ViewBag.PRODUCT = _context.MyFavorites.Where(m => m.MemberId == memberId).Select(m => m.Product.ProductName);
@@ -303,18 +300,41 @@ namespace Project_IPET.Controllers
         }
 
         [HttpPost]
+        public IActionResult MyWishListAddCart(int? id)
+        {
+            Product datas = _context.Products.FirstOrDefault(p => p.ProductId == id);
+            if (datas == null)
+                return RedirectToAction("Front_Myaccount");
+
+            string json = HttpContext.Session.GetString("Cart");
+            var cart = JsonSerializer.Deserialize<List<CartModel>>(json);
+            if (cart == null)
+            {
+                cart = new List<CartModel>();
+                HttpContext.Session.SetString("Cart", "");
+            }
+            CartModel item = new CartModel()
+            {
+                ProductID = id.Value,
+                Product = datas,
+            };
+            cart.Add(item);
+
+            string jsoncart = JsonSerializer.Serialize(cart);
+            HttpContext.Session.SetString("Cart", jsoncart);
+            return RedirectToAction("Index", "Front_Myaccount");
+        }
+
+        [HttpPost]
         public IActionResult MyWishListDelete(int? id)
         {
-            if(id != null)
+            MyFavorite datas = _context.MyFavorites.FirstOrDefault(m => m.FavoriteId == id);
+            if (datas != null)
             {
-                MyFavorite datas = _context.MyFavorites.FirstOrDefault(m => m.FavoriteId == id);
-                if(datas != null)
-                {
-                    _context.MyFavorites.Remove(datas);
-                    _context.SaveChanges();
-                }
+                _context.MyFavorites.RemoveRange(datas);
+                _context.SaveChanges();
             }
-            return RedirectToAction("Index","Front_Myaccount");
+            return RedirectToAction("Index", "Front_Myaccount");
         }
 
 

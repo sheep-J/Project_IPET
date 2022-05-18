@@ -54,22 +54,8 @@
         </div>
 
         <!-- 篩選器 Start-->
-<<<<<<< HEAD
-        <div class="col-lg-1 ">
-          
-        </div>
-        <div class="col-lg-3 m-b-50">
-            <div class="form-check form-switch is-filled " style="padding-right: 20px; float: right; ">
-                <input class="form-check-input mt-2" type="checkbox" id="flexSwitchCheckChecked" name="FilterBanned">
-                <label class="form-check-label" style="font-size:1.2em;" for="flexSwitchCheckChecked">屏蔽狀態</label>
-            </div>
-            <div class="form-check form-switch is-filled  " style="padding-right: 20px; float:right;">
-                <input class="form-check-input mt-2 " type="checkbox" id="flexSwitchCheckChecked" name="FilterReply">
-                <label class="form-check-label" style="font-size:1.2em;" for="flexSwitchCheckChecked">回覆狀態</label>
-=======
-        @*<div class="col-lg-1 ">
 
-        </div>*@
+      
         <div class="col-lg-4 m-b-50">
             <div class="form-switch" style="padding-right: 20px; float:right; ">
                 <input type="checkbox" name="FilterBanned" value="true" id="FilterBanned" class="form-check-input mt-2">
@@ -78,7 +64,7 @@
             <div class="form-switch" style="padding-right: 20px; float:right; ">
                 <input type="checkbox" name="FilterReply" value="true" id="FilterReply" class="form-check-input mt-2">
                 <label class="form-check-label " for="FilterReply" style="font-size: 1.2em; width: 100px;">回覆狀態</label>
->>>>>>> 1208b8980e697010a715594be147ade5e76a6198
+
             </div>
 
 
@@ -87,32 +73,18 @@
         <span class="col-lg-1  widget-list m-b-50">
 
             <span>
-<<<<<<< HEAD
-                <input type="date" class="form-control " name="FilterCommentFristDate">
-            </span>
-            <span>
-                <input type="date" class="form-control " name="FilterCommentLastDate">
-=======
+
                 <input type="date" class="form-control" name="FilterCommentFristDate">
             </span>
             <span>
                 <input type="date" class="form-control" name="FilterCommentLastDate">
->>>>>>> 1208b8980e697010a715594be147ade5e76a6198
+
             </span>
 
         </span>
 
         <div class="col-lg-2 d-flex ">
-<<<<<<< HEAD
-            <select class="form-select text-2xl text-center form-select mb-3 " aria-label=".form-select-lg example">
-                @for(int i = 5; i > 0;i--)
-                {
-                                             
-                    <option> <a asp-action="Index" asp-route-FilterRating="@i">@i 星評價</a></option>
-                                     
-                }
-                               
-=======
+
             <select class="form-select text-2xl text-center mb-3 " name="FilterRating" aria-label=".form-select-lg example">
                     <option value="全部">全部</option>
                 @for (int i = 5; i > 0; i--)
@@ -120,7 +92,7 @@
                     <option value="@i">@i 星評價 </option>
                 }
 
->>>>>>> 1208b8980e697010a715594be147ade5e76a6198
+
             </select>
         </div>
         <!-- 關鍵字搜尋 -->
@@ -129,11 +101,9 @@
             <div class="d-flex align-items-center ">
                 <div class="input-group input-group-outline">
                     <label class="form-label">請輸入關鍵字</label>
-<<<<<<< HEAD
-                    <input name="FilterKeyword" value="" type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-=======
+
                     <input name="FilterKeyword" type="text" class="form-control" aria-label="Search Our Store">
->>>>>>> 1208b8980e697010a715594be147ade5e76a6198
+
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-end">

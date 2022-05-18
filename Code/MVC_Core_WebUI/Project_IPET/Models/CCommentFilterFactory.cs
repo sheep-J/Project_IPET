@@ -56,11 +56,11 @@ namespace Project_IPET.Models
                                  .Select(p => p);
                 }
 
-<<<<<<< HEAD
-                if (CCommentFilters.Rating != 0)
-=======
+
+              
+
                 if (CCommentFilters.FilterRating != "全部" && CCommentFilters.FilterRating !=null)
->>>>>>> 1208b8980e697010a715594be147ade5e76a6198
+
                 {
                     datas = datas.Where(c => c.Rating == Int32.Parse(CCommentFilters.FilterRating))
                                  .Select(p => p);

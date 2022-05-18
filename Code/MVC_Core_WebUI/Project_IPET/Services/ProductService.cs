@@ -87,65 +87,89 @@ namespace Project_IPET.Services
 
                 #endregion
                 #region 沒有groupby前的指令(但rating會出錯，因為一個商品可能有多個評價導致顯示出錯)
-                string column = "COUNT(1)";
-                string sql = @"SELECT {0}
-                                                FROM Products p 
-                                                JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
-                                                JOIN Categories c ON sc.CategoryID = c.CategoryID 
-                                                LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
-                                                JOIN Brand b ON p.BrandID = b.BrandID
-                                                WHERE pp.IsMainImage = 1 ";
+                string countSql = @"SELECT COUNT(1)
+FROM
+(
+	SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
+	FROM Products p 
+	JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
+	JOIN Categories c ON sc.CategoryID = c.CategoryID 
+	JOIN Brand b ON p.BrandID = b.BrandID
+	LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+	LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
+	WHERE pp.IsMainImage = 1 {0}
+	GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
+) T";
 
+
+                string sql = @"SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
+FROM Products p 
+JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
+JOIN Categories c ON sc.CategoryID = c.CategoryID 
+JOIN Brand b ON p.BrandID = b.BrandID
+LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
+WHERE pp.IsMainImage = 1 {0}
+GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
+{1} OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+
+                string where = "";
                 if (request.CategoryId != -1)
                 {
-                    sql += " AND c.CategoryID = @CategoryID";
+                    where += " AND c.CategoryID = @CategoryID";
                 }
                 if (request.SubCategoryId != -1)
                 {
-                    sql += " AND sc.SubCategoryID = @SubCategoryID";
+                    where += " AND sc.SubCategoryID = @SubCategoryID";
                 }
                 if (!string.IsNullOrWhiteSpace(request.ProductName))
                 {
-                    sql += " AND p.ProductName LIKE '%'+@ProductName+'%'";
+                    where += " AND p.ProductName LIKE '%'+@ProductName+'%'";
+                }
+                if (request.BrandIds != null && request.BrandIds.Count > 0)
+                {
+                    where += " AND b.BrandID IN @BrandIDs ";
                 }
                 var param = new
                 {
                     CategoryID = request.CategoryId,
-                    SubCategoryID=request.SubCategoryId,
+                    SubCategoryID = request.SubCategoryId,
                     ProductName = request.ProductName,
+                    BrandIDs = request.BrandIds,
                     PageSize = request.Pagination.PageSize,
                     Page = request.Pagination.Page,
                 };
-                result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sql, column), param); //拿第一個cell
 
-                column = "p.*,sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName ";
-                //sql += " ORDER BY p.ProductID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";
+                result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(countSql, where), param); //拿第一個cell
+
+                string orderBy = "";
                 switch (request.SortBy)
                 {
                     case Enum.SortBy.Default:
-                        sql += " ORDER BY p.ProductID ASC OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY ";
+                        orderBy += " ORDER BY p.ProductID ASC  ";
                         break;
                     case Enum.SortBy.HighPrice:
-                        sql += " ORDER BY p.UnitPrice DESC OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY  ";
+                        orderBy += " ORDER BY p.UnitPrice DESC ";
                         break;
                     case Enum.SortBy.LowPrice:
-                        sql += " ORDER BY p.UnitPrice ASC OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY  ";
+                        orderBy += " ORDER BY p.UnitPrice ASC   ";
                         break;
-                        //=====================================
-                        //TODO:
-                        //1. 尚未撈出商品排名
-                        //2. 並且排序(GROUP BY)+算商品評價平均(AVERAGE)顯示在畫面上
-                        //3. 還要判斷該商品若未被評價(ProductID=1未被評價)，必須照樣顯示在ProductList (if判斷Rating==null...?)
+                    //=====================================
+                    //TODO:
+                    //1. 尚未撈出商品排名
+                    //2. 並且排序(GROUP BY)+算商品評價平均(AVERAGE)顯示在畫面上
+                    //3. 還要判斷該商品若未被評價(ProductID=1未被評價)，必須照樣顯示在ProductList (if判斷Rating==null...?)
                     case Enum.SortBy.HighRated:
-                        sql += " ORDER BY cm.Rating DESC ";
+                        orderBy += " ORDER BY Rating DESC ";
                         break;
                     case Enum.SortBy.LowRated:
-                        sql += " ORDER BY cm.Rating ASC ";
+                        orderBy += " ORDER BY Rating ASC ";
                         break;
                         //====================================
                 }
 
-                result.ProductList = _dbConnection.Query<ProductModel>(string.Format(sql, column), param).ToList();
+                result.ProductList = _dbConnection.Query<ProductModel>(string.Format(sql, where, orderBy), param).ToList();
                 #endregion
             }
             catch (Exception ex)
@@ -160,7 +184,14 @@ namespace Project_IPET.Services
             List<SubCategoriesModel> subCat = new List<SubCategoriesModel>();
             try
             {
-                string sql = @"SELECT * FROM Categories";
+                string sql = @"SELECT c.CategoryID,c.CategoryName,COUNT(1) ProductCount
+                                            FROM Categories c 
+                                            JOIN SubCategories sc 
+                                            ON c.CategoryID = sc.CategoryID 
+                                            JOIN Products p
+                                            ON sc.SubCategoryID = p.SubCategoryID
+                                            GROUP BY c.CategoryID,c.CategoryName
+                                            ORDER BY c.CategoryID";
                 result = _dbConnection.Query<CategoriesModel>(sql).ToList();
 
                 string sql2 = @"SELECT * FROM SubCategories";
@@ -293,7 +324,7 @@ namespace Project_IPET.Services
                 //匿名類型
                 var param = new
                 {
-                    ProductID=product.ProductID,
+                    ProductID = product.ProductID,
                     ProductName = product.ProductName,
                     SubCategoryID = product.SubCategoryID,
                     BrandID = product.BrandID,

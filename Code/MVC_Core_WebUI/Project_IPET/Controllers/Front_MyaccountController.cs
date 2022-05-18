@@ -90,8 +90,11 @@ namespace Project_IPET.Controllers
                 return PartialView();
             }
         }
-        public IActionResult CreateyComment(CCommentViewModel vModel)
+        public IActionResult CreateComment(CCommentViewModel vModel)
         {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            Member userobj = JsonSerializer.Deserialize<Member>(json);
+            int userid = userobj.MemberId;
 
             if (!string.IsNullOrEmpty(vModel.CommentContent) && !string.IsNullOrEmpty(vModel.Rating.ToString()))
             {

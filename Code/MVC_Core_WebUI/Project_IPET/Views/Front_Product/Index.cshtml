@@ -1,99 +1,121 @@
 ﻿@model List<CategoriesModel>
 @{
-    
+
 }
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            getProductList(1);
-        });
-        var categoryId = -1;
-        var subCategoryId = -1;
-        var pageSize = 9;
-        var productName = "";
-        var sortBy = 1;
+<script>
+     $(document).ready(function () {
+         getProductList(1);
+     });
+     var categoryId = -1;
+     var subCategoryId = -1;
+     var pageSize = 9;
+     var productName = "";
+     var sortBy = 1;
+     var CategoryName = "所有商品";
+    var brandIds = [];
 
-        function getProductList(page) {
-            $.ajax({
-                method: "POST",
-                url: "/Front_Product/ProductList",
-                data: {
-                    SortBy: sortBy,
-                    CategoryId: categoryId,
-                    ProductName: productName,
-                    SubCategoryId: subCategoryId,
-                    Pagination: {
-                        Page: page,
-                        PageSize: pageSize
-                    }
-                },
-                success: function (result) {
-                    $("#productList").html(result);
-                    var displayStyle = $(".shop_toolbar_btn .active").data("role");
-                    var displayStyleClass = "";
-                    if (displayStyle == "grid_3") {
-                        displayStyleClass = "col-lg-4 col-md-4 col-sm-6";
-                    }
-                    else {
-                        displayStyleClass = "col-12";
-                    }
-                    $(".product").addClass(displayStyleClass);
-                    $(".shop_wrapper").addClass(displayStyle);
-                }
-            });
-        }
-        function changeSort() {
-            sortBy = $("#sortByProduct").val();
-            //console.log( sortBy );
-            getProductList(1);
-        }
+     function getProductList(page) {
+         $.ajax({
+             method: "POST",
+             url: "/Front_Product/ProductList",
+             data: {
+                 SortBy: sortBy,
+                 CategoryId: categoryId,
+                 ProductName: productName,
+                 SubCategoryId: subCategoryId,
+                 BrandIds:brandIds,
+                 Pagination: {
+                     Page: page,
+                     PageSize: pageSize
+                 }
+             },
+             success: function (result) {
+                 $("#currentCategoryName").text(CategoryName);
+                 $("#productList").html(result);
+                  $("#currentCategoryProductCount").text($("#totalRecord").val());
+                 var displayStyle = $(".shop_toolbar_btn .active").data("role");
+                 var displayStyleClass = "";
+                 if (displayStyle == "grid_3") {
+                     displayStyleClass = "col-lg-4 col-md-4 col-sm-6";
+                 }
+                 else {
+                     displayStyleClass = "col-12";
+                 }
+                 $(".product").addClass(displayStyleClass);
+                 $(".shop_wrapper").addClass(displayStyle);
+             }
+         });
+     }
+     function changeSort() {
+         sortBy = $("#sortByProduct").val();
+         //console.log( sortBy );
+         getProductList(1);
+     }
 
-        function clearAll() {
-            categoryId = -1;
-            subCategoryId = -1;
-            productName = "";
-        }
+     function clearAll() {
+         categoryId = -1;
+         subCategoryId = -1;
+         productName = "";
+         CategoryName = "所有商品";    
+         brandIds = [];
+     }
 
-        function getProductListWithCategory(id) {
-            clearAll();
-            categoryId = id;
-            getProductList(1);
-        }
-        function getProductListWithSubCategory(id) {
-            clearAll();
-            subCategoryId = id;
-            getProductList(1);
-        }
-        function getProductListWithProductName() {
-            clearAll();
-            productName = $("#searchProductName").val()
-            getProductList(1);
-        }
+     function clearAllBrandsCheckBox(){     
+         $(".chk-brand").prop("checked",false);
+     }
 
-        function AddToCart(productId, qty) {
-            $.ajax({
-                method: "POST",
-                url: "/Front_Cart/AddToCart",
-                data: {
-                    id: productId,
-                    qty: 1,
-                },
-                success: function (result) {
-                    window.location.href = "/Front_Cart/Index";
-                }
-            });
-        }
+     function getProductListWithCategory(id,name) {
+         clearAll();
+         clearAllBrandsCheckBox();
+         categoryId = id;
+         getProductList(1);
+         CategoryName = name;
+     }
+     function getProductListWithSubCategory(id,name) {
+         clearAll();
+         clearAllBrandsCheckBox();
+         subCategoryId = id;
+         getProductList(1);
+         CategoryName = name;
+     }
+     function getProductListWithProductName() {
+         clearAll();
+         clearAllBrandsCheckBox();
+         productName = $("#searchProductName").val()
+         getProductList(1);
+     }
 
-        //----------------------------------------
-        $(document).ready(function () {
-            $(".btn-group-toggle1").click(function () {
-                $(".panel-collapse1").toggle();
-            })
-        })
+     function AddToCart(productId, qty) {
+         $.ajax({
+             method: "POST",
+             url: "/Front_Cart/AddToCart",
+             data: {
+                 id: productId,
+                 qty: 1,
+             },
+             success: function (result) {
+                 window.location.href = "/Front_Cart/Index";
+             }
+         });
+     }
+
+     function getProductListWithBrand(){
+          clearAll();
+
+         $.each($(".chk-brand"),function(i,item){
+             if($(item).prop("checked")){
+                 brandIds.push($(item).val())
+             }
+         });
+         getProductList(1);
+     }
+     //----------------------------------------
 
 
 
-    </script>
+
+</script>
 }
 <!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
@@ -129,7 +151,7 @@
                             <button data-role="grid_list" type="button" class="btn-list" title="List"><i class="ti-align-justify"></i></button>
                         </div>
                         <div class="shop-top-show">
-                            <span>顯示商品(9)/(127)</span>
+                            <span id="currentCategoryName"></span> (<span id="currentCategoryProductCount"></span>)
                         </div>
 
                     </div>
@@ -174,33 +196,27 @@
                             </div>
                         </div>
                         <!--商品分類Collpase Start-->
+
                         <div class="container">
                             <div class="panel-group">
                                 <div class="panel panel-default">
                                     <h3 class="widget-title m-b-30">商品分類</h3>
                                     <div class="sidebar-body">
-                                        <ul class="sidebar-list" aria-expanded="true">
-                                            <div class="panel-heading">
-                                                @foreach (var category in Model)
-                                                {
-                                                <h4 class="panel-title">
-                                                    <a  class="btn-group-toggle1" data-bs-toggle="collapse" href="#collapse_@category.CategoryName" onclick="getProductListWithCategory(@category.CategoryId)" aria-expanded="false" aria-controls="collapse_@category.CategoryName">@category.CategoryName</a>
-                                                </h4>
-                                                    @*<ul type="button" class="panel-title panel-heading" data-toggle="collapse" href="#collapse1" onclick="getProductListWithCategory(@category.CategoryId)">@category.CategoryName</ul>*@
-                                                    <div class="panel-collapse1 collapse" id="collapse_@category.CategoryName">
-                                                        <ul class="list-group">
-                                                            @foreach (var subCategory in category.SubCategories)
-                                                            {
-                                                            <li class="list-group-item"><a href="#/" onclick="getProductListWithSubCategory(@subCategory.SubCategoryId)">@subCategory.SubCategoryName</a></li>
-                                                            }
-                                                        </ul>
-                                                    </div>
-                                                }
-                                            </div>
-                                            <li><a href="#/">所有商品(127)</a></li>
-                                            <li><a href="#/">最佳銷售(5)</a></li>
-                                            <li><a href="#/">最新商品(6)</a></li>
-                                        </ul>
+                                        <h5><a href="#" onclick="getProductListWithCategory(-1)">所有商品 (@Model.Sum(c=>c.ProductCount))</a></h5>
+                                        <div data-collapse="accordion">
+                                            @foreach (var category in Model)
+                                            {
+                                                <h5>
+                                                    <a onclick="getProductListWithCategory(@category.CategoryId,'@category.CategoryName')">@category.CategoryName (@category.ProductCount)</a>
+                                                </h5>
+                                                <ul class="sidebar-list">
+                                                    @foreach (var subCategory in category.SubCategories)
+                                                    {
+                                                        <li><a href="#/" onclick="getProductListWithSubCategory(@subCategory.SubCategoryId,'@subCategory.SubCategoryName')">@subCategory.SubCategoryName</a></li>
+                                                    }
+                                                </ul>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -210,36 +226,16 @@
                             <h3 class="widget-title m-b-30">品牌</h3>
                             <div class="sidebar-body">
                                 <ul class="checkbox-container categories-list">
-                                    <li>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck12">
-                                            <label class="custom-control-label" for="customCheck12">喵皇奴 (20)</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck13">
-                                            <label class="custom-control-label" for="customCheck13">愛貝寵 (6)</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck14">
-                                            <label class="custom-control-label" for="customCheck14">摸肚肚 (8)</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck11">
-                                            <label class="custom-control-label" for="customCheck11">竹黏幫 (5)</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck15">
-                                            <label class="custom-control-label" for="customCheck15">希爾思 (4)</label>
-                                        </div>
-                                    </li>
+                                    @foreach (var brand in (List<BrandModel>)ViewBag.Brands)
+                                    {
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class=" chk-brand" id="chk-brand-@brand.BrandID" onclick="getProductListWithBrand()" value="@brand.BrandID">
+                                                <label class="custom-control-label" for="chk-brand-@brand.BrandID">@brand.BrandName</label>
+                                            </div>
+                                        </li>
+                                    }
+
                                 </ul>
                             </div>
                         </div>

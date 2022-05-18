@@ -16,6 +16,10 @@ namespace Project_IPET.Models
         /// 分類圖片
         /// </summary>
         public byte[] CategoryPicture { get; set; }
+        /// <summary>
+        /// 產品數量
+        /// </summary>
+        public int ProductCount { get; set; }
 
         public List<SubCategoriesModel>SubCategories {get;set;}
     }

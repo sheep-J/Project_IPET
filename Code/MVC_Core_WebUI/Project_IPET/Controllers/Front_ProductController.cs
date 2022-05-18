@@ -19,6 +19,8 @@ namespace Project_IPET.Controllers
         public IActionResult Index()
         {
             var result = _productService.GetCategories();
+
+            ViewBag.Brands = _productService.GetBrands();
             return View(result);
         }
 

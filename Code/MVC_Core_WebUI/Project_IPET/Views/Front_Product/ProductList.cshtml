@@ -4,14 +4,14 @@
 }
 
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            $("#AddProductGrid").click(AddToCart);
-            $("#AddProductList").click(AddToCart);
-        });
-    </script>
+<script>
+    $(document).ready(function () {
+        $("#AddProductGrid").click(AddToCart);
+        $("#AddProductList").click(AddToCart);
+    });
+</script>
 }
-
+<input id="totalRecord" value="@Model.Pagination.TotalRecord" hidden />
 <!-- Shop Wrapper Start -->
 <div class="row shop_wrapper">
     @foreach (var product in Model.ProductList)
@@ -36,11 +36,17 @@
                     <h5 class="title"><a href="single-product.html">@product.ProductName</a></h5>
                     <h2 class="title"><a href="single-product.html">@product.BrandName</a></h2>
                     <span class="rating">
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= product.Rating)
+                            {
+                                <i class="fa fa-star"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-star-o"></i>
+                            }
+                        }
                     </span>
                     <span class="price">
                         <span class="new">$@product.UnitPrice</span>
@@ -48,7 +54,7 @@
                     </span>
                     <p>@product.Description</p>
                     <!-- Cart Button Start -->
-                    <div class="cart-btn action-btn">
+                <div class="cart-btn action-btn">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
                                 <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID')" href="javascript:void(0);">加入購物車</a>
@@ -58,7 +64,7 @@
                         </div>
                     </div>
                     <!-- Cart Button End -->
-                </div>
+            </div>
             </div>
         </div>
         <!-- Single Product End -->

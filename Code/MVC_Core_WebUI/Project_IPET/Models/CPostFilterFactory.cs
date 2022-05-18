@@ -10,8 +10,6 @@ namespace Project_IPET.Models
     {
         private readonly MyProjectContext _context;
 
-
-
         public CPostFilterFactory(MyProjectContext context)
         {
             _context = context;

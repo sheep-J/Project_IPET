@@ -3,7 +3,12 @@
     ViewData["Title"] = "Index";
     Layout = "_FrontLayout";
 }
+<!-- UIkit CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/css/uikit.min.css" />
 
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit-icons.min.js"></script>
 <!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
     <div class="container">
@@ -26,7 +31,6 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-
                 <!--上方工具條 start-->
                 <div class="shop_toolbar_wrapper flex-column flex-md-row p-2 m-b-40 border">
 
@@ -61,39 +65,39 @@
                 <!-- 主要顯示頁面 Start -->
                 <div class="row shop_wrapper grid_list" id="ProjectList">
                     @{/*
-                        for(int i = 0;i<1;i++)
-                        {
-                            <!-- Single Product Start -->
-                            <div class="col-12 product">
-                                <div class="product-inner">
-                                    <div class="thumb">
-                                        <a asp-action="AddToCart" class="image">
-                                            <img class="fit-image" src="~/Front/images/project/1.jpg" alt="Product" />
-                                        </a>
-                                        <span class="badges">
-                                            <span class="sale">倒數幾天</span>
-                                        </span>
-                                    </div>
-                                    <div class="content">
-                                        <h5 class="title"><a href="single-product.html">九月物資募集</a></h5>
-                                        <span class="price">
-                                            <span class="new">為了不讓愛有變質的機會我們不接受捐款，但如果你也想為浪浪盡些心力可以選擇...</span>
-                                        </span>
-                                        <p>專案Context</p>
-                                        <!-- Cart Button Start -->
-                                        <div class="cart-btn action-btn">
-                                            <div class="action-cart-btn-wrapper d-flex">
-                                                <div class="add-to_cart">
-                                                    <a class="btn btn-primary btn-hover-dark rounded-0" asp-action="AddToCart">參與專案</a>
+                            for(int i = 0;i<1;i++)
+                            {
+                                <!-- Single Product Start -->
+                                <div class="col-12 product">
+                                    <div class="product-inner">
+                                        <div class="thumb">
+                                            <a asp-action="AddToCart" class="image">
+                                                <img class="fit-image" src="~/Front/images/project/1.jpg" alt="Product" />
+                                            </a>
+                                            <span class="badges">
+                                                <span class="sale">倒數幾天</span>
+                                            </span>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">九月物資募集</a></h5>
+                                            <span class="price">
+                                                <span class="new">為了不讓愛有變質的機會我們不接受捐款，但如果你也想為浪浪盡些心力可以選擇...</span>
+                                            </span>
+                                            <p>專案Context</p>
+                                            <!-- Cart Button Start -->
+                                            <div class="cart-btn action-btn">
+                                                <div class="action-cart-btn-wrapper d-flex">
+                                                    <div class="add-to_cart">
+                                                        <a class="btn btn-primary btn-hover-dark rounded-0" asp-action="AddToCart">參與專案</a>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <!-- Cart Button End -->
                                         </div>
-                                        <!-- Cart Button End -->
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Single Product End -->
-                        }*/
+                                <!-- Single Product End -->
+                            }*/
                     }
                 </div>
                 <!-- 主要顯示頁面 End -->
@@ -178,17 +182,90 @@
                 titlea.href = `/Front_Project/Detail?Id=${item.fId}`; titlea.innerHTML = `${item.fTitle}`;
                 title.append(titlea);
 
-                var deadline = document.createElement("p");
-                deadline.style.fontSize = "15px";
-                deadline.style.display = "inline";
-                deadline.id = `deadlinecount${item.fId}`;
                 if (item.fDeadlineall != "") {
-                    deadline.innerHTML = "  剩餘時間:" + item.fDeadlineall;
-                } else {
-                    deadline.innerHTML = "  已經結束";
-                }
-                title.append(deadline);
+                    var timecontain = document.createElement("div");
+                    timecontain.className = "uk-grid-small uk-child-width-auto uk-margin";
+                    timecontain.style.display = "inline-flex";
+                    timecontain.style.marginLeft = "10px";
+                    timecontain.style.setProperty('margin-top', '0px', 'important');
+                    timecontain.style.marginBottom = "0";
+                    timecontain.style.fontSize = "20px";
+                    timecontain.setAttribute("uk-countdown",`date: ${item.fDeadlineall}`);
+                    timecontain.setAttribute("uk-grid", "");
+                    timecontain.style.borderRadius = "5px";
+                    timecontain.style.paddingLeft = "2px";
+                    timecontain.style.paddingRight = "2px";
+                    if(item.fDeadline.substring(0) == "0")
+                        timecontain.style.backgroundColor = "red";
+                    else
+                        timecontain.style.backgroundColor = "rgb(246, 171, 73)";
+                    timecontain.style.color = "white";
 
+                    var daycontain = document.createElement("div");
+                    daycontain.style.paddingLeft = "5px";
+                    daycontain.style.marginTop = "3px";
+                    var day = document.createElement("div");
+                    day.style.fontSize = "20px";
+                    day.className = "uk-countdown-number uk-countdown-days";
+                    daycontain.append(day);
+
+                    var sep1 = document.createElement("div");
+                    sep1.style.fontSize = "20px";
+                    sep1.innerHTML = "天";
+                    sep1.style.paddingLeft = "2px";
+
+                    var hourcontain = document.createElement("div");
+                    hourcontain.style.paddingLeft = "2px";
+                    hourcontain.style.marginTop = "3px";
+                    var hour = document.createElement("div");
+                    hour.style.fontSize = "20px";
+                    hour.className = "uk-countdown-number uk-countdown-hours";
+                    hourcontain.append(hour);
+
+                    var sep2 = document.createElement("div");
+                    sep2.style.fontSize = "20px";
+                    sep2.innerHTML = ":";
+                    sep2.style.marginTop = "-3px";
+                    sep2.style.paddingLeft = "2px";
+
+                    var mincontain = document.createElement("div");
+                    mincontain.style.paddingLeft = "2px";
+                    mincontain.style.marginTop = "3px";
+                    var min = document.createElement("div");
+                    min.style.fontSize = "20px";
+                    min.className = "uk-countdown-number uk-countdown-minutes";
+                    mincontain.append(min);
+
+                    var sep3 = document.createElement("div");
+                    sep3.style.fontSize = "20px";
+                    sep3.innerHTML = ":";
+                    sep3.style.marginTop = "-3px";
+                    sep3.style.paddingLeft = "2px";
+
+                    var seccontain = document.createElement("div");
+                    seccontain.style.paddingLeft = "2px";
+                    seccontain.style.marginTop = "3px";
+                    var sec = document.createElement("div");
+                    sec.style.fontSize = "20px";
+                    sec.className = "uk-countdown-number uk-countdown-seconds";
+                    seccontain.append(sec);
+
+                    timecontain.append("剩餘時間: ",daycontain, sep1, hourcontain, sep2, mincontain, sep3, seccontain);
+                    title.append(timecontain);
+                } else {
+                    var deadline = document.createElement("p");
+                    deadline.style.fontSize = "15px";
+                    deadline.style.display = "inline";
+                    deadline.style.borderRadius = "5px";
+                    deadline.style.paddingLeft = "2px";
+                    deadline.style.paddingRight = "2px";
+                    deadline.style.backgroundColor = "red";
+                    deadline.style.color = "white";
+                    deadline.id = `deadlinecount${item.fId}`;
+                    deadline.innerHTML = "已經結束";
+                    title.append(deadline);
+                }
+                
                 var price = document.createElement("span");
                 price.className = "price";
                 var des = document.createElement("span");

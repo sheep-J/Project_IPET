@@ -9,13 +9,15 @@
         var categoryId = -1;
         var subCategoryId=-1;
         var pageSize = 9;
-        var productName="";
+        var productName = "";
+        var sortBy = 1;
 
         function getProductList(page) {
             $.ajax({
                 method: "POST",
                 url: "/Front_Product/ProductList",
                 data: {
+                    SortBy: sortBy,
                     CategoryId: categoryId,
                     ProductName: productName,
                     SubCategoryId:subCategoryId,
@@ -38,6 +40,11 @@
                     $(".shop_wrapper").addClass(displayStyle);
                 }
             });
+        }
+        function changeSort() {
+            sortBy = $("#sortByProduct").val();
+            //console.log( sortBy );
+            getProductList(1);
         }
 
         function clearAll(){
@@ -122,13 +129,12 @@
                         <h4 class="title me-2">排序： </h4>
 
                         <div class="shop-short-by">
-                            <select class="nice-select" aria-label=".form-select-sm example">
-                                <option selected="">依..排序</option>
+                            <select class="nice-select" aria-label=".form-select-sm example" onchange="changeSort()" id="sortByProduct">
                                 <option value="1">依預設</option>
                                 <option value="2">價錢(高至低)</option>
                                 <option value="3">價錢(低至高)</option>
-                                <option value="3">商品評價(高至低)</option>
-                                <option value="3">商品評價(低至高)</option>
+                                <option value="4">商品評價(高至低)</option>
+                                <option value="5">商品評價(低至高)</option>
                             </select>
                         </div>
                     </div>

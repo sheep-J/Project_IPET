@@ -54,6 +54,8 @@ namespace Project_IPET.Controllers
                                    .OrderByDescending(d => d.OrderDetailId)
                                    .Select( n =>  new CCommentViewModel 
                                    {
+                                      ProductId = n.ProductId,
+                                      OrderDetailId = n.OrderDetailId,
                                       MemberID = userid,
                                       ProductName = n.Product.ProductName,
                                       Rating =  null,
@@ -67,6 +69,8 @@ namespace Project_IPET.Controllers
                                    .OrderByDescending(d => d.CommentDate)
                                    .Select(n => new CCommentViewModel
                                    {
+                                       ProductId = n.ProductId,
+                                       OrderDetailId = n.OrderDetailId,
                                        MemberID = userid,
                                        ProductName = n.OrderDetail.Product.ProductName,
                                        Rating = n.Rating,
@@ -86,13 +90,44 @@ namespace Project_IPET.Controllers
                 return PartialView();
             }
         }
-        public IActionResult CreateyComment()
+
+        [HttpPost]
+        public IActionResult CreateComment(CCommentViewModel vModel)
         {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            Member userobj = JsonSerializer.Deserialize<Member>(json);
+            int userid = userobj.MemberId;
 
+            if (!string.IsNullOrEmpty(vModel.CommentContent) && !string.IsNullOrEmpty(vModel.Rating.ToString()))
+            {
+                var newpost = new Comment
+                {
+                    ProductId = vModel.ProductId,
+                    OrderDetailId = vModel.OrderDetailId,
+                    Rating = vModel.Rating,
+                    CommentDate = DateTime.Now.GetDateTimeFormats('f')[0].ToString(),
+                    CommentContent = vModel.CommentContent,
+                    ReplyContent = null,
+                    BannedContent = "*******************",
+                    Reply = false,
+                    Banned = false,
+                };
 
-           
+                OrderDetail OrderDetail = _context.OrderDetails
+                                          .FirstOrDefault(p => p.OrderDetailId == vModel.OrderDetailId);
+                if (OrderDetail != null) 
+                {
+                   OrderDetail.Commented = true;
+                   _context.Add(newpost);
+                   _context.SaveChanges();
+                }
 
-            return View();
+               
+
+                return RedirectToAction("Index","Front_Myaccount");
+            }
+
+            return RedirectToAction("Index","Front_Myaccount");
         }
 
 

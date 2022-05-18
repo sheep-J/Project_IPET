@@ -21,9 +21,10 @@
 <button type="button" class="btn btn-danger mr-3">快速屏蔽</button>
 
 
-    <!-- Page Start -->
-    <div class="row">
-        <div class="col-12 m-b-50">
+
+<form action="~/Front_Blog/Index" method="post" runat="server">
+    <div class="row" style="align-items:end;">
+        <div class="col-lg-3 d-flex">
             <nav class="d-flex justify-content-end ">
                 <ul class="pagination ">
                     <li class="page-item">
@@ -50,151 +51,208 @@
                 <h2 id="pagenumber" style="width:100px; text-align: center;"></h2>
             </nav>
         </div>
-    </div>
-    <!-- Page End -->
-    <div class="col-12">
-        <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">評價列表</h6>
-                </div>
+     
+        <!-- 篩選器 Start-->
+        <div class="col-lg-1 ">
+          
+        </div>
+        <div class="col-lg-3 m-b-50">
+            <div class="form-check form-switch is-filled " style="padding-right: 20px; float: right; ">
+                <input class="form-check-input mt-2" type="checkbox" id="flexSwitchCheckChecked" name="">
+                <label class="form-check-label" style="font-size:1.2em;" for="flexSwitchCheckChecked">屏蔽狀態</label>
             </div>
-
-            <div class="card-body px-0 pb-2">
-                <div class="p-0">
-                    <div id="listview">
-                        <table class=" col-md-12 ">
-                            <thead>
-                                <tr class="row">
-
-
-                                    <th class="col-md-1 middle"><input name="clickAll" id="clickAll" type="checkbox">序號</th>
-                                    <th class="col-md-1 middle">@Html.DisplayNameFor(model => model.MemberName)</th>
-                                    <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.Rating)</th>
-                                    <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.CommentDate)</th>
-                                    <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.CommentContent)</th>
-                                    <th class="col-md-2 middle">回覆內容</th>
-                                    <th class="col-md-1 middle">回覆留言</th>
-                                    <th class="col-md-1 middle">屏蔽評價</th>
-
-                                </tr>
-                            </thead>
-                            @{
-                                int number = 0;
-
-
-                                foreach (var item in Model)
-                                {
-                                    number++;
-
-                                    <tbody>
-
-                                        <!-- tr Start -->
-                                        <tr class="row postdata">
-                                            <td>
-                                                <input name="CommentId[]" type="hidden" value="@item.CommentId">
-                                            </td>
-                                            <td class="col-md-1 middle">
-                                                <input name="Checkbox[]" type="checkbox" value="@number">
-                                                @number
-                                            </td>
-                                            <td class="col-md-1 middle">
-                                                @Html.DisplayFor(modelItem => item.MemberName)
-                                            </td>
-                                            <td class="col-md-2 middle">
-
-                                                <span class="rating">
-
-                                                    @if (@item.Rating == null || @item.Rating == 0)
-                                                    {
-                                                        @for (int i = 0; i < 5; i++)
-                                                        {
-                                                            <i class="fa fa-star-o"></i>
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        @for (int i = 1; i <= @item.Rating; i++)
-                                                        {
-                                                            <i class="fa fa-star text-warning"></i>
-                                                        }
-
-                                                        @for (int i = 1; i <= (5 - @item.Rating); i++)
-                                                        {
-                                                            <i class="fa fa-star-o"></i>
-                                                        }
-                                                    }
-
-                                                </span>
-                                            </td>
-                                            <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentDate)">
-                                                @Html.DisplayFor(modelItem => item.CommentDate)
-                                            </td>
-                                            <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentContent)">
-                                                @Html.DisplayFor(modelItem => item.CommentContent)
-                                            </td>
-                                            <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.ReplyContent)">
-                                                @Html.DisplayFor(modelItem => item.ReplyContent)
-                                            </td>
-                                            <td class="col-md-1 middle">
-                                                <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
-                                                    <i class="fas fa-pen-nib" aria-hidden="true"></i>
-                                                </button>
-                                            </td>
-                                            <td class="col-md-1 middle">
-                                                <button type="button" class="btn btn btn-danger mr-3">
-                                                    <i class="fa fa-ban" aria-hidden="true"></i>
-                                                </button>
-                                            </td>
-
-                                        </tr>
-                                        <!--  tr End  -->
-
-
-
-                                    </tbody>
-                                }
-                            }
-                        </table>
-                    </div>
-                 
-                </div>
+            <div class="form-check form-switch is-filled  " style="padding-right: 20px; float:right;">
+                <input class="form-check-input mt-2 " type="checkbox" id="flexSwitchCheckChecked" name="">
+                <label class="form-check-label" style="font-size:1.2em;" for="flexSwitchCheckChecked">回覆狀態</label>
             </div>
-
 
         </div>
-    </div>
+        <!-- 時間區間搜尋 -->
+        <span class="col-lg-1  widget-list m-b-50">
 
-           <!-- CommentModal Start-->
-                    <div class="modal fade" id="MessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">回覆留言</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div> 
-                                <div class="modal-body ">
-                                    <div>
-                                        <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">親切地回覆顧客留言以拉近與顧客的距離</textarea>
-                                         
-                                    </div>
-                                      
-                                       
-                                      
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                    <button type="button" class="btn btn-primary">送出</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                     
-                    <!-- CommentModal End-->
+            <span>
+                <input type="date" class="form-control ">
+            </span>
+            <span>
+                <input type="date" class="form-control  ">
+            </span>
+
+        </span>
+
+        <div class="col-lg-2 d-flex ">
+            <select class="form-select text-2xl text-center form-select mb-3 " aria-label=".form-select-lg example">
+
+                <option>5星評價</option>
+                <option>4星評價</option>
+                <option>3星評價</option>
+                <option>2星評價</option>
+                <option>1星評價</option>
+
+            </select>
+        </div>
+        <!-- 關鍵字搜尋 -->
+        <div class="col-lg-2 d-flex ">
+
+            <div class="d-flex align-items-center ">
+                <div class="input-group input-group-outline">
+                    <label class="form-label">請輸入關鍵字</label>
+                    <input name="Keyword" value="" type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-primary mt-3">
+                    <i class="material-icons">search</i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</form>
+<!-- 篩選器 End-->
+
+<div class="col-12">
+    <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">評價列表</h6>
+            </div>
+        </div>
+
+        <div class="card-body px-0 pb-2">
+            <div class="p-0">
+                <div id="listview">
+                    <table class=" col-md-12 ">
+                        <thead>
+                            <tr class="row">
+
+
+                                <th class="col-md-1 middle"><input name="clickAll" id="clickAll" type="checkbox">序號</th>
+                                <th class="col-md-1 middle">@Html.DisplayNameFor(model => model.MemberName)</th>
+                                <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.Rating)</th>
+                                <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.CommentDate)</th>
+                                <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.CommentContent)</th>
+                                <th class="col-md-2 middle">回覆內容</th>
+                                <th class="col-md-1 middle">回覆留言</th>
+                                <th class="col-md-1 middle">屏蔽評價</th>
+
+                            </tr>
+                        </thead>
+                        @{
+                            int number = 0;
+
+
+                            foreach (var item in Model)
+                            {
+                                number++;
+
+                                <tbody>
+
+                                    <!-- tr Start -->
+                                    <tr class="row postdata">
+                                        <td>
+                                            <input name="CommentId[]" type="hidden" value="@item.CommentId">
+                                        </td>
+                                        <td class="col-md-1 middle">
+                                            <input name="Checkbox[]" type="checkbox" value="@number">
+                                            @number
+                                        </td>
+                                        <td class="col-md-1 middle">
+                                            @Html.DisplayFor(modelItem => item.MemberName)
+                                        </td>
+                                        <td class="col-md-2 middle">
+
+                                            <span class="rating">
+
+                                                @if (@item.Rating == null || @item.Rating == 0)
+                                                {
+                                                    @for (int i = 0; i < 5; i++)
+                                                    {
+                                                        <i class="fa fa-star-o"></i>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @for (int i = 1; i <= @item.Rating; i++)
+                                                    {
+                                                        <i class="fa fa-star text-warning"></i>
+                                                    }
+
+                                                    @for (int i = 1; i <= (5 - @item.Rating); i++)
+                                                    {
+                                                        <i class="fa fa-star-o"></i>
+                                                    }
+                                                }
+
+                                            </span>
+                                        </td>
+                                        <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentDate)">
+                                            @Html.DisplayFor(modelItem => item.CommentDate)
+                                        </td>
+                                        <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.CommentContent)">
+                                            @Html.DisplayFor(modelItem => item.CommentContent)
+                                        </td>
+                                        <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.ReplyContent)">
+                                            @Html.DisplayFor(modelItem => item.ReplyContent)
+                                        </td>
+                                        <td class="col-md-1 middle">
+                                            <button type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">
+                                                <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td class="col-md-1 middle">
+                                            <button type="button" class="btn btn btn-danger mr-3">
+                                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    <!--  tr End  -->
+
+
+
+                                </tbody>
+                            }
+                        }
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<!-- CommentModal Start-->
+<div class="modal fade" id="MessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">回覆留言</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div>
+                    <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue">親切地回覆顧客留言以拉近與顧客的距離</textarea>
+
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">送出</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CommentModal End-->
 @section Scripts{
 
-    
-     <script>
+
+    <script>
 
       let current;
       let totalpage = @ViewBag.page;
@@ -208,10 +266,10 @@
             current = parseInt(`${page}`);
             let elementli = $("ul.pagination").children("li");
             let postdata = $(".postdata");
-           
-            if (totalpost != 0) 
+
+            if (totalpost != 0)
             {
-           
+
             PageList(page, elementli, totalpage);
                 PageData(page, postdata, pagesize, totalpost,"flex")
             $("#pagenumber").text(`${page}/${totalpage}`);
@@ -238,13 +296,13 @@
             post(current + 1);
 
         });
-       
-       
+
+
 
         $(document).on("click", "#clickAll", function () {
 
             let clickAll = $("#listview").find("#clickAll");
-         
+
             let inputCheckbox = $("#listview").find("input[name='Checkbox[]']");
 
                 if (clickAll.prop("checked"))
@@ -259,13 +317,12 @@
         let selectcommentitem = new Array();
         $(document).on("click", "input[name='Checkbox[]']", function () {
 
-            
             let selectcommentid = $(this).parents("tr").find("td").find("input[name='CommentId[]']").val();
             console.log(selectcommentid);
             selectcommentitem.push(selectcommentid);
             console.log(selectcommentitem);
         });
-       
+
 
     </script>
 

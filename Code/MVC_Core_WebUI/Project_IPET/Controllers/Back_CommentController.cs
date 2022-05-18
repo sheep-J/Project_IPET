@@ -27,11 +27,11 @@ namespace Project_IPET.Controllers
         public IActionResult Index(CCommentViewModel commentFilter)
         {
             int pagesize = 10;
-            int totalpost = _context.Comments.Count();
+            int totalcomment = new CCommentFilterFactory(_context).CommentFilter(commentFilter).Count();
 
             CTools tools = new CTools();
-            tools.Page(pagesize, totalpost, out int tatalpage);
-            ViewBag.totalpost = totalpost;
+            tools.Page(pagesize, totalcomment, out int tatalpage);
+            ViewBag.totalcomment = totalcomment;
             ViewBag.page = tatalpage;
             ViewBag.pagesize = pagesize;
             

@@ -32,13 +32,7 @@ namespace Project_IPET.ViewModels
         public bool Reply { get; set; }
         [DisplayName("會員照片")]
         public string MemberImage { get; set; }
-
-
         public string FilterKeyword { get; set; }
-
-
-        public string FilterMemberName { get; set; }
-
         public int FilterRating { get; set; }
 
         public bool FilterReply { get; set; }

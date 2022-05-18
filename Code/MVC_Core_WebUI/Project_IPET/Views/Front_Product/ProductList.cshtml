@@ -29,7 +29,16 @@
                     <div class="action-wrapper">
                         <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>
                         <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                        <a id="AddProductGrid" onclick="AddToCart('@product.ProductID')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                        @{
+                            if (product.UnitsInStock <= 0)
+                            {
+                                <a id="AddProductGrid" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                            }
+                            else
+                            {
+                                <a id="AddProductGrid" onclick="AddToCart('@product.ProductID')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                            }
+                        }
                     </div>
                 </div>
                 <div class="content">
@@ -57,7 +66,16 @@
                 <div class="cart-btn action-btn">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
-                                <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID')" href="javascript:void(0);">加入購物車</a>
+                                @{
+                                    if (product.UnitsInStock <= 0)
+                                    {
+                                        <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0 disabled">商品無庫存</a>
+                                    }
+                                    else
+                                    {
+                                        <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID')" href="javascript:void(0);">加入購物車</a>
+                                    }
+                                }
                             </div>
                             <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
                             <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>

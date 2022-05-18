@@ -69,10 +69,6 @@ namespace Project_IPET.Controllers
 
             string time = DateTime.Now.ToString("yyyyMMddHHmmss");
 
-            //string formatString = "yyyyMMddHHmmss";
-            //string sample = "20100611221912";
-            //DateTime dt = DateTime.ParseExact(sample, formatString, null);
-
             string SelectTransaction = collection["TransactionOption"];
             string SelectFoundation = collection["FoundationOption"];
 
@@ -99,6 +95,7 @@ namespace Project_IPET.Controllers
                 List<OrderDetail> list = new List<OrderDetail>();
                 foreach (var item in CartItems)
                 {
+                    var product = _context.Products.Find(item.ProductID);
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.OrderId = OrderID;
                     orderDetail.ProductId = item.ProductID;
@@ -106,6 +103,8 @@ namespace Project_IPET.Controllers
                     orderDetail.Quantity = item.Quantity;
                     orderDetail.Commented = false;
                     list.Add(orderDetail);
+                    product.UnitsInStock -= item.Quantity;
+                    _context.Products.Update(product);
                 }
                 _context.OrderDetails.AddRange(list);
                 _context.SaveChanges();
@@ -116,6 +115,7 @@ namespace Project_IPET.Controllers
                 List<DonationDetail> list = new List<DonationDetail>();
                 foreach (var item in CartItems)
                 {
+                    var product = _context.Products.Find(item.ProductID);
                     DonationDetail donationDetail = new DonationDetail();
                     donationDetail.OrderId = OrderID;
                     donationDetail.ProductId = item.ProductID;
@@ -123,6 +123,8 @@ namespace Project_IPET.Controllers
                     donationDetail.Quantity = item.Quantity;
                     donationDetail.FoundationId = Convert.ToInt32(SelectFoundation);
                     list.Add(donationDetail);
+                    product.UnitsInStock -= item.Quantity;
+                    _context.Products.Update(product);
                 }
                 _context.DonationDetails.AddRange(list);
                 _context.SaveChanges();

@@ -148,12 +148,21 @@
                     <div class="cart-btn action-btn m-b-30">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
-                                <a class="btn btn-primary btn-hover-dark rounded-bottom" onclick="AddToCart('@Model.ProductID')" href="javascript:void(0);">加入購物車<br />（一般購物）</a>
+                                @{
+                                    if (@Model.UnitsInStock <= 0)
+                                    {
+                                        <a class="btn btn-primary btn-hover-dark rounded-bottom disabled">商品無庫存</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-primary btn-hover-dark rounded-bottom" onclick="AddToCart('@Model.ProductID')" href="javascript:void(0);">加入購物車<br />（一般購物）</a>
+                                    }
+                                }
                             </div>
                             <div class="add-to_cart">
                                 <a class="btn btn-primary btn-hover-dark rounded-pill" onclick="AddToCart('@Model.ProductID')" href="javascript:void(0);">加入購物車<br />（募資專案）</a>
                             </div>
-                            <a asp-controller="/Front_Myaccount" asp-action="Index"title="願望清單" class="action"><i class="ti-heart"></i></a>
+                            <a asp-controller="/Front_Myaccount" asp-action="Index" title="願望清單" class="action"><i class="ti-heart"></i></a>
                         </div>
                     </div>
                     <!-- Cart Button End -->
@@ -364,7 +373,8 @@
                                             <span class="badges">
                                                 <span class="sale">-18%</span>
                                             </span>
-                                            <div class="action-wrapper"> @*a改成button*@
+                                            <div class="action-wrapper">
+                                                @*a改成button*@
                                                 <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>
                                                 <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
                                                 <a href="cart.html" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>

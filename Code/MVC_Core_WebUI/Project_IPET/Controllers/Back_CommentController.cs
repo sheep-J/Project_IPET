@@ -47,22 +47,22 @@ namespace Project_IPET.Controllers
 
 
         [HttpPost]
-        public decimal[] GetProductRating(string productname)
+        public decimal[] GetProductRating(int productId)
         {
-
-            if (productname == null)
+            productId = 7;
+            if (productId == 0)
             {
                 return null;
             }
             else
             {
                 var averagerating = _context.Comments
-                    .Where(p => p.Product.ProductName == productname)
+                    .Where(p => p.Product.ProductId == productId)
                     .Select(p => p.Rating).Average();
 
             
                 var totalcommentcount = _context.Comments
-                    .Where(p => p.Product.ProductName == productname)
+                    .Where(p => p.Product.ProductId == productId)
                     .Count();
 
                 decimal[] Rating = { decimal.Round((decimal)averagerating, 1), totalcommentcount };

@@ -50,12 +50,11 @@
 
 
 <script>
-    let product = @ViewBag.PRODUCT;
-
-    GetProductRating(product);
 
     function GetProductRating(product)
     {
+        console.log(product);
+
          $.post('@Url.Content("~/Back_Comment/GetProductRating")',
              {productname:product},
              function(response)

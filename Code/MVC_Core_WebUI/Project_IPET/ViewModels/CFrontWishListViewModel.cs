@@ -13,6 +13,7 @@ namespace Project_IPET.ViewModels
         public decimal ProductPrice { get; set; }
         [DisplayFormat(DataFormatString = "{0:N}")]
         public int Quantity { get; set; }
+        public decimal Ranking { get; set; }
         public int FavoriteId { get; set; }
         public int ProductId { get; set; }
         

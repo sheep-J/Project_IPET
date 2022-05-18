@@ -39,10 +39,10 @@
                 <tbody style="height:81px;">
                     <tr>
 
-                        
 
-                         <td id="ProductId" style="display:none">@item.ProductId</td>
-                         <td id="OrderDetailId" style="display:none">@item.OrderDetailId</td>
+
+                        <td id="ProductId" style="display:none">@item.ProductId</td>
+                        <td id="OrderDetailId" style="display:none">@item.OrderDetailId</td>
 
                         <td class="tdContent">
 
@@ -107,12 +107,12 @@
 
 
     <!-- CommentModal Start-->
-    <div  id="CommentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="MyModalLabel" aria-hidden="true" style="top:15%">
+    <div id="CommentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="MyModalLabel" aria-hidden="true" style="top:15%">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" >我要評價</h5>
+                    <h5 class="modal-title">我要評價</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -141,8 +141,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button"  id="Cancel" class="btn btn-secondary" data-bs-dismiss="modal" data-target="#Cancel">取消</button>
-                    <button type="button" id="savebtn" class="btn btn-primary"  data-bs-dismiss="modal" onclick="location=location"  >送出</button>
+                    <button type="button" id="Cancel" class="btn btn-secondary" data-bs-dismiss="modal" data-target="#Cancel">取消</button>
+                    <button type="button" id="savebtn" class="btn btn-primary" data-bs-dismiss="modal" onclick="location=location">送出</button>
                 </div>
             </div>
         </div>
@@ -152,7 +152,7 @@
 
 
 <script>
-               
+
                 let ck =false;
                 let starnumber;
                 $(document).on("mouseover", ".ratingi", function () {
@@ -179,25 +179,25 @@
                       $("#startext").html(`評分為${starnumber}顆星`);
                       ck = true;
                 })
-               
+
                     $(document).on("click", "#savebtn", function () {
-                   
+
                         CreateComment();
-                   
+
                     })
 
-                    $(document).on("click", "#Cancel", function () 
+                    $(document).on("click", "#Cancel", function ()
                     {
-                   
+
                         $("#CommentContent").val("");
                         $(".ratingi").removeClass("fa fa-star").addClass("fa fa-star-o");
                         $(".ratingi").siblings().removeClass("fa fa-star").addClass("fa fa-star-o");
                         $("#startext").text("請點擊星星評分");
                         starnumber = 0;
-                   
+
                     })
-            
-               
+
+
 
                 function CreateComment() {
                     POSTMethod("@Url.Content("~/Front_Myaccount/CreateComment")",
@@ -211,9 +211,9 @@
 
                         },
                         function(){
-                        
+
                            alert("評價商品成功");
-                        
+
                         }
 
                     )

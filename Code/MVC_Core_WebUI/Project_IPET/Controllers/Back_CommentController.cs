@@ -27,12 +27,12 @@ namespace Project_IPET.Controllers
         public IActionResult Index(int FilterRating, CCommentViewModel commentFilter)
         {
             int pagesize = 10;
-            int totalpost = _context.Comments.Count();
+            int totalcomment = new CCommentFilterFactory(_context).CommentFilter(commentFilter).Count();
 
             commentFilter.Rating = FilterRating;
             CTools tools = new CTools();
-            tools.Page(pagesize, totalpost, out int tatalpage);
-            ViewBag.totalpost = totalpost;
+            tools.Page(pagesize, totalcomment, out int tatalpage);
+            ViewBag.totalcomment = totalcomment;
             ViewBag.page = tatalpage;
             ViewBag.pagesize = pagesize;
             
@@ -44,22 +44,22 @@ namespace Project_IPET.Controllers
        
 
         [HttpPost]
-        public decimal[] GetProductRating(string productname)
+        public decimal[] GetProductRating(int productId)
         {
-
-            if (productname == null)
+            productId = 7;
+            if (productId == 0)
             {
                 return null;
             }
             else
             {
                 var averagerating = _context.Comments
-                    .Where(p => p.Product.ProductName == productname)
+                    .Where(p => p.Product.ProductId == productId)
                     .Select(p => p.Rating).Average();
 
             
                 var totalcommentcount = _context.Comments
-                    .Where(p => p.Product.ProductName == productname)
+                    .Where(p => p.Product.ProductId == productId)
                     .Count();
 
                 decimal[] Rating = { decimal.Round((decimal)averagerating, 1), totalcommentcount };

@@ -43,8 +43,7 @@ namespace Project_IPET.Models
                 {
                     datas = datas.Where(c => c.MemberName.Contains(CCommentFilters.FilterKeyword) ||
                                              c.CommentDate.Contains(CCommentFilters.FilterKeyword) ||
-                                             c.CommentContent.Contains(CCommentFilters.FilterKeyword) ||
-                                             c.ReplyContent.Contains(CCommentFilters.FilterKeyword)
+                                             c.CommentContent.Contains(CCommentFilters.FilterKeyword) 
                                         )
                                   .Select(p => p);
 
@@ -57,9 +56,13 @@ namespace Project_IPET.Models
                                  .Select(p => p);
                 }
 
+<<<<<<< HEAD
                 if (CCommentFilters.Rating != 0)
+=======
+                if (CCommentFilters.FilterRating != "全部" && CCommentFilters.FilterRating !=null)
+>>>>>>> 1208b8980e697010a715594be147ade5e76a6198
                 {
-                    datas = datas.Where(c => c.Rating == CCommentFilters.FilterRating)
+                    datas = datas.Where(c => c.Rating == Int32.Parse(CCommentFilters.FilterRating))
                                  .Select(p => p);
                 }
 
@@ -71,15 +74,15 @@ namespace Project_IPET.Models
 
 
 
-                if (CCommentFilters.FilterBanned)
+                if (CCommentFilters.FilterBanned != null)
                 {
-                    datas = datas.Where(b =>b.Banned ==CCommentFilters.FilterBanned)
+                    datas = datas.Where(b => b.Banned == Convert.ToBoolean(CCommentFilters.FilterBanned))
                                  .Select(p => p);
                 }
 
-                if (CCommentFilters.FilterReply)
+                if (CCommentFilters.FilterReply != null)
                 {
-                    datas = datas.Where(b => b.Banned == CCommentFilters.FilterBanned)
+                    datas = datas.Where(b => b.Reply == Convert.ToBoolean(CCommentFilters.FilterReply))
                                 .Select(p => p);
                 }
             }

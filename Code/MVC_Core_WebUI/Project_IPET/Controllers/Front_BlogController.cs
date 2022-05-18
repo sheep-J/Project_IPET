@@ -40,9 +40,13 @@ namespace Project_IPET.Controllers
 
             var PostTypeName = _context.PostTypes
                               .OrderBy(p=>p.PostTypeId)
-                              .Select(n=>n.PostTypeName)
+                              .Select(n=>new CPostViewModel
+                              {
+                                  PostType =n.PostTypeName.ToString(),
+                                  PostTypeId= n.Posts.Count,
+                              })
                               .ToList();
-            ViewBag.PostTypeName = PostTypeName;
+            ViewBag.PostType = PostTypeName;
 
 
             CTools tools = new CTools();

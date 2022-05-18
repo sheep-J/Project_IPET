@@ -62,7 +62,7 @@
                         <div class="col-12 m-b-50">
 
                             <nav class="d-flex justify-content-end ">
-
+                               
                                 <ul class="pagination">
                                     <li class="page-item">
                                         <a class="page-link " id="page-ctrl-previous">
@@ -86,6 +86,7 @@
                                     </li>
                                 </ul>
                                 <h2 id="pagenumber" style="float:right; width:150px; text-align:center;"></h2>
+                                <h2 id="postnumber" style="float:right; width:150px; text-align:center;"></h2>
                             </nav>
                          
                         </div>
@@ -202,10 +203,10 @@
                                     <h3 class="widget-title m-b-30">依類別</h3>
                                     <div class="sidebar-body">
                                         <ul class="sidebar-list">
-                                         @foreach (var item in ViewBag.PostTypeName)
+                                         @foreach (var item in ViewBag.PostType)
                                          {
                                              
-                                            <li><a asp-action="Index" asp-route-PostType="@item">@item</a></li>
+                                            <li><a asp-action="Index" asp-route-PostType="@item.PostType">@item.PostType (@item.PostTypeId)</a></li>
                                      
                                          }
                                         </ul>
@@ -349,6 +350,7 @@
                 PageList(page, elementli, totalpage);
                 PageData(page, postdata, pagesize, totalpost,"inline")
                 $("#pagenumber").text(`${page}/${totalpage}頁數`);
+                $("#postnumber").text(`總共${totalpost}筆`);
             }
             else
             {

@@ -32,8 +32,15 @@ namespace Project_IPET.Controllers
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
 
+
+
+
+
             if (!string.IsNullOrEmpty(json))
-                return View();
+            {
+                ViewBag.commentcount = GetComment().Count;
+            return View();
+            }
             return RedirectToAction("Index", "Empty_Signin");
         }
 
@@ -42,27 +49,44 @@ namespace Project_IPET.Controllers
 
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
 
+            if (!string.IsNullOrEmpty(json))
+            {
+              
+                var comment= GetComment();
+
+                return PartialView(comment);
+
+            }
+            else
+            {
+                ViewBag.NOData = "尚未有任何評價";
+                return PartialView();
+            }
+        }
+
+        public List<CCommentViewModel> GetComment() 
+        {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
 
             if (!string.IsNullOrEmpty(json))
             {
                 Member userobj = JsonSerializer.Deserialize<Member>(json);
                 int userid = userobj.MemberId;
 
-
                 var nocomment = _context.OrderDetails
-                               .Where(u => u.Order.MemberId == userid && u.Commented == false)
-                               .OrderByDescending(d => d.OrderDetailId)
-                               .Select(n => new CCommentViewModel
-                               {
-                                   ProductId = n.ProductId,
-                                   OrderDetailId = n.OrderDetailId,
-                                   MemberID = userid,
-                                   ProductName = n.Product.ProductName,
-                                   Rating = null,
-                                   CommentDate = null,
-                                   CommentContent = null,
-                                   ReplyContent = null,
-                               }).ToList();
+                                           .Where(u => u.Order.MemberId == userid && u.Commented == false)
+                                           .OrderByDescending(d => d.OrderDetailId)
+                                           .Select(n => new CCommentViewModel
+                                           {
+                                               ProductId = n.ProductId,
+                                               OrderDetailId = n.OrderDetailId,
+                                               MemberID = userid,
+                                               ProductName = n.Product.ProductName,
+                                               Rating = null,
+                                               CommentDate = null,
+                                               CommentContent = null,
+                                               ReplyContent = null,
+                                           }).ToList();
 
                 var comment = _context.Comments
                                       .Where(u => u.OrderDetail.Order.MemberId == userid)
@@ -81,15 +105,17 @@ namespace Project_IPET.Controllers
                 nocomment.AddRange(comment);
 
 
-                return PartialView(nocomment);
+                return nocomment;
 
             }
-            else
+            else 
             {
-                ViewBag.NOData = "尚未有任何評價";
-                return PartialView();
+                return null;
+
             }
+          
         }
+
         public IActionResult CreateComment(CCommentViewModel vModel)
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);

@@ -41,7 +41,7 @@
                             <button data-role="grid_list" type="button" class="active btn-list" title="List"><i class="ti-align-justify"></i></button>
                         </div>
                         <div class="shop-top-show">
-                            <span>Showing 1–12 of 39 results</span>
+                            <span id="prjCount">Showing 1–12 of 39 results</span>
                         </div>
 
                     </div>
@@ -142,8 +142,10 @@
             renderProject(await Projectrespnose.json());
         }
         var list = document.getElementById("ProjectList");
+        var prjCount = document.getElementById("prjCount");
         function renderProject(datas) {
             list.innerHTML = "";
+            prjCount.innerHTML = `Showing ${datas.length} results`;
             datas.forEach(item => {
                 var contain = document.createElement("div");
                 contain.className = "col-12 product";

@@ -23,7 +23,6 @@ namespace Project_IPET.Controllers
         }
         public IActionResult Detail(int? id)
         {
-            //找到prjId為參數的專案
             var project = _context.ProjectDetails.Where(n=>n.PrjId==id).Select(p=>new CProjectDetailViewModel {
                 fId = p.PrjId,
                 fTitle = p.Title,
@@ -38,9 +37,6 @@ namespace Project_IPET.Controllers
                 fStart = p.Starttime.ToString(),
                 fEnd = p.Endtime.ToString()
             }).FirstOrDefault();
-            //找到prjId為參數的connect再去找商品
-            //找到已付款的訂單, 找出是誰, 消費甚麼, 數量多少
-            //上述所有物件包裝成vModel回傳至View()
             return View(project);
         }
 

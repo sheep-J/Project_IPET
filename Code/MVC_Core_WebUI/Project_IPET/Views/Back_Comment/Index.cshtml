@@ -49,22 +49,24 @@
                     </li>
                 </ul>
                 <h2 id="pagenumber" style="width:100px; text-align: center;"></h2>
+                <h2 id="nodata"  text-align: center;"></h2>
             </nav>
         </div>
-     
+
         <!-- 篩選器 Start-->
-        <div class="col-lg-1 ">
-          
-        </div>
-        <div class="col-lg-3 m-b-50">
-            <div class="form-check form-switch is-filled " style="padding-right: 20px; float: right; ">
-                <input class="form-check-input mt-2" type="checkbox"  name="FilterBanned">
-                <label class="form-check-label" style="font-size:1.2em;" for="flexSwitchCheckChecked">屏蔽狀態</label>
+        @*<div class="col-lg-1 ">
+
+        </div>*@
+        <div class="col-lg-4 m-b-50">
+            <div class="form-switch" style="padding-right: 20px; float:right; ">
+                <input type="checkbox" name="FilterBanned" value="true" id="FilterBanned" class="form-check-input mt-2">
+                <label class="form-check-label " for="FilterBanned" style="font-size:1.2em; width:100px;">屏蔽狀態</label>
             </div>
-            <div class="form-check form-switch is-filled  " style="padding-right: 20px; float:right;">
-                <input class="form-check-input mt-2 " type="checkbox"  name="FilterReply">
-                <label class="form-check-label" style="font-size:1.2em;" for="flexSwitchCheckChecked">回覆狀態</label>
+            <div class="form-switch" style="padding-right: 20px; float:right; ">
+                <input type="checkbox" name="FilterReply" value="true" id="FilterReply" class="form-check-input mt-2">
+                <label class="form-check-label " for="FilterReply" style="font-size: 1.2em; width: 100px;">回覆狀態</label>
             </div>
+
 
         </div>
         <!-- 時間區間搜尋 -->
@@ -80,12 +82,12 @@
         </span>
 
         <div class="col-lg-2 d-flex ">
-            <select class="form-select text-2xl text-center form-select mb-3 " aria-label=".form-select-lg example">
-
-            @for(int i = 5; i > 0; i--)
-            {
-                <option  class="form-control" name="FilterReply">@i 星評價 </option>
-            }
+            <select class="form-select text-2xl text-center mb-3 " name="FilterRating" aria-label=".form-select-lg example">
+                    <option value="全部">全部</option>
+                @for (int i = 5; i > 0; i--)
+                {
+                    <option value="@i">@i 星評價 </option>
+                }
 
             </select>
         </div>
@@ -95,7 +97,7 @@
             <div class="d-flex align-items-center ">
                 <div class="input-group input-group-outline">
                     <label class="form-label">請輸入關鍵字</label>
-                    <input name="FilterKeyword"  type="text" class="form-control" aria-label="Search Our Store">
+                    <input name="FilterKeyword" type="text" class="form-control" aria-label="Search Our Store">
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-end">
@@ -276,7 +278,7 @@
             }
             else
             {
-             $("#pagenumber").text("沒有找到資料");
+                $("#nodata").text("沒有找到資料");
                 elementli.eq(0).css("display", "none");
                 elementli.eq(totalpage + 1).css("display", "none");
             }

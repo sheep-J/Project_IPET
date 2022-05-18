@@ -56,9 +56,9 @@ namespace Project_IPET.Models
                                  .Select(p => p);
                 }
 
-                if (CCommentFilters.Rating != null)
+                if (CCommentFilters.FilterRating != "全部" && CCommentFilters.FilterRating !=null)
                 {
-                    datas = datas.Where(c => c.Rating == CCommentFilters.FilterRating)
+                    datas = datas.Where(c => c.Rating == Int32.Parse(CCommentFilters.FilterRating))
                                  .Select(p => p);
                 }
 
@@ -70,15 +70,15 @@ namespace Project_IPET.Models
 
 
 
-                if (CCommentFilters.FilterBanned)
+                if (CCommentFilters.FilterBanned != null)
                 {
-                    datas = datas.Where(b =>b.Banned ==CCommentFilters.FilterBanned)
+                    datas = datas.Where(b => b.Banned == Convert.ToBoolean(CCommentFilters.FilterBanned))
                                  .Select(p => p);
                 }
 
-                if (CCommentFilters.FilterReply)
+                if (CCommentFilters.FilterReply != null)
                 {
-                    datas = datas.Where(b => b.Banned == CCommentFilters.FilterBanned)
+                    datas = datas.Where(b => b.Reply == Convert.ToBoolean(CCommentFilters.FilterReply))
                                 .Select(p => p);
                 }
             }

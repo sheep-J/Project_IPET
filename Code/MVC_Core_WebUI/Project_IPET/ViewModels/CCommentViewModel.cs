@@ -31,11 +31,11 @@ namespace Project_IPET.ViewModels
         [DisplayName("會員照片")]
         public string MemberImage { get; set; }
         public string FilterKeyword { get; set; }
-        public int FilterRating { get; set; }
+        public string FilterRating { get; set; }
 
-        public bool FilterReply { get; set; }
+        public string FilterReply { get; set; }
 
-        public bool FilterBanned { get; set; }
+        public string FilterBanned { get; set; }
 
         public DateTime? FilterCommentFristDate { get; set; }
 

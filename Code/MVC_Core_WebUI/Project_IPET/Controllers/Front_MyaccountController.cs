@@ -267,6 +267,21 @@ namespace Project_IPET.Controllers
             return PartialView(datas);
         }
 
+        [HttpPost]
+        public IActionResult MyWishListDelete(int? id)
+        {
+            if(id != null)
+            {
+                MyFavorite datas = _context.MyFavorites.FirstOrDefault(m => m.FavoriteId == id);
+                if(datas != null)
+                {
+                    _context.MyFavorites.Remove(datas);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index","Front_Myaccount");
+        }
+
 
     }
 }

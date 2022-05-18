@@ -25,143 +25,20 @@
                     <td>
                         @for (int i = 0; i < 5; i++)
                         {
-                            <i class="fa fa-star-o ratingi"></i>
+                            <i class="fa fa-star-o Rating"></i>
                         }
                     </td>
                     @if (item.Quantity > 0){<td>@Html.DisplayFor(modelItem => item.Quantity)</td>}
                         else{<td>0</td>}
                     @*<td><button type="button" class="btn btn-primary fa fa-eye" data-bs-toggle="modal" data-bs-target="#wishModal"></button></td>*@
-                    <td><button type="button" class="btn btn-primary fa fa-eye" href="#"></button></td>
-                    <td><button type="button" class="btn btn-primary fa fa-ban"></button></td>
+                    <td><button type="button" class="btn btn-primary fa fa-eye"></button></td>
+                    <td><button type="button" class="btn btn-primary fa fa-ban" onclick="WishListDelete()"></button></td>
                 </tr>
             }
         }
     </tbody>
 </table>
 
-<!-- wishModal -->
-<!--<div class="modal fade" id="wishModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">商品資訊</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body ">
-                <!-- #region main-->
-                <!-- Single Product Section Start -->
-                <!--<div class="section section-margin">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-5 offset-lg-0 col-md-8 offset-md-2">-->
-                                <!-- Product Details Image Start -->
-                                <!--<div class="modal-product-carousel">-->
-                                    <!-- Single Product Image Start -->
-                                    <!--<div class="swiper-container">
-                                        <div class="swiper-wrapper">
-                                            <a class="swiper-slide" href="#">
-                                                <img class="w-100" src="~/Front/images/project/3.jpg" alt="Product">
-                                            </a>
-                                            <a class="swiper-slide" href="#">
-                                                <img class="w-100" src="~/Front/images/project/3.jpg" alt="Product">
-                                            </a>
-                                            <a class="swiper-slide" href="#">
-                                                <img class="w-100" src="~/Front/images/project/3.jpg" alt="Product">
-                                            </a>
-                                        </div>-->
-                                        <!-- Swiper Pagination Start -->
-                                        <!-- <div class="swiper-pagination d-md-none"></div> -->
-                                        <!-- Swiper Pagination End -->
-                                        <!-- Next Previous Button Start -->
-                                        <!--<div class="swiper-product-button-next swiper-button-next opacity-10"><i class="ti-arrow-right"></i></div>
-                                        <div class="swiper-product-button-prev swiper-button-prev opacity-10"><i class="ti-arrow-left"></i></div>-->
-                                        <!-- Next Previous Button End -->
-                                    <!--</div>-->
-                                    <!-- Single Product Image End -->
-
-                                <!--</div>-->
-                                <!-- Product Details Image End -->
-                            <!--</div>
-                            <div class="col-lg-7">-->
-                                <!-- Product Summery Start -->
-                                <!--<div class="product-summery position-relative">-->
-                                    <!-- Product Head Start -->
-                                    <!--<div class="product-head justify-content-start m-b-15">
-                                        <h2 class="product-title float">室內成貓-貓飼料</h2>
-                                    </div>-->
-                                    <!-- Product Head End -->
-                                    <!-- Rating Start -->
-                                    <!--<span class="rating justify-content-center m-b-10">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </span>-->
-                                    <!-- Rating End -->
-                                    <!-- Price Box Start -->
-                                    <!--<div class="price-box m-b-10">
-                                        <span class="regular-price">$2654</span>
-                                        <span class="old-price"><del>$3050</del></span>
-                                    </div>-->
-                                    <!-- Price Box End -->
-                                    <!-- Product Inventory Start -->
-                                    <!--<div class="product-inventroy m-b-15">
-                                        <span class="inventroy-title"> <strong>庫存量 : </strong></span>
-                                        <span class="inventory-varient">缺貨中</span>
-                                    </div>-->
-                                    <!-- Product Inventory End -->
-                                    <!-- Description Start -->
-                                    <!--<p class="desc-content m-b-25">-->
-                                        @*1歲齡以上適用
-                                            研發特點：
-                                            高消化性蛋白質能減少糞便量和降低70%大便臭味。
-                                            維持理想體重：
-                                            較低的卡路里3749 kcal/kg 及左旋肉鹼50 mg/kg 加速脂肪代謝，降低脂肪儲存，幫助市內生活貓維持理想體重。
-                                            促進毛球排空：
-                                            添加甜菜漿和非發酵性纖維，可促進腸胃蠕動和毛球排空，降低因毛球問題所引起之消化道阻塞問題。*@
-                                    @*</p>*@
-                                    <!-- Description End -->
-                                    <!-- Single Product Buy Button Start -->
-                                    <!--<div class="single-product-buy m-b-30">
-                                        <a href="checkout.html" class="btn btn-primary btn-hover-dark rounded-0">檢視詳細資訊</a>
-                                    </div>-->
-                                    <!-- Single Product Buy Button End -->
-                                    <!-- Social Shear Start -->
-                                    <!--<div class="social-share">
-                                        <div class="widget-social justify-content-start m-b-30">
-                                            <a title="Twitter" href="#/"><i class="icon-social-twitter"></i></a>
-                                            <a title="Instagram" href="#/"><i class="icon-social-instagram"></i></a>
-                                            <a title="Linkedin" href="#/"><i class="icon-social-linkedin"></i></a>
-                                            <a title="Skype" href="#/"><i class="icon-social-skype"></i></a>
-                                            <a title="Dribble" href="#/"><i class="icon-social-dribbble"></i></a>
-                                        </div>
-                                    </div>-->
-                                    <!-- Social Shear End -->
-                                    <!-- Payment Option Start -->
-                                    <!--<div class="payment-option m-t-20 d-flex">
-                                        <span><strong>付款方式 : </strong></span>
-                                        <a href="#">
-                                            <img class="fit-image m-l-5" src="~/Front/images/payment/payment_large.png" alt="Payment Option Image">
-                                        </a>
-                                    </div>-->
-                                    <!-- Payment Option End -->
-                                <!--</div>-->
-                                <!-- Product Summery End -->
-                            <!--</div>
-                        </div>
-                    </div>
-                </div>-->
-                <!-- Single Product Section End -->
-            <!--</div>-->
-            <!-- #endregion main-->
-            <!--<div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-                <button type="button" class="btn btn-primary">加入購物車</button>
-            </div>
-        </div>
-    </div>
-</div>-->
 
 <script>
     let product = @ViewBag.PRODUCT;
@@ -170,46 +47,31 @@
 
     function GetProductRating(product)
     {
-        @* $.post('@Url.Content("~/Back_Comment/GetProductRating")',
-            { ProductName:product })
-            .done((response) => {
-                averagerating = response[0];
-                   $("#averagerating").html(`${averagerating}顆星`);
-                   totalcommentcount = response[1];
-                   $("#totalcommentcount").html(`(共${totalcommentcount}筆評價)`);
-
-                  let maxnumber = 0;
-
-                  for(i = 0 ;i <= averagerating-1;i++)
-                  {
-                     $(".ratingi").eq(i).removeClass("fa fa-star-o").addClass("fa fa-star").css("font-size","1.2em");
-                     if( i > maxnumber )
-                     {
-                       maxnumber = i;
-                     }
-                  }
-                  if((averagerating % 1)!=0 )
-                  {
-                         $(".ratingi").eq(maxnumber+1).removeClass("fa fa-star-o").addClass("fa fa-star-half-o");
-                  }
-            }) *@
-
-         POSTMethod("@Url.Content("~/Back_Comment/GetProductRating")",
+         $.post('@Url.Content("~/Back_Comment/GetProductRating")',
              {productname:product},
              function(response)
              {
-                   averagerating = response[0];
-                   let maxnumber = 0;
+                 averagerating = response[0];
+                 totalcommentcount = response[1];
 
-                  for(i = 0 ;i <= averagerating-1;i++)
-                  {
-                     $(".ratingi").eq(i).removeClass("fa fa-star-o").addClass("fa fa-star").css("font-size","1.2em");
-                     if( i > maxnumber )
-                     {
-                       maxnumber = i;
+                 let maxnumber = 0;
+
+                 for (i = 0; i <= averagerating - 1; i++) {
+                     $(".ratingi").eq(i).removeClass("fa fa-star-o").addClass("fa fa-star").css("font-size", "1.2em");
+                     if (i > maxnumber) {
+                         maxnumber = i;
                      }
-                  }
+                 }
+                 if ((averagerating % 1) != 0) {
+                     $(".ratingi").eq(maxnumber + 1).removeClass("fa fa-star-o").addClass("fa fa-star-half-o");
+                 }
              }
           )
     }
+
+    function WishListDelete(){
+        $.post('@Url.Content("~/Back_Comment/MyWishListDelete")',
+            function (response) {
+
+            })
 </script>

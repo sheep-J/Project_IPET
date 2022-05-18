@@ -22,5 +22,11 @@
     <Folder Include="wwwroot\Front\images\blog\UploadImage\" />
     <Folder Include="wwwroot\Front\images\register\members\" />
   </ItemGroup>
+  
+    <ItemGroup>
+    <Reference Include="AllPay.Payment.Integration">
+      <HintPath>..\Reference\AllPay.Payment.Integration.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

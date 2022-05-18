@@ -2,6 +2,18 @@
 
 <link rel="stylesheet" href="~/Front/css/pet.css" />
 
+@section Styles{
+    <style>
+        .product-img {
+            height: 470px;
+        }
+
+        .img-thumbnail {
+            height: 150px;
+        }
+    </style>
+}
+
 <!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
     <div class="container">
@@ -31,38 +43,26 @@
 
                     <!-- Single Product Image Start -->
                     <div class="single-product-img swiper-container product-gallery-top">
-                        <div class="swiper-wrapper">
+                        <div class="swiper-wrapper popup-gallery">
+                            @foreach (var petImage in Model.PetImageBase64Strings)
+                            {
+                                <a class="swiper-slide w-100" href="@petImage">
+                                    <img class="w-100 product-img" src="@petImage" alt="@Model.PetName">
+                                </a>
+                            }
 
-                            <a class="swiper-slide w-100" href="~/Front/images/pet/1.jpg">
-                                <img class="w-100 img-thumbnail" src="@Model.PetImageBase64String" alt="" style="width: 470px; height: 470px; object-fit: fill; ">
-                            </a>
-                            <a class="swiper-slide w-100" href="~/Front/images/pet/2.jpg">
-                                <img class="w-100 img-thumbnail" src="@Model.PetImageBase64String" alt="" style="width: 470px; height: 470px; object-fit: fill;">
-                            </a>
-                            <a class="swiper-slide w-100" href="~/Front/images/pet/3.jpg">
-                                <img class="w-100 img-thumbnail" src="@Model.PetImageBase64String" alt="" style="width: 470px; height: 470px; object-fit: fill;">
-                            </a>
-                            <a class="swiper-slide w-100" href="~/Front/images/pet/4.jpg">
-                                <img class="w-100 img-thumbnail" src="@Model.PetImageBase64String" alt="" style="width: 470px; height: 470px; object-fit: fill;">
-                            </a>
                         </div>
                     </div>
                     <!-- Single Product Image End -->
                     <!-- Single Product Thumb Start -->
                     <div class="single-product-thumb swiper-container product-gallery-thumbs">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide" style="width: 130px; height: 130px; object-fit: fill; ">
-                                <img src="@Model.PetImageBase64String" alt="">
-                            </div>
-                            <div class="swiper-slide" style="width: 130px; height: 130px; object-fit: fill; ">
-                                <img src="@Model.PetImageBase64String" alt="">
-                            </div>
-                            <div class="swiper-slide" style="width: 130px; height: 130px; object-fit: fill; ">
-                                <img src="@Model.PetImageBase64String" alt="">
-                            </div>
-                            <div class="swiper-slide" style="width: 130px; height: 130px; object-fit: fill; ">
-                                <img src="@Model.PetImageBase64String" alt="">
-                            </div>
+                            @foreach (var petImage in Model.PetImageBase64Strings)
+                            {
+                                <div class="swiper-slide">
+                                    <img class="img-thumbnail" src="@petImage" alt="@Model.PetName">
+                                </div>
+                            }
                         </div>
 
                         <!-- Next Previous Button Start -->
@@ -76,6 +76,7 @@
                 </div>
                 <!-- Product Details Image End -->
             </div>
+
             <div class="col-lg-7">
                 <!-- Product Summery Start -->
                 <div class="product-summery position-relative">

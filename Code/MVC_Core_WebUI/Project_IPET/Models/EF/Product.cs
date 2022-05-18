@@ -16,7 +16,6 @@ namespace Project_IPET.Models.EF
             OrderDetails = new HashSet<OrderDetail>();
             PrjConnects = new HashSet<PrjConnect>();
             ProductImagePaths = new HashSet<ProductImagePath>();
-            ShoppingCarts = new HashSet<ShoppingCart>();
         }
 
         public int ProductId { get; set; }
@@ -39,6 +38,5 @@ namespace Project_IPET.Models.EF
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<PrjConnect> PrjConnects { get; set; }
         public virtual ICollection<ProductImagePath> ProductImagePaths { get; set; }
-        public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; }
     }
 }

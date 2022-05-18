@@ -11,6 +11,7 @@ namespace Project_IPET.Models.EF
         public int PetId { get; set; }
         public byte[] PetImage { get; set; }
         public string PetImagePath1 { get; set; }
+        public bool? IsMainImage { get; set; }
 
         public virtual Pet Pet { get; set; }
     }

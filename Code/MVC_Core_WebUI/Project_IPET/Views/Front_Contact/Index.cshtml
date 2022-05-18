@@ -29,32 +29,32 @@
                 <!-- Section Title End -->
                 <!-- Contact Form Wrapper Start -->
                 <div class="contact-form-wrapper contact-form">
-                    <form action="assets/php/amber.php" id="contact-form" method="post">
+                    <form asp-action="CreateContact" id="contact-form" method="post">
                         <div class="row">
                             <div class="col-12">
                                 <div class="row">
 
                                     <div class="col-md-6">
                                         <div class="input-area m-b-20">
-                                            <input class="input-item" type="text" placeholder="姓名" name="name">
+                                            <input class="input-item" type="text" placeholder="姓名" name="ContactName">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="input-area m-b-20">
-                                            <input class="input-item" type="email" placeholder="電子郵件" name="email">
+                                            <input class="input-item" type="email" placeholder="電子郵件" name="ContactMail">
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div class="input-area m-b-20">
-                                            <input class="input-item" type="text" placeholder="標題" name="subject">
+                                            <input class="input-item" type="text" placeholder="標題" name="ContactSubject">
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div class="input-area m-b-40">
-                                            <textarea cols="30" rows="5" class="textarea-item" name="message" placeholder="訊息"></textarea>
+                                            <textarea cols="30" rows="5" class="textarea-item" name="ContactMessage" placeholder="訊息"></textarea>
                                         </div>
                                     </div>
 
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </form>
-                    <p class="form-messege"></p>
+                    @*<p class="form-messege"></p>*@
                 </div>
                 <!-- Contact Form Wrapper End -->
 

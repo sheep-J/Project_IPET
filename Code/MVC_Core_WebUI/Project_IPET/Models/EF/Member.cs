@@ -15,7 +15,6 @@ namespace Project_IPET.Models.EF
             Orders = new HashSet<Order>();
             PostLikeds = new HashSet<PostLiked>();
             Posts = new HashSet<Post>();
-            ShoppingCarts = new HashSet<ShoppingCart>();
         }
 
         public int MemberId { get; set; }
@@ -40,6 +39,5 @@ namespace Project_IPET.Models.EF
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<PostLiked> PostLikeds { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
-        public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; }
     }
 }

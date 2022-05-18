@@ -78,18 +78,6 @@ namespace Project_IPET.Models
                 return this.PetAge + this.PetSize + this.PetVariety;
             }
         }
-        /// <summary>
-        /// 寵物照片
-        /// </summary>
-        public byte[] PetImage { get; set; }
-
-        public string PetImageBase64String
-        {
-            get
-            {
-                return "data:image/jpg;base64," + Convert.ToBase64String(PetImage, 0, PetImage.Length);
-            }
-        }
 
         public string PublishedDateFormat
         {
@@ -104,6 +92,29 @@ namespace Project_IPET.Models
             get
             {
                 return this.CityName + " " + this.RegionName;
+            }
+        }
+
+        /// <summary>
+        /// 寵物照片
+        /// </summary>
+        public byte[] PetImage { get; set; }
+
+        public string PetImageBase64String
+        {
+            get
+            {
+                return PetImage == null ? "" : "data:image/jpg;base64," + Convert.ToBase64String(PetImage, 0, PetImage.Length);
+            }
+        }
+
+        public List<byte[]> PetImages { get; set; }
+
+        public List<string> PetImageBase64Strings
+        {
+            get
+            {
+                return PetImages == null ? new List<string>() : PetImages.Select(PetImage => "data:image/jpg;base64," + Convert.ToBase64String(PetImage, 0, PetImage.Length)).ToList();
             }
         }
     }

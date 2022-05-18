@@ -25,9 +25,9 @@ namespace Project_IPET.Models.EF
         public virtual DbSet<Coupon> Coupons { get; set; }
         public virtual DbSet<CouponDetail> CouponDetails { get; set; }
         public virtual DbSet<CouponDiscountType> CouponDiscountTypes { get; set; }
+        public virtual DbSet<CustomerContact> CustomerContacts { get; set; }
         public virtual DbSet<DeliveryType> DeliveryTypes { get; set; }
         public virtual DbSet<DonationDetail> DonationDetails { get; set; }
-        public virtual DbSet<FavoriteType> FavoriteTypes { get; set; }
         public virtual DbSet<Foundation> Foundations { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<MemberRole> MemberRoles { get; set; }
@@ -48,7 +48,6 @@ namespace Project_IPET.Models.EF
         public virtual DbSet<ProductImagePath> ProductImagePaths { get; set; }
         public virtual DbSet<ProjectDetail> ProjectDetails { get; set; }
         public virtual DbSet<Region> Regions { get; set; }
-        public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<TransactionType> TransactionTypes { get; set; }
 
@@ -203,6 +202,21 @@ namespace Project_IPET.Models.EF
                     .HasMaxLength(50);
             });
 
+            modelBuilder.Entity<CustomerContact>(entity =>
+            {
+                entity.HasKey(e => e.ContactId);
+
+                entity.ToTable("CustomerContact");
+
+                entity.Property(e => e.ContactId).HasColumnName("ContactID");
+
+                entity.Property(e => e.ContactMail).HasMaxLength(50);
+
+                entity.Property(e => e.ContactName).HasMaxLength(50);
+
+                entity.Property(e => e.ContactSubject).HasMaxLength(100);
+            });
+
             modelBuilder.Entity<DeliveryType>(entity =>
             {
                 entity.ToTable("DeliveryType");
@@ -247,17 +261,6 @@ namespace Project_IPET.Models.EF
                     .HasConstraintName("FK_DonationDetails_Products");
             });
 
-            modelBuilder.Entity<FavoriteType>(entity =>
-            {
-                entity.ToTable("FavoriteType");
-
-                entity.Property(e => e.FavoriteTypeId).HasColumnName("FavoriteTypeID");
-
-                entity.Property(e => e.FavoriteTypeName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-            });
-
             modelBuilder.Entity<Foundation>(entity =>
             {
                 entity.ToTable("Foundation");
@@ -277,7 +280,7 @@ namespace Project_IPET.Models.EF
 
                 entity.Property(e => e.Address).HasMaxLength(50);
 
-                entity.Property(e => e.Avatar).HasMaxLength(50);
+                entity.Property(e => e.Avatar).HasMaxLength(150);
 
                 entity.Property(e => e.BirthDate).HasColumnType("datetime");
 
@@ -338,12 +341,6 @@ namespace Project_IPET.Models.EF
                 entity.Property(e => e.MemberId).HasColumnName("MemberID");
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-                entity.HasOne(d => d.FavoriteTypeNavigation)
-                    .WithMany(p => p.MyFavorites)
-                    .HasForeignKey(d => d.FavoriteType)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MyFavorites_FavoriteType");
 
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.MyFavorites)
@@ -774,29 +771,6 @@ namespace Project_IPET.Models.EF
                     .HasForeignKey(d => d.CityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Region_Cities");
-            });
-
-            modelBuilder.Entity<ShoppingCart>(entity =>
-            {
-                entity.ToTable("ShoppingCart");
-
-                entity.Property(e => e.ShoppingCartId).HasColumnName("ShoppingCartID");
-
-                entity.Property(e => e.MemberId).HasColumnName("MemberID");
-
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.ShoppingCarts)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ShoppingCart_Members");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.ShoppingCarts)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ShoppingCart_Products");
             });
 
             modelBuilder.Entity<SubCategory>(entity =>

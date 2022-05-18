@@ -30,9 +30,10 @@ namespace Project_IPET.Services
                 string sql = @"SELECT {0}
                                                 FROM Pets p
                                                 JOIN Cities c ON p.PetCityID =c.CityID 
-                                                JOIN Region r ON p.PetRegionID = r.RegionID 
-                                                JOIN (SELECT PetID, MIN(PetImage) PetImage FROM PetImagePath GROUP BY PetID) pip ON p.PetID =pip.PetID
-                                                WHERE 1=1";
+                                                JOIN Region r ON p.PetRegionID = r.RegionID
+                                                LEFT JOIN  PetImagePath pp ON p.PetID =pp.PetID
+                                                WHERE pp.IsMainImage = 1";
+
                 var param = new
                 {
                     PageSize = request.Pagination.PageSize,
@@ -40,7 +41,7 @@ namespace Project_IPET.Services
                 };
                 result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sql, column), param);
 
-                column = "p.*,c.CityName,r.RegionName,pip.PetImage";
+                column = "p.*,c.CityName,r.RegionName,pp.PetImage";
                 sql += " ORDER BY p.PetID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";
 
                 result.PetList = _dbConnection.Query<PetModel>(string.Format(sql, column), param).ToList();
@@ -60,13 +61,17 @@ namespace Project_IPET.Services
                 string sql = @"SELECT * FROM Pets p
                                             JOIN Cities c ON p.PetCityID =c.CityID 
                                             JOIN Region r ON p.PetRegionID = r.RegionID 
-                                            JOIN PetImagePath pip ON p.PetID =pip.PetID
-                                            WHERE p.PetID=@PetID ";
+                                            LEFT JOIN PetImagePath pp ON p.PetID =pp.PetID 
+                                            WHERE p.PetID=@PetID";
                 var param = new
                 {
                     PetID = id,
                 };
-                result = _dbConnection.QueryFirst<PetModel>(sql, param);
+
+                var list = _dbConnection.Query<PetModel>(sql, param);
+                result = list.FirstOrDefault();
+                result.PetImages = list.Select(p => p.PetImage).ToList();
+
             }
             catch (Exception ex)
             {

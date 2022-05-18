@@ -1,19 +1,25 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AllPay.Payment.Integration;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project_IPET.Helpers;
 using Project_IPET.Models;
 using Project_IPET.Models.EF;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Project_IPET.Controllers
 {
     public class Front_CheckoutController : Controller
     {
         int login_memberid;
+        private static string TestEnvironmentUrl = "https://payment-stage.opay.tw/Cashier/AioCheckOut/V5";
 
         private readonly MyProjectContext _context;
 
@@ -125,5 +131,140 @@ namespace Project_IPET.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public IActionResult APICreateOrder()
+        {
+            SortedDictionary<string, string> testStr = new SortedDictionary<string, string>();
+            testStr.Add("MerchantID", "2000132");
+            testStr.Add("MerchantTradeNo", "TEST" + new Random().Next(0, 99999).ToString());
+            testStr.Add("MerchantTradeDate", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+            testStr.Add("PaymentType", "aio");
+            testStr.Add("TotalAmount", GetOrderTotalAmount());
+            testStr.Add("TradeDesc", "TEST");
+            //testStr.Add("ItemName", "室內成貓-貓飼料 x 3 NT$9150#特調幼犬成長配方雞肉糙米 30磅 狗飼料 x 5 NT$15750");
+            testStr.Add("ItemName", "測試");
+            testStr.Add("ReturnURL", "https://developers.opay.tw/AioMock/MerchantReturnUrl");
+            testStr.Add("ChoosePayment", "Credit");
+            testStr.Add("ClientBackURL", "https://developers.opay.tw/AioMock/MerchantClientBackUrl");
+
+
+            string str = string.Empty;
+            string str_pre = string.Empty;
+
+            foreach (var test in testStr)
+            {
+                str += string.Format("&{0}={1}", test.Key, test.Value);
+            }
+            str_pre += "HashKey=5294y06JbISpM5x9" + str + "&HashIV=v77hoKGq4kWxNNIS";
+
+            string urlEncodeStrPost = HttpUtility.UrlEncode(str_pre);
+            string ToLower = urlEncodeStrPost.ToLower();
+
+            MD5 md5Hasher = MD5.Create();
+            byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(ToLower));
+
+            StringBuilder sBuilder = new StringBuilder();
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("X2"));
+            }
+            string sCheckMacValue = sBuilder.ToString();
+            testStr.Add("CheckMacValue", sCheckMacValue);
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            sb.Append("<html><body>").AppendLine();
+            sb.Append("<form name='CreaditOrder'  id='CreaditOrder' action='" + TestEnvironmentUrl + "' method='POST'>").AppendLine();
+            foreach (var aa in testStr)
+            {
+                sb.Append("<input type='hidden' name='" + aa.Key + "' value='" + aa.Value + "'>").AppendLine();
+            }
+
+            sb.Append("</form>").AppendLine();
+            sb.Append("<script> var theForm = document.forms['CreaditOrder'];  if (!theForm) { theForm = document.CreaditOrder; } theForm.submit(); </script>").AppendLine();
+            sb.Append("</body></html>").AppendLine();
+            Response.WriteAsync(sb.ToString());
+            return View();
+
+
+            /* SDK Code
+            List<string> enErrors = new List<string>();
+
+            try
+            {
+                using (AllInOne oPayment = new AllInOne())
+                {
+                    // 服務參數 
+                    oPayment.ServiceMethod = HttpMethod.HttpPOST;
+                    oPayment.ServiceURL = "https://payment-stage.opay.tw/Cashier/AioCheckOut/V5";
+                    oPayment.HashKey = "5294y06JbISpM5x9";
+                    oPayment.HashIV = "v77hoKGq4kWxNNIS";
+                    oPayment.MerchantID = "2000132";
+                    // 基本參數
+                    oPayment.Send.ReturnURL = "https://developers.opay.tw/AioMock/MerchantReturnUrl";
+                    oPayment.Send.ClientBackURL = "https://developers.opay.tw/AioMock/MerchantClientBackUrl";
+                    oPayment.Send.MerchantTradeNo = "TEST" + new Random().Next(0, 99999).ToString();
+                    oPayment.Send.MerchantTradeDate = DateTime.Now;
+                    oPayment.Send.TotalAmount = Decimal.ToInt32(9999);
+                    oPayment.Send.TradeDesc = "TEST";
+                    oPayment.Send.ChoosePayment = PaymentMethod.Credit;
+                    // 加入選購商品資料。
+                    oPayment.Send.Items.Add(new Item()
+                    {
+                        Name = "AAA",
+                        Price = Decimal.Parse("999"),
+                        Currency = "元",
+                        Quantity = 50,
+                    });
+
+                    // 產生訂單
+                    //enErrors.AddRange(oPayment.CheckOut());
+
+                    // 產生產生訂單 Html Code 的方法
+                    string szHtml = String.Empty;
+                    enErrors.AddRange(oPayment.CheckOutString(ref szHtml));
+                }
+            }
+            catch (Exception ex)
+            {
+                // 例外錯誤處理。
+                enErrors.Add(ex.Message);
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                // 顯示錯誤訊息。
+                if (enErrors.Count() > 0)
+                {
+                    string szErrorMessage = String.Join("\\r\\n", enErrors);
+                }
+            } */
+        }
+        public string GetOrderInfo()
+        {
+            List<CartModel> cart = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
+
+            string OrderInfo = "";
+            foreach (var item in cart)
+            {
+                OrderInfo += item.Product.ProductName + " x " + item.Quantity + ", NT$" + item.SubTotal + "#";
+            }
+            return OrderInfo;
+        }
+        public string GetOrderTotalAmount()
+        {
+            List<CartModel> CartItems = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
+
+            if (CartItems == null)
+                return "100";
+
+            var Order = new OrderModel()
+            {
+                OrderItem = CartItems,
+                Frieght = 60,
+            };
+            Order.CartTotal = CartItems.Sum(item => item.SubTotal);
+            return Decimal.ToInt32(Order.OrderTotal).ToString();
+        }
     }
 }

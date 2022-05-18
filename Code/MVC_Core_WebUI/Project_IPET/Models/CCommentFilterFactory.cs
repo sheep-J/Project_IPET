@@ -43,8 +43,7 @@ namespace Project_IPET.Models
                 {
                     datas = datas.Where(c => c.MemberName.Contains(CCommentFilters.FilterKeyword) ||
                                              c.CommentDate.Contains(CCommentFilters.FilterKeyword) ||
-                                             c.CommentContent.Contains(CCommentFilters.FilterKeyword) ||
-                                             c.ReplyContent.Contains(CCommentFilters.FilterKeyword)
+                                             c.CommentContent.Contains(CCommentFilters.FilterKeyword) 
                                         )
                                   .Select(p => p);
 

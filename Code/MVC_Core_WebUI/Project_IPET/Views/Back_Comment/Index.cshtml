@@ -22,7 +22,7 @@
 
 
 
-<form action="~/Front_Blog/Index" method="post" runat="server">
+<form action="~/Back_Comment/Index" method="post" runat="server">
     <div class="row" style="align-items:end;">
         <div class="col-lg-3 d-flex">
             <nav class="d-flex justify-content-end ">
@@ -58,11 +58,11 @@
         </div>
         <div class="col-lg-3 m-b-50">
             <div class="form-check form-switch is-filled " style="padding-right: 20px; float: right; ">
-                <input class="form-check-input mt-2" type="checkbox" id="flexSwitchCheckChecked" name="">
+                <input class="form-check-input mt-2" type="checkbox"  name="FilterBanned">
                 <label class="form-check-label" style="font-size:1.2em;" for="flexSwitchCheckChecked">屏蔽狀態</label>
             </div>
             <div class="form-check form-switch is-filled  " style="padding-right: 20px; float:right;">
-                <input class="form-check-input mt-2 " type="checkbox" id="flexSwitchCheckChecked" name="">
+                <input class="form-check-input mt-2 " type="checkbox"  name="FilterReply">
                 <label class="form-check-label" style="font-size:1.2em;" for="flexSwitchCheckChecked">回覆狀態</label>
             </div>
 
@@ -71,10 +71,10 @@
         <span class="col-lg-1  widget-list m-b-50">
 
             <span>
-                <input type="date" class="form-control ">
+                <input type="date" class="form-control" name="FilterCommentFristDate">
             </span>
             <span>
-                <input type="date" class="form-control  ">
+                <input type="date" class="form-control" name="FilterCommentLastDate">
             </span>
 
         </span>
@@ -82,11 +82,10 @@
         <div class="col-lg-2 d-flex ">
             <select class="form-select text-2xl text-center form-select mb-3 " aria-label=".form-select-lg example">
 
-                <option>5星評價</option>
-                <option>4星評價</option>
-                <option>3星評價</option>
-                <option>2星評價</option>
-                <option>1星評價</option>
+            @for(int i = 5; i > 0; i--)
+            {
+                <option  class="form-control" name="FilterReply">@i 星評價 </option>
+            }
 
             </select>
         </div>
@@ -96,11 +95,11 @@
             <div class="d-flex align-items-center ">
                 <div class="input-group input-group-outline">
                     <label class="form-label">請輸入關鍵字</label>
-                    <input name="Keyword" value="" type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                    <input name="FilterKeyword"  type="text" class="form-control" aria-label="Search Our Store">
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-primary mt-3">
+                <button type="submit" class="btn btn-primary mt-3">
                     <i class="material-icons">search</i>
                 </button>
             </div>
@@ -257,7 +256,7 @@
       let current;
       let totalpage = @ViewBag.page;
       let pagesize = @ViewBag.pagesize;
-      let totalpost =@ViewBag.totalpost;
+      let totalcomment =@ViewBag.totalcomment;
       post(1);
 
 
@@ -267,11 +266,11 @@
             let elementli = $("ul.pagination").children("li");
             let postdata = $(".postdata");
 
-            if (totalpost != 0)
+            if (totalcomment != 0)
             {
 
             PageList(page, elementli, totalpage);
-                PageData(page, postdata, pagesize, totalpost,"flex")
+                PageData(page, postdata, pagesize, totalcomment,"flex")
             $("#pagenumber").text(`${page}/${totalpage}`);
 
             }

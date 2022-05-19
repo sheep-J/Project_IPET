@@ -36,8 +36,8 @@
                                 </a>
 
 
-                                <a href="#orders" data-bs-toggle="tab"><i class="fa fa-cart-arrow-down"></i> 訂單資訊</a>
-                                <a href="#donate" data-bs-toggle="tab"><i class="fa fa-handshake-o"></i> 我的捐贈明細</a>
+                                <a href="#orders" data-bs-toggle="tab" id="orderbtn"><i class="fa fa-cart-arrow-down"></i> 訂單資訊</a>
+                                <a href="#donate" data-bs-toggle="tab" id="donatebtn"><i class="fa fa-handshake-o"></i> 我的捐贈明細</a>
                                 @*<a href="#adopt" data-bs-toggle="tab"><i class="fa fa-paw"></i> 我的認養明細</a>*@
                                 <a href="#wishlist" data-bs-toggle="tab"><i class="fa fa-list-alt"></i> 我的願望清單</a>
                                 <a href="#coupon" data-bs-toggle="tab"><i class="fa fa-usd"></i> 我的優惠券</a>
@@ -334,6 +334,7 @@
                 $("#orderdiv").html(`<h2>${data}</h2>`)
             } else {
                 var count = 0;
+                document.getElementById("orderbtn").append(`(${data.length})`);
                 data.forEach((item) => {
                     count++;
                     var tr = document.createElement("tr");
@@ -408,6 +409,7 @@
                 $("#donatediv").html(`<h2>${data}</h2>`)
             } else {
                 var count = 0;
+                document.getElementById("donatebtn").append(`(${data.length})`);
                 data.forEach((item) => {
                     count++;
                     var tr = document.createElement("tr");

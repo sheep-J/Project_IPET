@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Project_IPET.Models.EF;
+using Project_IPET.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +11,30 @@ namespace Project_IPET.Controllers
 {
     public class Back_FeedbackController : Controller
     {
-        public IActionResult Index()
+        private readonly MyProjectContext _context;
+        private readonly IEmailSenderService _emailSender;
+
+        public Back_FeedbackController(MyProjectContext context, IEmailSenderService emailSender)
         {
-            return View();
+            _context = context;
+            _emailSender = emailSender;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.CustomerContacts.ToListAsync());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendEmail(string mailaddress, string subject, string message, string replymessage)
+        {
+            var contact = _context.CustomerContacts.Single(c => c.ContactMail == mailaddress && c.ContactSubject == subject && c.ContactMessage == message);
+            await _emailSender.SendEmailAsync(mailaddress, $"IPET 客服訊息回覆: ( { subject } )", $"{ replymessage }");
+            contact.ReplyStatus = true;
+            contact.ReplyMessage = replymessage;
+            _context.CustomerContacts.Update(contact);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

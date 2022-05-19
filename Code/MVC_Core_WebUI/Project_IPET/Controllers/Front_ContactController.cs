@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project_IPET.Models.EF;
+using Project_IPET.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,6 @@ namespace Project_IPET.Controllers
 {
     public class Front_ContactController : Controller
     {
-
         private readonly MyProjectContext _context;
 
         public Front_ContactController(MyProjectContext context)
@@ -31,6 +31,7 @@ namespace Project_IPET.Controllers
             contact.ContactMail = collection["ContactMail"];
             contact.ContactSubject = collection["ContactSubject"];
             contact.ContactMessage = collection["ContactMessage"];
+            contact.ContactDate = DateTime.Now.Date;
             contact.ReplyStatus = false;
 
             _context.CustomerContacts.Add(contact);

@@ -210,6 +210,8 @@ namespace Project_IPET.Models.EF
 
                 entity.Property(e => e.ContactId).HasColumnName("ContactID");
 
+                entity.Property(e => e.ContactDate).HasColumnType("date");
+
                 entity.Property(e => e.ContactMail).HasMaxLength(50);
 
                 entity.Property(e => e.ContactName).HasMaxLength(50);

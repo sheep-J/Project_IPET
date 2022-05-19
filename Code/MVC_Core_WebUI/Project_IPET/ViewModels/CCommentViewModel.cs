@@ -45,6 +45,8 @@ namespace Project_IPET.ViewModels
         public int ProductId { get; set; }
         public int OrderDetailId { get; set; }
 
+        public int[] SelectCommentItem { get; set; }
 
+        public int SelectID { get; set; }
     }
 }

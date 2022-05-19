@@ -12,6 +12,7 @@ namespace Project_IPET.Models.EF
         public string ContactMail { get; set; }
         public string ContactSubject { get; set; }
         public string ContactMessage { get; set; }
+        public DateTime? ContactDate { get; set; }
         public bool? ReplyStatus { get; set; }
         public string ReplyMessage { get; set; }
     }

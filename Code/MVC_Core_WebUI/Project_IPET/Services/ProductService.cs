@@ -235,7 +235,7 @@ GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.U
 	                    JOIN Brand b ON p.BrandID = b.BrandID
 	                    LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
 	                    LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
-	                    WHERE pp.IsMainImage = 1 and  p.ProductID = @ProductID
+	                    WHERE  p.ProductID = @ProductID
 	                    GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.UnitPrice, p.UnitsInStock, p.Description, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName ";
                 //---------------------
 

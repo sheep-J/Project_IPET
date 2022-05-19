@@ -41,33 +41,65 @@ namespace Project_IPET.Controllers
             return View(Comments);
         }
 
-       
-
-        [HttpPost]
-        public decimal[] GetProductRating(int productId)
+        public IActionResult Shield(int? Id) 
         {
-            productId = 7;
-            if (productId == 0)
+            if (Id != null ) 
             {
-                return null;
-            }
-            else
-            {
-                var averagerating = _context.Comments
-                    .Where(p => p.Product.ProductId == productId)
-                    .Select(p => p.Rating).Average();
+                Comment comment = _context.Comments
+                                 .FirstOrDefault(c => c.CommentId == Id);
+                if (comment != null) 
+                {
+                   string temp = "";
+                    temp = comment.CommentContent;
+                    comment.CommentContent = comment.BannedContent;
+                    comment.BannedContent = temp;
+                    comment.Banned = !comment.Banned;
+                    _context.SaveChanges();
+                }
 
-            
-                var totalcommentcount = _context.Comments
-                    .Where(p => p.Product.ProductId == productId)
-                    .Count();
-
-                decimal[] Rating = { decimal.Round((decimal)averagerating, 1), totalcommentcount };
-
-               return Rating;
+                return RedirectToAction("Index","Back_Comment");
             }
 
+
+            return RedirectToAction("Index", "Back_Comment");
         }
+
+        public IActionResult CreateReply(CCommentViewModel vModel)
+        {
+
+
+            if (vModel.CommentId != 0 || vModel.SelectID != 0)
+            {
+                Comment comment = _context.Comments
+                                 .FirstOrDefault(c => c.CommentId == vModel.CommentId ||c.CommentId == vModel.SelectID);
+                if (comment != null)
+                {
+
+                    if (vModel.ReplyContent != null && vModel.ReplyContent != "親切地回覆顧客留言以拉近與顧客的距離")
+                    {
+                        comment.ReplyContent = vModel.ReplyContent;
+                        comment.Reply = true;
+
+                    }
+                    else 
+                    {
+                        comment.ReplyContent = null;
+                       comment.Reply = false;
+                    }
+                   
+                    
+                    _context.SaveChanges();
+                }
+
+                return RedirectToAction("Index", "Back_Comment");
+            }
+
+
+            return RedirectToAction("Index", "Back_Comment");
+        }
+        
+
+
 
 
     }

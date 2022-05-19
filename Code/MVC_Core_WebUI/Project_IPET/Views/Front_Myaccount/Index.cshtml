@@ -341,6 +341,7 @@
                 $("#orderdiv").html(`<h2>${data}</h2>`)
             } else {
                 var count = 0;
+                document.getElementById("orderbtn").append(`(${data.length})`);
                 data.forEach((item) => {
                     count++;
                     var tr = document.createElement("tr");
@@ -415,6 +416,7 @@
                 $("#donatediv").html(`<h2>${data}</h2>`)
             } else {
                 var count = 0;
+                document.getElementById("donatebtn").append(`(${data.length})`);
                 data.forEach((item) => {
                     count++;
                     var tr = document.createElement("tr");

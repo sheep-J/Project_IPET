@@ -18,18 +18,18 @@ namespace Project_IPET.Controllers
             _context = context;
         }
 
-        public IActionResult Index(CMembersFilter filter)
+        public IActionResult Index()
         {
-            int countOnePage = 10;
-            int totalMembers = (new CMembersFactory(_context)).memberFilter(filter).Count();
-            (new CTools()).Page(countOnePage, totalMembers, out int totalPage);
-            ViewBag.COUNTONEPAGE = countOnePage;
-            ViewBag.TOTALMEMBERS = totalMembers;
-            ViewBag.TOTALPAGE = totalPage;
-
-            IEnumerable<CBackMembersViewModel> datas = (new CMembersFactory(_context)).memberFilter(filter);
-
-            return View(datas);
+            return View();
         }
+
+        [HttpPost]
+        public IActionResult ListView(CMembersFilter filter)
+        {
+            ListViewModel datas = null;
+            datas = (new CMembersFactory(_context)).memberFilter(filter);
+            return PartialView(datas);
+        }
+
     }
 }

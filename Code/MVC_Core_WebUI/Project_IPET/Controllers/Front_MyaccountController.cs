@@ -311,106 +311,85 @@ namespace Project_IPET.Controllers
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
             int memberId = (new CMembersFactory(_context)).getMemberId(json);
 
-
             IEnumerable<CFrontWishListViewModel> datas = null;
 
-            datas = from f in _context.MyFavorites 
-                            join p in _context.Products
-                            on f.ProductId equals p.ProductId
-                            join c in _context.Comments
-                            on p.ProductId equals c.ProductId
-                            where (f.MemberId == memberId)
-                            select new CFrontWishListViewModel 
-                            {
-                                ProductName = p.ProductName,
-                                ProductPrice = p.UnitPrice,
-                                Quantity = p.UnitsInStock,
-                                FavoriteId = f.FavoriteId,
-                                ProductId = f.ProductId,
-                                Ranking = decimal.Round((decimal)(from c in _context.Comments
-                                                    join p in _context.Products
-                                                    on c.ProductId equals p.ProductId
-                                                    where (c.ProductId == f.ProductId)
-                                                    select c.Rating).Average(),1),
-                               
-                             };
-
-
-            //datas = _context.MyFavorites.Where(m => m.MemberId == memberId)
-            //    .OrderByDescending(m => m.FavoriteId)
-            //    .Select(m => new CFrontWishListViewModel
-            //    {
-            //        ProductName = m.Product.ProductName,
-            //        ProductPrice = m.Product.UnitPrice,
-            //        Quantity = m.Product.UnitsInStock,
-            //        FavoriteId = m.FavoriteId,
-            //        ProductId = m.ProductId,
-            //        Ranking = getProductRating(m.ProductId),
-
-            //    }).ToList();
-
-            //_context.MyFavorites.Where(m => m.MemberId == memberId).Select(m=>m.);
-
+            datas = from f in _context.MyFavorites
+                    join p in _context.Products
+                    on f.ProductId equals p.ProductId
+                    join c in _context.Comments
+                    on p.ProductId equals c.ProductId
+                    where (f.MemberId == memberId)
+                    select new CFrontWishListViewModel
+                    {
+                        ProductName = p.ProductName,
+                        ProductPrice = p.UnitPrice,
+                        Quantity = p.UnitsInStock,
+                        FavoriteId = f.FavoriteId,
+                        ProductId = f.ProductId,
+                        Ranking = decimal.Round((decimal)(
+                                                          from c in _context.Comments
+                                                          join p in _context.Products
+                                                          on c.ProductId equals p.ProductId
+                                                          where (c.ProductId == f.ProductId)
+                                                          select c.Rating).Average(), 1),
+                    };
+            #region WIP (LeftJoin)
+            //datas = from f in _context.MyFavorites
+            //        join p in _context.Products on f.ProductId equals p.ProductId
+            //        join c in _context.Comments on p.ProductId equals c.ProductId
+            //        where f.MemberId == memberId
+            //        select new CFrontWishListViewModel
+            //        {
+            //            ProductName = p.ProductName,
+            //            ProductPrice = p.UnitPrice,
+            //            Quantity = p.UnitsInStock,
+            //            FavoriteId = f.FavoriteId,
+            //            ProductId = f.ProductId,
+            //            Ranking = decimal.Round((decimal)(
+            //                                                         from c in _context.Comments
+            //                                                         join p in _context.Products
+            //                                                         on c.ProductId equals p.ProductId
+            //                                                         into g
+            //                                                         from result in g.DefaultIfEmpty()
+            //                                                         where (c.ProductId == result.ProductId)
+            //                                                         select c.Rating).Average(), 1),
+            //        };
+            #endregion
             return PartialView(datas);
         }
 
-        public decimal getProductRating(int id)
-        {
-            if (id == 0)
-            {
-                return 0;
-            }
-            else 
-            {
-                var Comments = (from c in _context.Comments
-                                               where (c.ProductId == id)
-                                               select c).Count();
+        #region WIP (AddCart)
+        //[HttpPost]
+        //public IActionResult MyWishListAddCart(int? id)
+        //{
+        //    Product datas = _context.Products.FirstOrDefault(p => p.ProductId == id);
+        //    if (datas == null)
+        //        return RedirectToAction("Front_Myaccount");
 
-                var Ranking = (decimal)(from c in _context.Comments
-                                        join p in _context.Products
-                                        on c.ProductId equals p.ProductId
-                                        where (c.ProductId == id)
-                                        select c.Rating).Average();
-                if (Comments != 0)
-                {
-                    return decimal.Round(Ranking,1);
-                }
-                else 
-                {
-                    return 0;
-                }
-             
-            }
-           
-           
-        }
+        //    string json = HttpContext.Session.GetString("Cart");
+        //    var cart = JsonSerializer.Deserialize<List<CartModel>>(json);
+        //    if (cart == null)
+        //    {
+        //        cart = new List<CartModel>();
+        //        HttpContext.Session.SetString("Cart", "");
+        //    }
+        //    Front_CartController f = new Front_CartController(_context);
+        //    CartModel item = new CartModel()
+        //    {
+        //        ProductID = (int)id,
+        //        Product = datas,
+        //        Category = f.GetCategoryName(datas.SubCategoryId),
+        //        Quantity = 1,
+        //        SubTotal = datas.UnitPrice*1,
+        //        imageSrc = f.ConvertImage(f.GetProductImage(datas.ProductId)),
+        //    };
+        //    cart.Add(item);
 
-
-        [HttpPost]
-        public IActionResult MyWishListAddCart(int? id)
-        {
-            Product datas = _context.Products.FirstOrDefault(p => p.ProductId == id);
-            if (datas == null)
-                return RedirectToAction("Front_Myaccount");
-
-            string json = HttpContext.Session.GetString("Cart");
-            var cart = JsonSerializer.Deserialize<List<CartModel>>(json);
-            if (cart == null)
-            {
-                cart = new List<CartModel>();
-                HttpContext.Session.SetString("Cart", "");
-            }
-            CartModel item = new CartModel()
-            {
-                ProductID = id.Value,
-                Product = datas,
-            };
-            cart.Add(item);
-
-            string jsoncart = JsonSerializer.Serialize(cart);
-            HttpContext.Session.SetString("Cart", jsoncart);
-            return RedirectToAction("Index", "Front_Myaccount");
-        }
+        //    string jsoncart = JsonSerializer.Serialize(cart);
+        //    HttpContext.Session.SetString("Cart", jsoncart);
+        //    return RedirectToAction("Index", "Front_Myaccount");
+        //}
+        #endregion
 
         [HttpPost]
         public IActionResult MyWishListDelete(int? id)
@@ -418,7 +397,7 @@ namespace Project_IPET.Controllers
             MyFavorite datas = _context.MyFavorites.FirstOrDefault(m => m.FavoriteId == id);
             if (datas != null)
             {
-                _context.MyFavorites.RemoveRange(datas);
+                _context.MyFavorites.Remove(datas);
                 _context.SaveChanges();
             }
             return RedirectToAction("Index", "Front_Myaccount");

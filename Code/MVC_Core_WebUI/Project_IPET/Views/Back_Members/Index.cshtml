@@ -1,7 +1,5 @@
-﻿@model IEnumerable<Project_IPET.ViewModels.CBackMembersViewModel>
-@{ ViewData["Title"] = "會員管理"; }
+﻿@{ ViewData["Title"] = "會員管理"; }
 
-<form asp-action="" method="post">
     <div class="row mb-3 mt-0">
         <div class="col-lg-4 d-flex align-items-center justify-content-start">
             <div class="nav-wrapper position-relative end-0">
@@ -40,17 +38,16 @@
             <div class="d-flex align-items-center justify-content-end">
                 <div class="input-group input-group-outline">
                     <label class="form-label">Search……</label>
-                    <input name="Keyword" value="" type="text" class="form-control">
+                    <input id="keyword" name="Keyword" value="" type="text" class="form-control">
                 </div>
             </div>
             <div class="d-flex align-content-end justify-content-start">
-                <button type="button" class="btn btn-primary mt-3">
+                <button type="button" class="btn btn-primary mt-3" onclick="refreshByKeyword()">
                     <i class="material-icons">search</i>
                 </button>
             </div>
         </div>
     </div>
-</form>
 
 <div class="row">
     <div class="col-12">
@@ -62,149 +59,50 @@
             </div>
             <div class="card-body px-0 pb-2">
                 <div class="table-responsive p-0">
+                    <div id="ListView">
 
-                    <table class="table align-items-center mb-0">
-                        <thead>
-                            @*ListView here*@
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">會員</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">帳號</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">性別</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">生日</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">地址</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">註冊日期</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">banned</th>
-                                <th class="text-secondary opacity-7"></th>
-                            </tr>
-                        </thead>
-                        @{ foreach (var item in Model)
-                            {
-                                int count = 0;
-                                <tbody>
+                        @*ListView here*@
 
-                                  
-                                    <tr class="ListView">
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="~/Front/images/register/members/@Html.DisplayFor(modelItem => item.Avatar)" class="avatar avatar-sm me-3 border-radius-lg" alt="user@{++count;} ">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.Name)</h6>
-                                                    <p class="text-xs text-secondary mb-0">@Html.DisplayFor(modelItem => item.Email)</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">@Html.DisplayFor(modelItem => item.UserId)</span>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            @{ if (item.Gender == "Male")
-                                                {
-                                                    <span class="badge badge-sm bg-gradient-info">@Html.DisplayFor(modelItem => item.Gender)</span>}
-                                                else if (item.Gender == "Female")
-                                                {
-                                                    <span class="badge badge-sm bg-gradient-danger">@Html.DisplayFor(modelItem => item.Gender)</span>}
-                                                else
-                                                {
-                                                    <span class="badge badge-sm bg-gradient-secondary">@Html.DisplayFor(modelItem => item.Gender)</span> } }
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">  @Html.DisplayFor(modelItem => item.BirthDate)</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.Phone)</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.Address)</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.RegisteredDate)</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <a class="fa fa-ban"></a>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            } }
-                    </table>
-
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-        <li class="page-item none">
-            <a class="page-link" id="page-ctrl-previous">
-                <span class="material-icons">
-                    keyboard_arrow_left
-                </span>
-                <span class="sr-only">Previous</span>
-            </a>
-        </li>
-        @{ int pageNum = ViewBag.TOTALPAGE;
-
-            for (int i = 1; i <= pageNum; i++)
-            {
-                <li class="page-item"><a class="page-link" onclick="listviewShow(@i) ">@i</a></li>
- } }
-        <li class="page-item">
-            <a class="page-link" id="page-ctrl-next">
-                <span class="material-icons">
-                    keyboard_arrow_right
-                </span>
-                <span class="sr-only">Next</span>
-            </a>
-        </li>
-    </ul>
-</nav>
 
 @section Scripts
 {
     <script>
-        let current;
-        let countOnePage = @ViewBag.COUNTONEPAGE;
-        let totalMembers = @ViewBag.TOTALMEMBERS;
-        let totalPage = @ViewBag.TOTALPAGE;
-        listviewShow(1);
+        $(document).ready(function () {
+            showListView(1);
+        })
+        var Keyword = "";
+        var Male = false;
+        var Female = false;
+        var pageSize = 21;
 
-    //#region ListView
-        function listviewShow(page) {
-            @*$.post('@Url.Content("~/Back_Members/ListView")',
-                { inputPage: page })
-                        .done((response) => {
-                            $("#ListView").html(response);
-                        })*@
-
-            current = parseInt(`${page}`);
-            let elementli = $("ul.pagination").children("li");
-            let elementdata = $(".ListView");
-
-            if (totalMembers != 0) {
-                elementli.removeClass("active").eq(page).addClass("active")
-                PageList(page, elementli, totalPage)
-                PageData(page, elementdata, countOnePage, totalMembers,"flex")
-            }
-            else {
-                elementli.eq(0).css("display", "none");
-                elementli.eq(totalPage + 1).css("display", "none");
-            }
-
+        function refreshByKeyword() {
+            Keyword = $("#keyword").val();
+            showListView(1);
         }
 
-        $("#page-ctrl-previous").click(function () {
-            if (current > 1)
-                listviewShow(current - 1);
-        });
-        $("#page-ctrl-next").click(function () {
-            if (current < totalPage)
-                listviewShow(current + 1);
-        });
+    //#region ListView
+        function showListView(page) {
+            $.post('@Url.Content("~/Back_Members/ListView")',
+                {
+                    keyword: Keyword,
+                    male: Male,
+                    female: Female,
+                    Pagination: {
+                        Page: page,
+                        PageSize: pageSize
+                    },
+                })
+                .done((response) => {
+                    $("#ListView").html(response);
+                })
+        }
             //#endregion
 
     </script>

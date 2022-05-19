@@ -52,11 +52,6 @@ namespace Project_IPET.Controllers
             await _emailSender.SendEmailAsync("accoutforsendmail@gmail.com", "This is a test", $"Enter email body here");
         }
 
-        public async Task send()
-        {
-             (new CSendGmailService()).sendGmail();
-        }
-
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

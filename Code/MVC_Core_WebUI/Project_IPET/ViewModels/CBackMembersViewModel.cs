@@ -1,4 +1,5 @@
-﻿using Project_IPET.Models.EF;
+﻿using Project_IPET.Models;
+using Project_IPET.Models.EF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Project_IPET.ViewModels
 {
+    public class ListViewModel
+    {
+        public IEnumerable<CBackMembersViewModel> ListView { get; set; }
+        public PageModel Pagination { get; set; }
+    }
     public class CBackMembersViewModel
     {
         public string Name { get; set; }
@@ -17,6 +23,6 @@ namespace Project_IPET.ViewModels
         public string Address { get; set; }
         public string RegisteredDate { get; set; }
         public string Avatar { get; set; }
-
+        public bool Banned { get; set; }
     }
 }

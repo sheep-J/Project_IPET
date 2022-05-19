@@ -26,10 +26,40 @@
                     <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                     <td>@Html.DisplayFor(modelItem => item.ProductPrice)</td>
                     <td>
-                        @for (int i = 0; i < 5; i++)
-                        {
-                            <i class="fa fa-star-o Ranking"></i>
-                        }
+                        <span class="rating">
+                            @if (item.Ranking == null || item.Ranking == 0)
+                            {
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    <i class="fa fa-star-o"></i>
+                                }
+                            }
+                            else
+                            {
+                                @for (int i = 1; i <= item.Ranking; i++)
+                                {
+                                    <i class="fa fa-star text-warning"></i>
+                                }
+                                if (item.Ranking % 1 > 0)
+                                {
+                                    <i class="fa fa-star-half text-warning"></i>
+                                    if (item.Ranking < 4)
+                                    {
+                                        @for (int i = 1; i <= (5 - (item.Ranking)); i++)
+                                        {
+                                            <i class="fa fa-star-o"></i>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    @for (int i = 1; i <= (5 - item.Ranking); i++)
+                                    {
+                                        <i class="fa fa-star-o"></i>
+                                    }
+                                }
+                            }
+                        </span>
                     </td>
                     @if (item.Quantity > 0)
                     {
@@ -39,9 +69,19 @@
                     {
                         <td>0</td>
                     }
-                    <td><button type="button" class="btn btn-primary fa fa-eye" onclick="WishListViewDetails()"></button></td>
-                    <td><button type="button" class="btn btn-primary fa-solid fa-cart-shopping" onclick="WishListAddCart()"></button></td>
-                    <td><button type="button" class="btn btn-primary fa fa-ban" onclick="WishListDelete()"></button></td>
+                <td>
+                    <button type="button" class="btn btn-primary fa fa-eye" 
+                            onclick="location.href = '@Url.Action("ProductDetail","Front_Product",new { id=item.ProductId })'"></button>
+                </td>
+                    @if (item.Quantity > 0)
+                    {
+                        <td><button type="button" class="btn btn-primary fa-solid fa-cart-shopping" onclick="WishListAddCart('@item.ProductId')"></button></td>
+                    }
+                    else
+                    {
+                        <td><button type="button" class="btn btn-primary fa-solid fa-cart-shopping" disabled></button></td>
+                    }
+                    <td><button type="button" class="btn btn-primary fa fa-ban" onclick="WishListDelete('@item.FavoriteId')"></button></td>
                 </tr>
             }
         }
@@ -51,59 +91,21 @@
 
 <script>
 
-    function GetProductRating(product)
-    {
-        console.log(product);
-
-         $.post('@Url.Content("~/Back_Comment/GetProductRating")',
-             {productname:product},
-             function(response)
-             {
-                 averagerating = response[0];
-                 totalcommentcount = response[1];
-
-                 let maxnumber = 0;
-
-                 for (i = 0; i <= averagerating - 1; i++) {
-                     $(".Ranking").eq(i).removeClass("fa fa-star-o").addClass("fa fa-star").css("font-size", "1.2em");
-                     if (i > maxnumber) {
-                         maxnumber = i;
-                     }
-                 }
-                 if ((averagerating % 1) != 0) {
-                     $(".Ranking").eq(maxnumber + 1).removeClass("fa fa-star-o").addClass("fa fa-star-half-o");
-                 }
-             }
-          )
-    }
-
-     function WishListViewDetails() {
-        $.post('@Url.Content("~//")',
+    function WishListAddCart(productId, qty) {
+        $.post(
+            '@Url.Content("~/Front_Cart/AddToCart")',
+            { id: productId, qty: 1 },
             function (response) {
-
+                window.location.href = "/Front_Cart/Index";
             })
     }
 
-    function WishListAddCart() {
-        let productId = $("input[name=ProductId]").val();
-        console.log(productId);
-        $.post('@Url.Content("~/Front_Myaccount/MyWishListAddCart")?id=' + productId,
+    function WishListDelete(favoriteId) {
+        $.post('@Url.Content("~/Front_Myaccount/MyWishListDelete")',
+            { id: favoriteId},
             function (response) {
-                console.log(response[0]);
-            })
-    }
-
-    function WishListDelete() {
-        let favoriteId = $("input[name=FavoriteId]").val();
-        console.log(favoriteId);
-        $.post('@Url.Content("~/Front_Myaccount/MyWishListDelete")?id=' + favoriteId,
-            function (response) {
-                console.log(response[0]);
+                window.location.href = "/Front_Myaccount/Index";
             })
         }
-
-
-
-
 
 </script>

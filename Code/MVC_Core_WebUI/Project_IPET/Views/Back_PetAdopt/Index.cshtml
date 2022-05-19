@@ -2,19 +2,32 @@
     ViewData["Title"] = "認養資訊管理";
 }
 
-<div class="card">
-    <div class="table-responsive">
-        <table class="table align-items-center mb-0">
-            <thead>
-                <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">寵物名稱</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">所在地</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">種類</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">性別</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">資訊</th>
-                    <th class="text-secondary opacity-7"></th>
-                </tr>
-            </thead>
-        </table>
-    </div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            GetPetList(1);
+        });
+        var pageSize = 7;
+        function GetPetList(page) {
+            $.ajax({
+                method: "POST",
+                url: "/Back_PetAdopt/PetList",
+                data: {
+                    Pagination: {
+                        Page: page,
+                        PageSize: pageSize
+                    }
+                },
+                success: function (result) {
+                    $("#PetList").html(result);
+                }
+            });
+        }
+    </script>
+}
+
+<div class="bg-gradient-secondary shadow-secondary border-radius-lg pt-4 pb-3 d-flex">
+    <h6 class="text-white text-capitalize ps-3">認養資訊列表</h6>
 </div>
+
+<div id="PetList"></div>

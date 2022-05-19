@@ -1,0 +1,134 @@
+﻿@model PetListModel.Response
+
+@{
+    Layout = null;
+}
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">寵物名稱</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">所在地</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">種類</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">性別</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">毛色</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">是否結紮</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">聯絡人</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">聯絡電話</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pet in Model.PetList)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex px-2 py-1">
+                                <div>
+                                    <img src="@pet.PetImageBase64String" class="avatar avatar-sm me-3">
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-0 text-xs">@pet.PetName</h6>
+                                    <p class="text-xs text-secondary mb-0">@pet.Detail</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-xs font-weight-bold mb-0">@pet.CityName</p>
+                            <p class="text-xs text-secondary mb-0">@pet.RegionName</p>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-normal">@pet.PetCategory</span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-normal">@pet.PetGender</span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-normal">@pet.PetColor</span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-normal">@pet.PetFix</span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-normal">@pet.PetContact</span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-normal">@pet.PetContactPhone</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="pagination-container justify-content-center" style="margin-top: 20px;">
+    <ul class="pagination pagination-secondary">
+        @{
+            int startPage = 0;
+            int endPage = 0;
+            if (Model.Pagination.TotalPage < 9)
+            {
+                startPage = 1;
+                endPage = Model.Pagination.TotalPage;
+            }
+            else if (Model.Pagination.Page > 4 && Model.Pagination.Page < Model.Pagination.TotalPage - 3)
+            {
+                startPage = Model.Pagination.Page - 4;
+                endPage = Model.Pagination.Page + 4;
+            }
+            else if (Model.Pagination.Page >= Model.Pagination.TotalPage - 3)
+            {
+                startPage = Model.Pagination.TotalPage - 8;
+                endPage = Model.Pagination.TotalPage;
+            }
+            else
+            {
+                startPage = 1;
+                endPage = 9;
+            }
+
+            @if (Model.Pagination.Page > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" onclick="GetPetList(@(Model.Pagination.Page -1) )" href="javascript:;" aria-label="Previous">
+                        <span aria-hidden="true">
+                            <span class="material-icons">
+                                keyboard_arrow_left
+                            </span>
+                        </span>
+                    </a>
+                </li>
+            }
+
+            for (int i = startPage; i <= endPage; i++)
+            {
+                @if (i == Model.Pagination.Page)
+                {
+                    <li class="page-item active">
+                        <a class="page-link active" onclick="GetPetList(@i)" href="#">@i</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" onclick="GetPetList(@i)" href="#">@i</a>
+                    </li>
+                }
+            }
+        }
+        @if (Model.Pagination.Page < Model.Pagination.TotalPage)
+        {
+            <li class="page-item">
+                <a class="page-link" onclick="GetPetList(@(Model.Pagination.Page + 1) )" href="javascript:;" aria-label="Next">
+                    <span aria-hidden="true">
+                        <span class="material-icons">
+                            keyboard_arrow_right
+                        </span>
+                    </span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>

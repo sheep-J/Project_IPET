@@ -58,7 +58,7 @@
       
         <div class="col-lg-4 m-b-50">
             <div class="form-switch" style="padding-right: 20px; float:right; ">
-                <input type="checkbox" name="FilterBanned" value="true" id="FilterBanned" class="form-check-input mt-2">
+                <input type="checkbox" name="FilterBanned" value="true" id="FilterBanned"  class="form-check-input mt-2">
                 <label class="form-check-label " for="FilterBanned" style="font-size:1.2em; width:100px;">屏蔽狀態</label>
             </div>
             <div class="form-switch" style="padding-right: 20px; float:right; ">
@@ -202,9 +202,9 @@
                                             @Html.DisplayFor(modelItem => item.ReplyContent)
                                         </td>
                                         <td class="col-md-1 middle">
-                                            <a type="button" class="btn btn btn-facebook mr-3" onclick="GetSelectID(@item.CommentId)" data-bs-toggle="modal" data-bs-target="#MessageModal" >
+                                            <button type="button" class="btn btn btn-facebook mr-3" onclick="GetSelectID(@item.CommentId)" data-bs-toggle="modal" data-bs-target="#MessageModal" >
                                                 <i class="fas fa-pen-nib" aria-hidden="true"></i>
-                                            </a>
+                                            </button>
                                         </td>
                                         <td class="col-md-1 middle">
                                             <a type="button" class="btn btn btn-danger mr-3" href="~/Back_Comment/Shield/@item.CommentId" onclick="return confirm('確定要執行嗎?')">
@@ -299,14 +299,12 @@
             post(current + 1);
 
         });
+        let clickAll = $("#listview").find("#clickAll");
 
+        let inputCheckbox = $("#listview").find("input[name='Checkbox[]']");
 
 
         $(document).on("click", "#clickAll", function () {
-
-            let clickAll = $("#listview").find("#clickAll");
-
-            let inputCheckbox = $("#listview").find("input[name='Checkbox[]']");
 
                 if (clickAll.prop("checked"))
                     inputCheckbox.prop("checked", true);
@@ -314,16 +312,21 @@
                 else
                     inputCheckbox.prop("checked", false);
 
-            console.log(inputCheckbox);
-
         });
-        let selectcommentitem = new Array();
+
+     
+    
         $(document).on("click", "input[name='Checkbox[]']", function () {
 
             let selectcommentid = $(this).parents("tr").find("td").find("input[name='CommentId[]']").val();
-            console.log(selectcommentid);
-            selectcommentitem.push(selectcommentid);
-            console.log(selectcommentitem);
+            let selectchecked = $(this).parents("tr").find("td").find("input[name='CommentId[]']");
+
+            for (let i = 0; i < inputCheckbox.length; i++)
+            {
+               
+                console.log(selectchecked.eq(i).prop("checked"));
+            }
+
         });
 
 
@@ -350,12 +353,12 @@
         function CreateReply()
         {
            
-            if (selectID != null || SelectCommentItem !=null)
-                {
+            if (selectID != null )
+            {
+               
                     POSTMethod("@Url.Content("~/Back_Comment/CreateReply")",
-                            {
+                        {
                                 SelectID:selectID,
-                                SelectCommentItem:selectcommentitem,
                                 ReplyContent: $("#ReplyContent").val(),
                             },
                             null

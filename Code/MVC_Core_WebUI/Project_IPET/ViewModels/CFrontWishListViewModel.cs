@@ -9,9 +9,9 @@ namespace Project_IPET.ViewModels
     public class CFrontWishListViewModel
     {
         public string ProductName { get; set; }
-        [DisplayFormat(DataFormatString = "{0:C}")]
+        [DisplayFormat(DataFormatString = "{0:$0}")]
         public decimal ProductPrice { get; set; }
-        [DisplayFormat(DataFormatString = "{0:N}")]
+        [DisplayFormat(DataFormatString = "{0:##,###}")]
         public int Quantity { get; set; }
         public decimal Ranking { get; set; }
         public int FavoriteId { get; set; }

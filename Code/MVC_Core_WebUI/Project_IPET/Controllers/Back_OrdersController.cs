@@ -75,6 +75,8 @@ namespace Project_IPET.Controllers
 
         public IActionResult delete(int Id)
         {
+            var Comment = _context.Comments.Where(n => n.OrderDetail.OrderId == Id).ToList();
+            _context.Comments.RemoveRange(Comment);
             var Detail = _context.OrderDetails.Where(n => n.OrderId == Id).ToList();
             _context.OrderDetails.RemoveRange(Detail);
             var Order = _context.Orders.FirstOrDefault(n => n.OrderId == Id);

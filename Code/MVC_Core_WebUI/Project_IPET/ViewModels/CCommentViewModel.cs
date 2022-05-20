@@ -10,7 +10,7 @@ namespace Project_IPET.ViewModels
         public string ProductName { get; set; }
         [DisplayName("訂單編號")]
         public int OrderId { get; set; }
-        [DisplayName("評價會員")]
+        [DisplayName("會員")]
         public string MemberName { get; set; }
 
         public int MemberID { get; set; }

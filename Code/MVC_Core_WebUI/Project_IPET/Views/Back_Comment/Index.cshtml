@@ -12,13 +12,19 @@
             text-overflow: ellipsis;
             overflow: hidden;
         }
+        .mid {
+            padding: 0.75rem 1.5rem !important;
+            text-align: center;
+      
+            
+        }
     </style>
 
 </head>
 
-<button type="button" class="btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">快速回覆</button>
+<button type="button"  class="btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#MessageModal">快速回覆</button>
 
-<button type="button" class="btn btn-danger mr-3">快速屏蔽</button>
+<button type="button" id="speedshield"  class="btn btn-danger mr-3">快速屏蔽</button>
 
 
 
@@ -133,14 +139,14 @@
                             <tr class="row">
 
 
-                                <th class="col-md-1 middle"><input name="clickAll" id="clickAll" type="checkbox">序號</th>
+                                <th class="col-md-1 middle"><input name="clickAll" id="clickAll" type="checkbox">全選</th>
                                 <th class="col-md-1 middle">@Html.DisplayNameFor(model => model.MemberName)</th>
                                 <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.Rating)</th>
                                 <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.CommentDate)</th>
                                 <th class="col-md-2 middle">@Html.DisplayNameFor(model => model.CommentContent)</th>
                                 <th class="col-md-2 middle">回覆內容</th>
-                                <th class="col-md-1 middle">回覆留言</th>
-                                <th class="col-md-1 middle">屏蔽評價</th>
+                                <th class="col-md-1 mid">回覆</th>
+                                <th class="col-md-1 mid">屏蔽</th>
 
                             </tr>
                         </thead>
@@ -160,7 +166,7 @@
                                             <input name="CommentId[]" type="hidden" value="@item.CommentId">
                                         </td>
                                         <td class="col-md-1 middle">
-                                            <input name="Checkbox[]" type="checkbox" value="@number">
+                                            <input name="Checkbox[]" type="checkbox"  value="@number">
                                             @number
                                         </td>
                                         <td class="col-md-1 middle">
@@ -201,12 +207,12 @@
                                         <td class="col-md-2 middle" title="@Html.DisplayFor(modelItem => item.ReplyContent)">
                                             @Html.DisplayFor(modelItem => item.ReplyContent)
                                         </td>
-                                        <td class="col-md-1 middle">
+                                        <td class="col-md-1 mid">
                                             <button type="button" class="btn btn btn-facebook mr-3" onclick="GetSelectID(@item.CommentId)" data-bs-toggle="modal" data-bs-target="#MessageModal" >
                                                 <i class="fas fa-pen-nib" aria-hidden="true"></i>
                                             </button>
                                         </td>
-                                        <td class="col-md-1 middle">
+                                        <td class="col-md-1 mid">
                                             <a type="button" class="btn btn btn-danger mr-3" href="~/Back_Comment/Shield/@item.CommentId" onclick="return confirm('確定要執行嗎?')">
                                                 <i class="fa fa-ban" aria-hidden="true"></i>
                                             </a>
@@ -314,33 +320,44 @@
 
         });
 
-     
-    
-        $(document).on("click", "input[name='Checkbox[]']", function () {
-
-            let selectcommentid = $(this).parents("tr").find("td").find("input[name='CommentId[]']").val();
-            let selectchecked = $(this).parents("tr").find("td").find("input[name='CommentId[]']");
-
-            for (let i = 0; i < inputCheckbox.length; i++)
-            {
-               
-                console.log(selectchecked.eq(i).prop("checked"));
-            }
-
-        });
-
 
         $(document).on("click", "#savebtn", function () {
 
-            CreateReply();
-            window.location.reload();
+            let selectchecked = $("input[name='Checkbox[]']").parents("tr").find("td").find("input[name='Checkbox[]']");
 
+            for (let i = 0; i < inputCheckbox.length; i++)
+            {
+
+                if (selectchecked.eq(i).prop("checked") == true)
+                {
+                    let CommentId = selectchecked.eq(i).parents("tr").find("input[name='CommentId[]']").val();
+                    GetSelectID(CommentId);
+                    CreateReply();
+                }
+            }
+
+            window.location.reload();
         })
 
-        $(document).on("click", "#Cancel", function () {
+        $(document).on("click", "#speedshield", function () {
 
+            let selectchecked = $("input[name='Checkbox[]']").parents("tr").find("td").find("input[name='Checkbox[]']");
+
+            for (let i = 0; i < inputCheckbox.length; i++) {
+
+                if (selectchecked.eq(i).prop("checked") == true) {
+                    let CommentId = selectchecked.eq(i).parents("tr").find("input[name='CommentId[]']").val();
+                    GetSelectID(CommentId);
+                    SpeedShield();
+                }
+            }
+
+            window.location.reload();
+        })
+
+        $(document).on("click", "#Cancel", function ()
+        {
             $("#ReplyContent").val("");
-          
         })
 
         let selectID;
@@ -352,14 +369,29 @@
 
         function CreateReply()
         {
-           
             if (selectID != null )
             {
-               
                     POSTMethod("@Url.Content("~/Back_Comment/CreateReply")",
+                                    {
+                                        SelectID:selectID,
+                                        ReplyContent: $("#ReplyContent").val(),
+                                    },
+                                    null
+                              )
+            }
+        }
+
+
+
+        function SpeedShield()
+        {
+
+            if (selectID != null )
+            {
+
+                    POSTMethod("@Url.Content("~/Back_Comment/Shield")",
                         {
-                                SelectID:selectID,
-                                ReplyContent: $("#ReplyContent").val(),
+                            Id:selectID,
                             },
                             null
 

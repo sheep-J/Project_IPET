@@ -12,7 +12,10 @@ namespace Project_IPET.ViewModels
         public string Keyword { get; set; }
         public bool Male { get; set; }
         public bool Female { get; set; }
+        public int countOnePage { get; set; }
+        public int totalPage { get; set; }
+        public int totalMember { get; set; }
         //=============================
-        public PageModel Pagination { get; set; }
+        //public PageModel Pagination { get; set; }
     }
 }

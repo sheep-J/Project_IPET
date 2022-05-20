@@ -59,96 +59,26 @@ namespace prjTest.Models
             return Gender;
         }
 
-        #region
-        //public IEnumerable<CBackMembersViewModel> memberFilter(CMembersFilter vModel)
-        //{
-        //    IEnumerable<CBackMembersViewModel> datas = null;
-        //    datas = _context.Members.Select(m => new CBackMembersViewModel
-        //    {
-        //        Name = m.Name,
-        //        Email = m.Email,
-        //        UserId = m.UserId,
-        //        Gender = getGenders(m.Gender),
-        //        BirthDate = m.BirthDate.Date.ToString("yyyy/MM/dd"),
-        //        Phone = m.Phone,
-        //        Address = m.Region.City.CityName + m.Region.RegionName + " " + m.Address,
-        //        RegisteredDate = m.RegisteredDate.ToString("yyyy/MM/dd"),
-        //        Avatar = m.Avatar,
-        //    });
-        //    //=================== begin filter ===================
-
-        //    if (!string.IsNullOrEmpty(vModel.Keyword))
-        //        datas = datas
-        //           .Where(m => 
-        //           m.Name.ToUpper().Contains(vModel.Keyword.ToUpper()) ||
-        //           m.Email.ToUpper().Contains(vModel.Keyword.ToUpper()) ||
-        //           m.UserId.ToUpper().Contains(vModel.Keyword.ToUpper()) ||
-        //           m.Phone.Contains(vModel.Keyword) ||
-        //           m.Address.Contains(vModel.Keyword)
-        //           );
-
-        //    if (vModel.Male == true)
-        //    {
-        //        datas = datas
-        //              .Where(m => m.Gender == "Male");
-        //        if(vModel.Female)
-        //        vModel.Female = false;
-        //    }
-
-        //    if (vModel.Female == true)
-        //    {
-        //        datas = datas
-        //            .Where(m => m.Gender == "Female");
-        //        if (vModel.Male)
-        //            vModel.Male = false;
-        //    }
-
-        //    return datas.Distinct().ToList();
-        //}
-        #endregion
-
-        public ListViewModel memberFilter()
+        #region CBackMembersViewModel
+        public IEnumerable<CBackMembersViewModel> memberFilter(CMembersFilter vModel)
         {
-            ListViewModel datas = new ListViewModel()
+            IEnumerable<CBackMembersViewModel> datas = null;
+            datas = _context.Members.Select(m => new CBackMembersViewModel
             {
-                ListView = _context.Members.Select(m => new CBackMembersViewModel
-                {
-                    Name = m.Name,
-                    Email = m.Email,
-                    UserId = m.UserId,
-                    Gender = getGenders(m.Gender),
-                    BirthDate = m.BirthDate.Date.ToString("yyyy/MM/dd"),
-                    Phone = m.Phone,
-                    Address = m.Region.City.CityName + m.Region.RegionName + " " + m.Address,
-                    RegisteredDate = m.RegisteredDate.ToString("yyyy/MM/dd"),
-                    Avatar = m.Avatar,
-                }),
-            };
-            return datas;
-        }
-
-        public ListViewModel memberFilter(CMembersFilter vModel)
-        {
-            ListViewModel datas = new ListViewModel()
-            {
-                ListView = _context.Members.Select(m => new CBackMembersViewModel
-                {
-                    Name = m.Name,
-                    Email = m.Email,
-                    UserId = m.UserId,
-                    Gender = getGenders(m.Gender),
-                    BirthDate = m.BirthDate.Date.ToString("yyyy/MM/dd"),
-                    Phone = m.Phone,
-                    Address = m.Region.City.CityName + m.Region.RegionName + " " + m.Address,
-                    RegisteredDate = m.RegisteredDate.ToString("yyyy/MM/dd"),
-                    Avatar = m.Avatar,
-                }),
-                Pagination = vModel.Pagination,
-            };
+                Name = m.Name,
+                Email = m.Email,
+                UserId = m.UserId,
+                Gender = getGenders(m.Gender),
+                BirthDate = m.BirthDate.Date.ToString("yyyy/MM/dd"),
+                Phone = m.Phone,
+                Address = m.Region.City.CityName + m.Region.RegionName + " " + m.Address,
+                RegisteredDate = m.RegisteredDate.ToString("yyyy/MM/dd"),
+                Avatar = m.Avatar,
+            });
             //=================== begin filter ===================
 
             if (!string.IsNullOrEmpty(vModel.Keyword))
-                datas = (ListViewModel)datas.ListView
+                datas = datas
                    .Where(m =>
                    m.Name.ToUpper().Contains(vModel.Keyword.ToUpper()) ||
                    m.Email.ToUpper().Contains(vModel.Keyword.ToUpper()) ||
@@ -159,7 +89,7 @@ namespace prjTest.Models
 
             if (vModel.Male == true)
             {
-                datas = (ListViewModel)datas.ListView
+                datas = datas
                       .Where(m => m.Gender == "Male");
                 if (vModel.Female)
                     vModel.Female = false;
@@ -167,13 +97,66 @@ namespace prjTest.Models
 
             if (vModel.Female == true)
             {
-                datas = (ListViewModel)datas.ListView
+                datas = datas
                     .Where(m => m.Gender == "Female");
                 if (vModel.Male)
                     vModel.Male = false;
             }
 
-            return datas;
+            return datas.Distinct().ToList();
         }
+        #endregion
+
+        #region WIP ListViewModel
+        //public ListViewModel memberFilter(CMembersFilter vModel)
+        //{
+        //    ListViewModel datas = new ListViewModel()
+        //    {
+        //        ListView = _context.Members.Select(m => new CBackMembersViewModel
+        //        {
+        //            Name = m.Name,
+        //            Email = m.Email,
+        //            UserId = m.UserId,
+        //            Gender = getGenders(m.Gender),
+        //            BirthDate = m.BirthDate.Date.ToString("yyyy/MM/dd"),
+        //            Phone = m.Phone,
+        //            Address = m.Region.City.CityName + m.Region.RegionName + " " + m.Address,
+        //            RegisteredDate = m.RegisteredDate.ToString("yyyy/MM/dd"),
+        //            Avatar = m.Avatar,
+        //        }),
+        //        Pagination = vModel.Pagination,
+        //    };
+        //    //=================== begin filter ===================
+
+        //    if (!string.IsNullOrEmpty(vModel.Keyword))
+        //        datas = (ListViewModel)datas.ListView
+        //           .Where(m =>
+        //           m.Name.ToUpper().Contains(vModel.Keyword.ToUpper()) ||
+        //           m.Email.ToUpper().Contains(vModel.Keyword.ToUpper()) ||
+        //           m.UserId.ToUpper().Contains(vModel.Keyword.ToUpper()) ||
+        //           m.Phone.Contains(vModel.Keyword) ||
+        //           m.Address.Contains(vModel.Keyword)
+        //           );
+
+        //    if (vModel.Male == true)
+        //    {
+        //        datas = (ListViewModel)datas.ListView
+        //              .Where(m => m.Gender == "Male");
+        //        if (vModel.Female)
+        //            vModel.Female = false;
+        //    }
+
+        //    if (vModel.Female == true)
+        //    {
+        //        datas = (ListViewModel)datas.ListView
+        //            .Where(m => m.Gender == "Female");
+        //        if (vModel.Male)
+        //            vModel.Male = false;
+        //    }
+
+        //    return datas;
+        //}
+        #endregion
+
     }
 }

@@ -224,7 +224,7 @@ GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.U
             ProductModel result = new ProductModel();
             try
             {
-                string sql = @"SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.UnitPrice, p.UnitsInStock, p.Description, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName ,c.CategoryID 
+                string sql = @"SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.UnitPrice, p.UnitsInStock, p.Description, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName ,c.CategoryID,p.HotProduct,p.ProductAvailable 
 	                    FROM Products p 
 	                    JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
 	                    JOIN Categories c ON sc.CategoryID = c.CategoryID 
@@ -232,7 +232,7 @@ GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.U
 	                    LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
 	                    LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
 	                    WHERE  p.ProductID = @ProductID
-	                    GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.UnitPrice, p.UnitsInStock, p.Description, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName,c.CategoryID  ";
+	                    GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.UnitPrice, p.UnitsInStock, p.Description, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName,c.CategoryID,p.HotProduct,p.ProductAvailable  ";
 
                 //匿名類型
                 var param = new

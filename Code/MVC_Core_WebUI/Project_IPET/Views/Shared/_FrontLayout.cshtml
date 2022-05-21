@@ -31,33 +31,6 @@
     <!--Main Style CSS-->
     <link rel="stylesheet" href="~/Front/css/style.css" />
 
-    <script>
-        function RemoveItem(pid){
-            $.ajax({
-                method:'POST',
-                url:'@Url.Content("/Front_Cart/RemoveItem")',
-                data: {
-                    id: pid
-                },
-                success: function (result) {
-                    $('#CartMenu').html(result)
-                }
-            })
-        }
-
-        function RemoveAll(){
-            $.ajax({
-                method:'POST',
-                url:'@Url.Content("/Front_Cart/RemoveAll")',
-                data: {
-                },
-                success: function (result) {
-                    $('#CartMenu').html(result)
-                }
-            })
-        }
-    </script>
-
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -279,5 +252,46 @@
     <script src="~/Front/js/Blog/PostTools.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            console.log("test");
+                $.ajax({
+                    method: "POST",
+                    url: "/Front_Cart/GetCart",
+                    data: {
+                    },
+                    success: function (result) {
+                        $('#CartMenu').html(result)
+                        }
+                });
+            });
+
+
+        function RemoveItem(pid){
+            $.ajax({
+                method:'POST',
+                url:'@Url.Content("/Front_Cart/RemoveItem")',
+                data: {
+                    id: pid
+                },
+                success: function (result) {
+                    $('#CartMenu').html(result)
+                }
+            })
+        }
+
+        function RemoveAll(){
+            $.ajax({
+                method:'POST',
+                url:'@Url.Content("/Front_Cart/RemoveAll")',
+                data: {
+                },
+                success: function (result) {
+                    $('#CartMenu').html(result)
+                }
+            })
+        }
+    </script>
 </body>
 </html>

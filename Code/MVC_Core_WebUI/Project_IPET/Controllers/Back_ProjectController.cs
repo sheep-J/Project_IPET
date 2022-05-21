@@ -157,7 +157,7 @@ namespace Project_IPET.Controllers
                 {
                     name = n.ProductName,
                     price = n.UnitPrice,
-                    stock = n.UnitsInStock + _context.OrderDetails.Where(n => n.ProductId == item).Sum(n => n.Quantity)
+                    stock = n.UnitsInStock + _context.DonationDetails.Where(n => n.ProductId == item).Sum(n => n.Quantity)
                 }).FirstOrDefault();
                 list.Add(other);
             }
@@ -193,12 +193,27 @@ namespace Project_IPET.Controllers
         //Create 商品資料導入
         public IActionResult CreateLoadProd()
         {
-            var list = _context.Products.Where(n => n.SubCategory.CategoryId == 1).Select(n => new
+            var prodall = _context.Products.Where(n => n.SubCategory.CategoryId == 13).ToList();
+            var already = _context.PrjConnects.Select(n => n.ProductId).ToList();
+            List<Product> a = new List<Product>();
+            foreach (var prod in prodall)
             {
-                id = n.ProductId,
-                name = n.ProductName
-            }).ToList();
-            return Json(list);
+                if (already.IndexOf(prod.ProductId) == -1)
+                    a.Add(prod);
+            }
+            return Json(a);
+            //var prjlist = _context.PrjConnects.Select(n => n.ProductId).ToList();
+            //var prodlist = _context.Products.Where(n => prjlist.Exists(x => x == n.ProductId) == false).Select(n => new
+            //{
+            //    id = n.ProductId,
+            //    name = n.ProductName
+            //}).ToList();
+            //var list = _context.Products.Where(n => n.SubCategory.CategoryId == 13).Select(n => new
+            //{
+            //    id = n.ProductId,
+            //    name = n.ProductName
+            //}).ToList();
+            //return Json(prodlist);
         }
 
         //Edit 專案內容導入

@@ -1,4 +1,18 @@
-﻿ <!-- Breadcrumb Area Start -->
+﻿@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#submit").click(ShowMessage);
+        });
+        function ShowMessage() {
+            Swal.fire({
+                icon: 'success',
+                title: '訊息已傳送, 請待客服人員回覆',
+            })
+        }
+    </script>
+}
+
+<!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
     <div class="container">
         <div class="row">
@@ -6,7 +20,9 @@
                 <div class="breadcrumb-wrapper">
                     <h2 class="breadcrumb-title">聯絡我們</h2>
                     <ul>
-                        <li><a asp-controller="Front_Home">IPET 寵物店</a></li>
+                        <li>
+                            <a asp-controller="Front_Home">IPET 寵物店</a>
+                        </li>
                         <li>聯絡我們</li>
                     </ul>
                 </div>
@@ -82,9 +98,17 @@
                     <p>若有商品或捐贈上的疑問以及其他公益合作邀請, 均歡迎提供訊息與我們聯絡。</p>
                     <address class="contact-block">
                         <ul>
-                            <li><i class="fa fa-fax"></i> 台北市大安區復興南路一段390號2樓</li>
-                            <li><i class="fa fa-phone"></i> <a href="tel:+886-912-345-888">+886-912-345-888</a></li>
-                            <li><i class="fa fa-envelope-o"></i> <a href="mailto:demo@example.com">IPET@demo.com </a></li>
+                            <li>
+                                <i class="fa fa-fax"></i> 台北市大安區復興南路一段390號2樓
+                            </li>
+                            <li>
+                                <i class="fa fa-phone"></i>
+                                <a href="tel:+886-912-345-888">+886-912-345-888</a>
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope-o"></i>
+                                <a href="mailto:demo@example.com">IPET@demo.com </a>
+                            </li>
                         </ul>
                     </address>
 

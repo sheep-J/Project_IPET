@@ -54,7 +54,7 @@
                                             </div>
                                         </td>
                                         <td class="pro-subtotal"><span>@Html.DisplayFor(modelItem => item.SubTotal)</span></td>
-                                        <td class="pro-remove"><a asp-action="RemoveItem" asp-route-Id="@item.ProductID"><i class="ti-trash"></i></a></td>
+                                        <td class="pro-remove"><a asp-action="CartRemoveItem" asp-route-Id="@item.ProductID"><i class="ti-trash"></i></a></td>
                                     </tr>
                                 </tbody>
                             }
@@ -68,7 +68,7 @@
                     </div>
 
                     <div class="cart-btn-right-right m-b-20">
-                        <a asp-action="RemoveAll" class="btn btn btn-gray-deep btn-hover-primary">清 空 購 物 車</a>
+                        <a asp-action="CartRemoveAll" class="btn btn btn-gray-deep btn-hover-primary">清 空 購 物 車</a>
                     </div>
                 </div>
             </div>

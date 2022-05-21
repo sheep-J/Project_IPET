@@ -84,9 +84,7 @@ namespace Project_IPET.Controllers
 
             }
 
-            //return NoContent(); // TODO 請求成功但不更新畫面 & Toastr effect
-
-            return RedirectToAction("Index");
+            return PartialView("_CartPartial");
         }
 
         public IActionResult RemoveItem(int id)
@@ -104,9 +102,8 @@ namespace Project_IPET.Controllers
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "Cart", cart);
             }
 
-            return RedirectToAction("Index");
+            return PartialView("_CartPartial");
         }
-
 
         public IActionResult RemoveAll()
         {
@@ -121,8 +118,56 @@ namespace Project_IPET.Controllers
             {
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "Cart", cart);
             }
+            return PartialView("_CartPartial");
+        }
 
+
+        public IActionResult CartRemoveItem(int id)
+        {
+            List<CartModel> cart = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
+            int index = cart.FindIndex(m => m.Product.ProductId.Equals(id));
+            cart.RemoveAt(index);
+
+            if (cart.Count < 1)
+            {
+                SessionHelper.Remove(HttpContext.Session, "Cart");
+            }
+            else
+            {
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "Cart", cart);
+            }
             return RedirectToAction("Index");
+        }
+
+
+        public IActionResult CartRemoveAll()
+        {
+            List<CartModel> cart = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
+            cart.RemoveRange(0, cart.Count);
+
+            if (cart.Count < 1)
+            {
+                SessionHelper.Remove(HttpContext.Session, "Cart");
+            }
+            else
+            {
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "Cart", cart);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateQuantity(int id, int qty)
+        {
+            List<CartModel> cart = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
+            int index = cart.FindIndex(m => m.Product.ProductId.Equals(id));
+
+            if (index != -1)
+            {
+                cart[index].Quantity = qty;
+            }
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "Cart", cart);
+            return PartialView("_CartPartial");
         }
 
         private string ConvertImage(byte[] arrayImage)

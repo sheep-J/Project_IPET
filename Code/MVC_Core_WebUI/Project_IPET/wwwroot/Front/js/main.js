@@ -33,8 +33,8 @@
         Header Cart Toggle
     --------------------- */
 
-    $(".cart-visible").on('click', function(){
-      $(".header-cart-content").slideToggle("slow");
+    $(document).on('click', '.cart-visible', function () {
+        $(".header-cart-content").slideToggle("slow");
     });
 
     /*-----------------------------------------

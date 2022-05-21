@@ -86,19 +86,19 @@
          getProductList(1);
      }
 
-     function AddToCart(productId, qty) {
-         $.ajax({
-             method: "POST",
-             url: "/Front_Cart/AddToCart",
-             data: {
-                 id: productId,
-                 qty: 1,
-             },
-             success: function (result) {
-                 window.location.href = "/Front_Cart/Index";
-             }
-         });
-     }
+    function AddToCart(productId, qty) {
+        $.ajax({
+            method: "POST",
+            url: "/Front_Cart/AddToCart",
+            data: {
+                id: productId,
+                qty: 1,
+            },
+            success: function (result) {
+                $('#CartMenu').html(result)
+            }
+        });
+    }
 
      function getProductListWithBrand(){
           clearAll();

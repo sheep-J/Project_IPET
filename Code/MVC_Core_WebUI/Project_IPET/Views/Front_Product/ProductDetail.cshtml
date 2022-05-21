@@ -28,7 +28,7 @@
                     qty: $("#inputQty").val()
                 },
                 success: function (result) {
-                    window.location.href = "/Front_Cart/Index";
+                    $('#CartMenu').html(result)
                 }
             });
         }

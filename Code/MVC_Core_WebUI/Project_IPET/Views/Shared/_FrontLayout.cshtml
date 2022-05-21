@@ -31,6 +31,33 @@
     <!--Main Style CSS-->
     <link rel="stylesheet" href="~/Front/css/style.css" />
 
+    <script>
+        function RemoveItem(pid){
+            $.ajax({
+                method:'POST',
+                url:'@Url.Content("/Front_Cart/RemoveItem")',
+                data: {
+                    id: pid
+                },
+                success: function (result) {
+                    $('#CartMenu').html(result)
+                }
+            })
+        }
+
+        function RemoveAll(){
+            $.ajax({
+                method:'POST',
+                url:'@Url.Content("/Front_Cart/RemoveAll")',
+                data: {
+                },
+                success: function (result) {
+                    $('#CartMenu').html(result)
+                }
+            })
+        }
+    </script>
+
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -71,13 +98,27 @@
                         <div class="col-lg-6 d-none d-lg-block">
                             <div class="main-menu">
                                 <ul>
-                                    <li><a asp-controller="Front_Home" asp-action="Index">首頁</a></li>
-                                    <li><a asp-controller="Front_Blog" asp-action="Index">部落格</a></li>
-                                    <li><a asp-controller="Front_Project" asp-action="Index">募集專案</a></li>
-                                    <li><a asp-controller="Front_Product" asp-action="Index">寵物商品</a></li>
-                                    <li><a asp-controller="Front_PetAdopt" asp-action="Index">認養資訊</a></li>
-                                    <li><a asp-controller="Front_Contact" asp-action="Index">聯絡我們</a></li>
-                                    <li><a asp-controller="Chat" asp-action="Chat">聊天</a></li>
+                                    <li>
+                                        <a asp-controller="Front_Home" asp-action="Index">首頁</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Front_Blog" asp-action="Index">部落格</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Front_Project" asp-action="Index">募集專案</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Front_Product" asp-action="Index">寵物商品</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Front_PetAdopt" asp-action="Index">認養資訊</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Front_Contact" asp-action="Index">聯絡我們</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Chat" asp-action="Chat">聊天</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -105,7 +146,9 @@
                                     <i class="icon-user icons"></i>
                                 </a>
                                 <!-- Header My Account Button End -->
-                                @await Html.PartialAsync("_CartPartial")
+                                <div class="header-action-btn header-action-btn-cart d-none d-sm-flex" id="CartMenu">
+                                    @await Html.PartialAsync("_CartPartial")
+                                </div>
                             </div>
                         </div>
                         <!-- Header Action End -->
@@ -143,9 +186,15 @@
                             <div class="single-footer-widget">
                                 <h2 class="widget-title">友情連結</h2>
                                 <ul class="widget-list">
-                                    <li><a href="http://www.hsapf.org.tw/">財團法人流浪動物之家基金會</a></li>
-                                    <li><a href="https://asms.coa.gov.tw/Amlapp/App/Default.aspx">全國推廣動物認養平台</a></li>
-                                    <li><a href="http://www.meetpets.org.tw/pets/dog">台灣認養地圖</a></li>
+                                    <li>
+                                        <a href="http://www.hsapf.org.tw/">財團法人流浪動物之家基金會</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://asms.coa.gov.tw/Amlapp/App/Default.aspx">全國推廣動物認養平台</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://www.meetpets.org.tw/pets/dog">台灣認養地圖</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -182,7 +231,11 @@
                     <div class="row align-items-center m-b-n20">
                         <div class="col-md-6 text-center text-md-start order-2 order-md-1 m-b-20">
                             <div class="copyright-content">
-                                <p class="mb-0">© 2022 All rights reserved<strong> IPET 寵物店 </strong> By <a href="https://www.ispan.com.tw/">iSpan - MSIT133 </a></p>
+                                <p class="mb-0">
+                                    © 2022 All rights reserved
+                                    <strong> IPET 寵物店 </strong> By
+                                    <a href="https://www.ispan.com.tw/">iSpan - MSIT133 </a>
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-6 text-center text-md-end order-1 order-md-2 m-b-20">
@@ -221,7 +274,7 @@
 
     <!--Main JS-->
     <script src="~/Front/js/main.js"></script>
-    
+
     <!-- Blog JS -->
     <script src="~/Front/js/Blog/PostTools.js"></script>
 

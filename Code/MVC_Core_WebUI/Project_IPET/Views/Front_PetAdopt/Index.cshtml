@@ -1,25 +1,39 @@
-﻿@section Scripts{
-    <script>
-        $(document).ready(function () {
-            GetPetList(1);
-        });
-        var pageSize = 9;
-        function GetPetList(page) {
-            $.ajax({
-                method: "POST",
-                url: "/Front_PetAdopt/PetList",
-                data: {
-                    Pagination: {
-                        Page: page,
-                        PageSize: pageSize
-                    }
-                },
-                success: function (result) {
-                    $("#PetList").html(result);
+﻿@model List<CityModel>
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        GetPetList(1);
+    });
+    var pageSize = 9;
+    var cityId = -1;
+    var petCategory = "ALL";
+    var petGender = "ALL";
+    function GetPetList(page) {
+        $.ajax({
+            method: "POST",
+            url: "/Front_PetAdopt/PetList",
+            data: {
+                CityID:cityId,
+                PetCategory:petCategory,
+                PetGender:petGender,
+                Pagination: {
+                    Page: page,
+                    PageSize: pageSize
                 }
-            });
-        }
-    </script>
+            },
+            success: function (result) {
+                $("#PetList").html(result);
+            }
+        });
+    }
+
+    function GetPetListWithParameter(){
+        cityId = $("#area").val();
+        petGender = $("#sex").val();
+        petCategory = $("#animal").val();
+        GetPetList(1);
+    }
+</script>
 }
 
 <!-- Breadcrumb Area Start -->
@@ -42,10 +56,18 @@
 
 <form method="post">
     <div class="row">
-        <div style="margin: 40px 0 20px 165px; " class="col-md-2 form-group"><select class="form-control" name="area" id="area"><option value="">不限區域</option><option value="北部地區">北部地區</option><option value="中部地區">中部地區</option><option value="南部地區">南部地區</option><option value="東部地區">東部地區</option><option value="離島地區">離島地區</option></select></div>
-        <div style="margin: 40px 0 20px 0;" class="col-md-2 form-group"><select class="form-control" name="sex" id="sex"><option value="">不限性別</option><option value="公">公</option><option value="母">母</option></select></div>
-        <div style="margin: 40px 0 20px 0;" class="col-md-2 form-group"><select class="form-control" name="animal" id="animal"><option value="">不限種類</option><option value="貓">貓</option><option value="狗">狗</option></select></div>
-        <div style="margin: 35px 0 20px 0;" class="col-md-2 form-group"><input type="submit" class="btn btn-primary btn-hover-dark" value="搜尋" style="font-size:16px;" /></div>
+        <div style="margin: 40px 0 20px 165px; " class="col-md-2 form-group">
+            <select class="form-control" name="area" id="area">
+                <option value="-1">不限地區</option>
+                @foreach (var city in Model)
+                {
+                    <option value="@city.CityID">@city.CityName</option>
+                }
+            </select>
+        </div>
+        <div style="margin: 40px 0 20px 0;" class="col-md-2 form-group"><select class="form-control" name="sex" id="sex"><option value="ALL">不限性別</option><option value="公">公</option><option value="母">母</option></select></div>
+        <div style="margin: 40px 0 20px 0;" class="col-md-2 form-group"><select class="form-control" name="animal" id="animal"><option value="ALL">不限種類</option><option value="貓">貓</option><option value="狗">狗</option></select></div>
+        <div style="margin: 35px 0 20px 0;" class="col-md-2 form-group"><input type="button" class="btn btn-primary btn-hover-dark" value="搜尋" style="font-size:16px;" onclick="GetPetListWithParameter()" /></div>
     </div>
 </form>
 

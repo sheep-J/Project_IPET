@@ -166,7 +166,10 @@ GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.U
                     case Enum.SortBy.LowRated:
                         orderBy += " ORDER BY Rating ASC ";
                         break;
-                        //====================================
+                    //====================================
+                    default:
+                        orderBy += " ORDER BY p.ProductID ASC  ";
+                        break;
                 }
 
                 result.ProductList = _dbConnection.Query<ProductModel>(string.Format(sql, where, orderBy), param).ToList();
@@ -184,11 +187,11 @@ GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.U
             List<SubCategoriesModel> subCat = new List<SubCategoriesModel>();
             try
             {
-                string sql = @"SELECT c.CategoryID,c.CategoryName,COUNT(1) ProductCount
+                string sql = @"SELECT c.CategoryID,c.CategoryName,COUNT(p.ProductID) ProductCount
                                             FROM Categories c 
                                             JOIN SubCategories sc 
                                             ON c.CategoryID = sc.CategoryID 
-                                            JOIN Products p
+                                            LEFT JOIN Products p
                                             ON sc.SubCategoryID = p.SubCategoryID
                                             GROUP BY c.CategoryID,c.CategoryName
                                             ORDER BY c.CategoryID";
@@ -221,14 +224,7 @@ GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.U
             ProductModel result = new ProductModel();
             try
             {
-                //string sql = @"SELECT p.*,pp.ProductImage,b.BrandName,s.CategoryID  FROM Products p 
-                //                            JOIN SubCategories s ON  p.SubCategoryID=s.SubCategoryID
-                //                            JOIN Brand b ON p.BrandID=b.BrandID
-                //                            LEFT JOIN ProductImagePath pp ON p.ProductID =pp.ProductID 
-                //                            WHERE p.ProductID=@ProductID";
-
-                //test
-                string sql = @"SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.UnitPrice, p.UnitsInStock, p.Description, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
+                string sql = @"SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.UnitPrice, p.UnitsInStock, p.Description, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName ,c.CategoryID 
 	                    FROM Products p 
 	                    JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
 	                    JOIN Categories c ON sc.CategoryID = c.CategoryID 
@@ -236,8 +232,7 @@ GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.U
 	                    LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
 	                    LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
 	                    WHERE  p.ProductID = @ProductID
-	                    GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.UnitPrice, p.UnitsInStock, p.Description, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName ";
-                //---------------------
+	                    GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.UnitPrice, p.UnitsInStock, p.Description, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName,c.CategoryID  ";
 
                 //匿名類型
                 var param = new
@@ -392,5 +387,83 @@ GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.U
             }
         }
 
+        public ProductListResponseModel GetPrjProductList(ProductListRequestModel request)
+        {
+            ProductListResponseModel result = new ProductListResponseModel()
+            {
+                ProductList = new List<ProductModel>(),
+                Pagination = request.Pagination,
+            };
+            try
+            {
+                string countSql = @"SELECT COUNT(1)
+FROM
+(
+	SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
+	FROM Products p 
+	JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
+	JOIN Categories c ON sc.CategoryID = c.CategoryID 
+	JOIN Brand b ON p.BrandID = b.BrandID
+    JOIN PrjConnect pc  ON p.ProductID = pc.ProductID
+	LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+	LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
+	WHERE pp.IsMainImage = 1
+	GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
+) T";
+
+
+                string sql = @"SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName ,pc.PrjID
+FROM Products p 
+JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
+JOIN Categories c ON sc.CategoryID = c.CategoryID 
+JOIN Brand b ON p.BrandID = b.BrandID
+JOIN PrjConnect pc  ON p.ProductID = pc.ProductID
+LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
+LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
+WHERE pp.IsMainImage = 1 
+GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName,pc.PrjID 
+{0} OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+
+              
+                var param = new
+                {
+                    PageSize = request.Pagination.PageSize,
+                    Page = request.Pagination.Page,
+                };
+
+                result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(countSql, param); //拿第一個cell
+
+                string orderBy = "";
+                switch (request.SortBy)
+                {
+                    case Enum.SortBy.Default:
+                        orderBy += " ORDER BY p.ProductID ASC  ";
+                        break;
+                    case Enum.SortBy.HighPrice:
+                        orderBy += " ORDER BY p.UnitPrice DESC ";
+                        break;
+                    case Enum.SortBy.LowPrice:
+                        orderBy += " ORDER BY p.UnitPrice ASC   ";
+                        break;
+                    case Enum.SortBy.HighRated:
+                        orderBy += " ORDER BY Rating DESC ";
+                        break;
+                    case Enum.SortBy.LowRated:
+                        orderBy += " ORDER BY Rating ASC ";
+                        break;
+                    default:
+                        orderBy += " ORDER BY p.ProductID ASC  ";
+                        break;
+                }
+
+                result.ProductList = _dbConnection.Query<ProductModel>(string.Format(sql, orderBy), param).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return result;
+        }
     }
 }

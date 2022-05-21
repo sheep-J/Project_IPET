@@ -88,5 +88,8 @@ namespace Project_IPET.Models
         /// 商品評價
         /// </summary>
         public int Rating { get; set; }
+
+        public List<ProductModel> RandomProductList { get; set; }
+        public int PrjID { get; set; }
     }
 }

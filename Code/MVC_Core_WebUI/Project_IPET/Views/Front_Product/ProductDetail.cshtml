@@ -3,36 +3,36 @@
     ViewData["Title"] = "ProductDetail";
 }
 @section Styles{
-    <style>
-        .product-img {
-            height: 470px;
-        }
+<style>
+    .product-img {
+        height: 470px;
+    }
 
-        .product-img-thumb {
-            height: 150px;
-        }
-    </style>
+    .product-img-thumb {
+        height: 150px;
+    }
+</style>
 }
 
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            $("#inputQty").click(AddToCart);
+<script>
+    $(document).ready(function () {
+        $("#inputQty").click(AddToCart);
+    });
+    function AddToCart(productId, qty) {
+        $.ajax({
+            method: "POST",
+            url: "/Front_Cart/AddToCart",
+            data: {
+                id: productId,
+                qty: $("#inputQty").val()
+            },
+            success: function (result) {
+                window.location.href = "/Front_Cart/Index";
+            }
         });
-        function AddToCart(productId, qty) {
-            $.ajax({
-                method: "POST",
-                url: "/Front_Cart/AddToCart",
-                data: {
-                    id: productId,
-                    qty: $("#inputQty").val()
-                },
-                success: function (result) {
-                    window.location.href = "/Front_Cart/Index";
-                }
-            });
-        }
-    </script>
+    }
+</script>
 }
 
 <!-- Breadcrumb Area Start -->
@@ -154,7 +154,12 @@
                     <div class="cart-btn action-btn m-b-30">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
-                                @{
+                                @if (Model.PrjID > 0)
+                                {
+                                    <a class="btn btn-primary btn-hover-dark rounded-bottom" onclick="AddToCart('@Model.ProductID')" href="javascript:void(0);">加入募集</a>
+                                }
+                                else
+                                {
                                     if (@Model.UnitsInStock <= 0)
                                     {
                                         <a class="btn btn-primary btn-hover-dark rounded-bottom disabled">商品無庫存</a>
@@ -165,9 +170,9 @@
                                     }
                                 }
                             </div>
-                            <div class="add-to_cart">
+                            @*                            <div class="add-to_cart">
                                 <a class="btn btn-primary btn-hover-dark rounded-pill" onclick="AddToCart('@Model.ProductID')" href="javascript:void(0);">加入購物車<br />（募資專案）</a>
-                            </div>
+                                </div>*@
                             <a asp-controller="/Front_Myaccount" asp-action="Index" title="願望清單" class="action"><i class="ti-heart"></i></a>
                         </div>
                     </div>
@@ -256,206 +261,66 @@
                     <div class="swiper-container">
 
                         <div class="swiper-wrapper">
-
-                            <div class="swiper-slide">
-                                <!-- Product Start -->
+                            @foreach (var product in @Model.RandomProductList)
+                            {
+                                <div class="swiper-slide">
+                                    <!-- Product Start -->
                                 <div class="product-wrapper">
-                                    <div class="product">
-                                        <!-- Thumb Start  -->
+                                        <div class="product">
+                                            <!-- Thumb Start  -->
                                         <div class="thumb">
-                                            <a href="single-product.html" class="image">
-                                                <img class="fit-image" src="@Model.ProductImageBase64String" alt="Product" />
-                                            </a>
-                                            <span class="badges">
-                                                <span class="sale">-18%</span>
-                                            </span>
-                                            <div class="action-wrapper">
-                                                @*a改成button*@
-                                                <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>
-                                                <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                                                <a href="cart.html" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                                                <a class="image" asp-controller="Front_Product" asp-action="ProductDetail" asp-route-id="@product.ProductID">
+                                                    <img class="fit-image" src="@product.ProductImageBase64String" alt="Product" />
+                                                </a>
+                                                @* <span class="badges">
+                                                    <span class="sale">-18%</span>
+                                                    </span>*@
+                                                <div class="action-wrapper">
+                                                    @*a改成button*@
+                                                    <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>
+                                                    <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
+                                                    @if (product.UnitsInStock <= 0)
+                                                    {
+                                                        @*<a  class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>*@
+                                                    }
+                                                    else
+                                                    {
+                                                        <a onclick="AddToCart('@product.ProductID')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                                                    }
+                                                </div>
+                                                @*
+                                                    <div class="countdown-area">
+                                                    <div class="countdown-wrapper" data-countdown="2028/12/28"></div>
+                                                    </div>*@
                                             </div>
-
-                                            <div class="countdown-area">
-                                                <div class="countdown-wrapper" data-countdown="2028/12/28"></div>
-                                            </div>
-                                        </div>
-                                        <!-- Thumb End  -->
-                                        <!-- Content Start  -->
+                                            <!-- Thumb End  -->
+                                            <!-- Content Start  -->
                                         <div class="content">
-                                            <h5 class="title"><a href="single-product.html">Pet Leaving House</a></h5>
-                                            <span class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </span>
-                                            <span class="price">
-                                                <span class="new">$47.50</span>
-                                                <span class="old">$50.00</span>
-                                            </span>
-                                        </div>
-                                        <!-- Content End  -->
-                                    </div>
-                                </div>
-                                <!-- Product End -->
-                            </div>
-
-                            <div class="swiper-slide">
-                                <!-- Product Start -->
-                                <div class="product-wrapper">
-                                    <div class="product">
-                                        <!-- Thumb Start  -->
-                                        <div class="thumb">
-                                            <a href="single-product.html" class="image">
-                                                <img class="fit-image" src="@Model.ProductImageBase64String" alt="Product" />
-                                            </a>
-                                            <div class="action-wrapper">
-                                                <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>
-                                                <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                                                <a href="cart.html" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                                                <h5 class="title"><a href="single-product.html">@product.ProductName</a></h5>
+                                                <span class="rating">
+                                                    @for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        if (i <= @product.Rating)
+                                                        {
+                                                            <i class="fa fa-star"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fa fa-star-o"></i>
+                                                        }
+                                                    }
+                                                </span>
+                                                <span class="price">
+                                                    <span class="new">$@product.UnitPrice</span>
+                                                    <span class="old">$@product.UnitPrice</span>
+                                                </span>
                                             </div>
-                                        </div>
-                                        <!-- Thumb End  -->
-                                        <!-- Content Start  -->
-                                        <div class="content">
-                                            <h5 class="title"><a href="single-product.html">Basic Dog Trainning</a></h5>
-                                            <span class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </span>
-                                            <span class="price">
-                                                <span class="new">$55.00</span>
-                                            </span>
-                                        </div>
-                                        <!-- Content End  -->
+                                            <!-- Content End  -->
                                     </div>
-                                </div>
-                                <!-- Product End -->
-                            </div>
-
-                            <div class="swiper-slide">
-                                <!-- Product Start -->
-                                <div class="product-wrapper">
-                                    <div class="product">
-                                        <!-- Thumb Start  -->
-                                        <div class="thumb">
-                                            <a href="single-product.html" class="image">
-                                                <img class="fit-image" src="@Model.ProductImageBase64String" alt="Product" />
-                                            </a>
-                                            <span class="badges">
-                                                <span class="sale">-20%</span>
-                                            </span>
-                                            <div class="action-wrapper">
-                                                <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>
-                                                <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                                                <a href="cart.html" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
-                                            </div>
-                                        </div>
-                                        <!-- Thumb End  -->
-                                        <!-- Content Start  -->
-                                        <div class="content">
-                                            <h5 class="title"><a href="single-product.html">Pet Leaving House</a></h5>
-                                            <span class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </span>
-                                            <span class="price">
-                                                <span class="new">$58.50</span>
-                                                <span class="old">$62.85</span>
-                                            </span>
-                                        </div>
-                                        <!-- Content End  -->
                                     </div>
-                                </div>
-                                <!-- Product End -->
+                                    <!-- Product End -->
                             </div>
-
-                            <div class="swiper-slide">
-                                <!-- Product Start -->
-                                <div class="product-wrapper">
-                                    <div class="product">
-                                        <!-- Thumb Start  -->
-                                        <div class="thumb">
-                                            <a href="single-product.html" class="image">
-                                                <img class="fit-image" src="assets/images/products/medium-product/1.png" alt="Product" />
-                                            </a>
-                                            <span class="badges">
-                                                <span class="sale">-18%</span>
-                                            </span>
-                                            <div class="action-wrapper">
-                                                <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>
-                                                <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                                                <a href="cart.html" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
-                                            </div>
-                                        </div>
-                                        <!-- Thumb End  -->
-                                        <!-- Content Start  -->
-                                        <div class="content">
-                                            <h5 class="title"><a href="single-product.html">An Animal Album</a></h5>
-                                            <span class="rating">
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </span>
-                                            <span class="price">
-                                                <span class="new">$80.50</span>
-                                                <span class="old">$85.80</span>
-                                            </span>
-                                        </div>
-                                        <!-- Content End  -->
-                                    </div>
-                                </div>
-                                <!-- Product End -->
-                            </div>
-
-                            <div class="swiper-slide">
-                                <!-- Product Start -->
-                                <div class="product-wrapper">
-                                    <div class="product">
-                                        <!-- Thumb Start  -->
-                                        <div class="thumb">
-                                            <a href="single-product.html" class="image">
-                                                <img class="fit-image" src="assets/images/products/medium-product/3.png" alt="Product" />
-                                            </a>
-                                            <span class="badges">
-                                                <span class="new">New</span>
-                                            </span>
-                                            <div class="action-wrapper">
-                                                <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>
-                                                <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                                                <a href="cart.html" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
-                                            </div>
-                                        </div>
-                                        <!-- Thumb End  -->
-                                        <!-- Content Start  -->
-                                        <div class="content">
-                                            <h5 class="title"><a href="single-product.html">Wait, You Need This</a></h5>
-                                            <span class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </span>
-                                            <span class="price">
-                                                <span class="new">$90.00</span>
-                                            </span>
-                                        </div>
-                                        <!-- Content End  -->
-                                    </div>
-                                </div>
-                                <!-- Product End -->
-                            </div>
+                            }
 
                         </div>
 

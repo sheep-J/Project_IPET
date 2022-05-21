@@ -9,9 +9,14 @@ namespace Project_IPET.Services
         ProductListResponseModel GetProductList(ProductListRequestModel request);
         List<CategoriesModel> GetCategories();
         ProductModel GetProduct(int id);
-        void CreateProduct(ProductModel product); 
+        void CreateProduct(ProductModel product);
         List<BrandModel> GetBrands();
-        void  EditProduct(ProductModel product);
+        void EditProduct(ProductModel product);
         void DeleteProduct(int id);
+        /// <summary>
+        /// 拿到捐贈商品獨立顯示在ProductList頁面
+        /// </summary>
+        ProductListResponseModel GetPrjProductList(ProductListRequestModel request);
+
     }
 }

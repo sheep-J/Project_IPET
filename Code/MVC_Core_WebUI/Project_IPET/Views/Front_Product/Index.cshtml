@@ -15,6 +15,7 @@
      var CategoryName = "所有商品";
     var brandIds = [];
 
+
      function getProductList(page) {
          $.ajax({
              method: "POST",
@@ -44,6 +45,37 @@
                  }
                  $(".product").addClass(displayStyleClass);
                  $(".shop_wrapper").addClass(displayStyle);
+                 window.scrollTo(0, 0);
+             }
+         });
+     }
+
+     function getPrjProductList(page) {
+         $.ajax({
+             method: "POST",
+             url: "/Front_Product/PrjProductList",
+             data: {
+                 SortBy: sortBy,
+                 Pagination: {
+                     Page: page,
+                     PageSize: pageSize
+                 }
+             },
+             success: function (result) {
+                 $("#currentCategoryName").text("募集");
+                 $("#productList").html(result);
+                  $("#currentCategoryProductCount").text($("#totalRecord").val());
+                 var displayStyle = $(".shop_toolbar_btn .active").data("role");
+                 var displayStyleClass = "";
+                 if (displayStyle == "grid_3") {
+                     displayStyleClass = "col-lg-4 col-md-4 col-sm-6";
+                 }
+                 else {
+                     displayStyleClass = "col-12";
+                 }
+                 $(".product").addClass(displayStyleClass);
+                 $(".shop_wrapper").addClass(displayStyle);
+                 window.scrollTo(0, 0);
              }
          });
      }
@@ -57,11 +89,11 @@
          categoryId = -1;
          subCategoryId = -1;
          productName = "";
-         CategoryName = "所有商品";    
+         CategoryName = "所有商品";
          brandIds = [];
      }
 
-     function clearAllBrandsCheckBox(){     
+     function clearAllBrandsCheckBox(){
          $(".chk-brand").prop("checked",false);
      }
 
@@ -110,7 +142,13 @@
          });
          getProductList(1);
      }
-     //----------------------------------------
+
+       function getAllPrjProducts() {
+         clearAll();
+         clearAllBrandsCheckBox();
+         productName = $("").val()
+         getPrjProductList(1);
+     }
 
 
 
@@ -210,12 +248,14 @@
                                                     <a onclick="getProductListWithCategory(@category.CategoryId,'@category.CategoryName')">@category.CategoryName (@category.ProductCount)</a>
                                                 </h5>
                                                 <ul class="sidebar-list">
+
                                                     @foreach (var subCategory in category.SubCategories)
                                                     {
                                                         <li><a href="#/" onclick="getProductListWithSubCategory(@subCategory.SubCategoryId,'@subCategory.SubCategoryName')">@subCategory.SubCategoryName</a></li>
                                                     }
                                                 </ul>
                                             }
+                                            <h5><a href="#" onclick="getAllPrjProducts()">正在募集商品 (@ViewBag.PrjProductCount)</a></h5>
                                         </div>
                                     </div>
                                 </div>
@@ -243,13 +283,9 @@
                             <h3 class="widget-title m-b-30">標籤</h3>
                             <div class="sidebar-body">
                                 <ul class="tags m-b-n10">
-                                    <li><a href="#/">精選罐罐</a></li>
-                                    <li><a href="#/">幼齡飼料</a></li>
-                                    <li><a href="#/">低鈉</a></li>
-                                    <li><a href="#/">補鈣</a></li>
-                                    <li><a href="#/">貓咪</a></li>
-                                    <li><a href="#/">狗狗</a></li>
-                                    <li><a href="#/">防疫專區</a></li>
+                                    <li><a href="#/" onclick="getProductListWithCategory(2,'寵物罐罐')">精選罐罐</a></li>
+                                    <li><a href="#/" onclick="getProductListWithCategory(8,'環境清潔')">防疫專區</a></li>
+                                    <li><a href="#/" onclick="getProductListWithCategory(13,'捐贈商品')">愛心專區</a></li>
                                 </ul>
                             </div>
                         </div>

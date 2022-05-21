@@ -31,8 +31,20 @@
                 window.location.href = "/Front_Cart/Index";
             }
         });
-    }
-</script>
+        function AddToCart(productId, qty) {
+            $.ajax({
+                method: "POST",
+                url: "/Front_Cart/AddToCart",
+                data: {
+                    id: productId,
+                    qty: $("#inputQty").val()
+                },
+                success: function (result) {
+                    $('#CartMenu').html(result)
+                }
+            });
+        }
+    </script>
 }
 
 <!-- Breadcrumb Area Start -->

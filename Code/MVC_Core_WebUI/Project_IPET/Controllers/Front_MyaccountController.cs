@@ -73,20 +73,25 @@ namespace Project_IPET.Controllers
                 Member userobj = JsonSerializer.Deserialize<Member>(json);
                 int userid = userobj.MemberId;
 
-                var nocomment = _context.OrderDetails
-                                           .Where(u => u.Order.MemberId == userid && u.Commented == false)
-                                           .OrderByDescending(d => d.OrderDetailId)
-                                           .Select(n => new CCommentViewModel
-                                           {
-                                               ProductId = n.ProductId,
-                                               OrderDetailId = n.OrderDetailId,
-                                               MemberID = userid,
-                                               ProductName = n.Product.ProductName,
-                                               Rating = null,
-                                               CommentDate = null,
-                                               CommentContent = null,
-                                               ReplyContent = null,
-                                           }).ToList();
+                var nocomment = (from od in _context.OrderDetails
+                        join o in _context.Orders
+                        on od.OrderId equals o.OrderId
+                        join p in _context.Products
+                        on od.ProductId equals p.ProductId
+                        where o.MemberId == userid && od.Commented == false && o.OrderStatusId == 4
+                        orderby od.OrderDetailId descending
+                        select new CCommentViewModel
+                        {
+                            ProductId = od.ProductId,
+                            OrderDetailId = od.OrderDetailId,
+                            MemberID = userid,
+                            ProductName = p.ProductName,
+                            Rating = null,
+                            CommentDate = null,
+                            CommentContent = null,
+                            ReplyContent = null,
+                        }).ToList();
+
 
                 var comment = _context.Comments
                                       .Where(u => u.OrderDetail.Order.MemberId == userid)

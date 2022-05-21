@@ -244,6 +244,29 @@
         LoadList();
         LoadProd();
 
+        //$("#addtocart").on("click", (e) => {
+        //    e.preventDefault();
+        //    AddToCart();
+        //})
+        //function AddToCart() {
+        //    $.ajax({
+        //        method: "POST",
+        //        url: "/Front_Cart/AddToCart",
+        //        data: {
+        //            id: $("#prdid").val(),
+        //            qty: $("#selectQty").val()
+        //        },
+        //        success: function (result) {
+        //            $('#CartMenu').html(result),
+        //                Swal.fire({
+        //                    icon: 'success',
+        //                    title: '商品已加入購物車',
+        //                    text: productname + ' 數量 : ' + $("#inputQty").val(),
+        //                })
+        //        }
+        //    });
+        //}
+
         async function LoadContent() {
             const Contentrespnose = await fetch("@Url.Content("~/Front_Project/readContent?Id=")" + id)
             renderContent(await Contentrespnose.json());
@@ -326,6 +349,10 @@
                 var prodcount = document.createElement("span");
                 prodcount.style = "color: #f6ab49;font-weight:800";
                 prodcount.innerHTML = item.fQuantity;
+                if (item.fQuantity == "0") {
+                    document.getElementById('selectQty').disabled = true;
+                    document.getElementById('addtocart').disabled = true;
+                }
                 quantity.append(prodcount);
 
                 var hr = document.createElement("hr");

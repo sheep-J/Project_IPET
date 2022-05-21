@@ -24,7 +24,7 @@ namespace Project_IPET.Controllers
                 fId = n.OrderId,
                 fMemberName = n.Member.Name,
                 fRequiredDate = n.RequiredDate.Substring(0, 8),
-                fTotal = (_context.OrderDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(),
+                fTotal = n.TransactionTypeId ==1?(_context.OrderDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(): (_context.DonationDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(),
                 fType = n.TransactionType.TransactionTypeName,
                 fStatus = n.OrderStatus.OrderStatusName
             });
@@ -128,15 +128,31 @@ namespace Project_IPET.Controllers
         }
         public IActionResult OrderOther(int Id)
         {
-            var result = _context.Orders.Where(n => n.OrderId == Id).Select(o => new
+            var type = _context.Orders.Where(n => n.OrderId == Id).Select(n => n.TransactionTypeId).FirstOrDefault();
+            if(type == 1)
             {
-                detailfrieght = o.Frieght,
-                detaliprice = (_context.OrderDetails.Where(a => a.OrderId == o.OrderId).Sum(n => n.UnitPrice * n.Quantity) + o.Frieght).ToString(),
-                detailwhere = o.TransactionTypeId == 1?o.ShippedTo:o.DonationDetails.FirstOrDefault().Foundation.FoundationName,
-                detailwho = o.OrderName,
-                detailtype = o.TransactionType.TransactionTypeName
-            }).FirstOrDefault();
-            return Json(result);
+                var result = _context.Orders.Where(n => n.OrderId == Id).Select(o => new
+                {
+                    detailfrieght = o.Frieght,
+                    detaliprice = (_context.OrderDetails.Where(a => a.OrderId == o.OrderId).Sum(n => n.UnitPrice * n.Quantity) + o.Frieght).ToString(),
+                    detailwhere = o.TransactionTypeId == 1 ? o.ShippedTo : o.DonationDetails.FirstOrDefault().Foundation.FoundationName,
+                    detailwho = o.OrderName,
+                    detailtype = o.TransactionType.TransactionTypeName
+                }).FirstOrDefault();
+                return Json(result);
+            }
+            else
+            {
+                var result = _context.Orders.Where(n => n.OrderId == Id).Select(o => new
+                {
+                    detailfrieght = o.Frieght,
+                    detaliprice = (_context.DonationDetails.Where(a => a.OrderId == o.OrderId).Sum(n => n.UnitPrice * n.Quantity) + o.Frieght).ToString(),
+                    detailwhere = o.TransactionTypeId == 1 ? o.ShippedTo : o.DonationDetails.FirstOrDefault().Foundation.FoundationName,
+                    detailwho = o.OrderName,
+                    detailtype = o.TransactionType.TransactionTypeName
+                }).FirstOrDefault();
+                return Json(result);
+            }
         }
     }
 }

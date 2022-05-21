@@ -123,7 +123,7 @@
 
                     <!-- CTA Icon Start -->
                     <div class="cta-icon">
-                        <i><a href="~/Front_PetAdopt"  class="ti-home"></a></i>
+                        <i><a href="~/Front_PetAdopt" class="ti-home"></a></i>
                     </div>
                     <!-- CTA Icon End -->
                     <!-- CTA Content Start -->
@@ -458,8 +458,6 @@
 
         <!-- Single Blog Start -->
         <div id="blogview">
-
-
         </div>
         <!-- Single Blog End -->
 
@@ -756,33 +754,29 @@
     <!-- Mobile Menu Inner End -->
 </div>
 <!-- Mobile Menu End -->
-
-
-
-
 @section Scripts{
 
-    <script>
+<script>
 
-        init();
+    init();
 
-        function init()
-        {
-            post();
-        }
-
-
-        function post() {
-
-            POSTMethod("@Url.Content("~/Front_Blog/HomeBlogView")",
-                null,
-                function (response) {
-                    $("#blogview").html(response);
-
-                }
-            )
+    function init()
+    {
+        post();
+    }
 
 
-        }
-    </script>
+    function post() {
+
+        POSTMethod("@Url.Content("~/Front_Blog/HomeBlogView")",
+            null,
+            function (response) {
+                $("#blogview").html(response);
+
+            }
+        )
+
+
+    }
+</script>
 }

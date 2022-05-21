@@ -251,11 +251,12 @@
     <!-- Blog JS -->
     <script src="~/Front/js/Blog/PostTools.js"></script>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>
         $(document).ready(function () {
-            console.log("test");
                 $.ajax({
                     method: "POST",
                     url: "/Front_Cart/GetCart",
@@ -267,16 +268,29 @@
                 });
             });
 
+        window.addEventListener("pageshow", function (event) {
+            var historyTraversal = event.persisted ||
+                (typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2);
+            if (historyTraversal) {
+                window.location.reload();
+            }
+        });
 
-        function RemoveItem(pid){
+        function RemoveItem(productId, productname, qty){
             $.ajax({
                 method:'POST',
                 url:'@Url.Content("/Front_Cart/RemoveItem")',
                 data: {
-                    id: pid
+                    id: productId
                 },
                 success: function (result) {
-                    $('#CartMenu').html(result)
+                    $('#CartMenu').html(result),
+                        Swal.fire({
+                            icon: 'info',
+                            title: '商品已從購物車移除',
+                            text: productname + ' 數量 : ' + qty,
+                        })
                 }
             })
         }
@@ -288,10 +302,15 @@
                 data: {
                 },
                 success: function (result) {
-                    $('#CartMenu').html(result)
+                    $('#CartMenu').html(result),
+                        Swal.fire({
+                            icon: 'info',
+                            title: '全部商品已從購物車移除',
+                        })
                 }
             })
-        }
+    }
+
     </script>
 </body>
 </html>

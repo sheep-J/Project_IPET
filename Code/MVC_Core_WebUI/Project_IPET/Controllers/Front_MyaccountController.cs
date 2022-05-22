@@ -32,10 +32,6 @@ namespace Project_IPET.Controllers
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
 
-
-
-
-
             if (!string.IsNullOrEmpty(json))
             {
                 ViewBag.commentcount = GetComment().Count;

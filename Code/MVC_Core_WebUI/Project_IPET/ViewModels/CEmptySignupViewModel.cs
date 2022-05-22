@@ -20,5 +20,10 @@ namespace Project_IPET.ViewModels
         public string Region { get; set; }
         public string Address { get; set; }
         public IFormFile Photo { get; set; }
+
+        public bool FlagUserId { get; set; }
+        public bool FlagEmail { get; set; }
+        public bool FlagPassword { get; set; }
+        public bool FlagPhone { get; set; }
     }
 }

@@ -1,19 +1,19 @@
 ﻿<!--<!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <div class="breadcrumb-wrapper">
-                        <h2 class="breadcrumb-title"><a asp-controller="Front_Home" asp-action="Index"><img src="~/Front/images/logo/logo.png" alt="Site Logo" width="190" height="50" /></a></h2>
-                        @*<ul>
-                                <li><a href="index.html">首頁</a></li>
-                                <li>登入</li>
-                            </ul>*@
-                    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="breadcrumb-title"><a asp-controller="Front_Home" asp-action="Index"><img src="~/Front/images/logo/logo.png" alt="Site Logo" width="190" height="50" /></a></h2>
+                    @*<ul>
+                            <li><a href="index.html">首頁</a></li>
+                            <li>登入</li>
+                        </ul>*@
                 </div>
             </div>
         </div>
     </div>
+</div>
 <!-- Breadcrumb Area End -->
 <!-- Login Section Start -->
 <div class="section section-margin">
@@ -29,7 +29,7 @@
                     </div>
                     <!-- Login Title & Content End -->
                     <!-- Form Action Start -->
-                    <form action="#" method="post">
+                    <form asp-action="chkRoId" id="form">
                         <!-- Input Email Start -->
                         <div class="form-floating single-input-item m-b-10">
                             <input class="form-control" type="text" name="txtAccount" placeholder="Email 或 帳號">
@@ -51,8 +51,8 @@
                         <!-- Button/Forget Password Start -->
                         <div class="single-input-item m-b-15">
                             <div class="login-reg-form-meta m-b-n15">
-                                <button class="btn btn btn-gray-deep btn-hover-primary m-b-15">登入</button>
-                                <a href="#" class="forget-pwd m-b-15">忘記密碼?</a>
+                                <button onclick="chkform()" class="btn btn btn-gray-deep btn-hover-primary m-b-15">登入</button>
+                                <a href="~/Empty_Signin/ForgetPassword" class="forget-pwd m-b-15">忘記密碼?</a>
                             </div>
                         </div>
                         <!-- Button/Forget Password End -->
@@ -63,7 +63,6 @@
                         <!-- Lost Password & Creat New Account End -->
                     </form>
                     <!-- Page1 End -->
-
                     <!-- Form Action End -->
                 </div>
             </div>
@@ -71,3 +70,28 @@
     </div>
 </div>
 <!-- Login Section End -->
+<!-- Button trigger modal -->
+
+
+@section Scripts
+{
+    <script>
+
+        let Account = $('input[name="txtAccount"]');
+        let Password = $('input[name="txtPassword"]');
+
+         function chkform() {
+            $.post('@Url.Content("~/Empty_Signin/chkId")',
+                { txtAccount: Account.val(), txtPassword: Password.val() },
+                function (response) {
+                    if (response == "true") {
+                        //window.location.href = "/Empty_Signin/chkRoId";
+                        $("#form").submit();
+                    }
+                    else {
+                        alert("帳號 或是 密碼錯誤?");
+                    }
+                })
+        }
+    </script>
+}

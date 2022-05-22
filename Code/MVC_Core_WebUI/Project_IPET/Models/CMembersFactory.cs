@@ -40,6 +40,13 @@ namespace prjTest.Models
             return MemberId;
         }
 
+        public int getRoId(string json)
+        {
+            Member obj = JsonSerializer.Deserialize<Member>(json);
+            int RoleId = obj.RoleId;
+            return RoleId;
+        }
+
         public int getRegionId(string regionName)
         {
             int regionId = _context.Regions.Where(r => r.RegionName == regionName)

@@ -79,16 +79,28 @@
                     <div class="cart-btn action-btn">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
-                                @{
+                                @if (product.PrjID > 0)
+                                {
                                     if (product.UnitsInStock <= 0)
                                     {
                                         <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0 disabled">商品無庫存</a>
                                     }
                                     else
                                     {
-                                        <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID','@product.ProductName')" href="javascript:void(0);">加入購物車</a>
+                                        <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID','@product.ProductName')" href="javascript:void(0);">加入募集</a>
                                     }
                                 }
+                                else
+                                    {
+                                        if (product.UnitsInStock <= 0)
+                                        {
+                                            <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0 disabled">商品無庫存</a>
+                                        }
+                                        else
+                                        {
+                                            <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID','@product.ProductName')" href="javascript:void(0);">加入購物車</a>
+                                        }
+                                    }
                             </div>
                             <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
                             <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>

@@ -169,7 +169,7 @@
                     <h2 class="breadcrumb-title">寵物商品</h2>
                     <ul>
                         <li>
-                            <a asp-controller="Front_Home">iPet寵物店</a>
+                            <a asp-controller="Front_Home">IPET寵物店</a>
                         </li>
                         <li>寵物商品</li>
                     </ul>
@@ -254,19 +254,22 @@
                                         <div data-collapse="accordion">
                                             @foreach (var category in Model)
                                             {
-                                                <h5>
-                                                    <a onclick="getProductListWithCategory(@category.CategoryId,'@category.CategoryName')">@category.CategoryName (@category.ProductCount)</a>
-                                                </h5>
-                                                <ul class="sidebar-list">
-
-                                                    @foreach (var subCategory in category.SubCategories)
-                                                    {
-                                                        <li>
-                                                            <a href="#/" onclick="getProductListWithSubCategory(@subCategory.SubCategoryId,'@subCategory.SubCategoryName')">@subCategory.SubCategoryName</a>
-                                                        </li>
-                                                    }
-                                                </ul>
+                                                @if (category.CategoryId != 13)
+                                                {
+                                                    <h5>
+                                                        <a onclick="getProductListWithCategory(@category.CategoryId,'@category.CategoryName')">@category.CategoryName (@category.ProductCount)</a>
+                                                    </h5>
+                                                    <ul class="sidebar-list">
+                                                        @foreach (var subCategory in category.SubCategories)
+                                                        {
+                                                            <li>
+                                                                <a href="#/" onclick="getProductListWithSubCategory(@subCategory.SubCategoryId,'@subCategory.SubCategoryName')">@subCategory.SubCategoryName</a>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                }
                                             }
+
                                             <h5>
                                                 <a href="#" onclick="getAllPrjProducts()">正在募集商品 (@ViewBag.PrjProductCount)</a>
                                             </h5>
@@ -299,21 +302,12 @@
                                 <ul class="tags m-b-n10">
                                     <li><a href="#/" onclick="getProductListWithCategory(2,'寵物罐罐')">精選罐罐</a></li>
                                     <li><a href="#/" onclick="getProductListWithCategory(8,'環境清潔')">防疫專區</a></li>
-<<<<<<< .mine
-
-
-
-
-
-
-=======
                                     <li>
                                         <a href="#/" onclick="getProductListWithCategory(8,'環境清潔')">防疫專區</a>
                                     </li>
                                     <li>
                                         <a href="#/" onclick="getProductListWithCategory(13,'捐贈商品')">愛心專區</a>
                                     </li>
->>>>>>> .theirs
                                 </ul>
                             </div>
                         </div>

@@ -45,21 +45,47 @@
                                 <!-- Blog Image End -->
                                 <!-- Blog details title & Meta Start -->
                             <div class="blog-details-title-meta">
-                                    <h2 class="title">@Html.DisplayFor(modelItem => item.Title)</h2>
+                                    
                                     <ul class="blog-meta">
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true">@Html.DisplayFor(modelItem => item.LikeCount)</i>
-                                            </a>
-
-                                        </li>
-                                        <li>By: <span>@Html.DisplayFor(modelItem => item.MemberName)</span> - 貼文日期: <span>@Html.DisplayFor(modelItem => item.PostDate)</span></li>
-                                        <li>@Html.DisplayFor(modelItem => item.ReplyCount) 則留言</li>
+                                        <!-- 點讚 Start -->
+                                               <li>
+                                               <a href="#/">
+                                                    <input type="hidden" value="@item.liked" id="@item.PostId">
+                                                  
+                                                       @if(item.liked !=0)
+                                                        {
+                                                           <i class="fa fa-thumbs-o-up text-primary fs-2" id="clicklike" onclick="clicklike(@item.PostId,@item.MemberId)"  ></i>
+                                                        }
+                                                       else
+                                                        {
+                                                           <i class="fa fa-thumbs-o-up  fs-2" id="clicklike" onclick="clicklike(@item.PostId,@item.MemberId)"  ></i>
+                                                        }
+                                                </a>
+                                                </li>
+                                        <!-- 點讚 End -->
+                                                        @if( @item.LikeCount != 0)
+                                                        {
+                                                            <li class="w-30 text-primary fs-2">@Html.DisplayFor(modelItem => item.LikeCount) </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="w-30 fs-2">@Html.DisplayFor(modelItem => item.LikeCount)</li>
+                                                        }
+                                                       
+                                                <li>
+                                                    <h2 class="title">@Html.DisplayFor(modelItem => item.Title)</h2>
+                                                </li>
+                                    </ul>
+                                    <br>
+                                    <ul>
+                                          <li>By: <span>@Html.DisplayFor(modelItem => item.MemberName)</span> - 貼文日期: <span>@Html.DisplayFor(modelItem => item.PostDate)</span></li>
+                                          <li>@Html.DisplayFor(modelItem => item.ReplyCount) 則留言</li>
                                     </ul>
                                 </div>
                                 <!-- Blog details title & Meta End -->
                                 <!-- Content Start -->
-                            <p>@Html.DisplayFor(modelItem => item.PostContent)</p>
+                                <br>
+                            <h5>@Html.DisplayFor(modelItem => item.PostContent)</h5>
 
                                 <!-- Content End -->
                                 <!-- Blog Details Tags & Social Shear Start -->
@@ -86,7 +112,7 @@
                         <!-- Post Post Area Start -->
                         <div class="comment-post-area">
                             <h2 class="blog-desc-title m-b-30 p-t-40">留言回覆</h2>
-                            <form asp-controller="Front_Blog" asp-action="PostView" asp-route-id=@ViewBag.Id  method="post" >
+                         
                                 <div class="row">
                                     <!-- 會員 Name -->
                                     <!-- Name Input Start -->
@@ -105,12 +131,12 @@
                                     <!-- Message Input End -->
                                     <!-- Submit Button Start -->
                                     <div class="col-12 col-custom m-t-20">
-                                        <button type="submit" class="btn btn-primary btn-hover-dark">Send Message</button>
+                                        <button type="button"  onclick="createreply()" class="btn btn-primary btn-hover-dark">Send Message</button>
                                     </div>
                                     <!-- Submit Button End -->
 
                                 </div>
-                            </form>
+                           
                         </div>
                         <!-- Post Post Area End -->
 
@@ -133,7 +159,7 @@
         let postId = @ViewBag.PostID;
 
         init(postId);
-        console.log(postId);
+      
         function init(postId)
         {
             
@@ -142,16 +168,69 @@
               {inputpostId:postId},
                function(response)
                {
-                   console.log(response);
+                 
                    $("#replylistview").html(response);
 
                }
              )
             
         }
-             
+
+
+        function createreply()
+        {
+
+         POSTMethod("@Url.Content("~/Front_Blog/CreateReply")",
+              {
+                ReplyToPost:postId,
+                PostContent:$("#PostContent").val(),
+              },
+               function()
+               {
+                  $("#PostContent").val("");
+                   init(postId);
+               }
+             )
+        }
 
 
     
+         function clicklike(postId,MemberId)
+       {
+
+
+           if($(`#${postId}`).val() != 0)
+           {
+             $("#clicklike").removeClass("text-primary");
+
+
+              POSTMethod("@Url.Content("~/Front_Blog/DeleteLike")",
+              {
+               MemberId:MemberId,
+               PostId:postId,
+              },
+               null
+              )
+      
+
+           }
+           else
+           {
+             $("#clicklike").addClass("text-primary");
+
+              POSTMethod("@Url.Content("~/Front_Blog/CreateLike")",
+              {
+               MemberId:MemberId,
+               PostId:postId,
+              },
+               null
+              )
+            
+
+           }
+
+             window.location.reload(true);
+            
+       }
     </script>
 }

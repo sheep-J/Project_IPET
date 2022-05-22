@@ -99,23 +99,7 @@ namespace Project_IPET.Controllers
 
             }
 
-            if (!string.IsNullOrEmpty(json) && !string.IsNullOrEmpty(vModel.PostContent))
-            {
-                var newReply = new Post
-                {
-                    MemberId = userid,
-                    PostContent = vModel.PostContent,
-                    PostDate = DateTime.Now.ToString(),
-                    PostTypeId = 6,
-                    Banned = false,
-                    BannedContent = "********************",
-                    LikeCount = 0,
-                    ReplyToPost = id,
-
-                };
-                _context.Add(newReply);
-                _context.SaveChanges();
-            }
+           
             var postdetail = _context.Posts.Where(m => m.PostId == id)
                              .Select(p => new CPostViewModel
                              {
@@ -133,6 +117,33 @@ namespace Project_IPET.Controllers
             ViewBag.PostID = id;
 
             return View(postdetail);
+        }
+
+        public IActionResult CreateReply(CPostViewModel vModel) 
+        {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+          
+            if (!string.IsNullOrEmpty(json) && !string.IsNullOrEmpty(vModel.PostContent))
+            {
+                Member userobj = JsonSerializer.Deserialize<Member>(json);
+                int userid = userobj.MemberId; ;
+                var newReply = new Post
+                {
+                    MemberId = userid,
+                    PostContent = vModel.PostContent,
+                    PostDate = DateTime.Now.ToString(),
+                    PostTypeId = 6,
+                    Banned = false,
+                    BannedContent = "********************",
+                    LikeCount = 0,
+                    ReplyToPost =int.Parse(vModel.ReplyToPost),
+
+                };
+                _context.Add(newReply);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("PostView");
         }
 
         public IActionResult ReplyListView(int inputpostId)

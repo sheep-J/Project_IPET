@@ -20,19 +20,15 @@ namespace Project_IPET.Controllers
 
         public IActionResult Index(CMembersFilter filter)
         {
-            ViewBag.TOTALPAGE = ((new CMembersFactory(_context)).memberFilter(filter).Count() / 10) + 1;
-            ViewBag.TOTALMEMBER = (new CMembersFactory(_context)).memberFilter(filter).Count();
+            int pagesize = 10;
+            int totalmember = (new CMembersFactory(_context)).memberFilter(filter).Count();
+            (new CTools()).Page(pagesize, totalmember, out int totalpage);
+            ViewBag.PAGESIZE = pagesize;
+            ViewBag.TOTALMEMBER = totalmember;
+            ViewBag.TOTALPAGE = totalpage;
 
-            return View();
+            var datas = new CMembersFactory(_context).memberFilter(filter).ToList();
+            return View(datas);
         }
-
-        [HttpPost]
-        public IActionResult ListView(CMembersFilter filter)
-        {
-            IEnumerable<CBackMembersViewModel> datas = null;
-            datas = (new CMembersFactory(_context)).memberFilter(filter);
-            return PartialView(datas);
-        }
-
     }
 }

@@ -14,7 +14,7 @@ namespace Project_IPET.ViewModels
         public string Gender { get; set; }
         public DateTime BirthDate { get; set; }
         public string Email { get; set; }
-        public string CurrentPwd { get; set; }
+        public string NewPwd { get; set; }
         public string ConfirmPwd { get; set; }
         public string Phone { get; set; }
         public string Region { get; set; }
@@ -23,6 +23,7 @@ namespace Project_IPET.ViewModels
 
         public bool FlagUserId { get; set; }
         public bool FlagEmail { get; set; }
+        public bool FlagOldPwd { get; set; }
         public bool FlagPassword { get; set; }
         public bool FlagPhone { get; set; }
     }

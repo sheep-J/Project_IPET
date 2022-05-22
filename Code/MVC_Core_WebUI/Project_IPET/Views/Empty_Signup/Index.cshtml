@@ -135,8 +135,8 @@
                                 <!-- CurrentPwd Start -->
                                 <div class="col-lg-6">
                                     <div class="form-floating single-input-item m-b-5">
-                                        <input class="form-control" oninput="chkPassword()" name="CurrentPwd" id="CurrentPwd" type="password" placeholder="密碼">
-                                        <label for="CurrentPwd">密碼</label>
+                                        <input class="form-control" oninput="chkPassword()" name="NewPwd" id="NewPwd" type="password" placeholder="密碼">
+                                        <label for="NewPwd">密碼</label>
                                     </div>
                                 </div>
                                 <!-- CurrentPwd End -->
@@ -225,7 +225,7 @@
     <script>
         let userId = $('input[name="UserId"]');
         let email = $('input[name="Email"]');
-        let currentpwd = $('input[name="CurrentPwd"]');
+        let newpwd = $('input[name="NewPwd"]');
         let confirmpwd = $('input[name="ConfirmPwd"]');
         let phone = $('input[name="Phone"]');
 
@@ -234,8 +234,8 @@
         let flagPassword = false;
         let flagPhone = false;
 
-        function chkUserId () {
-            $.post('@Url.Content("~/MembersApi/chkIdRepetition")',
+        async function chkUserId() {
+            await $.post('@Url.Content("~/MembersApi/chkIdRepetition")',
                 { UserId: userId.val() },
                 function (response) {
                     if (response == "true") {
@@ -255,8 +255,8 @@
                 })
         }
 
-        function chkEmail() {
-            $.post('@Url.Content("~/MembersApi/chkemailRepetition")',
+        async function chkEmail() {
+           await $.post('@Url.Content("~/MembersApi/chkemailRepetition")',
                 { Email: email.val() },
                 function (response) {
                     if (response == "true") {
@@ -276,9 +276,9 @@
                 })
         }
 
-        function chkPassword() {
-            $.post('@Url.Content("~/MembersApi/chkpasswordRepetition")',
-                { CurrentPwd: currentpwd.val(), ConfirmPwd: confirmpwd.val()},
+        async function chkPassword() {
+            await $.post('@Url.Content("~/MembersApi/chkpasswordRepetition")',
+                { NewPwd: newpwd.val(), ConfirmPwd: confirmpwd.val()},
                 function (response) {
                     if (response == "true") {
                         flagPassword = true;
@@ -297,8 +297,8 @@
                 })
         }
 
-        function chkPhone() {
-            $.post('@Url.Content("~/MembersApi/chkphoneRepetition")',
+        async function chkPhone() {
+            await $.post('@Url.Content("~/MembersApi/chkphoneRepetition")',
                 { Phone: phone.val() },
                 function (response) {
                     if (response == "true") {
@@ -318,8 +318,8 @@
                 })
         }
 
-        function chkform() {
-            $.post('@Url.Content("~/Empty_Signup/chkFlag")',
+        async function chkform() {
+            await $.post('@Url.Content("~/Empty_Signup/chkFlag")',
                 { FlagUserId: flagUserId, FlagEmail: flagEmail, FlagPassword: flagPassword, FlagPhone: flagPhone },
                 function (response) {
                     if (response == "true") {
@@ -329,6 +329,11 @@
                     else {
                         //console.log("false");
                         alert("尚未填寫完成")
+                        userId.on("onblur", chkUserId());
+                        email.on("onblur", chkEmail());
+                        newpwd.on("onblur", chkPassword());
+                        confirmpwd.on("onblur", chkPassword());
+                        phone.on("onblur", chkPhone());
                     }
                 }
             )

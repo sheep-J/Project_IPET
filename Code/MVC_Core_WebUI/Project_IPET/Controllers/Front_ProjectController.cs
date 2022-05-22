@@ -51,7 +51,7 @@ namespace Project_IPET.Controllers
                 fPrjImage = n.PrjImage,
                 fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString(),
                 fDeadlineall = ((DateTime)n.Endtime).AddDays(1).ToString()
-            }).ToList();
+            }).OrderBy(n=>n.fDeadlineall).ToList();
             return Json(list);
         }
         public IActionResult readProjectHistory()
@@ -83,9 +83,10 @@ namespace Project_IPET.Controllers
             }).ToList();
             int total = (int)list.Sum(n=>n.orderlist);
             var goal = _context.ProjectDetails.Where(n => n.PrjId == Id).Select(n => n.Goal).FirstOrDefault();
-            decimal persent = total/(decimal)goal * 100;
+            decimal persent = Math.Round(total / (decimal)goal * 100, 2);
             return Json(persent);
         }
+
 
         public IActionResult readCount(int Id)
         {

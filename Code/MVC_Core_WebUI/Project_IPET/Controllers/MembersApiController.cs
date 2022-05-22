@@ -53,13 +53,29 @@ namespace Project_IPET.Controllers
             return Content("null");
         }
 
+        public IActionResult chkoldpwdRepetition(CFrontMembersViewModel vModel)
+        {
+            Regex regPassword = new Regex(@"[A-Z,a-z,0-9]{5,16}$");
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            int memberId = (new CMembersFactory(_context)).getMemberId(json);
+            var datas = _context.Members.FirstOrDefault(m => m.MemberId == memberId).Password;
+
+            if (!string.IsNullOrEmpty(vModel.CurrentPwd))
+            {
+                if (regPassword.IsMatch(vModel.CurrentPwd) && vModel.CurrentPwd == datas)
+                    return Content("true");
+                return Content("false");
+            }
+            return Content("null");
+        }
+
         public IActionResult chkpasswordRepetition(CEmptySignupViewModel vModel)
         {
             Regex regPassword = new Regex(@"[A-Z,a-z,0-9]{5,16}$");
 
-            if (!string.IsNullOrEmpty(vModel.CurrentPwd))
+            if (!string.IsNullOrEmpty(vModel.NewPwd))
             {
-                if (regPassword.IsMatch(vModel.CurrentPwd) && vModel.CurrentPwd == vModel.ConfirmPwd)
+                if (regPassword.IsMatch(vModel.NewPwd) && vModel.NewPwd == vModel.ConfirmPwd)
                     return Content("true");
                 return Content("false");
             }

@@ -1,6 +1,6 @@
 ﻿@model Project_IPET.ViewModels.CFrontMembersViewModel
 
-<form asp-action="MyContentEdit" class="form-floating" enctype="multipart/form-data">
+<form id="form" asp-action="MyContentEdit" class="form-floating" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="row">
@@ -10,18 +10,27 @@
                 <img src="~/Front/images/register/members/@Html.DisplayFor(model=>model.Avatar)" alt="..." name="previewPhoto" id="previewPhoto" class="img-fluid img-thumbnail rounded-circle mx-auto mb-3" style="width:100px; height:100px;" />
             </a>
         </div>
-
         <div class="single-input-item m-b-15">
             <label for="Name" class="required m-b-10">姓名</label>
             <input type="text" value="@Html.DisplayFor(model=>model.Name)" name="Name" id="Name" />
         </div>
         <div class="single-input-item m-b-15">
             <label for="Email" class="required m-b-5">Email</label>
-            <input type="email" value="@Html.DisplayFor(model=>model.Email)" name="Email" id="Email" />
+            <input type="email" oninput="chkEmail()" value="@Html.DisplayFor(model=>model.Email)" name="Email" id="Email" />
+        </div>
+        <!-- emailAlert -->
+        <div id="emailAlert" class="d-block col-auto m-b-5 justify-content-start align-items-center d-none">
+            <i class="fa-solid d-none"></i>
+            <b class="d-none"></b>
         </div>
         <div class="single-input-item m-b-15">
-            <label for="Phone" class="required m-b-10">電話</label>
-            <input type="text" value="@Html.DisplayFor(model=>model.Phone)" name="Phone" id="Phone" readonly />
+            <label for="Phone" class="required m-b-10">手機</label>
+            <input type="text" oninput="chkPhone()" value="@Html.DisplayFor(model=>model.Phone)" name="Phone" id="Phone"/>
+        </div>
+        <!-- phoneAlert -->
+        <div id="phoneAlert" class="d-block col-auto m-b-10 justify-content-start align-items-center d-none">
+            <i class="fa-solid d-none"></i>
+            <b class="d-none"></b>
         </div>
         <div class="single-input-item m-b-15">
             <label for="BirthDate" class="required m-b-5">生日</label>
@@ -48,29 +57,155 @@
         <legend>密碼變更</legend>
         <div class="single-input-item m-b-15">
             <label for="CurrentPwd" class="required m-b-10">舊密碼</label>
-            <input type="password" name="CurrentPwd" id="CurrentPwd" placeholder="確認密碼" />
+            <input type="password" oninput="chkoldPwd()" name="CurrentPwd" id="CurrentPwd" placeholder="確認密碼" />
         </div>
-        <div class="row m-b-n15">
+        <!-- oldPwdAlert -->
+        <div id="oldPwdAlert" class="d-block col-auto m-b-10 justify-content-start align-items-center d-none">
+            <i class="fa-solid"></i>
+            <b class="d-none"></b>
+        </div>
+        <div class="row m-b-5">
             <div class="col-lg-6">
                 <div class="single-input-item m-b-15">
                     <label for="NewPwd" class="required m-b-10">新密碼</label>
-                    <input type="password" name="NewPwd" id="NewPwd" placeholder="請輸入新的密碼……" />
+                    <input type="password" oninput="chkPassword()" name="NewPwd" id="NewPwd" placeholder="請輸入新的密碼……" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="single-input-item m-b-15">
                     <label for="ConfirmPwd" class="required m-b-10">確認密碼</label>
-                    <input type="password" name="ConfirmPwd" id="ConfirmPwd" placeholder="請確認是否與新密碼相符" />
+                    <input type="password" oninput="chkPassword()" name="ConfirmPwd" id="ConfirmPwd" placeholder="請確認是否與新密碼相符" />
                 </div>
             </div>
         </div>
+        <!-- passwordAlert -->
+        <div id="passwordAlert" class="d-block col-auto m-b-5 justify-content-start align-items-center d-none">
+            <i class="fa-solid"></i>
+            <b class="d-none"></b>
+        </div>
     </fieldset>
     <div class="single-input-item single-item-button m-t-30">
-        <input type="submit" value="確認變更" class="btn btn btn-primary btn-hover-dark rounded-0" />
+        <input type="button" onclick="chkform()" value="確認變更" class="btn btn btn-primary btn-hover-dark rounded-0" />
     </div>
 </form>
 
 <script>
+    let email = $('input[name="Email"]');
+    let phone = $('input[name="Phone"]');
+    let currentpwd = $('input[name="CurrentPwd"]');
+    let newpwd = $('input[name="NewPwd"]');
+    let confirmpwd = $('input[name="ConfirmPwd"]');
+
+    let flagEmail = false;
+    let flagPhone = false;
+    let flagoldPwd = false;
+    let flagPassword = false;
+
+    function chkEmail() {
+        $.post('@Url.Content("~/MembersApi/chkemailRepetition")',
+            { Email: email.val() },
+            function (response) {
+                if (response == "true") {
+                    flagEmail = true;
+                    //console.log("true");
+                    $("#emailAlert").removeClass("d-none").css("color", "forestgreen")
+                        .children("i").removeClass("d-none fa-circle-xmark").addClass("fa-circle-check").end()
+                        .children("b").removeClass("d-none").text("此Email可以使用");
+                }
+                else {
+                    flagEmail = false;
+                    //console.log("false");
+                    $("#emailAlert").removeClass("d-none").css("color", "crimson")
+                        .children("i").removeClass("d-none fa-circle-check").addClass("fa-circle-xmark").end()
+                        .children("b").removeClass("d-none").text("請符合通用Email格式");
+                    }
+                })
+    }
+
+    function chkPhone() {
+        $.post('@Url.Content("~/MembersApi/chkphoneRepetition")',
+            { Phone: phone.val() },
+            function (response) {
+                if (response == "true") {
+                    flagPhone = true;
+                    //console.log("true");
+                    $("#phoneAlert").removeClass("d-none").css("color", "forestgreen")
+                        .children("i").removeClass("d-none fa-circle-xmark").addClass("fa-circle-check").end()
+                        .children("b").removeClass("d-none").text("電話格式正確");
+                }
+                else {
+                    flagPhone = false;
+                    //console.log("false");
+                    $("#phoneAlert").removeClass("d-none").css("color", "crimson")
+                        .children("i").removeClass("d-none fa-circle-check").addClass("fa-circle-xmark").end()
+                        .children("b").removeClass("d-none").text("請輸入您的手機號碼");
+                    }
+                })
+        }
+
+    function chkoldPwd() {
+        $.post('@Url.Content("~/MembersApi/chkoldpwdRepetition")',
+            { CurrentPwd: currentpwd.val() },
+            function (response) {
+                if (response == "true") {
+                    flagoldPwd = true;
+                    //console.log("true");
+                    $("#oldPwdAlert").removeClass("d-none").css("color", "forestgreen")
+                        .children("i").removeClass("d-none fa-circle-xmark").addClass("fa-circle-check").end()
+                        .children("b").removeClass("d-none").text("密碼正確");
+                }
+                else {
+                    flagoldPwd = false;
+                    //console.log("false");
+                    $("#oldPwdAlert").removeClass("d-none").css("color", "crimson")
+                        .children("i").removeClass("d-none fa-circle-check").addClass("fa-circle-xmark").end()
+                        .children("b").removeClass("d-none").text("密碼不正確");
+                    }
+                })
+        }
+
+    function chkPassword() {
+        $.post('@Url.Content("~/MembersApi/chkPasswordRepetition")',
+            { NewPwd: newpwd.val(), ConfirmPwd: confirmpwd.val() },
+            function (response) {
+                if (response == "true") {
+                    flagPassword = true;
+                    //console.log("true");
+                    $("#passwordAlert").removeClass("d-none").css("color", "forestgreen")
+                        .children("i").removeClass("d-none fa-circle-xmark").addClass("fa-circle-check").end()
+                        .children("b").removeClass("d-none").text("此密碼可以使用");
+                }
+                else {
+                    flagPassword = false;
+                    //console.log("false");
+                    $("#passwordAlert").removeClass("d-none").css("color", "crimson")
+                        .children("i").removeClass("d-none fa-circle-check").addClass("fa-circle-xmark").end()
+                        .children("b").removeClass("d-none").text("兩端密碼不相同，請再作確認");
+                    }
+                })
+        }
+
+    function chkform() {
+        $.post('@Url.Content("~/Front_Myaccount/chkFlag")',
+            { FlagEmail: flagEmail, FlagPhone: flagPhone, FlagOldPwd: flagoldPwd, FlagPassword: flagPassword,  },
+            function (response) {
+                if (response == "true") {
+                    //console.log("true");
+                    $("#form").submit();
+                }
+                else {
+                    //console.log("false");
+                    alert("尚未填寫完成")
+                    email.on("onblur", chkEmail());
+                    phone.on("onblur", chkPhone());
+                    currentpwd.on("onblur", chkoldPwd());
+                    newpwd.on("onblur", chkPassword());
+                    confirmpwd.on("onblur", chkPassword());
+                }
+            }
+        )
+    }
+
 
     function browsePhoto() {
         $("#Photo").trigger("click");

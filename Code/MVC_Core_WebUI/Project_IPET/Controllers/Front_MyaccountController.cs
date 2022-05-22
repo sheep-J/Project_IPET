@@ -286,8 +286,6 @@ namespace Project_IPET.Controllers
                 vModel.Photo.CopyTo(fileStream);
             }
 
-            if (vModel.NewPwd != null)
-            {
                 var member = _context.Members.FirstOrDefault(m => m.MemberId == memberId);
                 if (member != null)
                 {
@@ -302,8 +300,15 @@ namespace Project_IPET.Controllers
                 };
                 _context.SaveChanges();
                 return RedirectToAction("Index", "Front_Myaccount");
+        }
+
+        public IActionResult chkFlag(CEmptySignupViewModel vModel)
+        {
+            if (vModel.FlagEmail && vModel.FlagPhone && vModel.FlagOldPwd && vModel.FlagPassword)
+            {
+                return Content("true");
             }
-            return RedirectToAction("Index", "Front_Myaccount");
+                return Content("false");
         }
 
         [HttpPost]
@@ -315,28 +320,28 @@ namespace Project_IPET.Controllers
             IEnumerable<CFrontWishListViewModel> datas = null;
 
             #region WIP (LeftJoin)
-            datas = from f in _context.MyFavorites.AsEnumerable()
-                    join p in _context.Products
-                    on f.ProductId equals p.ProductId
-                    join c in _context.Comments.GroupBy(c => c.ProductId)
-                    .Select(c => new
-                    {
-                        ProductId = c.Key,
-                        AverageRating = c.Average(c => c.Rating)
-                    })
-                    on p.ProductId equals c.ProductId into g
-                    from result in g.DefaultIfEmpty()
-                    where f.MemberId == memberId
-                    select new CFrontWishListViewModel
-                    {
-                        ProductName = p.ProductName,
-                        ProductPrice = p.UnitPrice,
-                        Quantity = p.UnitsInStock,
-                        FavoriteId = f.FavoriteId,
-                        ProductId = f.ProductId,
-                        Ranking = decimal.Round((decimal)result.AverageRating, 1),
+            //datas = from f in _context.MyFavorites.AsEnumerable()
+            //        join p in _context.Products
+            //        on f.ProductId equals p.ProductId
+            //        join c in _context.Comments.GroupBy(c => c.ProductId)
+            //        .Select(c => new
+            //        {
+            //            ProductId = c.Key,
+            //            AverageRating = c.Average(c => c.Rating)
+            //        })
+            //        on p.ProductId equals c.ProductId into g
+            //        from result in g.DefaultIfEmpty()
+            //        where f.MemberId == memberId
+            //        select new CFrontWishListViewModel
+            //        {
+            //            ProductName = p.ProductName,
+            //            ProductPrice = p.UnitPrice,
+            //            Quantity = p.UnitsInStock,
+            //            FavoriteId = f.FavoriteId,
+            //            ProductId = f.ProductId,
+            //            Ranking = decimal.Round((decimal)result.AverageRating, 1),
 
-                    };
+            //        };
 
             #endregion
             return PartialView(datas);

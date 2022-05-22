@@ -75,7 +75,7 @@ namespace Project_IPET.Controllers
                 if (comment != null)
                 {
 
-                    if (vModel.ReplyContent != null && vModel.ReplyContent != "親切地回覆顧客留言以拉近與顧客的距離")
+                    if (vModel.ReplyContent != null && vModel.ReplyContent != null)
                     {
                         comment.ReplyContent = vModel.ReplyContent;
                         comment.Reply = true;

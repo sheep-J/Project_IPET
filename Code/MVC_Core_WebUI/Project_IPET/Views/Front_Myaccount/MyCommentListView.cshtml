@@ -141,6 +141,7 @@
                 </div>
 
                 <div class="modal-footer">
+                    <div id="DemoComment" class="btn btn-secondary" >Demo</div>
                     <button type="button" id="Cancel" class="btn btn-secondary" data-bs-dismiss="modal" data-target="#Cancel">取消</button>
                     <button type="button" id="savebtn" class="btn btn-primary" data-bs-dismiss="modal" onclick="location=location">送出</button>
                 </div>
@@ -197,12 +198,19 @@
 
                     })
 
+                     $(document).on("click", "#DemoComment", function ()
+                    {
+
+                        $("#CommentContent").val("產品真是太棒了!!! 而且快速到貨!!!!");
+                      
+
+                    })
+
 
 
                 function CreateComment() {
                     POSTMethod("@Url.Content("~/Front_Myaccount/CreateComment")",
                         {
-
 
                           ProductId:$("#ProductId").text(),
                           OrderDetailId:$("#OrderDetailId").text(),

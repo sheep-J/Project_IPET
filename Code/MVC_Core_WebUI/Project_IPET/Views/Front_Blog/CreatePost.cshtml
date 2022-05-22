@@ -11,7 +11,7 @@
         <style>
             .spacing-10{
                 padding:10px;
-            
+                margin-bottom:20px;
             }
 
         </style>
@@ -40,15 +40,15 @@
 
 
         <!--新增貼文區 Start-->
-        
+         <div style="margin:0 25%;">
         <form  action="~/Front_Blog/CreatePost" method="post" enctype="multipart/form-data" class=" section section-margin " style="padding:0 5px" runat="server">
-            <div style="margin:0 25%;">
+           
 
                 <!--標題 Start-->
                 <div class="mb-3">
                     <div>
                         <h3>標題</h3>
-                        <input class="form-control w-100" id="Title" name="Title" type="text" cols="30" rows="10"/>
+                        <input  class="form-control w-100" id="Title" name="Title" type="text" cols="30" rows="10"/>
                     </div>
 
                     <div class="input-group " style="padding-top:20px" ;>
@@ -73,7 +73,6 @@
                 <!--圖片上傳 Start-->
                 <div class="custom-file">
 
-
                     <input class="form-control-file" accept="image/*" type="file" name="PostPhoto" id="PostPhoto"/>
                   
                 </div>
@@ -85,17 +84,33 @@
                 <!--圖片上傳  End -->
                 <!--按鈕  Start-->
                 <div>
-                    <button type="submit" class="btn btn-secondary btn-primary btn-hover-dark" style="float:right;">上傳貼文</button>
+                    <button type="submit" class="btn btn-secondary btn-primary btn-hover-dark" style="float:right; ">上傳貼文</button>
+                    <div id="demo"  class="btn btn-secondary btn-primary btn-hover-dark" >Demo</div>
                 </div>
                 <!--按鈕    End-->
-            </div>
+          
         </form>
-
+              
+          </div>
+              
         <!-- 新增貼文區 End -->
 
 
-
+        @section Scripts{
+        
         <script>
+            $(document).on("click", "#demo", function ()
+            {
+                 $("#Title").val("從寵物到流浪動物：在城市的暗處");
+                 $("#PostContent").text("雖然貓狗在台灣常被視為擁有特殊待遇的一群，不只現行的法律常被質疑是否獨厚貓狗，甚至到了要立法限制吃食的程度；許多人對待動物的態度亦彷彿映證了所謂「愛動物」多半僅局限於自家寵物，"+
+                                       "部分飼主任由寵物在野外活動的行為，更讓關懷野生動物處境者憂心犬貓造成生態環境失衡。但對於關心流浪動物議題的人來說，台灣流浪動物的處境，或許會讓他們有完全不同的感受。"+
+                                       "若綜觀近二十年來台灣動物保護運動的脈絡，就可發現犬貓或許真的得到了最多的注意與重視，但牠們的處境以及社會意識的改變，其實並不如想像中那麼多。尤其若飼主的觀念並未隨著寵物的普及而相對提升"+
+                                       "，不當飼養與棄養的狀況，將使得許多「寵物」淪落為「流浪動物」，當漫步的狗身後少了那條人類控制的牽繩，牠們彷彿也就從城市風景的一部分，變成具威脅性的城市毒瘤。該如何看待與處理城市中的流浪動物"+
+                                       "，遂成為人們爭論不休的問題。");
+                
+            })
+
+
             PostPhoto.onchange = evt => {
                 const [file] = PostPhoto.files
                 if (file) {
@@ -103,8 +118,14 @@
                 }
             }
 
+             
+        
+        
+                 
+              
+       
         </script>
-
+         }
     </body>
  
 </html>

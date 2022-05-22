@@ -35,7 +35,7 @@ namespace Project_IPET.Controllers
             if (!string.IsNullOrEmpty(json))
             {
                 ViewBag.commentcount = GetComment().Count;
-            return View();
+                return View();
             }
             return RedirectToAction("Index", "Empty_Signin");
         }
@@ -47,8 +47,8 @@ namespace Project_IPET.Controllers
 
             if (!string.IsNullOrEmpty(json))
             {
-              
-                var comment= GetComment();
+
+                var comment = GetComment();
 
                 return PartialView(comment);
 
@@ -60,7 +60,7 @@ namespace Project_IPET.Controllers
             }
         }
 
-        public List<CCommentViewModel> GetComment() 
+        public List<CCommentViewModel> GetComment()
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
 
@@ -70,23 +70,23 @@ namespace Project_IPET.Controllers
                 int userid = userobj.MemberId;
 
                 var nocomment = (from od in _context.OrderDetails
-                        join o in _context.Orders
-                        on od.OrderId equals o.OrderId
-                        join p in _context.Products
-                        on od.ProductId equals p.ProductId
-                        where o.MemberId == userid && od.Commented == false && o.OrderStatusId == 4
-                        orderby od.OrderDetailId descending
-                        select new CCommentViewModel
-                        {
-                            ProductId = od.ProductId,
-                            OrderDetailId = od.OrderDetailId,
-                            MemberID = userid,
-                            ProductName = p.ProductName,
-                            Rating = null,
-                            CommentDate = null,
-                            CommentContent = null,
-                            ReplyContent = null,
-                        }).ToList();
+                                 join o in _context.Orders
+                                 on od.OrderId equals o.OrderId
+                                 join p in _context.Products
+                                 on od.ProductId equals p.ProductId
+                                 where o.MemberId == userid && od.Commented == false && o.OrderStatusId == 4
+                                 orderby od.OrderDetailId descending
+                                 select new CCommentViewModel
+                                 {
+                                     ProductId = od.ProductId,
+                                     OrderDetailId = od.OrderDetailId,
+                                     MemberID = userid,
+                                     ProductName = p.ProductName,
+                                     Rating = null,
+                                     CommentDate = null,
+                                     CommentContent = null,
+                                     ReplyContent = null,
+                                 }).ToList();
 
 
                 var comment = _context.Comments
@@ -109,12 +109,12 @@ namespace Project_IPET.Controllers
                 return nocomment;
 
             }
-            else 
+            else
             {
                 return null;
 
             }
-          
+
         }
 
         public IActionResult CreateComment(CCommentViewModel vModel)
@@ -316,26 +316,27 @@ namespace Project_IPET.Controllers
 
             #region WIP (LeftJoin)
             datas = from f in _context.MyFavorites.AsEnumerable()
-                            join p in _context.Products
-                            on f.ProductId equals p.ProductId
-                            join c in _context.Comments.GroupBy(c=>c.ProductId)
-                            .Select(c=>new { 
-                                ProductId = c.Key,
-                                AverageRating = c.Average(c=>c.Rating)
-                            })
-                            on p.ProductId equals c.ProductId into g
-                            from result in g.DefaultIfEmpty()
-                            where f.MemberId == memberId
-                            select new CFrontWishListViewModel
-                            {
-                                ProductName = p.ProductName,
-                                ProductPrice = p.UnitPrice,
-                                Quantity = p.UnitsInStock,
-                                FavoriteId = f.FavoriteId,
-                                ProductId = f.ProductId,
-                                Ranking = decimal.Round((decimal)result.AverageRating, 1),
-                         
-                            };
+                    join p in _context.Products
+                    on f.ProductId equals p.ProductId
+                    join c in _context.Comments.GroupBy(c => c.ProductId)
+                    .Select(c => new
+                    {
+                        ProductId = c.Key,
+                        AverageRating = c.Average(c => c.Rating)
+                    })
+                    on p.ProductId equals c.ProductId into g
+                    from result in g.DefaultIfEmpty()
+                    where f.MemberId == memberId
+                    select new CFrontWishListViewModel
+                    {
+                        ProductName = p.ProductName,
+                        ProductPrice = p.UnitPrice,
+                        Quantity = p.UnitsInStock,
+                        FavoriteId = f.FavoriteId,
+                        ProductId = f.ProductId,
+                        Ranking = decimal.Round((decimal)result.AverageRating, 1),
+
+                    };
 
             #endregion
             return PartialView(datas);
@@ -384,6 +385,35 @@ namespace Project_IPET.Controllers
                 _context.SaveChanges();
             }
             return RedirectToAction("Index", "Front_Myaccount");
+        }
+
+        public IActionResult GetProductToWishtList(int id)
+        {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            if (json == null)
+            {
+                return RedirectToAction("Index", "Empty_Signin");
+            }
+            else
+            {
+                int memberId = (new CMembersFactory(_context)).getMemberId(json);
+                var added = _context.MyFavorites.Where(f => f.MemberId == memberId).Any(f => f.ProductId == id);
+
+                if (added)
+                    return RedirectToAction("Index", "Front_Myaccount");
+                else
+                {
+                    var wishList = new MyFavorite
+                    {
+                        MemberId = memberId,
+                        ProductId = id,
+                    };
+                    _context.MyFavorites.Add(wishList);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index", "Front_Myaccount");
+                }
+
+            }
         }
 
 

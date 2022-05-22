@@ -38,7 +38,8 @@
                     </span>
                     <div class="action-wrapper">
                         <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>
-                        <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
+                        <a asp-controller="Front_Myaccount" asp-action="GetProductToWishtList" asp-route-id="@product.ProductID" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
+
                         @if (product.UnitsInStock <= 0)
                         {
                             @*<a  class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>*@

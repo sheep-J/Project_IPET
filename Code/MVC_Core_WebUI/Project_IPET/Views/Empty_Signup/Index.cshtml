@@ -135,8 +135,8 @@
                                 <!-- CurrentPwd Start -->
                                 <div class="col-lg-6">
                                     <div class="form-floating single-input-item m-b-5">
-                                        <input class="form-control" oninput="chkPassword()" name="CurrentPwd" id="CurrentPwd" type="password" placeholder="密碼">
-                                        <label for="CurrentPwd">密碼</label>
+                                        <input class="form-control" oninput="chkPassword()" name="NewPwd" id="NewPwd" type="password" placeholder="密碼">
+                                        <label for="NewPwd">密碼</label>
                                     </div>
                                 </div>
                                 <!-- CurrentPwd End -->
@@ -225,7 +225,7 @@
     <script>
         let userId = $('input[name="UserId"]');
         let email = $('input[name="Email"]');
-        let currentpwd = $('input[name="CurrentPwd"]');
+        let newpwd = $('input[name="NewPwd"]');
         let confirmpwd = $('input[name="ConfirmPwd"]');
         let phone = $('input[name="Phone"]');
 
@@ -278,7 +278,7 @@
 
         function chkPassword() {
             $.post('@Url.Content("~/MembersApi/chkpasswordRepetition")',
-                { CurrentPwd: currentpwd.val(), ConfirmPwd: confirmpwd.val()},
+                { NewPwd: newpwd.val(), ConfirmPwd: confirmpwd.val()},
                 function (response) {
                     if (response == "true") {
                         flagPassword = true;
@@ -329,6 +329,11 @@
                     else {
                         //console.log("false");
                         alert("尚未填寫完成")
+                        userId.on("onblur", chkUserId());
+                        email.on("onblur", chkEmail());
+                        newpwd.on("onblur", chkPassword());
+                        confirmpwd.on("onblur", chkPassword());
+                        phone.on("onblur", chkPhone());
                     }
                 }
             )

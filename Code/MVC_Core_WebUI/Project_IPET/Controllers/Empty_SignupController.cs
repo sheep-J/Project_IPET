@@ -53,7 +53,7 @@ namespace Project_IPET.Controllers
                     Gender = (new CMembersFactory(_context)).getGender(vModel.Gender),
                     BirthDate = vModel.BirthDate,
                     Email = vModel.Email,
-                    Password = vModel.CurrentPwd,
+                    Password = vModel.NewPwd,
                     Phone = vModel.Phone,
                     RegionId = (new CMembersFactory(_context)).getRegionId(vModel.Region),
                     Address = vModel.Address,

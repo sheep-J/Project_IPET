@@ -50,6 +50,7 @@ namespace Project_IPET.Controllers
 
 
             var PostTypeName = _context.PostTypes
+                              .Where(p =>p.PostTypeId != 6)
                               .OrderBy(p => p.PostTypeId)
                               .Select(n => new CPostViewModel
                               {
@@ -106,12 +107,16 @@ namespace Project_IPET.Controllers
                                  PostImage = p.PostImage,
                                  Title = p.Title,
                                  MemberName = p.Member.Name,
-                                 LikeCount = p.LikeCount,
+                                 MemberId = p.MemberId,
                                  PostDate = p.PostDate,
                                  PostContent = p.PostContent,
                                  PostId = id,
                                  PostType = p.PostType.PostTypeName,
                                  ReplyCount = _context.Posts.Where(r => r.ReplyToPost == id).Select(r => r.ReplyToPost).Count(),
+                                 LikeCount = p.LikeCount,
+                                 liked = _context.PostLikeds
+                                         .Where(u => u.MemberId == userid && u.PostId == id)
+                                         .Count(),
 
                              }).ToList();
             ViewBag.PostID = id;
@@ -176,7 +181,7 @@ namespace Project_IPET.Controllers
             }
 
 
-            var data = _context.PostTypes.Select(p => p).ToList();
+            var data = _context.PostTypes.Where(p=>p.PostTypeId != 6).Select(p => p).ToList();
 
 
             List<SelectListItem> mySelectItemList = new List<SelectListItem>();

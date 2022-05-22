@@ -270,11 +270,13 @@
                 
                 var price = document.createElement("span");
                 price.className = "price";
+                price.style.marginBottom = 0;
                 var des = document.createElement("span");
                 des.className = "new"; des.innerHTML = `${item.fDescription}`;
                 price.append(des);
 
                 var maincontent = document.createElement("p");
+                maincontent.style.marginTop = 0;
                 maincontent.innerHTML = `${item.fContent.replace('<br/>','。').substring(0,50)}...`;
 
                 var btn = document.createElement("div");

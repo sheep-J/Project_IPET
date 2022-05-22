@@ -53,7 +53,7 @@
 <!-- 編輯Modal -->
 <div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="max-width: 750px;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">專案修改 <span></span></h5>
@@ -260,13 +260,13 @@
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
                 checkbox.name = "fProds";
-                checkbox.value = prod.prodId;
-                checkbox.id = `prod${prod.prodId}`;
-                if (datas.fProd.includes(prod.prodId))
+                checkbox.value = prod.productId;
+                checkbox.id = `prod${prod.productId}`;
+                if (datas.fProd.includes(prod.productId))
                     checkbox.checked = true;
                 const label = document.createElement("label");
-                label.innerHTML = prod.prodName;
-                label.setAttribute("for", `prod${prod.prodId}`);
+                label.innerHTML = prod.productName;
+                label.setAttribute("for", `prod${prod.productId}`);
                 label.style.position = "absolute";
                 const br = document.createElement("br");
                 list.append(checkbox, label, br);

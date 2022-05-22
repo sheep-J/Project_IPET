@@ -55,7 +55,7 @@
 
 
                 <!-- ListView Start -->
-                <div class="col-lg-9 col-12" data-aos="fade-right" data-aos-duration="2000" data-aos-easing="ease-in-sine">
+                <div class="col-lg-9 col-12" >
                     <!-- Page Start -->
 
                     <div class="row">
@@ -95,7 +95,7 @@
                     <div id=listview>
 
                         <!-- Single Blog Start -->
-                        <div class="row row-cols-lg-2 row-cols-sm-2 row-cols-1 m-b-n40"  data-aos="flip-left" data-aos-duration="500" data-aos-easing="ease-in-sine">
+                        <div class="row row-cols-lg-2 row-cols-sm-2 row-cols-1 m-b-n40"  >
 
                             @{ 
                                 foreach (var item in Model)
@@ -124,29 +124,31 @@
                                                 <li>
                                                     <a href="#/">
                                                     <input type="hidden" value="@item.liked" id="@item.PostId">
-                                                    <input type="hidden" value="@item.userId">
+                                                  
                                                         @if(item.liked !=0)
                                                                 {
-                                                                    <i class="fa fa-thumbs-o-up text-primary" id="clicklike" onclick="clicklike(@item.PostId,@item.MemberId)"  ></i>
+                                                                    <i class="fa fa-thumbs-o-up text-primary fs-2" id="clicklike" onclick="clicklike(@item.PostId,@item.MemberId)"  ></i>
                                                                 }
                                                                 else
                                                                 {
-                                                                     <i class="fa fa-thumbs-o-up " id="clicklike" onclick="clicklike(@item.PostId,@item.MemberId)"  ></i>
+                                                                     <i class="fa fa-thumbs-o-up  fs-2" id="clicklike" onclick="clicklike(@item.PostId,@item.MemberId)"  ></i>
                                                                 }
                                                             </a>
                                                 </li>
                                                 <!-- 點讚 End -->
                                                         @if( @item.LikeCount != 0)
                                                         {
-                                                            <li class="w-30 text-primary">@Html.DisplayFor(modelItem => item.LikeCount) -</li>
+                                                            <li class="w-30 text-primary fs-2">@Html.DisplayFor(modelItem => item.LikeCount) </li>
                                                         }
                                                         else
                                                         {
-                                                            <li class="w-30">@Html.DisplayFor(modelItem => item.LikeCount) -</li>
+                                                            <li class="w-30 fs-2">@Html.DisplayFor(modelItem => item.LikeCount)</li>
                                                         }
-                                                        <li><span>By</span><span>@Html.DisplayFor(modelItem => item.MemberName)</span></li> <!-- 貼文作者 -->
+                                            </ul>
+                                            <br>
+                                            <ul>
+                                                <li><span>By</span><span>@Html.DisplayFor(modelItem => item.MemberName)</span></li> <!-- 貼文作者 -->
                                                 <li><span>@Html.DisplayFor(modelItem => item.PostDate)</span></li>          <!-- 貼文日期 -->
-
                                             </ul>
                                         </div>
 
@@ -178,7 +180,7 @@
 
                     <!-- Sidebar Widget Start -->
 
-                    <aside class="sidebar_widget m-t-50 mt-lg-0" data-aos="fade-left" data-aos-duration="2000" data-aos-easing="ease-in-sine">
+                    <aside class="sidebar_widget m-t-50 mt-lg-0">
 
                         <div class="widget_inner">
                             <div class="widget-list m-b-50">

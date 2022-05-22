@@ -51,7 +51,6 @@ namespace Project_IPET.Controllers
         [HttpPost]
         public IActionResult CreateOrder(IFormCollection collection)
         {
-
             string loginuser = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
 
             if (!string.IsNullOrEmpty(loginuser))
@@ -71,13 +70,14 @@ namespace Project_IPET.Controllers
 
             string SelectTransaction = collection["TransactionOption"];
             string SelectFoundation = collection["FoundationOption"];
+            string SelectPayment = collection["RadioOption"];
 
             Order order = new Order();
             order.MemberId = login_memberid;
             order.DeliveryTypeId = 1;
-            order.PaymentTypeId = 1;
+            order.PaymentTypeId = Convert.ToInt32(SelectPayment);
             order.TransactionTypeId = Convert.ToInt32(SelectTransaction);
-            order.OrderStatusId = 1;
+            order.OrderStatusId = 4;
             order.RequiredDate = time;
             order.ShippedTo = collection["OrderAddress"];
             order.Frieght = 60;
@@ -133,12 +133,95 @@ namespace Project_IPET.Controllers
             return RedirectToAction("Index");
         }
 
-
-        public IActionResult APICreateOrder()
+        [HttpPost]
+        public IActionResult CreateOrderForAPI(IFormCollection collection)
         {
+            string loginuser = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+
+            if (!string.IsNullOrEmpty(loginuser))
+            {
+                Member member = JsonSerializer.Deserialize<Member>(loginuser);
+                login_memberid = member.MemberId;
+            }
+
+            List<CartModel> CartItems = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
+
+            if (CartItems == null)
+            {
+                return RedirectToAction("Index", "Front_Cart");
+            }
+
+            string time = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            string SelectTransaction = collection["TransactionOption"];
+            string SelectFoundation = collection["FoundationOption"];
+            string SelectPayment = collection["RadioOption"];
+
+            Order order = new Order();
+            order.MemberId = login_memberid;
+            order.DeliveryTypeId = 1;
+            order.PaymentTypeId = Convert.ToInt32(SelectPayment);
+            order.TransactionTypeId = Convert.ToInt32(SelectTransaction);
+            order.OrderStatusId = 4;
+            order.RequiredDate = time;
+            order.ShippedTo = collection["OrderAddress"];
+            order.Frieght = 60;
+            order.OrderName = collection["OrderName"];
+            order.OrderPhone = collection["OrderPhone"];
+
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+
+            int OrderID = _context.Orders.Single(o => o.RequiredDate == time && o.MemberId == login_memberid).OrderId;
+
+            if (SelectTransaction == "1")
+            {
+                List<OrderDetail> list = new List<OrderDetail>();
+                foreach (var item in CartItems)
+                {
+                    var product = _context.Products.Find(item.ProductID);
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.OrderId = OrderID;
+                    orderDetail.ProductId = item.ProductID;
+                    orderDetail.UnitPrice = item.Product.UnitPrice;
+                    orderDetail.Quantity = item.Quantity;
+                    orderDetail.Commented = false;
+                    list.Add(orderDetail);
+                    product.UnitsInStock -= item.Quantity;
+                    _context.Products.Update(product);
+                }
+                _context.OrderDetails.AddRange(list);
+                _context.SaveChanges();
+            }
+            else
+            {
+                List<DonationDetail> list = new List<DonationDetail>();
+                foreach (var item in CartItems)
+                {
+                    var product = _context.Products.Find(item.ProductID);
+                    DonationDetail donationDetail = new DonationDetail();
+                    donationDetail.OrderId = OrderID;
+                    donationDetail.ProductId = item.ProductID;
+                    donationDetail.UnitPrice = item.Product.UnitPrice;
+                    donationDetail.Quantity = item.Quantity;
+                    donationDetail.FoundationId = Convert.ToInt32(SelectFoundation);
+                    list.Add(donationDetail);
+                    product.UnitsInStock -= item.Quantity;
+                    _context.Products.Update(product);
+                }
+                _context.DonationDetails.AddRange(list);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        public void OPayAPI()
+        {
+            var UrlStr = GetCompleteUrl();
             SortedDictionary<string, string> testStr = new SortedDictionary<string, string>();
             testStr.Add("MerchantID", "2000132");
-            testStr.Add("MerchantTradeNo", "TEST" + new Random().Next(0, 99999).ToString());
+            testStr.Add("MerchantTradeNo", "IPET" + new Random().Next(0, 99999).ToString());
             testStr.Add("MerchantTradeDate", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
             testStr.Add("PaymentType", "aio");
             testStr.Add("TotalAmount", GetOrderTotalAmount());
@@ -146,8 +229,8 @@ namespace Project_IPET.Controllers
             testStr.Add("ItemName", GetOrderInfo());
             testStr.Add("ReturnURL", "https://developers.opay.tw/AioMock/MerchantReturnUrl");
             testStr.Add("ChoosePayment", "Credit");
-            testStr.Add("ClientBackURL", "https://developers.opay.tw/AioMock/MerchantClientBackUrl");
-
+            testStr.Add("ClientBackURL", UrlStr+"/Front_Home/Index");
+            SessionHelper.Remove(HttpContext.Session, "Cart");
 
             string str = string.Empty;
             string str_pre = string.Empty;
@@ -185,7 +268,6 @@ namespace Project_IPET.Controllers
             sb.Append("<script> var theForm = document.forms['CreaditOrder'];  if (!theForm) { theForm = document.CreaditOrder; } theForm.submit(); </script>").AppendLine();
             sb.Append("</html>").AppendLine();
             Response.WriteAsync(sb.ToString());
-            return View();
         }
 
         public string GetOrderInfo()
@@ -213,6 +295,15 @@ namespace Project_IPET.Controllers
             };
             Order.CartTotal = CartItems.Sum(item => item.SubTotal);
             return Decimal.ToInt32(Order.OrderTotal).ToString();
+        }
+        private string GetCompleteUrl()
+        {
+            return new StringBuilder()
+                 .Append(HttpContext.Request.Scheme)
+                 .Append("://")
+                 .Append(HttpContext.Request.Host)
+                 .Append(HttpContext.Request.PathBase)
+                 .ToString();
         }
     }
 }

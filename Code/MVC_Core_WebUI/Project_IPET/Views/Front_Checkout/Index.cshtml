@@ -29,7 +29,7 @@
 </div>
 <!-- Breadcrumb Area End -->
 <!-- Checkout Section Start -->
-<form asp-action="CreateOrder" onsubmit="return check_select()">
+<form id="contactForm" method="post" onsubmit="return check_select()">
     <div class="section section-margin">
         <div class="container">
             <div class="row">
@@ -110,6 +110,18 @@
                                 </div>
                             </div>
                             <!-- Address Input End -->
+                            <div class="form-check" style="margin-left:15px;">
+                                <input class="form-check-input" type="radio" name="RadioOption" id="exampleRadios1" value="1">
+                                <label class="form-check-label">
+                                    貨到付款
+                                </label>
+                            </div>
+                            <div class="form-check" style="margin-left:15px;">
+                                <input class="form-check-input" type="radio" name="RadioOption" id="exampleRadios2" value="2">
+                                <label class="form-check-label">
+                                    信用卡付款
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <!-- Checkbox Form End -->
@@ -180,7 +192,7 @@
                         <!-- Payment Accordion Order Button Start -->
                         <div class="payment-accordion-order-button">
                             <div class="order-button-payment">
-                                <button type="submit" class="btn btn-primary btn-hover-dark rounded-0 w-100">確 認 結 帳</button>
+                                <button type="submit" class="btn btn-primary btn-hover-dark rounded-0 w-100" id="paymentbtn">確 認 結 帳</button>
                             </div>
                         </div>
                         <!-- Payment Accordion Order Button End -->
@@ -207,13 +219,67 @@
                     $('#inputAddress').val(data);
                 }
             });
+
+            $('#paymentbtn').on('click', function () {
+                    $('#contactForm').submit(function () {
+                        return false;
+                    });
+
+                var option = $('input[type=radio]:checked').val()
+                if (option != null) {
+                    if (option == 1) {
+                        Swal.fire({
+                            title: '是否進行付款 ?',
+                            showCancelButton: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: '@Url.Action("CreateOrder")',
+                                    type: "POST",
+                                    data: $('#contactForm').serialize(),
+                                    success: function (data) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: '訂單已完成 ( 貨到付款 )',
+                                        })
+                                        setTimeout(function () { location.href = "/Front_Home/Index" }, 2000);
+                                    }
+                                });
+                            }
+                        })
+                    }
+                    else if (option == 2) {
+                         Swal.fire({
+                            title: '是否跳轉至歐付寶進行付款 ?',
+                            showCancelButton: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: '@Url.Action("CreateOrderForAPI")',
+                                    type: "POST",
+                                    data: $('#contactForm').serialize(),
+                                    success: function (data) {
+                                        window.location.href = "/Front_Checkout/OPayAPI";
+                                    }
+                                });
+                            }
+                        })
+                    }
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '請選擇付款方式',
+                    })
+                }
+            });
         });
 
         function check_select(form) {
-                $("#selectTransaction").removeAttr("disabled");
-                $("#selectFoundation").removeAttr("disabled");
-                return true;
-            }
+            $("#selectTransaction").removeAttr("disabled");
+            $("#selectFoundation").removeAttr("disabled");
+            return true;
+        }
 
         (async function () {
 

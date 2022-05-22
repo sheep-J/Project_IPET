@@ -75,65 +75,9 @@
                 <!--上方工具條 end-->
                 <!-- 主要顯示頁面 Start -->
                 <div class="row shop_wrapper grid_list" id="ProjectList">
-                    @{/*
-                            for(int i = 0;i<1;i++)
-                            {
-                                <!-- Single Product Start -->
-                                <div class="col-12 product">
-                                    <div class="product-inner">
-                                        <div class="thumb">
-                                            <a asp-action="AddToCart" class="image">
-                                                <img class="fit-image" src="~/Front/images/project/1.jpg" alt="Product" />
-                                            </a>
-                                            <span class="badges">
-                                                <span class="sale">倒數幾天</span>
-                                            </span>
-                                        </div>
-                                        <div class="content">
-                                            <h5 class="title"><a href="single-product.html">九月物資募集</a></h5>
-                                            <span class="price">
-                                                <span class="new">為了不讓愛有變質的機會我們不接受捐款，但如果你也想為浪浪盡些心力可以選擇...</span>
-                                            </span>
-                                            <p>專案Context</p>
-                                            <!-- Cart Button Start -->
-                                            <div class="cart-btn action-btn">
-                                                <div class="action-cart-btn-wrapper d-flex">
-                                                    <div class="add-to_cart">
-                                                        <a class="btn btn-primary btn-hover-dark rounded-0" asp-action="AddToCart">參與專案</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Cart Button End -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product End -->
-                            }*/
-                    }
+                    
                 </div>
                 <!-- 主要顯示頁面 End -->
-                <!--下方頁面顯示 start->
-                <div class="shop_toolbar_wrapper justify-content-center m-t-50">
-
-                    <!-- Shopt Top Bar Right Start ->
-                    <div class="shop-top-bar-right">
-                        <nav>
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link active" href="#/">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#/">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#/">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link rounded-0" href="#/" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <!-- Shopt Top Bar Right End ->
-
-                </div>
-                <!--下方頁面顯示 end-->
             </div>
         </div>
     </div>
@@ -278,7 +222,7 @@
                     deadline.innerHTML = "已經結束";
                     title.append(deadline);
                 }
-                
+
                 var price = document.createElement("span");
                 price.className = "price";
                 price.style.marginBottom = 0;
@@ -299,7 +243,15 @@
                 var cartaction = document.createElement("a");
                 cartaction.className = "btn btn-primary btn-hover-dark rounded-0"; cartaction.innerHTML = "參與專案"; cartaction.href = `/Front_Project/Detail?Id=${item.fId}`;
                 cart.append(cartaction);
-                wrapper.append(cart);
+                var rightnow = document.createElement("div");
+                rightnow.id = `rightnow${item.fId}`;
+                rightnow.style.flex = "left";
+                rightnow.style.fontSize = "18px";
+                rightnow.style.height = "36px";
+                rightnow.style.lineHeight = "36px";
+                LoadPercent(item.fId);
+
+                wrapper.append(cart,rightnow);
                 btn.append(wrapper);
 
                 content.append(title, price, maincontent, btn);
@@ -307,6 +259,14 @@
                 contain.append(Inner);
                 list.append(contain);
             })
+        }
+
+        async function LoadPercent(id) {
+            const Percentrespnose = await fetch("@Url.Content("~/Front_Project/readPercent?Id=")" + id)
+            renderPercent(await Percentrespnose.json(),id);
+        }
+        function renderPercent(data, id) {
+            document.getElementById(`rightnow${id}`).innerHTML = `目前進度: ${data}%`;
         }
 
         $("#selectbar").change(function () {

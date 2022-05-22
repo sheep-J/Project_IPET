@@ -29,7 +29,7 @@
 </div>
 <!-- Breadcrumb Area End -->
 <!-- Checkout Section Start -->
-<form asp-action="CreateOrder">
+<form asp-action="CreateOrder" onsubmit="return check_select()">
     <div class="section section-margin">
         <div class="container">
             <div class="row">
@@ -208,6 +208,12 @@
                 }
             });
         });
+
+        function check_select(form) {
+                $("#selectTransaction").removeAttr("disabled");
+                $("#selectFoundation").removeAttr("disabled");
+                return true;
+            }
 
         (async function () {
 

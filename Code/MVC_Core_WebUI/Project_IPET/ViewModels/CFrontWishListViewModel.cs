@@ -16,6 +16,6 @@ namespace Project_IPET.ViewModels
         public decimal Ranking { get; set; }
         public int FavoriteId { get; set; }
         public int ProductId { get; set; }
-        
+        public string CommentId { get; set; }
     }
 }

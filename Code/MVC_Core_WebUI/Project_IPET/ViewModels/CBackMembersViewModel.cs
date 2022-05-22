@@ -7,11 +7,6 @@ using System.Threading.Tasks;
 
 namespace Project_IPET.ViewModels
 {
-    public class ListViewModel
-    {
-        public IEnumerable<CBackMembersViewModel> ListView { get; set; }
-        //public PageModel Pagination { get; set; }
-    }
     public class CBackMembersViewModel
     {
         public string Name { get; set; }
@@ -24,6 +19,5 @@ namespace Project_IPET.ViewModels
         public string RegisteredDate { get; set; }
         public string Avatar { get; set; }
         public bool Banned { get; set; }
-        //public PageModel Pagination { get; set; }
     }
 }

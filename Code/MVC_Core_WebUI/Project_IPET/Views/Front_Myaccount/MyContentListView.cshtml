@@ -101,8 +101,8 @@
     let flagoldPwd = false;
     let flagPassword = false;
 
-    function chkEmail() {
-        $.post('@Url.Content("~/MembersApi/chkemailRepetition")',
+    async function chkEmail() {
+        await $.post('@Url.Content("~/MembersApi/chkemailRepetition")',
             { Email: email.val() },
             function (response) {
                 if (response == "true") {
@@ -122,8 +122,8 @@
                 })
     }
 
-    function chkPhone() {
-        $.post('@Url.Content("~/MembersApi/chkphoneRepetition")',
+    async function chkPhone() {
+        await $.post('@Url.Content("~/MembersApi/chkphoneRepetition")',
             { Phone: phone.val() },
             function (response) {
                 if (response == "true") {
@@ -143,8 +143,8 @@
                 })
         }
 
-    function chkoldPwd() {
-        $.post('@Url.Content("~/MembersApi/chkoldpwdRepetition")',
+    async function chkoldPwd() {
+       await $.post('@Url.Content("~/MembersApi/chkoldpwdRepetition")',
             { CurrentPwd: currentpwd.val() },
             function (response) {
                 if (response == "true") {
@@ -164,8 +164,8 @@
                 })
         }
 
-    function chkPassword() {
-        $.post('@Url.Content("~/MembersApi/chkPasswordRepetition")',
+    async function chkPassword() {
+        await $.post('@Url.Content("~/MembersApi/chkPasswordRepetition")',
             { NewPwd: newpwd.val(), ConfirmPwd: confirmpwd.val() },
             function (response) {
                 if (response == "true") {
@@ -185,8 +185,8 @@
                 })
         }
 
-    function chkform() {
-        $.post('@Url.Content("~/Front_Myaccount/chkFlag")',
+    async function chkform() {
+        await $.post('@Url.Content("~/Front_Myaccount/chkFlag")',
             { FlagEmail: flagEmail, FlagPhone: flagPhone, FlagOldPwd: flagoldPwd, FlagPassword: flagPassword,  },
             function (response) {
                 if (response == "true") {

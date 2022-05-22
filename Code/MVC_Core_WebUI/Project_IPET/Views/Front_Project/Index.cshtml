@@ -9,6 +9,15 @@
 <!-- UIkit JS -->
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit-icons.min.js"></script>
+<style>
+    a{
+        color:black;
+    }
+    #topul{
+        margin:0;
+        padding:0;
+    }
+</style>
 <!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
     <div class="container">
@@ -16,8 +25,10 @@
             <div class="col-12 text-center">
                 <div class="breadcrumb-wrapper">
                     <h2 class="breadcrumb-title">募集專案</h2>
-                    <ul>
-                        <li><a asp-controller="Front_Home">IPET 寵物店</a></li>
+                    <ul id="topul">
+                        <li>
+                            <a asp-controller="Front_Home">IPET寵物店</a>
+                        </li>
                         <li>募集專案</li>
                     </ul>
                 </div>

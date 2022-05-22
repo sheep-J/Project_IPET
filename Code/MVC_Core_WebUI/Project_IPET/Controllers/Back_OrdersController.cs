@@ -24,7 +24,7 @@ namespace Project_IPET.Controllers
                 fId = n.OrderId,
                 fMemberName = n.Member.Name,
                 fRequiredDate = n.RequiredDate.Substring(0, 8),
-                fTotal = (_context.OrderDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(),
+                fTotal = n.TransactionTypeId ==1?(_context.OrderDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(): (_context.DonationDetails.Where(a => a.OrderId == n.OrderId).Sum(n => n.UnitPrice * n.Quantity) + n.Frieght).ToString(),
                 fType = n.TransactionType.TransactionTypeName,
                 fStatus = n.OrderStatus.OrderStatusName
             });
@@ -75,38 +75,84 @@ namespace Project_IPET.Controllers
 
         public IActionResult delete(int Id)
         {
-            var Comment = _context.Comments.Where(n => n.OrderDetail.OrderId == Id).ToList();
-            _context.Comments.RemoveRange(Comment);
-            var Detail = _context.OrderDetails.Where(n => n.OrderId == Id).ToList();
-            _context.OrderDetails.RemoveRange(Detail);
-            var Order = _context.Orders.FirstOrDefault(n => n.OrderId == Id);
-            _context.Remove(Order);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            var type = _context.Orders.Where(n => n.OrderId == Id).Select(n => n.TransactionTypeId).FirstOrDefault();
+            if(type == 1)
+            {
+                var Comment = _context.Comments.Where(n => n.OrderDetail.OrderId == Id).ToList();
+                _context.Comments.RemoveRange(Comment);
+                var Detail = _context.OrderDetails.Where(n => n.OrderId == Id).ToList();
+                _context.OrderDetails.RemoveRange(Detail);
+                var Order = _context.Orders.FirstOrDefault(n => n.OrderId == Id);
+                _context.Remove(Order);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var Comment = _context.Comments.Where(n => n.OrderDetail.OrderId == Id).ToList();
+                _context.Comments.RemoveRange(Comment);
+                var Detail = _context.DonationDetails.Where(n => n.OrderId == Id).ToList();
+                _context.DonationDetails.RemoveRange(Detail);
+                var Order = _context.Orders.FirstOrDefault(n => n.OrderId == Id);
+                _context.Remove(Order);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
 
         public IActionResult OrderDeatil(int Id)
         {
-            var result = _context.OrderDetails.Where(n => n.OrderId == Id).Select(n => new
+            var type = _context.Orders.Where(n => n.OrderId == Id).Select(n => n.TransactionTypeId).FirstOrDefault();
+            if(type == 1)
             {
-                name = n.Product.ProductName,
-                price = n.UnitPrice,
-                quantity = n.Quantity,
-                total = (n.UnitPrice * n.Quantity)
-            });
-            return Json(result);
+                var result = _context.OrderDetails.Where(n => n.OrderId == Id).Select(n => new
+                {
+                    name = n.Product.ProductName,
+                    price = n.UnitPrice,
+                    quantity = n.Quantity,
+                    total = (n.UnitPrice * n.Quantity)
+                });
+                return Json(result);
+            }
+            else
+            {
+                var result = _context.DonationDetails.Where(n => n.OrderId == Id).Select(n => new
+                {
+                    name = n.Product.ProductName,
+                    price = n.UnitPrice,
+                    quantity = n.Quantity,
+                    total = (n.UnitPrice * n.Quantity)
+                });
+                return Json(result);
+            }
         }
         public IActionResult OrderOther(int Id)
         {
-            var result = _context.Orders.Where(n => n.OrderId == Id).Select(o => new
+            var type = _context.Orders.Where(n => n.OrderId == Id).Select(n => n.TransactionTypeId).FirstOrDefault();
+            if(type == 1)
             {
-                detailfrieght = o.Frieght,
-                detaliprice = (_context.OrderDetails.Where(a => a.OrderId == o.OrderId).Sum(n => n.UnitPrice * n.Quantity) + o.Frieght).ToString(),
-                detailwhere = o.TransactionTypeId == 1?o.ShippedTo:o.DonationDetails.FirstOrDefault().Foundation.FoundationName,
-                detailwho = o.OrderName,
-                detailtype = o.TransactionType.TransactionTypeName
-            }).FirstOrDefault();
-            return Json(result);
+                var result = _context.Orders.Where(n => n.OrderId == Id).Select(o => new
+                {
+                    detailfrieght = o.Frieght,
+                    detaliprice = (_context.OrderDetails.Where(a => a.OrderId == o.OrderId).Sum(n => n.UnitPrice * n.Quantity) + o.Frieght).ToString(),
+                    detailwhere = o.TransactionTypeId == 1 ? o.ShippedTo : o.DonationDetails.FirstOrDefault().Foundation.FoundationName,
+                    detailwho = o.OrderName,
+                    detailtype = o.TransactionType.TransactionTypeName
+                }).FirstOrDefault();
+                return Json(result);
+            }
+            else
+            {
+                var result = _context.Orders.Where(n => n.OrderId == Id).Select(o => new
+                {
+                    detailfrieght = o.Frieght,
+                    detaliprice = (_context.DonationDetails.Where(a => a.OrderId == o.OrderId).Sum(n => n.UnitPrice * n.Quantity) + o.Frieght).ToString(),
+                    detailwhere = o.TransactionTypeId == 1 ? o.ShippedTo : o.DonationDetails.FirstOrDefault().Foundation.FoundationName,
+                    detailwho = o.OrderName,
+                    detailtype = o.TransactionType.TransactionTypeName
+                }).FirstOrDefault();
+                return Json(result);
+            }
         }
     }
 }

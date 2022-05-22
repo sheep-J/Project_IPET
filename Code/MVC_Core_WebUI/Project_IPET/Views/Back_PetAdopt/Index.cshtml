@@ -8,11 +8,17 @@
             GetPetList(1);
         });
         var pageSize = 7;
+        var cityId = -1;
+        var petCategory = "ALL";
+        var petGender = "ALL";
         function GetPetList(page) {
             $.ajax({
                 method: "POST",
                 url: "/Back_PetAdopt/PetList",
                 data: {
+                    CityID: cityId,
+                    PetCategory: petCategory,
+                    PetGender: petGender,
                     Pagination: {
                         Page: page,
                         PageSize: pageSize

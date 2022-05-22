@@ -18,7 +18,8 @@ namespace Project_IPET.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var cityList = _petService.GetCityList();
+            return View(cityList);
         }
 
         [HttpPost]

@@ -31,33 +31,6 @@
     <!--Main Style CSS-->
     <link rel="stylesheet" href="~/Front/css/style.css" />
 
-    <script>
-        function RemoveItem(pid){
-            $.ajax({
-                method:'POST',
-                url:'@Url.Content("/Front_Cart/RemoveItem")',
-                data: {
-                    id: pid
-                },
-                success: function (result) {
-                    $('#CartMenu').html(result)
-                }
-            })
-        }
-
-        function RemoveAll(){
-            $.ajax({
-                method:'POST',
-                url:'@Url.Content("/Front_Cart/RemoveAll")',
-                data: {
-                },
-                success: function (result) {
-                    $('#CartMenu').html(result)
-                }
-            })
-        }
-    </script>
-
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -278,6 +251,66 @@
     <!-- Blog JS -->
     <script src="~/Front/js/Blog/PostTools.js"></script>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "/Front_Cart/GetCart",
+                    data: {
+                    },
+                    success: function (result) {
+                        $('#CartMenu').html(result)
+                        }
+                });
+            });
+
+        window.addEventListener("pageshow", function (event) {
+            var historyTraversal = event.persisted ||
+                (typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2);
+            if (historyTraversal) {
+                window.location.reload();
+            }
+        });
+
+        function RemoveItem(productId, productname, qty){
+            $.ajax({
+                method:'POST',
+                url:'@Url.Content("/Front_Cart/RemoveItem")',
+                data: {
+                    id: productId
+                },
+                success: function (result) {
+                    $('#CartMenu').html(result),
+                        Swal.fire({
+                            icon: 'info',
+                            title: '商品已從購物車移除',
+                            text: productname + ' 數量 : ' + qty,
+                        })
+                }
+            })
+        }
+
+        function RemoveAll(){
+            $.ajax({
+                method:'POST',
+                url:'@Url.Content("/Front_Cart/RemoveAll")',
+                data: {
+                },
+                success: function (result) {
+                    $('#CartMenu').html(result),
+                        Swal.fire({
+                            icon: 'info',
+                            title: '全部商品已從購物車移除',
+                        })
+                }
+            })
+    }
+
+    </script>
 </body>
 </html>

@@ -17,6 +17,13 @@ namespace Project_IPET.Services
             _dbConnection = dbConnection;
         }
 
+        public List<CityModel> GetCityList()
+        {
+            string sql = "SELECT * FROM Cities";
+            var cityList = _dbConnection.Query<CityModel>(sql);
+            return cityList.ToList();
+        }
+
         public PetListModel.Response GetPetList(PetListModel.Request request)
         {
             PetListModel.Response result = new PetListModel.Response()
@@ -26,25 +33,37 @@ namespace Project_IPET.Services
             };
             try
             {
-                string column = "COUNT(1)";
-                string sql = @"SELECT {0}
-                                                FROM Pets p
-                                                JOIN Cities c ON p.PetCityID =c.CityID 
-                                                JOIN Region r ON p.PetRegionID = r.RegionID
+                string sqlCount = @"SELECT COUNT(1) FROM Pets p
                                                 LEFT JOIN  PetImagePath pp ON p.PetID =pp.PetID
-                                                WHERE pp.IsMainImage = 1";
-
+                                                WHERE pp.IsMainImage = 1 {0}";
+                string sql = @"SELECT * FROM Pets p
+                                                LEFT JOIN  PetImagePath pp ON p.PetID =pp.PetID
+                                                WHERE pp.IsMainImage = 1 {0}
+                                                ORDER BY p.PetID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";
+                ; string where = "";
+                if (request.CityID != -1)
+                {
+                    where += "AND p.PetCityID = @PetCityID ";
+                }
+                if (request.PetGender != "ALL")
+                {
+                    where += "AND p.PetGender = @PetGender ";
+                }
+                if (request.PetCategory != "ALL")
+                {
+                    where += "AND p.PetCategory = @PetCategory ";
+                }
                 var param = new
                 {
+                    PetCityID = request.CityID,
+                    PetGender = request.PetGender,
+                    PetCategory = request.PetCategory,
                     PageSize = request.Pagination.PageSize,
                     Page = request.Pagination.Page,
                 };
-                result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sql, column), param);
+                result.Pagination.TotalRecord = (int)_dbConnection.ExecuteScalar(string.Format(sqlCount, where), param);
 
-                column = "p.*,c.CityName,r.RegionName,pp.PetImage";
-                sql += " ORDER BY p.PetID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";
-
-                result.PetList = _dbConnection.Query<PetModel>(string.Format(sql, column), param).ToList();
+                result.PetList = _dbConnection.Query<PetModel>(string.Format(sql, where), param).ToList();
             }
             catch (Exception ex)
             {

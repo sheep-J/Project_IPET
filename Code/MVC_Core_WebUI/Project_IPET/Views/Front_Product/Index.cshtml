@@ -3,119 +3,162 @@
 
 }
 @section Scripts{
-<script>
-     $(document).ready(function () {
-         getProductList(1);
-     });
-     var categoryId = -1;
-     var subCategoryId = -1;
-     var pageSize = 9;
-     var productName = "";
-     var sortBy = 1;
-     var CategoryName = "所有商品";
-    var brandIds = [];
-
-     function getProductList(page) {
-         $.ajax({
-             method: "POST",
-             url: "/Front_Product/ProductList",
-             data: {
-                 SortBy: sortBy,
-                 CategoryId: categoryId,
-                 ProductName: productName,
-                 SubCategoryId: subCategoryId,
-                 BrandIds:brandIds,
-                 Pagination: {
-                     Page: page,
-                     PageSize: pageSize
-                 }
-             },
-             success: function (result) {
-                 $("#currentCategoryName").text(CategoryName);
-                 $("#productList").html(result);
-                  $("#currentCategoryProductCount").text($("#totalRecord").val());
-                 var displayStyle = $(".shop_toolbar_btn .active").data("role");
-                 var displayStyleClass = "";
-                 if (displayStyle == "grid_3") {
-                     displayStyleClass = "col-lg-4 col-md-4 col-sm-6";
-                 }
-                 else {
-                     displayStyleClass = "col-12";
-                 }
-                 $(".product").addClass(displayStyleClass);
-                 $(".shop_wrapper").addClass(displayStyle);
-             }
-         });
-     }
-     function changeSort() {
-         sortBy = $("#sortByProduct").val();
-         //console.log( sortBy );
-         getProductList(1);
-     }
-
-     function clearAll() {
-         categoryId = -1;
-         subCategoryId = -1;
-         productName = "";
-         CategoryName = "所有商品";    
-         brandIds = [];
-     }
-
-     function clearAllBrandsCheckBox(){     
-         $(".chk-brand").prop("checked",false);
-     }
-
-     function getProductListWithCategory(id,name) {
-         clearAll();
-         clearAllBrandsCheckBox();
-         categoryId = id;
-         getProductList(1);
-         CategoryName = name;
-     }
-     function getProductListWithSubCategory(id,name) {
-         clearAll();
-         clearAllBrandsCheckBox();
-         subCategoryId = id;
-         getProductList(1);
-         CategoryName = name;
-     }
-     function getProductListWithProductName() {
-         clearAll();
-         clearAllBrandsCheckBox();
-         productName = $("#searchProductName").val()
-         getProductList(1);
-     }
-
-    function AddToCart(productId, qty) {
-        $.ajax({
-            method: "POST",
-            url: "/Front_Cart/AddToCart",
-            data: {
-                id: productId,
-                qty: 1,
-            },
-            success: function (result) {
-                $('#CartMenu').html(result)
-            }
+    <script>
+        $(document).ready(function () {
+            getProductList(1);
         });
-    }
-
-     function getProductListWithBrand(){
-          clearAll();
-
-         $.each($(".chk-brand"),function(i,item){
-             if($(item).prop("checked")){
-                 brandIds.push($(item).val())
-             }
-         });
-         getProductList(1);
-     }
-     //----------------------------------------
+        var categoryId = -1;
+        var subCategoryId = -1;
+        var pageSize = 9;
+        var productName = "";
+        var sortBy = 1;
+        var CategoryName = "所有商品";
+        var brandIds = [];
 
 
+        function getProductList(page) {
+            $.ajax({
+                method: "POST",
+                url: "/Front_Product/ProductList",
+                data: {
+                    SortBy: sortBy,
+                    CategoryId: categoryId,
+                    ProductName: productName,
+                    SubCategoryId: subCategoryId,
+                    BrandIds: brandIds,
+                    Pagination: {
+                        Page: page,
+                        PageSize: pageSize
+                    }
+                },
+                success: function (result) {
+                    $("#currentCategoryName").text(CategoryName);
+                    $("#productList").html(result);
+                    $("#currentCategoryProductCount").text($("#totalRecord").val());
+                    var displayStyle = $(".shop_toolbar_btn .active").data("role");
+                    var displayStyleClass = "";
+                    if (displayStyle == "grid_3") {
+                        displayStyleClass = "col-lg-4 col-md-4 col-sm-6";
+                    }
+                    else {
+                        displayStyleClass = "col-12";
+                    }
+                    $(".product").addClass(displayStyleClass);
+                    $(".shop_wrapper").addClass(displayStyle);
+                    window.scrollTo(0, 0);
+                }
+            });
+        }
+
+        function getPrjProductList(page) {
+            $.ajax({
+                method: "POST",
+                url: "/Front_Product/PrjProductList",
+                data: {
+                    SortBy: sortBy,
+                    Pagination: {
+                        Page: page,
+                        PageSize: pageSize
+                    }
+                },
+                success: function (result) {
+                    $("#currentCategoryName").text("募集");
+                    $("#productList").html(result);
+                    $("#currentCategoryProductCount").text($("#totalRecord").val());
+                    var displayStyle = $(".shop_toolbar_btn .active").data("role");
+                    var displayStyleClass = "";
+                    if (displayStyle == "grid_3") {
+                        displayStyleClass = "col-lg-4 col-md-4 col-sm-6";
+                    }
+                    else {
+                        displayStyleClass = "col-12";
+                    }
+                    $(".product").addClass(displayStyleClass);
+                    $(".shop_wrapper").addClass(displayStyle);
+                    window.scrollTo(0, 0);
+                }
+            });
+        }
+        function changeSort() {
+            sortBy = $("#sortByProduct").val();
+            //console.log( sortBy );
+            getProductList(1);
+        }
+
+        function clearAll() {
+            categoryId = -1;
+            subCategoryId = -1;
+            productName = "";
+            CategoryName = "所有商品";
+            brandIds = [];
+        }
+
+        function clearAllBrandsCheckBox() {
+            $(".chk-brand").prop("checked", false);
+        }
+
+        function getProductListWithCategory(id, name) {
+            clearAll();
+            clearAllBrandsCheckBox();
+            categoryId = id;
+            getProductList(1);
+            CategoryName = name;
+        }
+        function getProductListWithSubCategory(id, name) {
+            clearAll();
+            clearAllBrandsCheckBox();
+            subCategoryId = id;
+            getProductList(1);
+            CategoryName = name;
+        }
+        function getProductListWithProductName() {
+            clearAll();
+            clearAllBrandsCheckBox();
+            productName = $("#searchProductName").val()
+            getProductList(1);
+        }
+
+        function AddToCart(productId, productname, qty) {
+            $.ajax({
+                method: "POST",
+                url: "/Front_Cart/AddToCart",
+                data: {
+                    id: productId,
+                    qty: 1,
+                },
+                success: function (result) {
+                    $('#CartMenu').html(result),
+                        Swal.fire({
+                            icon: 'success',
+                            title: '商品已加入購物車',
+                            text: productname + ' 數量 : 1',
+                        })
+                }
+            });
+        }
+
+        function getProductListWithBrand() {
+            clearAll();
+
+            $.each($(".chk-brand"), function (i, item) {
+                if ($(item).prop("checked")) {
+                    brandIds.push($(item).val())
+                }
+            });
+            getProductList(1);
+        }
+
+        function getAllPrjProducts() {
+            clearAll();
+            clearAllBrandsCheckBox();
+            productName = $("").val()
+            getPrjProductList(1);
+        }
 
 
-</script>
+
+
+    </script>
 }
 <!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
@@ -125,7 +168,9 @@
                 <div class="breadcrumb-wrapper">
                     <h2 class="breadcrumb-title">寵物商品</h2>
                     <ul>
-                        <li><a asp-controller="Front_Home">iPet寵物店</a></li>
+                        <li>
+                            <a asp-controller="Front_Home">iPet寵物店</a>
+                        </li>
                         <li>寵物商品</li>
                     </ul>
                 </div>
@@ -151,7 +196,8 @@
                             <button data-role="grid_list" type="button" class="btn-list" title="List"><i class="ti-align-justify"></i></button>
                         </div>
                         <div class="shop-top-show">
-                            <span id="currentCategoryName"></span> (<span id="currentCategoryProductCount"></span>)
+                            <span id="currentCategoryName"></span> (
+                            <span id="currentCategoryProductCount"></span>)
                         </div>
 
                     </div>
@@ -202,7 +248,9 @@
                                 <div class="panel panel-default">
                                     <h3 class="widget-title m-b-30">商品分類</h3>
                                     <div class="sidebar-body">
-                                        <h5><a href="#" onclick="getProductListWithCategory(-1)">所有商品 (@Model.Sum(c=>c.ProductCount))</a></h5>
+                                        <h5>
+                                            <a href="#" onclick="getProductListWithCategory(-1)">所有商品 (@Model.Sum(c => c.ProductCount))</a>
+                                        </h5>
                                         <div data-collapse="accordion">
                                             @foreach (var category in Model)
                                             {
@@ -210,12 +258,18 @@
                                                     <a onclick="getProductListWithCategory(@category.CategoryId,'@category.CategoryName')">@category.CategoryName (@category.ProductCount)</a>
                                                 </h5>
                                                 <ul class="sidebar-list">
+
                                                     @foreach (var subCategory in category.SubCategories)
                                                     {
-                                                        <li><a href="#/" onclick="getProductListWithSubCategory(@subCategory.SubCategoryId,'@subCategory.SubCategoryName')">@subCategory.SubCategoryName</a></li>
+                                                        <li>
+                                                            <a href="#/" onclick="getProductListWithSubCategory(@subCategory.SubCategoryId,'@subCategory.SubCategoryName')">@subCategory.SubCategoryName</a>
+                                                        </li>
                                                     }
                                                 </ul>
                                             }
+                                            <h5>
+                                                <a href="#" onclick="getAllPrjProducts()">正在募集商品 (@ViewBag.PrjProductCount)</a>
+                                            </h5>
                                         </div>
                                     </div>
                                 </div>
@@ -243,13 +297,23 @@
                             <h3 class="widget-title m-b-30">標籤</h3>
                             <div class="sidebar-body">
                                 <ul class="tags m-b-n10">
-                                    <li><a href="#/">精選罐罐</a></li>
-                                    <li><a href="#/">幼齡飼料</a></li>
-                                    <li><a href="#/">低鈉</a></li>
-                                    <li><a href="#/">補鈣</a></li>
-                                    <li><a href="#/">貓咪</a></li>
-                                    <li><a href="#/">狗狗</a></li>
-                                    <li><a href="#/">防疫專區</a></li>
+                                    <li><a href="#/" onclick="getProductListWithCategory(2,'寵物罐罐')">精選罐罐</a></li>
+                                    <li><a href="#/" onclick="getProductListWithCategory(8,'環境清潔')">防疫專區</a></li>
+<<<<<<< .mine
+
+
+
+
+
+
+=======
+                                    <li>
+                                        <a href="#/" onclick="getProductListWithCategory(8,'環境清潔')">防疫專區</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/" onclick="getProductListWithCategory(13,'捐贈商品')">愛心專區</a>
+                                    </li>
+>>>>>>> .theirs
                                 </ul>
                             </div>
                         </div>

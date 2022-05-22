@@ -4,12 +4,12 @@
 }
 
 @section Scripts{
-<script>
-    $(document).ready(function () {
-        $("#AddProductGrid").click(AddToCart);
-        $("#AddProductList").click(AddToCart);
-    });
-</script>
+    <script>
+        $(document).ready(function () {
+            $("#AddProductGrid").click(AddToCart);
+            $("#AddProductList").click(AddToCart);
+        });
+    </script>
 }
 <input id="totalRecord" value="@Model.Pagination.TotalRecord" hidden />
 <!-- Shop Wrapper Start -->
@@ -20,30 +20,43 @@
         <div class="product">
             <div class="product-inner">
                 <div class="thumb">
-                    <a class="image" asp-controller="Front_Product" asp-action="ProductDetail" asp-route-id="@product.ProductID">
-                        <img class="fit-image" src="@product.ProductImageBase64String" alt="Product">
-                    </a>
+                    @if (product.PrjID > 0)
+                    {
+                        <a class="image" asp-controller="Front_Product" asp-action="ProductDetail" asp-route-id="@product.ProductID" asp-route-prjId="@product.PrjID">
+                            <img class="fit-image" src="@product.ProductImageBase64String" alt="Product">
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="image" asp-controller="Front_Product" asp-action="ProductDetail" asp-route-id="@product.ProductID">
+                            <img class="fit-image" src="@product.ProductImageBase64String" alt="Product">
+                        </a>
+                    }
+
                     <span class="badges">
                         <span class="sale">-0%</span>
                     </span>
                     <div class="action-wrapper">
                         <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>
                         <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                        @{
-                            if (product.UnitsInStock <= 0)
-                            {
-                                <a id="AddProductGrid" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
-                            }
-                            else
-                            {
-                                <a id="AddProductGrid" onclick="AddToCart('@product.ProductID')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
-                            }
+                        @if (product.UnitsInStock <= 0)
+                        {
+                            @*<a  class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>*@
                         }
+                        else
+                        {
+                            <a id="AddProductGrid" onclick="AddToCart('@product.ProductID','@product.ProductName')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                        }
+
                     </div>
                 </div>
                 <div class="content">
-                    <h5 class="title"><a href="single-product.html">@product.ProductName</a></h5>
-                    <h2 class="title"><a href="single-product.html">@product.BrandName</a></h2>
+                    <h5 class="title">
+                        <a href="single-product.html">@product.ProductName</a>
+                    </h5>
+                    <h2 class="title">
+                        <a href="single-product.html">@product.BrandName</a>
+                    </h2>
                     <span class="rating">
                         @for (int i = 1; i <= 5; i++)
                         {
@@ -63,7 +76,7 @@
                     </span>
                     <p>@product.Description</p>
                     <!-- Cart Button Start -->
-                <div class="cart-btn action-btn">
+                    <div class="cart-btn action-btn">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
                                 @{
@@ -73,7 +86,7 @@
                                     }
                                     else
                                     {
-                                        <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID')" href="javascript:void(0);">加入購物車</a>
+                                        <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID','@product.ProductName')" href="javascript:void(0);">加入購物車</a>
                                     }
                                 }
                             </div>
@@ -82,7 +95,7 @@
                         </div>
                     </div>
                     <!-- Cart Button End -->
-            </div>
+                </div>
             </div>
         </div>
         <!-- Single Product End -->

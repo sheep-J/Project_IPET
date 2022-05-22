@@ -79,22 +79,23 @@ namespace Project_IPET.Controllers
         {
             var list = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n => new
             {
-                orderlist = _context.OrderDetails.Where(p => p.ProductId == n.ProductId).Sum(n => n.UnitPrice * n.Quantity)
+                orderlist = _context.DonationDetails.Where(p => p.ProductId == n.ProductId).Sum(n => n.UnitPrice * n.Quantity)
             }).ToList();
             int total = (int)list.Sum(n=>n.orderlist);
             var goal = _context.ProjectDetails.Where(n => n.PrjId == Id).Select(n => n.Goal).FirstOrDefault();
-            int persent = (total / (int)goal) * 100;
+            decimal persent = total/(decimal)goal * 100;
             return Json(persent);
         }
 
         public IActionResult readCount(int Id)
         {
             int count = 0;
-            var list = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n=>new
+            var prodlist = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n=>n.ProductId).ToList();
+            foreach(var prod in prodlist)
             {
-                order = _context.OrderDetails.Where(o=>o.ProductId == n.ProductId).Count()
-            }).ToList();
-            count = list.Sum(n => n.order);
+                var countorder = _context.DonationDetails.Where(n => n.ProductId == prod).ToList().Count();
+                count += countorder;
+            }
             return Json(count);
         }
 
@@ -102,7 +103,7 @@ namespace Project_IPET.Controllers
         {
             List<CProjectBuylistViewModel> buylist = new List<CProjectBuylistViewModel>();
             var list = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n =>
-                _context.OrderDetails.Where(o => o.ProductId == n.ProductId).Select(o => new CProjectBuylistViewModel
+                _context.DonationDetails.Where(o => o.ProductId == n.ProductId).Select(o => new CProjectBuylistViewModel
                 {
                     UserName = o.Order.Member.Name,
                     ProductName = o.Product.ProductName

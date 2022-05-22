@@ -1,76 +1,13 @@
 ﻿@model Project_IPET.Models.OrderModel
 
-@section Scripts{
-    <script>
-
-        const selTrans = document.querySelector('#selectTransaction');
-
-        $(document).ready(function () {
-            $("#selectTransaction").change(async function () {
-                if ($('#selectTransaction').val() == '2') {
-
-                    $("#donateblock").append('<div id="donateoptions">'
-                        + '<label>選擇捐贈單位 : </label>'
-                        + '<select width="270" style="text-align-last:center; width: 270px" class="myniceselect nice-select rounded-0" id="selectFoundation" name="FoundationOption"> '
-                        + '<option data-display="請選擇">請選擇</option>'
-                        + '</select>'
-                        + '</div>');
-
-                    disableFirstOption();
-
-                     const FoundationResponse = await fetch("@Url.Content("~/API/ReadFoundation")")
-                     renderFoundation(await FoundationResponse.json());
-
-
-                    function renderFoundation(datas) {
-                        datas.forEach(item => {
-                            opt = new Option(item.foundationName, item.foundationId);
-                            $("#selectFoundation").append(opt);
-                        });
-
-                        $.each($('#selectFoundation > option:not(:disabled)'), function (index, item) {
-                            $(item).attr('data-address', datas[index].foundationAddress);
-                        });
-                    };
-
-                    $('#selectFoundation').change(function (e) {
-                        var element = $(this).find('option:selected');
-                        var address = element.data("address");
-                        $('#inputAddress').val(address);
-                    });
-
-
-                }
-                else if ($('#selectTransaction').val() == '1') {
-                    $('#donateoptions').remove();
-                    $('#inputAddress').val('');
-                }
-            });
-
-        });
-
-    (async function LoadOption() {
-
-        const TransactionResponse = await fetch("@Url.Content("~/API/ReadTransaction")")
-        renderTransaction(await TransactionResponse.json());
-
-        disableFirstOption();
-        })();
-
-        function renderTransaction(datas) {
-        datas.forEach(item => {
-            const opt = new Option(item.transactionTypeName, item.transactionTypeId);
-            selTrans.options.add(opt);
-        })
-            }
-
-        function disableFirstOption() {
-            $('.myniceselect option:nth-child(1)').prop('disabled', true);
-        }
-
-    </script>
+@{
+    int count = 0;
+    foreach (var item in Model.OrderItem)
+    {
+        count++;
+        <a id="category_@count" style="visibility:hidden">@item.Category</a>
+    }
 }
-
 
 <!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
@@ -80,7 +17,9 @@
                 <div class="breadcrumb-wrapper">
                     <h2 class="breadcrumb-title">結帳</h2>
                     <ul>
-                        <li><a asp-controller="Front_Home">IPET 寵物店</a></li>
+                        <li>
+                            <a asp-controller="Front_Home">IPET 寵物店</a>
+                        </li>
                         <li>結帳頁面</li>
                     </ul>
                 </div>
@@ -99,7 +38,10 @@
                     <div class="coupon-accordion">
 
                         <!-- Title Start -->
-                        <h3 class="title">擁有優惠券嗎? <span id="showcoupon">點擊輸入優惠代碼</span></h3>
+                        <h3 class="title">
+                            擁有優惠券嗎?
+                            <span id="showcoupon">點擊輸入優惠代碼</span>
+                        </h3>
                         <!-- Title End -->
                         <!-- Checkout Coupon Start -->
                         <div id="checkout_coupon" class="coupon-checkout-content">
@@ -198,8 +140,13 @@
                                     @foreach (var item in Model.OrderItem)
                                     {
                                         <tr class="cart_item">
-                                            <td class="cart-product-name text-start ps-0">@item.Product.ProductName<strong class="product-quantity"> × @item.Quantity</strong></td>
-                                            <td class="cart-product-total text-end pe-0"><span class="amount">$@item.SubTotal</span></td>
+                                            <td class="cart-product-name text-start ps-0">
+                                                @item.Product.ProductName
+                                                <strong class="product-quantity"> × @item.Quantity</strong>
+                                            </td>
+                                            <td class="cart-product-total text-end pe-0">
+                                                <span class="amount">$@item.SubTotal</span>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
@@ -208,15 +155,21 @@
                                 <tfoot>
                                     <tr class="cart-subtotal">
                                         <th class="text-start ps-0">購物車總金額</th>
-                                        <td class="text-end pe-0"><span class="amount">$@Model.CartTotal</span></td>
+                                        <td class="text-end pe-0">
+                                            <span class="amount">$@Model.CartTotal</span>
+                                        </td>
                                     </tr>
                                     <tr class="cart-subtotal">
                                         <th class="text-start ps-0">運費</th>
-                                        <td class="text-end pe-0"><span class="amount">$@Model.Frieght</span></td>
+                                        <td class="text-end pe-0">
+                                            <span class="amount">$@Model.Frieght</span>
+                                        </td>
                                     </tr>
                                     <tr class="order-total">
                                         <th style="font-weight:bold;" class="text-start ps-0">訂單總金額</th>
-                                        <td class="text-end pe-0"><strong><span class="amount">$@Model.OrderTotal</span></strong></td>
+                                        <td class="text-end pe-0">
+                                            <strong><span class="amount">$@Model.OrderTotal</span></strong>
+                                        </td>
                                     </tr>
                                 </tfoot>
                                 <!-- Table Footer End -->
@@ -239,3 +192,135 @@
     </div>
     <!-- Checkout Section End -->
 </form>
+
+
+
+@section Scripts{
+    <script>
+
+        const selTrans = document.querySelector('#selectTransaction');
+        var msg = document.querySelector("a#category_"+@Model.OrderItem.Count).innerHTML;
+
+        $(document).ready(function () {
+            $.get("API/GetFoundationAddress", function (data) {
+                if (msg == "捐贈商品") {
+                    $('#inputAddress').val(data);
+                }
+            });
+        });
+
+        (async function () {
+
+            if (msg == "捐贈商品") {
+
+                    $("#donateblock").append('<div id="donateoptions">'
+                        + '<label>選擇捐贈單位 : </label>'
+                        + '<select width="270" style="text-align-last:center; width: 270px" class="myniceselect nice-select rounded-0" id="selectFoundation" name="FoundationOption"> '
+                        + '<option data-display="請選擇">請選擇</option>'
+                        + '</select>'
+                        + '</div>');
+
+                    $('#selectTransaction').prop('disabled', 'disabled');
+                    $('#selectFoundation').prop('disabled', 'disabled');
+
+                     const FoundationResponse = await fetch("@Url.Content("~/API/ReadFoundation")")
+                     renderFoundation(await FoundationResponse.json());
+
+
+                    function renderFoundation(datas) {
+                        datas.forEach(item => {
+                            opt = new Option(item.foundationName, item.foundationId);
+                            $("#selectFoundation").append(opt);
+                        });
+
+
+                        $.get("API/GetFoundationId", function (data) {
+                            var i = null;
+                            var obj = document.querySelector('#selectFoundation');
+                            for (i = 0; i < obj.options.length; i++) {
+                                if (obj.options[i].value == data) {
+                                    obj.selectedIndex = i;
+                                }
+                            }
+                        });
+
+                        $.each($('#selectFoundation > option:not(:disabled)'), function (index, item) {
+                            $(item).attr('data-address', datas[index].foundationAddress);
+                        });
+                    };
+                }
+                else {
+               $("#selectTransaction").change(async function () {
+                if ($('#selectTransaction').val() == '2') {
+
+                    $("#donateblock").append('<div id="donateoptions">'
+                        + '<label>選擇捐贈單位 : </label>'
+                        + '<select width="270" style="text-align-last:center; width: 270px" class="myniceselect nice-select rounded-0" id="selectFoundation" name="FoundationOption"> '
+                        + '<option data-display="請選擇">請選擇</option>'
+                        + '</select>'
+                        + '</div>');
+
+                    disableFirstOption();
+
+                     const FoundationResponse = await fetch("@Url.Content("~/API/ReadFoundation")")
+                     renderFoundation(await FoundationResponse.json());
+
+
+                    function renderFoundation(datas) {
+                        datas.forEach(item => {
+                            opt = new Option(item.foundationName, item.foundationId);
+                            $("#selectFoundation").append(opt);
+                        });
+
+                        $.each($('#selectFoundation > option:not(:disabled)'), function (index, item) {
+                            $(item).attr('data-address', datas[index].foundationAddress);
+                        });
+                    };
+                    $('#selectFoundation').change(function (e) {
+                        var element = $(this).find('option:selected');
+                        var address = element.data("address");
+                        $('#inputAddress').val(address);
+                    });
+                }
+                else if ($('#selectTransaction').val() == '1') {
+                    $('#donateoptions').remove();
+                    $('#inputAddress').val('');
+                     }
+                   });
+                }
+         })();
+
+
+    (async function LoadOption() {
+
+        const TransactionResponse = await fetch("@Url.Content("~/API/ReadTransaction")")
+        renderTransaction(await TransactionResponse.json());
+
+        disableFirstOption();
+
+        if (msg == "捐贈商品") {
+            var i = null;
+            var obj = document.querySelector("#selectTransaction");
+            for (i = 0; i < obj.options.length; i++) {
+                if (obj.options[i].value == 2) {
+                    obj.selectedIndex = i;
+                    return;
+                }
+            }
+        }
+
+        })();
+
+        function renderTransaction(datas) {
+        datas.forEach(item => {
+            const opt = new Option(item.transactionTypeName, item.transactionTypeId);
+            selTrans.options.add(opt);
+        })
+            }
+
+        function disableFirstOption() {
+            $('.myniceselect option:nth-child(1)').prop('disabled', true);
+        }
+
+    </script>
+}

@@ -67,11 +67,11 @@
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
                 checkbox.name = "fProds";
-                checkbox.value = prod.id;
-                checkbox.id = `prod${prod.id}`;
+                checkbox.value = prod.productId;
+                checkbox.id = `prod${prod.productId}`;
                 const label = document.createElement("label");
-                label.innerHTML = prod.name
-                label.setAttribute("for", `prod${prod.id}`);
+                label.innerHTML = prod.productName
+                label.setAttribute("for", `prod${prod.productId}`);
                 label.style.position = "absolute";
                 const br = document.createElement("br");
                 list.append(checkbox,label,br);

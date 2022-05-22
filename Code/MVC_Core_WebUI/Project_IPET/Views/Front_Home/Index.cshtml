@@ -123,7 +123,7 @@
 
                     <!-- CTA Icon Start -->
                     <div class="cta-icon">
-                        <i><a href="~/Front_PetAdopt"  class="ti-home"></a></i>
+                        <i><a href="~/Front_PetAdopt" class="ti-home"></a></i>
                     </div>
                     <!-- CTA Icon End -->
                     <!-- CTA Content Start -->
@@ -150,7 +150,6 @@
             <div class="col-12">
                 <ul class="product-tab-nav nav justify-content-center m-b-n15 p-b-40 title-border-bottom">
                     <li class="nav-item m-b-15"><a class="nav-link active" data-bs-toggle="tab" href="#tab-product-all">銷售最佳商品</a></li>
-                    <li class="nav-item m-b-15"><a class="nav-link" data-bs-toggle="tab" href="#tab-product-all">熱門收藏</a></li>
                 </ul>
             </div>
             <!-- Tab End -->
@@ -459,8 +458,6 @@
 
         <!-- Single Blog Start -->
         <div id="blogview">
-
-
         </div>
         <!-- Single Blog End -->
 
@@ -757,33 +754,29 @@
     <!-- Mobile Menu Inner End -->
 </div>
 <!-- Mobile Menu End -->
-
-
-
-
 @section Scripts{
 
-    <script>
+<script>
 
-        init();
+    init();
 
-        function init()
-        {
-            post();
-        }
-
-
-        function post() {
-
-            POSTMethod("@Url.Content("~/Front_Blog/HomeBlogView")",
-                null,
-                function (response) {
-                    $("#blogview").html(response);
-
-                }
-            )
+    function init()
+    {
+        post();
+    }
 
 
-        }
-    </script>
+    function post() {
+
+        POSTMethod("@Url.Content("~/Front_Blog/HomeBlogView")",
+            null,
+            function (response) {
+                $("#blogview").html(response);
+
+            }
+        )
+
+
+    }
+</script>
 }

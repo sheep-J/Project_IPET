@@ -170,6 +170,16 @@ namespace Project_IPET.Controllers
             return PartialView("_CartPartial");
         }
 
+        public IActionResult GetCart()
+        {
+            List<CartModel> cart = SessionHelper.GetObjectFromJson<List<CartModel>>(HttpContext.Session, "Cart");
+            if (cart != null)
+            {
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "Cart", cart);
+            }
+            return PartialView("_CartPartial");
+        }
+
         private string ConvertImage(byte[] arrayImage)
         {
             string base64String = Convert.ToBase64String(arrayImage, 0, arrayImage.Length);

@@ -15,12 +15,12 @@ namespace Project_IPET.Controllers
     {
         private readonly ILogger<Front_HomeController> _logger;
 
-        
+
 
         public Front_HomeController(ILogger<Front_HomeController> logger)
         {
             _logger = logger;
-           
+
         }
 
         public IActionResult Index()
@@ -29,7 +29,7 @@ namespace Project_IPET.Controllers
         }
 
 
-       
+
 
         public IActionResult Privacy()
         {

@@ -26,34 +26,44 @@ namespace Project_IPET.Controllers
             return View();
         }
 
+        public IActionResult chkFlag(CEmptySignupViewModel vModel)
+        {
+            if (vModel.FlagUserId && vModel.FlagEmail && vModel.FlagPassword && vModel.FlagPhone)
+            {
+                return Content("true");
+            }
+            return Content("false");
+        }
+
+
         [HttpPost]
         public IActionResult Register(CEmptySignupViewModel vModel)
         {
-            string ImagesFolder = Path.Combine(_host.WebRootPath,
+                string ImagesFolder = Path.Combine(_host.WebRootPath,
                 "Front/images/register/members", vModel.Photo.FileName);
-            using (var fileStream = new FileStream(ImagesFolder, FileMode.Create))
-            {
-                vModel.Photo.CopyTo(fileStream);
-            }
+                using (var fileStream = new FileStream(ImagesFolder, FileMode.Create))
+                {
+                    vModel.Photo.CopyTo(fileStream);
+                }
 
-            var member = new Member
-            {
-                Name = vModel.LastName + vModel.FirstName,
-                UserId = vModel.UserId,
-                Email = vModel.Email,
-                Gender = (new CMembersFactory(_context)).getGender(vModel.Gender),
-                BirthDate = vModel.BirthDate,
-                Password = vModel.CurrentPwd,
-                Phone = vModel.Phone,
-                RegionId = (new CMembersFactory(_context)).getRegionId(vModel.Region),
-                Address = vModel.Address,
-                RegisteredDate = DateTime.Now,
-                Avatar = vModel.Photo.FileName,
-            };
+                var member = new Member
+                {
+                    Name = vModel.LastName + vModel.FirstName,
+                    UserId = vModel.UserId,
+                    Gender = (new CMembersFactory(_context)).getGender(vModel.Gender),
+                    BirthDate = vModel.BirthDate,
+                    Email = vModel.Email,
+                    Password = vModel.CurrentPwd,
+                    Phone = vModel.Phone,
+                    RegionId = (new CMembersFactory(_context)).getRegionId(vModel.Region),
+                    Address = vModel.Address,
+                    RegisteredDate = DateTime.Now,
+                    Avatar = vModel.Photo.FileName,
+                };
 
-            _context.Members.Add(member);
-            _context.SaveChanges();
-            return RedirectToAction("Index", "Empty_Signin");
+                _context.Members.Add(member);
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Empty_Signin");
         }
 
     }

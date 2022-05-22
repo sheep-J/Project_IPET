@@ -202,23 +202,21 @@ namespace Project_IPET.Controllers
                     a.Add(prod);
             }
             return Json(a);
-            //var prjlist = _context.PrjConnects.Select(n => n.ProductId).ToList();
-            //var prodlist = _context.Products.Where(n => prjlist.Exists(x => x == n.ProductId) == false).Select(n => new
-            //{
-            //    id = n.ProductId,
-            //    name = n.ProductName
-            //}).ToList();
-            //var list = _context.Products.Where(n => n.SubCategory.CategoryId == 13).Select(n => new
-            //{
-            //    id = n.ProductId,
-            //    name = n.ProductName
-            //}).ToList();
-            //return Json(prodlist);
         }
 
         //Edit 專案內容導入
         public IActionResult EditLoad(int Id)
         {
+            var prodall = _context.Products.Where(n => n.SubCategory.CategoryId == 13).ToList();
+            var already = _context.PrjConnects.Select(n => n.ProductId).ToList();
+            var thisprod = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n => n.Product).ToList();
+            List<Product> a = new List<Product>();
+            a.AddRange(thisprod);
+            foreach (var prod in prodall)
+            {
+                if (already.IndexOf(prod.ProductId) == -1)
+                    a.Add(prod);
+            }
             var prj = _context.ProjectDetails.Where(n => n.PrjId == Id).Select(n => new
             {
                 fId = n.PrjId,
@@ -236,11 +234,12 @@ namespace Project_IPET.Controllers
                     name = n.FoundationName
                 }).ToList(),
                 fProd = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n => n.ProductId).ToList(),
-                fAllprod = _context.Products.Where(n => n.SubCategory.CategoryId == 1).Select(n => new
-                {
-                    prodId = n.ProductId,
-                    prodName = n.ProductName
-                }).ToList()
+                fAllprod = a
+                //fAllprod = _context.Products.Where(n => n.SubCategory.CategoryId == 13).Select(n => new
+                //{
+                //    prodId = n.ProductId,
+                //    prodName = n.ProductName
+                //}).ToList()
             }).FirstOrDefault();
             return Json(prj);
         }

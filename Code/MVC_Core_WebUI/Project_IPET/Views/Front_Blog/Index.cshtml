@@ -123,13 +123,28 @@
                                                 <!-- 點讚 Start -->
                                                 <li>
                                                     <a href="#/">
-                                                        <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true">@Html.DisplayFor(modelItem => item.LikeCount)</i>
-                                                    </a>
-
+                                                    <input type="hidden" value="@item.liked" id="@item.PostId">
+                                                    <input type="hidden" value="@item.userId">
+                                                        @if(item.liked !=0)
+                                                                {
+                                                                    <i class="fa fa-thumbs-o-up text-primary" id="clicklike" onclick="clicklike(@item.PostId,@item.MemberId)"  ></i>
+                                                                }
+                                                                else
+                                                                {
+                                                                     <i class="fa fa-thumbs-o-up " id="clicklike" onclick="clicklike(@item.PostId,@item.MemberId)"  ></i>
+                                                                }
+                                                            </a>
                                                 </li>
                                                 <!-- 點讚 End -->
-
-                                                <li><span>By</span><span>@Html.DisplayFor(modelItem => item.MemberName)</span></li> <!-- 貼文作者 -->
+                                                        @if( @item.LikeCount != 0)
+                                                        {
+                                                            <li class="w-30 text-primary">@Html.DisplayFor(modelItem => item.LikeCount) -</li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="w-30">@Html.DisplayFor(modelItem => item.LikeCount) -</li>
+                                                        }
+                                                        <li><span>By</span><span>@Html.DisplayFor(modelItem => item.MemberName)</span></li> <!-- 貼文作者 -->
                                                 <li><span>@Html.DisplayFor(modelItem => item.PostDate)</span></li>          <!-- 貼文日期 -->
 
                                             </ul>
@@ -375,7 +390,43 @@
         });
 
 
+       function clicklike(postId,MemberId)
+       {
 
+
+           if($(`#${postId}`).val() != 0)
+           {
+             $("#clicklike").removeClass("text-primary");
+
+
+              POSTMethod("@Url.Content("~/Front_Blog/DeleteLike")",
+              {
+               MemberId:MemberId,
+               PostId:postId,
+              },
+               null
+              )
+      
+
+           }
+           else
+           {
+             $("#clicklike").addClass("text-primary");
+
+              POSTMethod("@Url.Content("~/Front_Blog/CreateLike")",
+              {
+               MemberId:MemberId,
+               PostId:postId,
+              },
+               null
+              )
+            
+
+           }
+
+             window.location.reload(true);
+            
+       }
 
 
 

@@ -27,6 +27,7 @@ namespace Project_IPET.Models
                            PostContent = p.PostContent.Substring(0, 15),
                            PostId = p.PostId,
                            PostDate = p.PostDate,
+                           
                        }).Where(c => c.ReplyToPost == null);
 
                 Post = Post.Where(p => DateTime.Parse(p.PostDate).Year.Equals(year))
@@ -39,6 +40,7 @@ namespace Project_IPET.Models
         public IEnumerable<CPostViewModel> PostFilter(CPostViewModel PostFilters)
         {
             IEnumerable<CPostViewModel> datas = null;
+
             datas = _context.Posts.Select(n => new CPostViewModel
             {
                 PostId = n.PostId,
@@ -52,6 +54,11 @@ namespace Project_IPET.Models
                 PostTypeId = n.PostTypeId,
                 PostType = n.PostType.PostTypeName,
                 ReplyToPost = n.ReplyToPost.ToString(),
+                userId=PostFilters.userId,
+                liked =_context.PostLikeds
+                       .Where(u=>u.MemberId ==PostFilters.userId && u.PostId == n.PostId)
+                       .Count(),
+
 
             }).Where(c => c.ReplyToPost == null);
 

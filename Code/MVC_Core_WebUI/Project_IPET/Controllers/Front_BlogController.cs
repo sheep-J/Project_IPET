@@ -22,28 +22,39 @@ namespace Project_IPET.Controllers
 
         private IWebHostEnvironment _environment;
 
-       
+
         public Front_BlogController(MyProjectContext myProject, IWebHostEnvironment p)
         {
             _environment = p;
             _context = myProject;
-            
+
         }
-       
-  
-        public IActionResult Index( string PostType, CPostViewModel postFilter) 
+
+
+        public IActionResult Index(string PostType, CPostViewModel postFilter)
         {
+
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                Member userobj = JsonSerializer.Deserialize<Member>(json);
+                int userid = userobj.MemberId;
+                postFilter.userId = userid;
+            }
+
             int pagesize = 6;
             postFilter.FilterPostType = PostType;
             int totalpost = new CPostFilterFactory(_context).PostFilter(postFilter)
                                                             .Where(c => c.ReplyToPost == null).Count();
 
+
             var PostTypeName = _context.PostTypes
-                              .OrderBy(p=>p.PostTypeId)
-                              .Select(n=>new CPostViewModel
+                              .OrderBy(p => p.PostTypeId)
+                              .Select(n => new CPostViewModel
                               {
-                                  PostType =n.PostTypeName.ToString(),
-                                  PostTypeId= n.Posts.Count,
+                                  PostType = n.PostTypeName.ToString(),
+                                  PostTypeId = n.Posts.Count,
                               })
                               .ToList();
             ViewBag.PostType = PostTypeName;
@@ -62,13 +73,13 @@ namespace Project_IPET.Controllers
 
             var posts = new CPostFilterFactory(_context).PostFilter(postFilter)
                       .Where(c => c.ReplyToPost == null).ToList();
-                  
+
 
             return View(posts);
         }
-        
 
-        public IActionResult PostView(int id,CPostViewModel vModel)
+
+        public IActionResult PostView(int id, CPostViewModel vModel)
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
             int userid = 0;
@@ -77,7 +88,7 @@ namespace Project_IPET.Controllers
             {
                 Member userobj = JsonSerializer.Deserialize<Member>(json);
                 string userName = userobj.Name;
-                userid =userobj.MemberId; ;
+                userid = userobj.MemberId; ;
                 ViewBag.MemberName = userName;
 
             }
@@ -85,11 +96,11 @@ namespace Project_IPET.Controllers
             {
 
                 ViewBag.MemberName = "尚未登入會員";
-                
+
             }
 
-            if (!string.IsNullOrEmpty(json) && !string.IsNullOrEmpty(vModel.PostContent)) 
-            { 
+            if (!string.IsNullOrEmpty(json) && !string.IsNullOrEmpty(vModel.PostContent))
+            {
                 var newReply = new Post
                 {
                     MemberId = userid,
@@ -127,15 +138,16 @@ namespace Project_IPET.Controllers
         public IActionResult ReplyListView(int inputpostId)
         {
             var replylistview = _context.Posts.Where(p => p.ReplyToPost != null && p.ReplyToPost == inputpostId)
-                                .OrderByDescending(d =>d.PostDate)
-                                .Select(p => new CPostViewModel {
+                                .OrderByDescending(d => d.PostDate)
+                                .Select(p => new CPostViewModel
+                                {
 
                                     MemberImage = p.Member.Avatar,
                                     MemberName = p.Member.Name,
-                                    PostDate=p.PostDate,
-                                    PostContent=p.PostContent,
+                                    PostDate = p.PostDate,
+                                    PostContent = p.PostContent,
 
-                                }).ToList();    
+                                }).ToList();
 
 
             return PartialView(replylistview);
@@ -151,9 +163,9 @@ namespace Project_IPET.Controllers
             {
                 return RedirectToAction("Index");
             }
-          
 
-            var data = _context.PostTypes.Select(p=>p).ToList();
+
+            var data = _context.PostTypes.Select(p => p).ToList();
 
 
             List<SelectListItem> mySelectItemList = new List<SelectListItem>();
@@ -166,16 +178,16 @@ namespace Project_IPET.Controllers
                     Selected = false
                 });
             }
-            CPostViewModel model = new CPostViewModel() 
+            CPostViewModel model = new CPostViewModel()
             {
                 MyList = mySelectItemList
             };
-           
+
             return View(model);
-          
+
         }
         [HttpPost]
-        public IActionResult CreatePost(CPostViewModel vModel) 
+        public IActionResult CreatePost(CPostViewModel vModel)
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
             Member userobj = JsonSerializer.Deserialize<Member>(json);
@@ -185,7 +197,7 @@ namespace Project_IPET.Controllers
             {
                 string photoName = Guid.NewGuid().ToString() + ".jpg";
                 vModel.PostImage = photoName;
-                vModel.PostPhoto.CopyTo(             
+                vModel.PostPhoto.CopyTo(
                     new FileStream(
                         _environment.WebRootPath + "/Front/Images/blog/UploadImage/" + photoName
                         , FileMode.Create));
@@ -214,8 +226,8 @@ namespace Project_IPET.Controllers
             return RedirectToAction("CreatePost");
         }
 
-       
-        public IActionResult HomeBlogView(CPostViewModel postFilter) 
+
+        public IActionResult HomeBlogView(CPostViewModel postFilter)
         {
             var posts = new CPostFilterFactory(_context).PostFilter(postFilter)
               .Where(c => c.ReplyToPost == null)
@@ -234,30 +246,90 @@ namespace Project_IPET.Controllers
 
             return PartialView(posts);
 
-
         }
 
 
-        // 取得商品評價留言 Html Start
-        public IActionResult ProductComment(string productname)
+
+        public IActionResult CreateLike(CPostViewModel vModel)
         {
-            productname = "室內成貓-貓飼料";
 
-            var productcomment = _context.Comments
-                                 .OrderByDescending(d=>d.CommentDate)
-                                 .Where(p=>p.Product.ProductName == productname)
-                                 .Select(n => new CCommentViewModel {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
 
-                                     MemberName = n.OrderDetail.Order.Member.Name,
-                                     MemberImage = n.OrderDetail.Order.Member.Avatar,
-                                     Rating = n.Rating,
-                                     CommentDate = n.CommentDate,
-                                     CommentContent = n.CommentContent,
-                                    
-                                 }).ToList();
+            if (string.IsNullOrEmpty(json))
+            {
+                return View();
+            }
+            else
+            {
+                Member userobj = JsonSerializer.Deserialize<Member>(json);
+                int userid = userobj.MemberId;
+                if (vModel.PostId != 0 && userid != 0)
+                {
 
-            return View(productcomment);
+                    var newlike = new PostLiked
+                    {
+                        MemberId = userid,
+                        PostId = vModel.PostId,
+
+                    };
+                    var likecount = _context.Posts
+                        .FirstOrDefault(p => p.PostId == vModel.PostId && p.MemberId == vModel.MemberId);
+                    if (likecount != null)
+                    {
+                        likecount.LikeCount++;
+                    }
+
+                    _context.Add(newlike);
+                    _context.SaveChanges();
+
+                    return View();
+                }
+                return View();
+            }
         }
-        // 取得商品評價留言 Html End
+
+        public IActionResult DeleteLike(CPostViewModel vModel)
+        {
+
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+
+            if (string.IsNullOrEmpty(json))
+            {
+                return View();
+            }
+            else
+            {
+                Member userobj = JsonSerializer.Deserialize<Member>(json);
+                int userid = userobj.MemberId;
+
+
+                if (vModel.PostId != 0 && userid != 0)
+                {
+
+                    var deletelike = (from l in _context.PostLikeds
+                                      join m in _context.Members
+                                      on l.MemberId equals m.MemberId
+                                      join p in _context.Posts
+                                      on l.PostId equals p.PostId
+                                      where l.MemberId == userid && l.PostId == vModel.PostId
+                                      select l).FirstOrDefault();
+
+                    var likecount = _context.Posts
+                       .FirstOrDefault(p => p.PostId == vModel.PostId && p.MemberId == vModel.MemberId);
+
+                    if (likecount != null)
+                    {
+                        likecount.LikeCount--;
+                    }
+
+                    _context.Remove(deletelike);
+                    _context.SaveChanges();
+
+                    return View();
+                }
+                return View();
+            }
+        }
+
     }
 }

@@ -31,6 +31,10 @@ namespace Project_IPET.ViewModels
         [DisplayName("貼文圖片:")]
         public string PostImage { get; set; }
 
+        public int liked { get; set; }
+
+        public int userId{ get; set; }
+
         public IFormFile PostPhoto { get; set; }
 
         public IEnumerable<SelectListItem> MyList { get; set; }

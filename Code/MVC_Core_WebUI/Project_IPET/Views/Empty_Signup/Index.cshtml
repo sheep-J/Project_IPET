@@ -29,11 +29,11 @@
                     </div>
                     <!-- Register Title & Content End -->
                     <!-- Form Action Start -->
-                    <form asp-action="Register" class="form-floating" enctype="multipart/form-data">
+                    <form asp-action="Register" id="form" class="form-floating" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <!-- Photo Start -->
                         <div class="col-lg-auto text-center align-items-center">
-                            <input class="form-control-file" accept="image/*" type="file" name="Photo" id="Photo" hidden/>
+                            <input class="form-control-file" accept="image/*" type="file" name="Photo" id="Photo" hidden />
                             <a class="btn btn-default" onclick="browsePhoto();">
                                 <img src="~/Front/images/register/default/df_1.png" alt="..." name="previewPhoto" id="previewPhoto" class="img-fluid img-thumbnail rounded-circle mx-auto mb-3" style="width:100px; height:100px;" />
                             </a>
@@ -58,15 +58,30 @@
                             <!-- FirstName End -->
                         </div>
                         <!-- UserId Start -->
-                        <div class="form-floating single-input-item m-b-10 justify-content-center align-items-center d-flex">
-                            <input class="form-control required m-b-10" name="UserId" id="UserId" type="text" placeholder="使用者名稱">
-                            <label for="UserId">使用者名稱</label>
+                        <div class="row">
+                            <div class="col-11"></div>
+                            <div class="col-1">
+                                <a class="d-flex justify-content-end mb-1 fa fa-exclamation-circle" id="userIdTip"
+                                   data-toggle="tooltip" data-placement="auto" title="不含特殊符號且不少於4位的英數字組合">
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-floating single-input-item mb-0 justify-content-center align-items-center d-flex">
+                                <input class="form-control required m-b-10" oninput="chkUserId()" name="UserId" id="UserId" type="text" placeholder="使用者名稱">
+                                <label for="UserId">使用者名稱</label>
+                            </div>
+                            <!-- userIdAlert -->
+                            <div id="userIdAlert" class="d-block col-auto m-b-20 justify-content-start align-items-center d-none">
+                                <i class="fa-solid d-none"></i>
+                                <b class="d-none"></b>
+                            </div>
                         </div>
                         <!-- UserId End -->
                         <!-- Gender Start -->
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="form-floating single-input-item m-b-25">
+                                <div class="form-floating single-input-item m-b-20">
                                     <select class="form-select" name="Gender" id="selgender">
                                         <option selected>請選擇</option>
                                         <option>男</option>
@@ -87,38 +102,76 @@
                             <!-- BirthDate End -->
                         </div>
                         <!-- Email Start -->
-                        <div class="form-floating single-input-item m-b-10">
-                            <input class="form-control" name="Email" id="Email" type="email" placeholder="您的電子郵件地址">
-                            <label for="Email">您的電子郵件地址</label>
+                        <div class="row">
+                            <div class="col-11"></div>
+                            <div class="col-1">
+                                <a class="d-flex justify-content-end mb-1 fa fa-exclamation-circle" id="emailTip"
+                                   data-toggle="tooltip" data-placement="right" title="含有＠符號的Email地址">
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-floating single-input-item m-b-5">
+                                <input class="form-control" oninput="chkEmail()" name="Email" id="Email" type="email" placeholder="您的電子郵件地址">
+                                <label for="Email">您的電子郵件地址</label>
+                            </div>
+                            <!-- emailAlert -->
+                            <div id="emailAlert" class="d-block col-auto m-b-5 justify-content-start align-items-center d-none">
+                                <i class="fa-solid d-none"></i>
+                                <b class="d-none"></b>
+                            </div>
                         </div>
                         <!-- Email End -->
                         <div class="row">
-                            <!-- CurrentPwd Start -->
-                            <div class="col-lg-6">
-                                <div class="form-floating single-input-item m-b-10">
-                                    <input class="form-control" name="CurrentPwd" id="CurrentPwd" type="password" placeholder="密碼">
-                                    <label for="CurrentPwd">密碼</label>
-                                </div>
+                            <div class="col-11"></div>
+                            <div class="col-1">
+                                <a class="d-flex justify-content-end mb-1 fa fa-exclamation-circle" id="userIdTip"
+                                   data-toggle="tooltip" data-placement="auto" title="兩端密碼需相同">
+                                </a>
                             </div>
-                            <!-- CurrentPwd End -->
-                            <!-- ConfirmPwd Start -->
-                            <div class="col-lg-6">
-                                <div class="form-floating single-input-item m-b-10">
-                                    <input class="form-control" name="ConfirmPwd" id="ConfirmPwd" type="password" placeholder="確認">
-                                    <label for="ConfirmPwd">確認</label>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <!-- CurrentPwd Start -->
+                                <div class="col-lg-6">
+                                    <div class="form-floating single-input-item m-b-5">
+                                        <input class="form-control" oninput="chkPassword()" name="CurrentPwd" id="CurrentPwd" type="password" placeholder="密碼">
+                                        <label for="CurrentPwd">密碼</label>
+                                    </div>
                                 </div>
+                                <!-- CurrentPwd End -->
+                                <!-- ConfirmPwd Start -->
+                                <div class="col-lg-6">
+                                    <div class="form-floating single-input-item m-b-10">
+                                        <input class="form-control" oninput="chkPassword()" name="ConfirmPwd" id="ConfirmPwd" type="password" placeholder="確認">
+                                        <label for="ConfirmPwd">確認</label>
+                                    </div>
+                                </div>
+                                <!-- ConfirmPwd End -->
                             </div>
-                            <!-- ConfirmPwd End -->
+                            <!-- passwordAlert -->
+                            <div id="passwordAlert" class="d-block col-auto m-b-10 justify-content-start align-items-center d-none">
+                                <i class="fa-solid d-none"></i>
+                                <b class="d-none"></b>
+                            </div>
                         </div>
                         <!-- Phone Start -->
-                        <div class="form-floating single-input-item m-b-10">
-                            <input class="form-control" name="Phone" id="Phone" type="text" placeholder="電話號碼">
-                            <label for="Phone">電話號碼</label>
+                        <div>
+                            <div class="form-floating single-input-item m-b-15">
+                                <input class="form-control" oninput="chkPhone()" name="Phone" id="Phone" type="text" placeholder="電話號碼">
+                                <label for="Phone">手機</label>
+                            </div>
+                            <!-- phoneAlert -->
+                            <div id="phoneAlert" class="d-block col-auto m-b-10 justify-content-start align-items-center d-none">
+                                <i class="fa-solid d-none"></i>
+                                <b class="d-none"></b>
+                            </div>
                         </div>
                         <!-- Phone End -->
                         <div class="row">
                             <!-- City Start -->
                             <div class="col-lg-6">
+                                <a class="d-flex justify-content-end mb-1"></a>
                                 <div class="form-floating single-input-item m-b-25">
                                     <select class="form-select" name="City" id="selcity"><option>請選擇</option></select>
                                     <label for="selcity">縣市</label>
@@ -127,6 +180,7 @@
                             <!-- City End -->
                             <!-- Region Start -->
                             <div class="col-lg-6">
+                                <a class="d-flex justify-content-end mb-1"></a>
                                 <div class="form-floating single-input-item m-b-25">
                                     <select class="form-select" name="Region" id="selregion"><option>請選擇</option></select>
                                     <label for="selregion">區</label>
@@ -135,15 +189,25 @@
                             <!-- Region End -->
                         </div>
                         <!-- Address Start -->
+                        <div class="row">
+                            <div class="col-11"></div>
+                            <div class="col-1">
+                                <a class="d-flex justify-content-end mb-1 fa fa-exclamation-circle" id="phoneTip"
+                                   data-toggle="tooltip" data-placement="auto" title="結帳後需寄送到您的地址">
+                                </a>
+                            </div>
+                        </div>
+                        <a class="d-flex justify-content-end mb-1"></a>
                         <div class="form-floating single-input-item m-b-25">
                             <input class="form-control" name="Address" id="Address" type="text" placeholder="地址">
                             <label for="Address">地址</label>
                         </div>
                         <!-- Address End -->
                         <!-- Button/Forget Password Start -->
+                        <a class="d-flex justify-content-end mb-1"></a>
                         <div class="single-input-item">
                             <div class="login-reg-form-meta m-b-n15">
-                                <input type="submit" value="創建" class="btn btn btn-gray-deep btn-hover-primary m-b-15" />
+                                <input type="button" onclick="chkform()" value="創建" class="btn btn btn-gray-deep btn-hover-primary m-b-15" />
                             </div>
                         </div>
                         <!-- Button/Forget Password End -->
@@ -156,8 +220,120 @@
 </div>
 <!-- Register Section End -->
 
-@section Scripts{
+@section Scripts
+{
     <script>
+        let userId = $('input[name="UserId"]');
+        let email = $('input[name="Email"]');
+        let currentpwd = $('input[name="CurrentPwd"]');
+        let confirmpwd = $('input[name="ConfirmPwd"]');
+        let phone = $('input[name="Phone"]');
+
+        let flagUserId = false;
+        let flagEmail = false;
+        let flagPassword = false;
+        let flagPhone = false;
+
+        function chkUserId () {
+            $.post('@Url.Content("~/MembersApi/chkIdRepetition")',
+                { UserId: userId.val() },
+                function (response) {
+                    if (response == "true") {
+                        flagUserId = true;
+                        //console.log("true");
+                        $("#userIdAlert").removeClass("d-none").css("color","forestgreen")
+                            .children("i").removeClass("d-none fa-circle-xmark").addClass("fa-circle-check").end()
+                            .children("b").removeClass("d-none").text("此帳號可以使用");
+                    }
+                    else {
+                        /*console.log("false");*/
+                        flagUserId = false;
+                        $("#userIdAlert").removeClass("d-none").css("color", "crimson")
+                            .children("i").removeClass("d-none fa-circle-check").addClass("fa-circle-xmark").end()
+                            .children("b").removeClass("d-none").text("請符合帳號使用規則");
+                    }
+                })
+        }
+
+        function chkEmail() {
+            $.post('@Url.Content("~/MembersApi/chkemailRepetition")',
+                { Email: email.val() },
+                function (response) {
+                    if (response == "true") {
+                        flagEmail = true;
+                        //console.log("true");
+                        $("#emailAlert").removeClass("d-none").css("color","forestgreen")
+                            .children("i").removeClass("d-none fa-circle-xmark").addClass("fa-circle-check").end()
+                            .children("b").removeClass("d-none").text("此Email可以使用");
+                    }
+                    else {
+                        flagEmail = false;
+                        //console.log("false");
+                        $("#emailAlert").removeClass("d-none").css("color", "crimson")
+                            .children("i").removeClass("d-none fa-circle-check").addClass("fa-circle-xmark").end()
+                            .children("b").removeClass("d-none").text("請符合通用Email格式");
+                    }
+                })
+        }
+
+        function chkPassword() {
+            $.post('@Url.Content("~/MembersApi/chkpasswordRepetition")',
+                { CurrentPwd: currentpwd.val(), ConfirmPwd: confirmpwd.val()},
+                function (response) {
+                    if (response == "true") {
+                        flagPassword = true;
+                        //console.log("true");
+                        $("#passwordAlert").removeClass("d-none").css("color","forestgreen")
+                            .children("i").removeClass("d-none fa-circle-xmark").addClass("fa-circle-check").end()
+                            .children("b").removeClass("d-none").text("此密碼可以使用");
+                    }
+                    else {
+                        flagPassword = false;
+                        //console.log("false");
+                        $("#passwordAlert").removeClass("d-none").css("color", "crimson")
+                            .children("i").removeClass("d-none fa-circle-check").addClass("fa-circle-xmark").end()
+                            .children("b").removeClass("d-none").text("兩端密碼不相同，請再作確認");
+                    }
+                })
+        }
+
+        function chkPhone() {
+            $.post('@Url.Content("~/MembersApi/chkphoneRepetition")',
+                { Phone: phone.val() },
+                function (response) {
+                    if (response == "true") {
+                        flagPhone = true;
+                        //console.log("true");
+                        $("#phoneAlert").removeClass("d-none").css("color","forestgreen")
+                            .children("i").removeClass("d-none fa-circle-xmark").addClass("fa-circle-check").end()
+                            .children("b").removeClass("d-none").text("電話格式正確");
+                    }
+                    else {
+                        flagPhone = false;
+                        //console.log("false");
+                        $("#phoneAlert").removeClass("d-none").css("color", "crimson")
+                            .children("i").removeClass("d-none fa-circle-check").addClass("fa-circle-xmark").end()
+                            .children("b").removeClass("d-none").text("請輸入您的手機號碼");
+                    }
+                })
+        }
+
+        function chkform() {
+            $.post('@Url.Content("~/Empty_Signup/chkFlag")',
+                { FlagUserId: flagUserId, FlagEmail: flagEmail, FlagPassword: flagPassword, FlagPhone: flagPhone },
+                function (response) {
+                    if (response == "true") {
+                        //console.log("true");
+                        $("#form").submit();
+                    }
+                    else {
+                        //console.log("false");
+                        alert("尚未填寫完成")
+                    }
+                }
+            )
+
+        }
 
         function browsePhoto() {
             $("#Photo").trigger("click");

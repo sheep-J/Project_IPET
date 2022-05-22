@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using prjTest.Models;
 using Project_IPET.Models;
 using Project_IPET.Models.EF;
+using Project_IPET.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Project_IPET.Controllers
@@ -20,6 +24,59 @@ namespace Project_IPET.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult chkIdRepetition(CEmptySignupViewModel vModel)
+        {
+            Regex regUserId = new Regex(@"[A-Z,a-z,0-9]$");
+            var datas = _context.Members.Any(m => m.UserId == vModel.UserId);
+
+            if (!string.IsNullOrEmpty(vModel.UserId))
+            {
+                if (!datas && regUserId.IsMatch(vModel.UserId))
+                    return Content("true");
+                return Content("false");
+            }
+            return Content("null");
+        }
+
+        public IActionResult chkemailRepetition(CEmptySignupViewModel vModel)
+        {
+            Regex regEmail = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+            if (!string.IsNullOrEmpty(vModel.Email))
+            {
+                if (regEmail.IsMatch(vModel.Email))
+                    return Content("true");
+                return Content("false");
+            }
+            return Content("null");
+        }
+
+        public IActionResult chkpasswordRepetition(CEmptySignupViewModel vModel)
+        {
+            Regex regPassword = new Regex(@"[A-Z,a-z,0-9]{5,16}$");
+
+            if (!string.IsNullOrEmpty(vModel.CurrentPwd))
+            {
+                if (regPassword.IsMatch(vModel.CurrentPwd) && vModel.CurrentPwd == vModel.ConfirmPwd)
+                    return Content("true");
+                return Content("false");
+            }
+            return Content("null");
+        }
+
+        public IActionResult chkphoneRepetition(CEmptySignupViewModel vModel)
+        {
+            Regex regPassword = new Regex(@"^09[0-9]{8}$");
+
+            if (!string.IsNullOrEmpty(vModel.Phone))
+            {
+                if (regPassword.IsMatch(vModel.Phone))
+                    return Content("true");
+                return Content("false");
+            }
+            return Content("null");
         }
 
         public IActionResult City()

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using prjTest.Models;
 using Project_IPET.Models;
 using Project_IPET.Models.EF;
 using Project_IPET.Services;
@@ -28,19 +29,31 @@ namespace Project_IPET.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public IActionResult Index(CLoginViewModel vModel)
+        public IActionResult chkId(CLoginViewModel vModel)
         {
             Member customer = _context.Members.FirstOrDefault(m => m.UserId == vModel.txtAccount);
             if (customer != null && customer.Password.Equals(vModel.txtPassword))
             {
                 string json = JsonSerializer.Serialize(customer);
                 HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
-                return customer.RoleId == 1 ? RedirectToAction("Index", "Front_Home") : RedirectToAction("Index", "Back_Home");
+                return Content("true");
             }
-            return View();
+            return Content("false");
         }
 
+        [HttpPost]
+        public IActionResult chkRoId()
+        {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            if (!string.IsNullOrEmpty(json))
+            {
+                int RoleId = (new CMembersFactory(_context)).getRoId(json);
+                return RoleId == 1 ? RedirectToAction("Index", "Front_Home") : RedirectToAction("Index", "Back_Home");
+            }
+            return RedirectToAction("Index", "Empty_Signin");
+        }
 
         public IActionResult ForgetPassword()
         {

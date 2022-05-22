@@ -286,20 +286,20 @@ namespace Project_IPET.Controllers
                 vModel.Photo.CopyTo(fileStream);
             }
 
-                var member = _context.Members.FirstOrDefault(m => m.MemberId == memberId);
-                if (member != null)
-                {
-                    member.Name = vModel.Name;
-                    member.Email = vModel.Email;
-                    member.BirthDate = vModel.BirthDate;
-                    member.Password = vModel.NewPwd;
-                    member.Phone = vModel.Phone;
-                    member.RegionId = (new CMembersFactory(_context)).getRegionId(vModel.Region);
-                    member.Address = vModel.Address;
-                    member.Avatar = vModel.Photo.FileName;
-                };
-                _context.SaveChanges();
-                return RedirectToAction("Index", "Front_Myaccount");
+            var member = _context.Members.FirstOrDefault(m => m.MemberId == memberId);
+            if (member != null)
+            {
+                member.Name = vModel.Name;
+                member.Email = vModel.Email;
+                member.BirthDate = vModel.BirthDate;
+                member.Password = vModel.NewPwd;
+                member.Phone = vModel.Phone;
+                member.RegionId = (new CMembersFactory(_context)).getRegionId(vModel.Region);
+                member.Address = vModel.Address;
+                member.Avatar = vModel.Photo.FileName;
+            };
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Front_Myaccount");
         }
 
         public IActionResult chkFlag(CEmptySignupViewModel vModel)
@@ -308,7 +308,7 @@ namespace Project_IPET.Controllers
             {
                 return Content("true");
             }
-                return Content("false");
+            return Content("false");
         }
 
         [HttpPost]
@@ -319,66 +319,42 @@ namespace Project_IPET.Controllers
 
             IEnumerable<CFrontWishListViewModel> datas = null;
 
-            #region WIP (LeftJoin)
-            //datas = from f in _context.MyFavorites.AsEnumerable()
-            //        join p in _context.Products
-            //        on f.ProductId equals p.ProductId
-            //        join c in _context.Comments.GroupBy(c => c.ProductId)
-            //        .Select(c => new
+            #region WIP 導覽
+            //datas = from f in _context.MyFavorites
+            //        select new CFrontWishListViewModel()
             //        {
-            //            ProductId = c.Key,
-            //            AverageRating = c.Average(c => c.Rating)
-            //        })
-            //        on p.ProductId equals c.ProductId into g
-            //        from result in g.DefaultIfEmpty()
-            //        where f.MemberId == memberId
-            //        select new CFrontWishListViewModel
-            //        {
-            //            ProductName = p.ProductName,
-            //            ProductPrice = p.UnitPrice,
-            //            Quantity = p.UnitsInStock,
+            //            ProductName = f.Product.ProductName,
+            //            ProductPrice = f.Product.UnitPrice,
+            //            Quantity = f.Product.UnitsInStock,
+            //            //Ranking = decimal.Round((decimal)f.Product.Comments.Average(c => c.Rating), 1),
             //            FavoriteId = f.FavoriteId,
             //            ProductId = f.ProductId,
-            //            Ranking = decimal.Round((decimal)result.AverageRating, 1),
-
             //        };
-
             #endregion
+
+            datas = from f in _context.MyFavorites
+                            join p in _context.Products
+                            on f.ProductId equals p.ProductId
+                            join c in _context.Comments
+                            on p.ProductId equals c.ProductId into js
+                            from c1 in js.DefaultIfEmpty()
+                            select new CFrontWishListViewModel()
+                            {
+                                ProductName = f.Product.ProductName,
+                                ProductPrice = f.Product.UnitPrice,
+                                Quantity = f.Product.UnitsInStock,
+                                //Ranking = decimal.Round((decimal)c1.Rating,1),
+                                FavoriteId = f.FavoriteId,
+                                ProductId = f.ProductId,
+                                CommentId = c1 == null ? "Null" : c1.CommentId.ToString()
+                            };
+
+            //ViewBag.Rating = from x in datas
+            //                 group x by x.ProductId into g
+            //                 select new { Ranking = g.Average(c => c.Ranking) };
+
             return PartialView(datas);
         }
-
-        #region WIP (AddCart)
-        //[HttpPost]
-        //public IActionResult MyWishListAddCart(int? id)
-        //{
-        //    Product datas = _context.Products.FirstOrDefault(p => p.ProductId == id);
-        //    if (datas == null)
-        //        return RedirectToAction("Front_Myaccount");
-
-        //    string json = HttpContext.Session.GetString("Cart");
-        //    var cart = JsonSerializer.Deserialize<List<CartModel>>(json);
-        //    if (cart == null)
-        //    {
-        //        cart = new List<CartModel>();
-        //        HttpContext.Session.SetString("Cart", "");
-        //    }
-        //    Front_CartController f = new Front_CartController(_context);
-        //    CartModel item = new CartModel()
-        //    {
-        //        ProductID = (int)id,
-        //        Product = datas,
-        //        Category = f.GetCategoryName(datas.SubCategoryId),
-        //        Quantity = 1,
-        //        SubTotal = datas.UnitPrice*1,
-        //        imageSrc = f.ConvertImage(f.GetProductImage(datas.ProductId)),
-        //    };
-        //    cart.Add(item);
-
-        //    string jsoncart = JsonSerializer.Serialize(cart);
-        //    HttpContext.Session.SetString("Cart", jsoncart);
-        //    return RedirectToAction("Index", "Front_Myaccount");
-        //}
-        #endregion
 
         [HttpPost]
         public IActionResult MyWishListDelete(int? id)

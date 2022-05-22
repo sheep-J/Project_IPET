@@ -80,8 +80,8 @@
         let Account = $('input[name="txtAccount"]');
         let Password = $('input[name="txtPassword"]');
 
-         function chkform() {
-            $.post('@Url.Content("~/Empty_Signin/chkId")',
+         async function chkform() {
+            await $.post('@Url.Content("~/Empty_Signin/chkId")',
                 { txtAccount: Account.val(), txtPassword: Password.val() },
                 function (response) {
                     if (response == "true") {

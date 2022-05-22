@@ -234,8 +234,8 @@
         let flagPassword = false;
         let flagPhone = false;
 
-        function chkUserId () {
-            $.post('@Url.Content("~/MembersApi/chkIdRepetition")',
+        async function chkUserId() {
+            await $.post('@Url.Content("~/MembersApi/chkIdRepetition")',
                 { UserId: userId.val() },
                 function (response) {
                     if (response == "true") {
@@ -255,8 +255,8 @@
                 })
         }
 
-        function chkEmail() {
-            $.post('@Url.Content("~/MembersApi/chkemailRepetition")',
+        async function chkEmail() {
+           await $.post('@Url.Content("~/MembersApi/chkemailRepetition")',
                 { Email: email.val() },
                 function (response) {
                     if (response == "true") {
@@ -276,8 +276,8 @@
                 })
         }
 
-        function chkPassword() {
-            $.post('@Url.Content("~/MembersApi/chkpasswordRepetition")',
+        async function chkPassword() {
+            await $.post('@Url.Content("~/MembersApi/chkpasswordRepetition")',
                 { NewPwd: newpwd.val(), ConfirmPwd: confirmpwd.val()},
                 function (response) {
                     if (response == "true") {
@@ -297,8 +297,8 @@
                 })
         }
 
-        function chkPhone() {
-            $.post('@Url.Content("~/MembersApi/chkphoneRepetition")',
+        async function chkPhone() {
+            await $.post('@Url.Content("~/MembersApi/chkphoneRepetition")',
                 { Phone: phone.val() },
                 function (response) {
                     if (response == "true") {
@@ -318,8 +318,8 @@
                 })
         }
 
-        function chkform() {
-            $.post('@Url.Content("~/Empty_Signup/chkFlag")',
+        async function chkform() {
+            await $.post('@Url.Content("~/Empty_Signup/chkFlag")',
                 { FlagUserId: flagUserId, FlagEmail: flagEmail, FlagPassword: flagPassword, FlagPhone: flagPhone },
                 function (response) {
                     if (response == "true") {

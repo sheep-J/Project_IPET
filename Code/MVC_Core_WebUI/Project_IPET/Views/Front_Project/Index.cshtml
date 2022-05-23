@@ -111,9 +111,14 @@
                 thumb.className = "thumb";
 
                 var imgcontain = document.createElement("a");
-                imgcontain.className = "image"; imgcontain.href = `/Front_Project/Detail?Id=${item.fId}`;
+                imgcontain.className = "image";
+                var url = '@Url.Action("Detail","Front_Project")' + "/" + item.fId;
+                imgcontain.href = url;
+
                 var img = document.createElement("img");
-                img.className = "fit-image"; img.src = `/Front/images/project/${item.fPrjImage}`;
+                img.className = "fit-image";
+                var imgurl = '@Url.Content("~/Front/images/project/")' + item.fPrjImage;
+                img.src = imgurl;
                 imgcontain.append(img);
 
                 var badges = document.createElement("span");
@@ -136,7 +141,8 @@
                 title.style.fontSize = "25px";
 
                 var titlea = document.createElement("a");
-                titlea.href = `/Front_Project/Detail?Id=${item.fId}`; titlea.innerHTML = `${item.fTitle}`;
+                titlea.href = url;
+                titlea.innerHTML = `${item.fTitle}`;
                 title.append(titlea);
 
                 if (item.fDeadlineall != "") {
@@ -241,7 +247,9 @@
                 var cart = document.createElement("div");
                 cart.className = "add-to_cart";
                 var cartaction = document.createElement("a");
-                cartaction.className = "btn btn-primary btn-hover-dark rounded-0"; cartaction.innerHTML = "參與專案"; cartaction.href = `/Front_Project/Detail?Id=${item.fId}`;
+                cartaction.className = "btn btn-primary btn-hover-dark rounded-0";
+                cartaction.innerHTML = "參與專案";
+                cartaction.href = url;
                 cart.append(cartaction);
                 var rightnow = document.createElement("div");
                 rightnow.id = `rightnow${item.fId}`;

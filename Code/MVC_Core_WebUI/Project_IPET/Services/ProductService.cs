@@ -407,7 +407,7 @@ FROM
     JOIN PrjConnect pc  ON p.ProductID = pc.ProductID
 	LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
 	LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
-	WHERE pp.IsMainImage = 1
+	WHERE pp.IsMainImage = 1 AND p.UnitsInStock > 0
 	GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
 ) T";
 
@@ -420,12 +420,12 @@ JOIN Brand b ON p.BrandID = b.BrandID
 JOIN PrjConnect pc  ON p.ProductID = pc.ProductID
 LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
 LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
-WHERE pp.IsMainImage = 1 
+WHERE pp.IsMainImage = 1  AND p.UnitsInStock > 0
 GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName,pc.PrjID 
 {0} OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY";
 
 
-              
+
                 var param = new
                 {
                     PageSize = request.Pagination.PageSize,

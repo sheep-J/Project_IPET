@@ -1,15 +1,17 @@
 ﻿@model ProductListResponseModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@*@inject IJsonHelper Json;*@
 @{
     Layout = null;
 }
 
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            $("#AddProductGrid").click(AddToCart);
-            $("#AddProductList").click(AddToCart);
-        });
-    </script>
+<script>
+    $(document).ready(function () {
+        $("#AddProductGrid").click(AddToCart);
+        $("#AddProductList").click(AddToCart);
+    });
+</script>
 }
 <input id="totalRecord" value="@Model.Pagination.TotalRecord" hidden />
 <!-- Shop Wrapper Start -->
@@ -35,7 +37,7 @@
 
                     @*<span class="badges">
                         <span class="sale">-0%</span>
-                    </span>*@
+                        </span>*@
                     <div class="action-wrapper">
                         <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>
                         <a asp-controller="Front_Myaccount" asp-action="GetProductToWishtList" asp-route-id="@product.ProductID" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
@@ -73,11 +75,11 @@
                     </span>
                     <span class="price">
                         <span class="new">$@product.UnitPrice</span>
-@*                        <span class="old">$@product.UnitPrice</span>*@
+                        @*                        <span class="old">$@product.UnitPrice</span>*@
                     </span>
                     <p>@product.Description</p>
                     <!-- Cart Button Start -->
-                    <div class="cart-btn action-btn">
+                <div class="cart-btn action-btn">
                         <div class="action-cart-btn-wrapper d-flex">
                             <div class="add-to_cart">
                                 @if (product.PrjID > 0)
@@ -92,23 +94,23 @@
                                     }
                                 }
                                 else
+                                {
+                                    if (product.UnitsInStock <= 0)
                                     {
-                                        if (product.UnitsInStock <= 0)
-                                        {
-                                            <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0 disabled">商品無庫存</a>
-                                        }
-                                        else
-                                        {
-                                            <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID','@product.ProductName')" href="javascript:void(0);">加入購物車</a>
-                                        }
+                                        <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0 disabled">商品無庫存</a>
                                     }
+                                    else
+                                    {
+                                        <a id="AddProductList" class="btn btn-primary btn-hover-dark rounded-0" onclick="AddToCart('@product.ProductID','@product.ProductName')" href="javascript:void(0);">加入購物車</a>
+                                    }
+                                }
                             </div>
                             <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
                             <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>
                         </div>
                     </div>
                     <!-- Cart Button End -->
-                </div>
+            </div>
             </div>
         </div>
         <!-- Single Product End -->
@@ -148,8 +150,13 @@
                     @if (Model.Pagination.Page > 1)
                     {
                         <li class="page-item">
-                            <a class="page-link rounded-0" onclick="getProductList(@(Model.Pagination.Page -1) )" href="#/" aria-label="Prev">
+                            <a class="page-link rounded-0" onclick="getProductList(1,@Json.Serialize(Model.ProductList.FirstOrDefault().PrjID > 0) )" href="#/" aria-label="Next">
                                 <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link rounded-0" onclick="getProductList(@(Model.Pagination.Page -1),@Json.Serialize(Model.ProductList.FirstOrDefault().PrjID > 0) )" href="#/" aria-label="Prev">
+                                <span aria-hidden="true">&lt;</span>
                             </a>
                         </li>
                     }
@@ -159,11 +166,11 @@
                         <li class="page-item">
                             @if (i == Model.Pagination.Page)
                             {
-                                <a class="page-link active" onclick="getProductList(@i)" href="#">@i</a>
+                                <a class="page-link active" onclick="getProductList(@i,@Json.Serialize(Model.ProductList.FirstOrDefault().PrjID > 0))" href="#">@i</a>
                             }
                             else
                             {
-                                <a class="page-link" onclick="getProductList(@i)" href="#">@i</a>
+                                <a class="page-link" onclick="getProductList(@i,@Json.Serialize(Model.ProductList.FirstOrDefault().PrjID > 0))" href="#">@i</a>
                             }
                         </li>
                     }
@@ -171,7 +178,12 @@
                 @if (Model.Pagination.Page < Model.Pagination.TotalPage)
                 {
                     <li class="page-item">
-                        <a class="page-link rounded-0" onclick="getProductList(@(Model.Pagination.Page + 1) )" href="#/" aria-label="Next">
+                        <a class="page-link rounded-0" onclick="getProductList(@(Model.Pagination.Page + 1),@Json.Serialize(Model.ProductList.FirstOrDefault().PrjID > 0) )" href="#/" aria-label="Next">
+                            <span aria-hidden="true">></span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link rounded-0" onclick="getProductList(@(Model.Pagination.TotalPage),@Json.Serialize(Model.ProductList.FirstOrDefault().PrjID > 0) )" href="#/" aria-label="Next">
                             <span aria-hidden="true">»</span>
                         </a>
                     </li>

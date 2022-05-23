@@ -3,21 +3,22 @@
 
 }
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            getProductList(1);
-        });
-        var categoryId = -1;
-        var subCategoryId = -1;
-        var pageSize = 9;
-        var productName = "";
-        var sortBy = 1;
-        var CategoryName = "所有商品";
-        var brandIds = [];
+<script>
+    $(document).ready(function () {
+        getProductList(1,false);
+    });
+    var categoryId = -1;
+    var subCategoryId = -1;
+    var pageSize = 9;
+    var productName = "";
+    var sortBy = 1;
+    var CategoryName = "所有商品";
+    var brandIds = [];
 
 
-        function getProductList(page) {
-            $.ajax({
+    function getProductList(page,isPrj) {
+        if(!isPrj){
+                $.ajax({
                 method: "POST",
                 url: "/Front_Product/ProductList",
                 data: {
@@ -49,9 +50,8 @@
                 }
             });
         }
-
-        function getPrjProductList(page) {
-            $.ajax({
+        else{
+             $.ajax({
                 method: "POST",
                 url: "/Front_Product/PrjProductList",
                 data: {
@@ -79,86 +79,89 @@
                 }
             });
         }
-        function changeSort() {
-            sortBy = $("#sortByProduct").val();
-            //console.log( sortBy );
-            getProductList(1);
-        }
-
-        function clearAll() {
-            categoryId = -1;
-            subCategoryId = -1;
-            productName = "";
-            CategoryName = "所有商品";
-            brandIds = [];
-        }
-
-        function clearAllBrandsCheckBox() {
-            $(".chk-brand").prop("checked", false);
-        }
-
-        function getProductListWithCategory(id, name) {
-            clearAll();
-            clearAllBrandsCheckBox();
-            categoryId = id;
-            getProductList(1);
-            CategoryName = name;
-        }
-        function getProductListWithSubCategory(id, name) {
-            clearAll();
-            clearAllBrandsCheckBox();
-            subCategoryId = id;
-            getProductList(1);
-            CategoryName = name;
-        }
-        function getProductListWithProductName() {
-            clearAll();
-            clearAllBrandsCheckBox();
-            productName = $("#searchProductName").val()
-            getProductList(1);
-        }
-
-        function AddToCart(productId, productname, qty) {
-            $.ajax({
-                method: "POST",
-                url: "/Front_Cart/AddToCart",
-                data: {
-                    id: productId,
-                    qty: 1,
-                },
-                success: function (result) {
-                    $('#CartMenu').html(result),
-                        Swal.fire({
-                            icon: 'success',
-                            title: '商品已加入購物車',
-                            text: productname + ' 數量 : 1',
-                        })
-                }
-            });
-        }
-
-        function getProductListWithBrand() {
-            clearAll();
-
-            $.each($(".chk-brand"), function (i, item) {
-                if ($(item).prop("checked")) {
-                    brandIds.push($(item).val())
-                }
-            });
-            getProductList(1);
-        }
-
-        function getAllPrjProducts() {
-            clearAll();
-            clearAllBrandsCheckBox();
-            productName = $("").val()
-            getPrjProductList(1);
-        }
+    }
 
 
+    function changeSort() {
+        sortBy = $("#sortByProduct").val();
+        //console.log( sortBy );
+        getProductList(1,false);
+    }
+
+    function clearAll() {
+        categoryId = -1;
+        subCategoryId = -1;
+        productName = "";
+        CategoryName = "所有商品";
+        brandIds = [];
+    }
+
+    function clearAllBrandsCheckBox() {
+        $(".chk-brand").prop("checked", false);
+    }
+
+    function getProductListWithCategory(id, name) {
+        clearAll();
+        clearAllBrandsCheckBox();
+        categoryId = id;
+        getProductList(1,false);
+        CategoryName = name;
+    }
+    function getProductListWithSubCategory(id, name) {
+        clearAll();
+        clearAllBrandsCheckBox();
+        subCategoryId = id;
+        getProductList(1,false);
+        CategoryName = name;
+    }
+    function getProductListWithProductName() {
+        clearAll();
+        clearAllBrandsCheckBox();
+        productName = $("#searchProductName").val()
+        getProductList(1,false);
+    }
+
+    function AddToCart(productId, productname, qty) {
+        $.ajax({
+            method: "POST",
+            url: "/Front_Cart/AddToCart",
+            data: {
+                id: productId,
+                qty: 1,
+            },
+            success: function (result) {
+                $('#CartMenu').html(result),
+                    Swal.fire({
+                        icon: 'success',
+                        title: '商品已加入購物車',
+                        text: productname + ' 數量 : 1',
+                    })
+            }
+        });
+    }
+
+    function getProductListWithBrand() {
+        clearAll();
+
+        $.each($(".chk-brand"), function (i, item) {
+            if ($(item).prop("checked")) {
+                brandIds.push($(item).val())
+            }
+        });
+        getProductList(1,false);
+    }
+
+    function getAllPrjProducts() {
+        clearAll();
+        clearAllBrandsCheckBox();
+        productName = $("").val()
+        getProductList(1,true);
+    }
 
 
-    </script>
+
+
+</script>
 }
 <!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
@@ -186,7 +189,7 @@
             <div class="col-lg-9 col-12">
 
                 <!--shop toolbar start-->
-                <div class="shop_toolbar_wrapper flex-column flex-md-row p-2 mb-8 border">
+                <div class="shop_toolbar_wrapper flex-column flex-md-row p-2 mb-8 m-b-40 border">
 
                     <!-- Shop Top Bar Left start -->
                     <div class="shop-top-bar-left">
@@ -243,7 +246,7 @@
                         </div>
                         <!--商品分類Collpase Start-->
 
-                        <div class="container">
+                        <div class="widget-list m-b-50">
                             <div class="panel-group">
                                 <div class="panel panel-default">
                                     <h3 class="widget-title m-b-30">商品分類</h3>
@@ -281,7 +284,7 @@
                         <div class="widget-list m-b-50">
                             <h3 class="widget-title m-b-30">品牌</h3>
                             <div class="sidebar-body">
-                                <ul class="checkbox-container categories-list">
+                                <ul class="checkbox-container categories-list" data-collapse="accordion">
                                     @foreach (var brand in (List<BrandModel>)ViewBag.Brands)
                                     {
                                         <li>
@@ -307,12 +310,12 @@
                                 </ul>
                             </div>
                         </div>
-                        </div>
                     </div>
-                </aside>
-                <!-- Sidebar Widget End -->
             </div>
+            </aside>
+            <!-- Sidebar Widget End -->
         </div>
     </div>
+</div>
 </div>
 <!-- Shop Section End -->

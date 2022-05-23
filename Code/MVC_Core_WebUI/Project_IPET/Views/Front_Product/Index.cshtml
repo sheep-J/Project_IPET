@@ -189,7 +189,7 @@
             <div class="col-lg-9 col-12">
 
                 <!--shop toolbar start-->
-                <div class="shop_toolbar_wrapper flex-column flex-md-row p-2 mb-8 border">
+                <div class="shop_toolbar_wrapper flex-column flex-md-row p-2 mb-8 m-b-40 border">
 
                     <!-- Shop Top Bar Left start -->
                     <div class="shop-top-bar-left">
@@ -246,7 +246,7 @@
                         </div>
                         <!--商品分類Collpase Start-->
 
-                        <div class="container">
+                        <div class="widget-list m-b-50">
                             <div class="panel-group">
                                 <div class="panel panel-default">
                                     <h3 class="widget-title m-b-30">商品分類</h3>
@@ -284,7 +284,7 @@
                         <div class="widget-list m-b-50">
                             <h3 class="widget-title m-b-30">品牌</h3>
                             <div class="sidebar-body">
-                                <ul class="checkbox-container categories-list">
+                                <ul class="checkbox-container categories-list" data-collapse="accordion">
                                     @foreach (var brand in (List<BrandModel>)ViewBag.Brands)
                                     {
                                         <li>

@@ -43,6 +43,10 @@
             productName = $("#searchProductName").val()
             getProductList(1);
         }
+        function getProductListWithProductsName() {
+            productName = $("#searchProductsName").val()
+            getProductList(1);
+        }
 
         function deleteProduct(id) {
             $.ajax({
@@ -78,8 +82,8 @@
     </button>
 </div>
 <div class="search"  style="width:300px; height:auto; float:right;">
-    <input type="text" class="form-control" placeholder="搜尋商品名稱" aria-label="Search Our Store" id="searchProductName">
-    <button class="btn btn-icon btn-2 btn-primary" type="button" onclick="getProductListWithProductName()">
+    <input type="text" class="form-control" placeholder="搜尋商品名稱" aria-label="Search Our Store" id="searchProductsName">
+    <button class="btn btn-icon btn-2 btn-primary" type="button" onclick="getProductListWithProductsName()">
         <span class="btn-inner--icon"><i class="material-icons">search</i></span>
         搜尋捐贈商品
     </button>

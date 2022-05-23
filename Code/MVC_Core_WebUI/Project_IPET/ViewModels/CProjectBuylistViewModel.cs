@@ -9,5 +9,6 @@ namespace Project_IPET.ViewModels
     {
         public string UserName { get; set; }
         public string ProductName { get; set; }
+        public string ProductCount { get; set; }
     }
 }

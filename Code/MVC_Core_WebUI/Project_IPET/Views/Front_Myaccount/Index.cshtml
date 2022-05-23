@@ -386,7 +386,12 @@
                 var cell1 = document.createElement("td");
                 cell1.innerHTML = count;
                 var cell2 = document.createElement("td");
-                cell2.innerHTML = item.name;
+                var nameconn = document.createElement("a");
+                nameconn.innerHTML = item.name;
+                var nameurl = "@Url.Action("ProductDetail", "Front_Product")/" + item.fid;
+                nameconn.href = nameurl;
+                cell2.append(nameconn);
+                //cell2.innerHTML = item.name;
                 var cell3 = document.createElement("td");
                 cell3.innerHTML = item.price;
                 var cell4 = document.createElement("td");

@@ -123,27 +123,6 @@
     <div class="col-md-3" id="prodlist">
         <label style="color: #666; font-size: 20px; font-weight: 900">專案商品列表:</label>
         <br />
-        @*@for (int i = 0; i < 1; i++)
-            {
-                string prdid = "prd" + i;
-                <div class="action quickview product" data-bs-toggle="modal" data-bs-target="#prodmodal" title="Quickview" style="margin-bottom: 10px; border: 2px solid #f6ab49;">
-                    <div class="product-inner" style="padding:5px">
-                        <div class="thumb">
-                            <a class="image">
-                                <img class="fit-image" src="~/Front/images/project/3.jpg" alt="Product" />
-                            </a>
-                        </div>
-                        <span style="font-size:12px">剩餘數量: <span style="color: #f6ab49;font-weight:800">10</span></span>
-                        <hr style="margin:2px" />
-                        <div class="content">
-                            <h5 class="title">Pet Food Corner</h5>
-                            <span class="price">
-                                <span class="new">$105.00</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            }*@
         <!--Model開始-->
         <!--id為 prd編號-->
         <div class="modalquickview modal fade" id="prodmodal" tabindex="-1" aria-labelledby="quick-view" role="dialog" aria-hidden="true">
@@ -163,40 +142,19 @@
                                                 <img class="w-100" alt="Product">
                                             </a>*@
                                     </div>
-
-                                    <!-- Swiper Pagination Start -->
-                                    <!-- <div class="swiper-pagination d-md-none"></div> -->
-                                    <!-- Swiper Pagination End -->
-                                    <!-- Next Previous Button Start -->
-                                    @*<div class="swiper-product-button-next swiper-button-next"><i class="ti-arrow-right"></i></div>
-                                        <div class="swiper-product-button-prev swiper-button-prev"><i class="ti-arrow-left"></i></div>*@
-                                    <!-- Next Previous Button End -->
                                 </div>
                                 <!-- Single Product Image End -->
-
                             </div>
                             <!-- Product Details Image End -->
-
                         </div>
                         <div class="col-md-6 col-12 overflow-hidden position-relative">
-
                             <!-- Product Summery Start -->
                             <div class="product-summery position-relative">
-
                                 <!-- Product Head Start -->
                                 <div class="product-head m-b-15">
                                     <h2 class="product-title" id="PTitle">@*商品名稱*@</h2>
                                 </div>
                                 <!-- Product Head End -->
-                                <!-- Rating Start -->
-                                @*<span class="rating justify-content-start m-b-10">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </span>*@
-                                <!-- Rating End -->
                                 <!-- Price Box Start -->
                                 <div class="price-box m-b-10">
                                     <span class="regular-price" id="PPrice">@*商品價格*@</span>
@@ -233,7 +191,6 @@
                                 <!-- Quantity End -->
                             </div>
                             <!-- Product Summery End -->
-
                         </div>
                     </div>
                 </div>
@@ -242,7 +199,6 @@
         <!--Model結束-->
     </div>
     <!--商品一號end-->
-
 </div>
 </div>
 <!-- MainPage Area End -->
@@ -295,7 +251,7 @@
                 var tdname = document.createElement("td");
                 tdname.innerHTML = replacestr(item.userName,1,"*");
                 var tdprod = document.createElement("td");
-                tdprod.innerHTML = item.productName;
+                tdprod.innerHTML = item.productName +' *'+item.productCount;
                 tr.append(tdname, tdprod);
                 list.append(tr);
             })
@@ -332,7 +288,8 @@
                 var img = document.createElement("img");
                 img.className = "fit-image";
                 img.alt = item.fName;
-                img.src = `/Front_Project/takeProdpic?Id=${item.fId}`;
+                var imgurl = "@Url.Action("takeProdpic","Front_Project")?Id=" + item.fId;
+                img.src = imgurl;
                 imga.append(img);
                 thumb.append(imga);
 
@@ -376,7 +333,8 @@
             var img = document.createElement("img");
             img.className = "w-100";
             img.alt = data[0].name;
-            img.src = `/Front_Project/takeProdpic?Id=${data[0].id}`;
+            var imgurl = "@Url.Action("takeProdpic","Front_Project")?Id=" + data[0].id;
+            img.src = imgurl;
             imga.append(img);
             var piclist = document.getElementById("piclist");
             piclist.innerHTML = "";

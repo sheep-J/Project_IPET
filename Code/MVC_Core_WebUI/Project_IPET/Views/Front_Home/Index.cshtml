@@ -752,28 +752,29 @@
 <div id="chatcontain" style="border:3px solid #F4F4F4;background-color:white;width:450px;height:500px;position:fixed;bottom:20px;right:70px;z-index:999;display:none">
     <div id="userinfo" class="row" style="width:450px;margin:auto">
         <label for="username" style="color: #f6ab49;font-weight:600;font-size:20px;margin:5px 0">請輸入聊天室暱稱:</label>
-        <input type="text" class="form-control" id="username" name="username" autocomplete="off" style="width:400px;margin:auto;padding:3px 5px" />
+        <input placeholder="請輸入您的暱稱" type="text" class="form-control" id="username" name="username" autocomplete="off" style="width:400px;margin:auto;padding:3px 5px" />
         <button type="button" class="btn btn-block" onclick="SetUsername();" style="border: 3px solid #EBEBEB; width: 400px; margin: 5px auto;padding:3px 5px">加入聊天室</button>
     </div>
     @*聊天室設定*@
-    <div id="messagearea" class="row" style="display:none;width:400px;margin:auto">
+    <div id="messagearea" class="row" style="display:none;width:400px;margin:auto;">
         <div>你好 : <b><span id="username1">Not Set</span></b></div>
         <hr />
-        <div class="row" style="overflow:auto;height:400px" id="chatmain">
-            <div class="col-6">
+        <div class="row" style="overflow: auto; height: 400px" id="chatmain">
+            <div class="col-6" style="; width: 100%">
                 <ul id="messagesList"></ul>
             </div>
         </div>
         <hr />
-        <input class="col-md-4" type="text" id="message" autocomplete="off" />
+        <input class="col-md-5" type="text" id="message" autocomplete="off" />
         <input class="col-md-2" type="button" id="sendButton" value="傳送" />
-        <input class="col-md-2" type="button" id="bye" value="bye" />
+        @*<input class="col-md-2" type="button" id="bye" value="bye" />*@
     </div>
 </div>
 <!--聊天室-->
 @section Scripts{
 <script src="~/js/signalr.js"></script>
 <script>
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
     var flag = false;
     var chatcontain = document.getElementById("chatcontain");
     $("#chatbtn").on('click', () => {
@@ -792,25 +793,27 @@
     //將傳送按鈕藏起 直到連線正常
     $("#sendButton").attr("disabled", true)
 
-    connection.on("ReceiveMessage", function (user, message, time) {
+    connection.on("ReceiveMessage", function (user, message, time, color) {
         var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); //& , < , > 設定三個符號轉譯
         var encodeMsg = user + ": " + msg;
 
         var t = document.createElement("p");
         t.innerHTML = time;
-        t.style.fontSize = "16px";
-        t.style.color = "gray";
+        t.style.fontSize = "12px";
+        t.style.color = "black";
         t.style.display = "inline";
 
         var li = document.createElement("li");
         li.style.listStyleType = "none";
+        li.style.color = "#" + color;
         li.style.fontSize = "20px";
+        li.style.fontWeight = "600";
         li.append(t, " ", encodeMsg);
         document.getElementById("messagesList").appendChild(li);
         document.getElementById("chatmain").scrollTop = document.getElementById("chatmain").scrollHeight;
     })
 
-    connection.on("NewJoin", function (user, message, time) {
+    connection.on("NewJoin", function (user, message, time, color) {
         var t = document.createElement("p");
         t.innerHTML = time;
         t.style.fontSize = "16px";
@@ -825,7 +828,7 @@
         document.getElementById("chatmain").scrollTop = document.getElementById("chatmain").scrollHeight;
     })
 
-    connection.on("Leave", function (user, message, time) {
+    connection.on("Leave", function (user, message, time, color) {
         var t = document.createElement("p");
         t.innerHTML = time;
         t.style.fontSize = "16px";
@@ -846,13 +849,13 @@
         return console.error(err.toString());
     })
 
-    $("#bye").on("click", () => {
-        connection.onclose(connection.invoke("SendMessage", username, "離開聊天室", ""))
-    })
+    //$("#bye").on("click", () => {
+    //    connection.onclose(connection.invoke("SendMessage", username, "離開聊天室", ""))
+    //})
 
     $("#sendButton").on("click", function (event) {
         var message = $('#message').val();
-        connection.invoke("SendMessage", username, message, "").then(function () {
+        connection.invoke("SendMessage", username, message, "",randomColor).then(function () {
             document.getElementById('message').value = "";
         }).catch(function (err) {
             return console.error(err.toString());
@@ -873,13 +876,16 @@
         document.getElementById('messagearea').style.display = 'block';
         document.getElementById("username1").innerText = usernameinput;
 
-        connection.invoke("SendMessage", username, "加入聊天室", "");
+        connection.invoke("SendMessage", username, "加入聊天室", "","");
     }
 </script>
 
 
-<script>
 
+
+
+
+<script>
     init();
 
     function init()
@@ -887,9 +893,7 @@
         post();
     }
 
-
     function post() {
-
         POSTMethod("@Url.Content("~/Front_Blog/HomeBlogView")",
             null,
             function (response) {
@@ -897,8 +901,6 @@
 
             }
         )
-
-
     }
 </script>
 }

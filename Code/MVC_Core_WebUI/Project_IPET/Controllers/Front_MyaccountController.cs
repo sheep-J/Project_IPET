@@ -183,6 +183,7 @@ namespace Project_IPET.Controllers
         {
             var result = _context.OrderDetails.Where(n => n.OrderId == Id).Select(n => new
             {
+                fid = n.Product.ProductId,
                 name = n.Product.ProductName,
                 price = n.UnitPrice,
                 quantity = n.Quantity,

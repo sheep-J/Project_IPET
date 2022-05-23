@@ -107,7 +107,8 @@ namespace Project_IPET.Controllers
                 _context.DonationDetails.Where(o => o.ProductId == n.ProductId).Select(o => new CProjectBuylistViewModel
                 {
                     UserName = o.Order.Member.Name,
-                    ProductName = o.Product.ProductName
+                    ProductName = o.Product.ProductName,
+                    ProductCount = o.Quantity.ToString()
                 }).ToList()
             ).ToList();
             list.ForEach(n => buylist.AddRange(n));

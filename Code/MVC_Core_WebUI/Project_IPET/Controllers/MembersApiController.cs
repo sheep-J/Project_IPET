@@ -55,14 +55,13 @@ namespace Project_IPET.Controllers
 
         public IActionResult chkoldpwdRepetition(CFrontMembersViewModel vModel)
         {
-            Regex regPassword = new Regex(@"[A-Z,a-z,0-9]{5,16}$");
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
             int memberId = (new CMembersFactory(_context)).getMemberId(json);
             var datas = _context.Members.FirstOrDefault(m => m.MemberId == memberId).Password;
 
             if (!string.IsNullOrEmpty(vModel.CurrentPwd))
             {
-                if (regPassword.IsMatch(vModel.CurrentPwd) && vModel.CurrentPwd == datas)
+                if (vModel.CurrentPwd == datas)
                     return Content("true");
                 return Content("false");
             }

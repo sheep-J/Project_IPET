@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -60,9 +61,76 @@ namespace Project_IPET.Controllers
             return View();
         }
 
-        public async Task TestAction()
+        public IActionResult chkEmail(CFrontMembersViewModel vModel)
         {
-            await _emailSender.SendEmailAsync("accoutforsendmail@gmail.com", "This is a test", $"Enter email body here");
+            var datas = _context.Members.Any(m => m.Email == vModel.Email);
+            if (!string.IsNullOrEmpty(vModel.Email))
+            {
+                if (datas)
+                    return Content("true");
+                return Content("false");
+            }
+            return Content("null");
+        }
+
+        [HttpPost]
+        public async Task mailtoGetCode(CFrontMembersViewModel vModel)
+        {
+            var datas = _context.Members.FirstOrDefault(m => m.Email == vModel.Email).Email;
+            string json = GetCode(8);
+            HttpContext.Session.SetString(CDictionary.SK_VERIFLCATION_CODE, json);
+
+            await _emailSender.SendEmailAsync(
+                datas,
+                "重設密碼認證信件( IPET )",
+                $"<h2>認證代碼為 : <b>{json}</b></h2>");
+        }
+
+        public string GetCode(int length)
+        {
+            const string BASECODE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random rndNum = new Random((int)DateTime.Now.Ticks);
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < length; i++)
+            {
+                int Num = rndNum.Next(BASECODE.Length);
+                builder.Append(BASECODE[Num]);
+            }
+            return builder.ToString();
+        }
+
+        public IActionResult chkCode(string Code)
+        {
+            string json = HttpContext.Session.GetString(CDictionary.SK_VERIFLCATION_CODE);
+            if (json == Code)
+            {
+                return Content("true");
+            }
+            return Content("false");
+        }
+
+        public IActionResult ResetPwd()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ResetPwd(CEmptySignupViewModel vModel)
+        {
+            var member = _context.Members.FirstOrDefault(m => m.MemberId == 1);
+            if (member != null)
+                member.Password = vModel.NewPwd;
+
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Front_Myaccount");
+        }
+
+        public IActionResult chkFlag(CEmptySignupViewModel vModel)
+        {
+            if (vModel.FlagPassword)
+            {
+                return Content("true");
+            }
+            return Content("false");
         }
 
         public IActionResult Error()

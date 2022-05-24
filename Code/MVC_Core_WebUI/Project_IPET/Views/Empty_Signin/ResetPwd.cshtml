@@ -1,0 +1,107 @@
+﻿<!-- Breadcrumb Area Start -->
+<div class="section breadcrumb-area bg-name-bright">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="breadcrumb-title">變更密碼</h2>
+                    @*<ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li>Create Account</li>
+                        </ul>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Area End -->
+<!-- Register Section Start -->
+<div class="section section-margin">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-8 m-auto">
+                <div class="login-wrapper" style="margin-bottom:80px;">
+
+                    <!-- Register Title & Content Start -->
+                    <div class="section-content text-center m-b-40">
+                        <h2 class="title m-b-10">修改您的 IPET 密碼，記得別讓人知道</h2>
+                    </div>
+                    <!-- Register Title & Content End -->
+                    <!-- Form Action Start -->
+                    <form asp-action="ResetPwd" id="form" class="form-floating" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-floating single-input-item m-b-15 justify-content-center align-items-center d-flex">
+                            <input class="form-control required m-b-10" oninput="chkPassword()" name="NewPwd" id="NewPwd" type="password" placeholder="新密碼">
+                            <label for="NewPwd">新密碼</label>
+                        </div>
+                        <div class="form-floating single-input-item m-b-15 justify-content-center align-items-center d-flex">
+                            <input class="form-control required m-b-10" oninput="chkPassword()" name="ConfirmPwd" id="ConfirmPwd" type="password" placeholder="確認密碼">
+                            <label for="ConfirmPwd">確認密碼</label>
+                        </div>
+                        <!-- passwordAlert -->
+                        <div id="passwordAlert" class="d-block col-auto m-b-10 justify-content-start align-items-center d-none">
+                            <i class="fa-solid d-none"></i>
+                            <b class="d-none"></b>
+                        </div>
+                        <div class="single-input-item">
+                            <div class="login-reg-form-meta">
+                                <input type="button" onclick="chkform()" value="確認" class="btn btn btn-gray-deep btn-hover-primary m-b-15" />
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Form Action End -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Register Section End -->
+
+@section Scripts{
+
+    <script>
+    let newpwd = $('input[name="NewPwd"]');
+    let confirmpwd = $('input[name="ConfirmPwd"]');
+    let flagPassword = false;
+
+        async function chkPassword() {
+            await $.post('@Url.Content("~/MembersApi/chkpasswordRepetition")',
+                { NewPwd: newpwd.val(), ConfirmPwd: confirmpwd.val()},
+                function (response) {
+                    if (response == "true") {
+                        flagPassword = true;
+                        //console.log("true");
+                        $("#passwordAlert").removeClass("d-none").css("color","forestgreen")
+                            .children("i").removeClass("d-none fa-circle-xmark").addClass("fa-circle-check").end()
+                            .children("b").removeClass("d-none").text("此密碼可以使用");
+                    }
+                    else {
+                        flagPassword = false;
+                        //console.log("false");
+                        $("#passwordAlert").removeClass("d-none").css("color", "crimson")
+                            .children("i").removeClass("d-none fa-circle-check").addClass("fa-circle-xmark").end()
+                            .children("b").removeClass("d-none").text("兩端密碼不相同，請再作確認");
+                    }
+                })
+        }
+
+        async function chkform() {
+            await $.post('@Url.Content("~/Empty_Signin/chkFlag")',
+                { FlagPassword: flagPassword },
+                function (response) {
+                    if (response == "true") {
+                        //console.log("true");
+                        $("#form").submit();
+                    }
+                    else {
+                        //console.log("false");
+                        newpwd.on("onblur", chkPassword());
+                        confirmpwd.on("onblur", chkPassword());
+
+                    }
+                })
+        }
+
+    </script>
+}

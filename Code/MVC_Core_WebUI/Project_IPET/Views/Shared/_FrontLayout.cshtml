@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -90,8 +92,8 @@
                                         <a asp-controller="Front_Contact" asp-action="Index">聯絡我們</a>
                                     </li>
                                     @*<li>
-                                        <a asp-controller="Chat" asp-action="Chat">聊天</a>
-                                    </li>*@
+                                            <a asp-controller="Chat" asp-action="Chat">聊天</a>
+                                        </li>*@
                                 </ul>
                             </div>
                         </div>
@@ -122,6 +124,9 @@
                                 <div class="header-action-btn header-action-btn-cart d-none d-sm-flex" id="CartMenu">
                                     @await Html.PartialAsync("_CartPartial")
                                 </div>
+                                    <div id="loginmember" class="d-sm-flex align-items-center d-none">
+                                        您好！ who
+                                    </div>
                             </div>
                         </div>
                         <!-- Header Action End -->
@@ -311,6 +316,14 @@
             })
     }
 
+
+        (function getLoginUser() {
+            var json = sessionStorage.getItem("SK_LOGINED_USER");
+            console.log(json);
+            $.getJSON(json, function (data) {
+                $("#loginmember").text(data);
+            })
+        })();
     </script>
 </body>
 </html>

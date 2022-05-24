@@ -147,7 +147,7 @@ namespace Project_IPET.Controllers
                 {
                     detailfrieght = o.Frieght,
                     detaliprice = (_context.DonationDetails.Where(a => a.OrderId == o.OrderId).Sum(n => n.UnitPrice * n.Quantity) + o.Frieght).ToString(),
-                    detailwhere = o.TransactionTypeId == 1 ? o.ShippedTo : o.DonationDetails.FirstOrDefault().Foundation.FoundationName,
+                    detailwhere = o.TransactionTypeId == 1 ? o.ShippedTo : (o.DonationDetails.FirstOrDefault().Foundation.FoundationName + "(" + o.DonationDetails.FirstOrDefault().Foundation.FoundationAddress + ")"),
                     detailwho = o.OrderName,
                     detailtype = o.TransactionType.TransactionTypeName
                 }).FirstOrDefault();

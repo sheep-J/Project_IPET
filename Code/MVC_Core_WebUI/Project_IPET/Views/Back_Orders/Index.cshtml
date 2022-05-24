@@ -7,6 +7,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 }
+<style>
+    td{
+        color:black;
+    }
+</style>
 <table id="orders" class="table table-bordered">
     <thead>
         <tr>
@@ -100,7 +105,7 @@
 
 <!-- detailModal -->
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:10%">
-    <div class="modal-dialog" role="document" style="max-width:800px">
+    <div class="modal-dialog" role="document" style="max-width:950px">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">訂單資訊</h5>
@@ -120,11 +125,11 @@
                     <tbody id="detailbody">
                     </tbody>
                 </table>
-                <p id="detailfrieght" style="margin:5px">運費:</p>
-                <p id="detailtype" style="margin:5px">訂單類型:</p>
-                <p id="detailprice" style="margin:5px">總金額:</p>
-                <p id="detailwhere" style="margin:5px">運送地址:</p>
-                <p id="detailwho" style="margin:5px">收件人:</p>
+                <p id="detailfrieght" style="margin: 5px; color: black">運費:</p>
+                <p id="detailtype" style="margin: 5px; color: black">訂單類型:</p>
+                <p id="detailprice" style="margin: 5px; color: black">總金額:</p>
+                <p id="detailwhere" style="margin: 5px; color: black">運送地址:</p>
+                <p id="detailwho" style="margin: 5px; color: black">收件人:</p>
             </div>
             <div class="modal-footer">
                 <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -148,7 +153,7 @@
                 "info": "顯示第 _START_ 至 _END_ 項結果，共 _TOTAL_ 項",
             },
             //設定參數
-            scrollY: 550,
+            scrollY: 465,
             lengthMenu: [25, 50, 100, 150]
         });
 

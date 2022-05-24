@@ -83,7 +83,7 @@ namespace Project_IPET.Controllers
             }).ToList();
             int total = (int)list.Sum(n=>n.orderlist);
             var goal = _context.ProjectDetails.Where(n => n.PrjId == Id).Select(n => n.Goal).FirstOrDefault();
-            decimal persent = Math.Round(total / (decimal)goal * 100, 2);
+            decimal persent = Math.Round(total / (decimal)goal * 100, 1);
             return Json(persent);
         }
 

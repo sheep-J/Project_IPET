@@ -274,7 +274,17 @@
             renderPercent(await Percentrespnose.json(),id);
         }
         function renderPercent(data, id) {
-            document.getElementById(`rightnow${id}`).innerHTML = `目前進度: ${data}%`;
+            var rightnow = document.getElementById(`rightnow${id}`);
+            rightnow.className = "sale";
+            if(data == "100")
+                rightnow.innerHTML = `目前進度: ${data}% 完成啦！`;
+            else
+                rightnow.innerHTML = `目前進度: ${data}%`;
+            rightnow.style.backgroundColor = "#EBEBEB";
+            rightnow.style.padding = "0 5px"
+            rightnow.style.borderRadius = "5px";
+            rightnow.style.fontSize = "15px";
+            rightnow.style.fontWeight = "600";
         }
 
         $("#selectbar").change(function () {

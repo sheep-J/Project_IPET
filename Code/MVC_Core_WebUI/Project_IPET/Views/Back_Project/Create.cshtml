@@ -7,41 +7,42 @@
     <div class="card">
         <div style="width:80%;margin:20px auto">
             <form asp-action="Create" enctype="multipart/form-data">
-                <div class="form-group col-xl-5" style="margin:10px 0">
+                <button class="btn-close-white" style="border-radius:5px" id="btndemo">DEMO</button>
+                <div class="form-group col-xl-7" style="margin:10px 0">
                     <label for="title" style="font-size:25px">專案名稱</label>
                     <input name="fTitle" type="text" class="form-control" id="title" placeholder="專案名稱" autocomplete="off" style="border:1px solid gray">
                 </div>
-                <div class="form-group col-xl-5" style="margin:10px 0">
+                <div class="form-group col-xl-7" style="margin:10px 0">
                     <label for="description" style="font-size:25px">專案簡介</label>
                     <input name="fDes" type="text" class="form-control" id="description" placeholder="專案簡介" autocomplete="off" style="border:1px solid gray">
                 </div>
-                <div class="form-group col-xl-5" style="margin:10px 0">
+                <div class="form-group col-xl-7" style="margin:10px 0">
                     <label for="prjphoto" style="font-size:25px">專案圖片</label>
                     <input name="fPhoto" type="file" class="form-control" id="prjphoto" autocomplete="off">
                     <img class="fit-image" id="imgpre" style="width: 270px; height: 170px; background-attachment: fixed; margin-top:5px"/>
                 </div>
-                <div class="form-group col-xl-5" style="margin:10px 0">
+                <div class="form-group col-xl-7" style="margin:10px 0">
                     <label style="font-size:25px">基金會</label>
                     <select name="fFound" id="foundlist">
                     </select>
                 </div>
-                <div class="form-group col-xl-5" style="margin:10px 0">
+                <div class="form-group col-xl-7" style="margin:10px 0">
                     <label for="goal" style="font-size:25px">專案目標</label>
                     <input name="fGoal" type="text" class="form-control" id="goal" placeholder="專案目標" autocomplete="off" style="border:1px solid gray">
                 </div>
-                <div class="form-group col-xl-5" style="margin:10px 0">
+                <div class="form-group col-xl-7" style="margin:10px 0">
                     <label for="content" style="font-size:25px">開始日期</label>
-                    <input name="fStart" type="date" class="form-control" id="content" placeholder="開始日期" autocomplete="off" style="border:1px solid gray">
+                    <input name="fStart" type="date" class="form-control" id="startdate" placeholder="開始日期" autocomplete="off" style="border:1px solid gray">
                 </div>
-                <div class="form-group col-xl-5" style="margin:10px 0">
+                <div class="form-group col-xl-7" style="margin:10px 0">
                     <label for="content" style="font-size:25px">結束日期</label>
-                    <input name="fEnd" type="date" class="form-control" id="content" placeholder="結束日期" autocomplete="off" style="border:1px solid gray">
+                    <input name="fEnd" type="date" class="form-control" id="enddate" placeholder="結束日期" autocomplete="off" style="border:1px solid gray">
                 </div>
-                <div class="form-group col-xl-5" style="margin:10px 0">
+                <div class="form-group col-xl-7" style="margin:10px 0">
                     <label for="content" style="font-size:25px">專案說明</label><br />
                     <textarea name="fContent" id="content" style="width:100%" rows="15"></textarea>
                 </div>
-                <div class="form-group col-xl-5" style="margin:10px 0">
+                <div class="form-group col-xl-7" style="margin:10px 0">
                     <label style="font-size:25px">專案商品</label><br />
                     <div id="prodlist">
                     </div>
@@ -100,6 +101,14 @@
                 $("#imgpre").attr("src", e.target.result);
             }
             fr.readAsDataURL(file);
+        })
+
+        $("#btndemo").on("click", function(e){
+            e.preventDefault();
+            $("#title").val("IPET寵物愛心公益平台10月份浪浪物資募集");
+            $("#description").val("為了不讓愛有變質的機會我們不接受捐款，但如果你也想為浪浪盡些心力可以選擇...");
+            $("#goal").val("48850");
+            $("#content").html("我們是IPET， 是由一群年輕人對於浪孩最純真的關懷和照顧集結社會上有能力的人\n主要是希望為流浪動物來發聲，並認為做愛心不分地區、不分大小間、有無政府核可，\n因為浪浪們無法決定自己會在哪生活，所以會依據全台最急缺糧園區來優先順序配送，並盡力幫忙目前急需寵物乾糧的園區。\n透過愛心公益平台的理念發想支持需要幫助的浪浪們能有生存下去的能力， 祈願能帶給浪孩一點溫暖 ♡\n吃飯看似稀鬆平常的事情\n但對牠們來說卻是如此奢侈\n【IPET公益平台】是一個讓大家可以直接捐寵物糧食給流浪動物的網路平台，\n只要花一點小小心力就可以聚集大家力量回饋給流浪狗、流浪貓，為牠們找到可以溫飽的下一餐~");
         })
     </script>
 }

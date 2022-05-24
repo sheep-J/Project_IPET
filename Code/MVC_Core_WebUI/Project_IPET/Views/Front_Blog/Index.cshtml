@@ -154,7 +154,7 @@
 
                                         <h2 class="blog-title Content"><a asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.Title)</a></h2>    <!-- 貼文標題 -->
 
-                                        <p class="Content">@Html.DisplayFor(modelItem => item.PostContent)</p>     <!-- 貼文內容 -->
+                                        <p class="Content">@Html.Raw(@item.PostContent)</p>     <!-- 貼文內容 -->
 
                                         <a class="more-link" asp-controller="Front_Blog" asp-action="PostView" asp-route-id="@item.PostId">繼續閱讀</a>
                                     </div>

@@ -102,11 +102,15 @@ namespace Project_IPET.Controllers
         public IActionResult chkCode(string Code)
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_VERIFLCATION_CODE);
-            if (json == Code)
+            if (json != null)
             {
-                return Content("true");
+                if (json == Code)
+                {
+                    return Content("true");
+                }
+                return Content("false");
             }
-            return Content("false");
+            return Content("null");
         }
 
         public IActionResult ResetPwd()

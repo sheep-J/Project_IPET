@@ -16,169 +16,219 @@
     </style>
 }
 
-<div class="bg-gradient-secondary shadow-secondary border-radius-lg pt-4 pb-3 d-flex" style="margin-bottom:-24px">
-    <h6 class="text-white text-capitalize ps-3">客服列表</h6>
-</div>
+    <div class="bg-gradient-secondary shadow-secondary border-radius-lg pt-4 pb-3 d-flex" style="margin-bottom:-24px">
+        <h6 class="text-white text-capitalize ps-3">客服列表</h6>
+    </div>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card my-4">
-            <div class="card-body px-0 pb-2">
-                <div class="table-responsive p-0">
-                    @{
-                        <table class="table align-items-center mb-0 fortable" id="Contacts">
-                            <thead>
-                                <tr>
-                                    <th class="middle">序號</th>
-                                    <th class="middle">姓名</th>
-                                    <th class="middle">電子郵件</th>
-                                    <th class="middle">標題</th>
-                                    <th class="middle">訊息內容</th>
-                                    <th class="middle">日期</th>
-                                    <th class="middle">回覆狀態</th>
-                                    <th class="middle">回覆信件</th>
-                                </tr>
-                            </thead>
-                            <tbody id="FeedBackBody">
-                                @foreach (var item in Model)
-                                {
-                                    string ReplyStatus = @item.ReplyStatus == true ? "已回覆" : "未回覆";
-                                    <!-- tr Start -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive p-0">
+                        @{
+                            <table class="table align-items-center mb-0 fortable" id="Contacts">
+                                <thead>
                                     <tr>
-                                        <td class="middle">
-                                            @item.ContactId
-                                        </td>
-                                        <td class="middle">
-                                            @item.ContactName
-                                        </td>
-                                        <td class="middle">
-                                            @item.ContactMail
-                                        </td>
-                                        <td class="middle">
-                                            @item.ContactSubject
-                                        </td>
-                                        <td class="middle">
-                                            @item.ContactMessage
-                                        </td>
-                                        <td class="middle">
-                                            @String.Format("{0:yyyy-MM-dd}", @item.ContactDate)
-                                        </td>
-                                        @if (@item.ReplyStatus == true)
-                                        {
-                                            <td style="color:forestgreen" class="middle">
-                                                @ReplyStatus
+                                        <th class="middle">序號</th>
+                                        <th class="middle">姓名</th>
+                                        <th class="middle">電子郵件</th>
+                                        <th class="middle">標題</th>
+                                        <th class="middle">訊息內容</th>
+                                        <th class="middle">日期</th>
+                                        <th class="middle">回覆狀態</th>
+                                        <th class="middle">查看完整訊息</th>
+                                        <th class="middle">回覆信件</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="FeedBackBody">
+                                    @foreach (var item in Model)
+                                    {
+                                        string ReplyStatus = @item.ReplyStatus == true ? "已回覆" : "未回覆";
+                                        <!-- tr Start -->
+                                        <tr>
+                                            <td class="middle">
+                                                @item.ContactId
                                             </td>
-                                        }
-                                        else
-                                        {
-                                            <td style="color:firebrick" class="middle">
-                                                @ReplyStatus
+                                            <td class="middle">
+                                                @item.ContactName
                                             </td>
-                                        }
-                                        <td class="middle">
+                                            <td class="middle">
+                                                @item.ContactMail
+                                            </td>
+                                            <td class="middle">
+                                                @item.ContactSubject
+                                            </td>
+                                            <td class="middle">
+                                                @item.ContactMessage.Substring(0, item.ContactMessage.Length < 20 ? item.ContactMessage.Length : 20) ...
+                                            </td>
+                                            <td class="middle">
+                                                @String.Format("{0:yyyy-MM-dd}", @item.ContactDate)
+                                            </td>
                                             @if (@item.ReplyStatus == true)
                                             {
-                                                <button style="margin-top:20px;" disabled="disabled" type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#FeedBackModal">
-                                                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                                                </button>
+                                                <td style="color:forestgreen" class="middle">
+                                                    @ReplyStatus
+                                                </td>
                                             }
                                             else
                                             {
-                                                <button style="margin-top:20px;" type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#FeedBackModal" id="FeedBackBtn">
-                                                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                                                </button>
-
+                                                <td style="color:firebrick" class="middle">
+                                                    @ReplyStatus
+                                                </td>
                                             }
-                                        </td>
-                                    </tr>
-                                    <!--  tr End  -->
-                                }
-                            </tbody>
-                        </table>
-                    }
+                                            <td class="middle">
+                                                <button style="margin-top:20px" ; type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#FullDescription">
+                                                    <i class="fas fa-bars"></i>
+                                                </button>
+                                            </td>
+                                            <td class="middle">
+                                                @if (@item.ReplyStatus == true)
+                                                {
+                                                    <button style="margin-top:20px;" disabled="disabled" type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#FeedBackModal">
+                                                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button style="margin-top:20px;" type="button" class="btn btn btn-facebook mr-3" data-bs-toggle="modal" data-bs-target="#FeedBackModal" id="FeedBackBtn">
+                                                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                                                    </button>
 
-                    <!-- CommentModal Start-->
-                    <div class="modal fade" id="FeedBackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">回覆信件</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body ">
-                                    <div>
-                                        <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue" id="InputMessage"></textarea>
+                                                }
+                                            </td>
+                                        </tr>
+                                        <!--  tr End  -->
+                                    }
+                                </tbody>
+                            </table>
+                        }
+
+
+                        <div class="modal fade" id="FullDescription" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">完整訊息</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                    <button type="button" class="btn btn-primary" id="SendBtn">送出</button>
+                                    <div class="modal-body ">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label" id="detailcontactname">寄件人 : </label>
+                                                <input type="text" class="form-control" id="recipient-name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label" id="detailcontactmessage">完整訊息 :</label>
+                                                <textarea class="form-control" id="message-text"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- CommentModal Start-->
+                        <div class="modal fade" id="FeedBackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:15%">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">回覆信件</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body ">
+                                        <div>
+                                            <textarea cols="55" rows="5" onFocus="if(this.value==this.defaultValue) this.value=''" onBlur="if(this.value=='') this.value=this.defaultValue" id="InputMessage"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" id="SendBtn">送出</button>
+                                        <button class="btn btn-facebook" id="DemoBtn">Demo</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CommentModal End-->
+
+
                     </div>
-                    <!-- CommentModal End-->
-
-
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
-@section Scripts{
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
-    <script>
-        $('#Contacts').DataTable({
-            "language": {
-                "lengthMenu": "顯示 _MENU_ 項結果",
-                "paginate": {
-                    "first": "第一頁",
-                    "previous": "上一頁",
-                    "next": "下一頁",
-                    "last": "最後一頁"
+    @section Scripts{
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+        <script>
+            $('#Contacts').DataTable({
+                "language": {
+                    "lengthMenu": "顯示 _MENU_ 項結果",
+                    "paginate": {
+                        "first": "第一頁",
+                        "previous": "上一頁",
+                        "next": "下一頁",
+                        "last": "最後一頁"
+                    },
+                    "info": "顯示第 _START_ 至 _END_ 項結果，共 _TOTAL_ 項",
                 },
-                "info": "顯示第 _START_ 至 _END_ 項結果，共 _TOTAL_ 項",
-            },
-            //設定參數
-            scrollY: 550,
-            lengthMenu: [5, 10,25,50]
-        });
-
-
-        var mailAddress = "";
-        var subject = "";
-        var message = "";
-
-        $(document).ready(function () {
-            $("#FeedBackBody").on('click', 'button:nth-child(1)', async function () {
-                mailAddress = $(this).parents('tr').find('td:nth-child(3)').text().trim();
-                subject = $(this).parents('tr').find('td:nth-child(4)').text().trim();
-                message = $(this).parents('tr').find('td:nth-child(5)').text().trim();
-            })
-        });
-
-        $('#SendBtn').click(function () {
-            var replymsg = $("#InputMessage").val();
-            SendEmail(mailAddress, subject, message, replymsg)
-        });
-
-        function SendEmail(mailaddress, subject, message, replymessage) {
-            $.ajax({
-                method: "POST",
-                url: "/Back_FeedBack/SendEmail",
-                data: {
-                    mailaddress: mailaddress,
-                    subject: subject,
-                    message: message,
-                    replymessage: replymessage,
-                },
-                success: function (result) {
-                    window.location.href = "/Back_Feedback/Index";
-                }
+                //設定參數
+                scrollY: 550,
+                lengthMenu: [5, 10, 25, 50]
             });
-        }
 
-    </script>
-}
+
+            var mailAddress = "";
+            var subject = "";
+            var message = "";
+            var id = "";
+
+            $(document).ready(function () {
+                $("#FeedBackBody").on('click', 'button:nth-child(1)', async function () {
+                    id = $(this).parents('tr').find('td:nth-child(1)').text().trim();
+                    mailAddress = $(this).parents('tr').find('td:nth-child(3)').text().trim();
+                    subject = $(this).parents('tr').find('td:nth-child(4)').text().trim();
+                })
+            });
+
+            $('#SendBtn').click(function () {
+                var replymsg = $("#InputMessage").val();
+                SendEmail(id, mailAddress, subject, replymsg)
+            });
+
+            function SendEmail(id, mailaddress, subject, replymessage) {
+                $.ajax({
+                    method: "POST",
+                    url: "/Back_FeedBack/SendEmail",
+                    data: {
+                        id: id,
+                        mailaddress: mailaddress,
+                        subject: subject,
+                        replymessage: replymessage,
+                    },
+                    success: function (result) {
+                        window.location.href = "/Back_Feedback/Index";
+                    }
+                });
+            }
+
+            $("#DemoBtn").on("click", function (e) {
+                e.preventDefault();
+                $("#InputMessage").val("Peter您好，我方客服人員會協助您發佈相關寵物資訊，再請您提供相關資訊給我們。");
+            });
+
+            $("#FeedBackBody").on('click', 'button:nth-child(1)', async function () {
+                const FeedBackId = $(this).parents('tr').find('td:nth-child(1)').text();
+                const Contactresponse = await fetch("@Url.Content("~/Back_Feedback/ContactDetail?Id=")" + FeedBackId);
+                renderContact(await Contactresponse.json());
+            })
+
+            function renderContact(datas) {
+                $("#detailcontactname").html(`寄件人 : ${datas[0].detailcontactname}`)
+                $("#detailcontactmessage").html(`完整訊息 : </br> ${datas[0].detailcontactmessage}`)
+            }
+
+        </script>
+    }

@@ -28,8 +28,6 @@ namespace Project_IPET.Models.EF
         public string OrderName { get; set; }
         public string OrderPhone { get; set; }
 
-        public virtual Coupon Coupon { get; set; }
-        public virtual DeliveryType DeliveryType { get; set; }
         public virtual Member Member { get; set; }
         public virtual OrderStatus OrderStatus { get; set; }
         public virtual PaymentType PaymentType { get; set; }

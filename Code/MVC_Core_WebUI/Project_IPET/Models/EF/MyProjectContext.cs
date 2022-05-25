@@ -17,23 +17,16 @@ namespace Project_IPET.Models.EF
         {
         }
 
-        public virtual DbSet<Banner> Banners { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<Coupon> Coupons { get; set; }
-        public virtual DbSet<CouponDetail> CouponDetails { get; set; }
-        public virtual DbSet<CouponDiscountType> CouponDiscountTypes { get; set; }
         public virtual DbSet<CustomerContact> CustomerContacts { get; set; }
-        public virtual DbSet<DeliveryType> DeliveryTypes { get; set; }
         public virtual DbSet<DonationDetail> DonationDetails { get; set; }
         public virtual DbSet<Foundation> Foundations { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<MemberRole> MemberRoles { get; set; }
         public virtual DbSet<MyFavorite> MyFavorites { get; set; }
-        public virtual DbSet<NotifiesType> NotifiesTypes { get; set; }
-        public virtual DbSet<Notify> Notifies { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderStatus> OrderStatuses { get; set; }
@@ -63,21 +56,6 @@ namespace Project_IPET.Models.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Chinese_Taiwan_Stroke_CI_AS");
-
-            modelBuilder.Entity<Banner>(entity =>
-            {
-                entity.Property(e => e.BannerId).HasColumnName("BannerID");
-
-                entity.Property(e => e.BannerImage).IsRequired();
-
-                entity.Property(e => e.BannerName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.EndDate).HasColumnType("datetime");
-
-                entity.Property(e => e.StartDate).HasColumnType("datetime");
-            });
 
             modelBuilder.Entity<Brand>(entity =>
             {
@@ -135,73 +113,6 @@ namespace Project_IPET.Models.EF
                     .HasConstraintName("FK_Comment_Products");
             });
 
-            modelBuilder.Entity<Coupon>(entity =>
-            {
-                entity.Property(e => e.CouponId).HasColumnName("CouponID");
-
-                entity.Property(e => e.CouponCode)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.CouponDiscountTypeId).HasColumnName("CouponDiscountTypeID");
-
-                entity.Property(e => e.CouponEndDate).HasColumnType("datetime");
-
-                entity.Property(e => e.CouponName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.CouponStartDate).HasColumnType("datetime");
-
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-                entity.HasOne(d => d.CouponDiscountType)
-                    .WithMany(p => p.Coupons)
-                    .HasForeignKey(d => d.CouponDiscountTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Coupons_CouponDiscountType");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Coupons)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Coupons_Products");
-            });
-
-            modelBuilder.Entity<CouponDetail>(entity =>
-            {
-                entity.HasKey(e => e.CouponDetailsId);
-
-                entity.Property(e => e.CouponDetailsId).HasColumnName("CouponDetailsID");
-
-                entity.Property(e => e.CouponId).HasColumnName("CouponID");
-
-                entity.Property(e => e.MemberId).HasColumnName("MemberID");
-
-                entity.HasOne(d => d.Coupon)
-                    .WithMany(p => p.CouponDetails)
-                    .HasForeignKey(d => d.CouponId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CouponDetails_Coupons");
-
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.CouponDetails)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CouponDetails_Members");
-            });
-
-            modelBuilder.Entity<CouponDiscountType>(entity =>
-            {
-                entity.ToTable("CouponDiscountType");
-
-                entity.Property(e => e.CouponDiscountTypeId).HasColumnName("CouponDiscountTypeID");
-
-                entity.Property(e => e.CouponDiscountTypeName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-            });
-
             modelBuilder.Entity<CustomerContact>(entity =>
             {
                 entity.HasKey(e => e.ContactId);
@@ -217,17 +128,6 @@ namespace Project_IPET.Models.EF
                 entity.Property(e => e.ContactName).HasMaxLength(50);
 
                 entity.Property(e => e.ContactSubject).HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<DeliveryType>(entity =>
-            {
-                entity.ToTable("DeliveryType");
-
-                entity.Property(e => e.DeliveryTypeId).HasColumnName("DeliveryTypeID");
-
-                entity.Property(e => e.DeliveryTypeName)
-                    .IsRequired()
-                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<DonationDetail>(entity =>
@@ -357,45 +257,6 @@ namespace Project_IPET.Models.EF
                     .HasConstraintName("FK_MyFavorites_Products");
             });
 
-            modelBuilder.Entity<NotifiesType>(entity =>
-            {
-                entity.HasKey(e => e.NotifyTypeId)
-                    .HasName("PK_NotifyType");
-
-                entity.ToTable("NotifiesType");
-
-                entity.Property(e => e.NotifyTypeId).HasColumnName("NotifyTypeID");
-
-                entity.Property(e => e.NotifyName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<Notify>(entity =>
-            {
-                entity.Property(e => e.NotifyId).HasColumnName("NotifyID");
-
-                entity.Property(e => e.MemberId).HasColumnName("MemberID");
-
-                entity.Property(e => e.NotifyContent)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.NotifyTypeId).HasColumnName("NotifyTypeID");
-
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.Notifies)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Notifies_Members");
-
-                entity.HasOne(d => d.NotifyType)
-                    .WithMany(p => p.Notifies)
-                    .HasForeignKey(d => d.NotifyTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Notifies_NotifiesType");
-            });
-
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
@@ -431,17 +292,6 @@ namespace Project_IPET.Models.EF
                     .HasMaxLength(50);
 
                 entity.Property(e => e.TransactionTypeId).HasColumnName("TransactionTypeID");
-
-                entity.HasOne(d => d.Coupon)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.CouponId)
-                    .HasConstraintName("FK_Orders_Coupons");
-
-                entity.HasOne(d => d.DeliveryType)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.DeliveryTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Orders_DeliveryType1");
 
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.Orders)

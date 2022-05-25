@@ -1,4 +1,5 @@
 ﻿@model ProductListResponseModel
+
 <!-- 廣告輪播 開始 -->
 <!-- Hero/Intro Slider Start -->
 <div class="hero-slider swiper-container swiper-container-fade swiper-container-initialized swiper-container-horizontal">
@@ -173,9 +174,9 @@
                                             <img class="fit-image" src="~/Front/images/home/78.jpg" alt="Product">
                                         </a>
                                         <div class="action-wrapper">
-                                            @* <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>*@
-                                            <a asp-controller="Front_Myaccount" asp-action="GetProductToWishtList" asp-route-id="78" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                                            <a id="AddProductGrid" onclick="AddToCart(78,'電動不倒翁逗貓棒 天藍(7x7x15公分)(貓玩具)拍拍')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                                           @* <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>*@
+                                            <a href="#/" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
+                                            <a href="#/" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
                                         </div>
                                     </div>
                                     <!-- Thumb End  -->
@@ -207,8 +208,8 @@
                                         </a>
                                         <div class="action-wrapper">
                                             @*<a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>*@
-                                            <a asp-controller="Front_Myaccount" asp-action="GetProductToWishtList" asp-route-id="120" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                                            <a id="AddProductGrid" onclick="AddToCart(120,'simplicity輕量推車 黑(54x28x55公分)(寵物外出包)')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                                            <a href="#/" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
+                                            <a href="#/" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
                                         </div>
                                     </div>
                                     <!-- Thumb End  -->
@@ -239,9 +240,9 @@
                                             <img class="fit-image" src="~/Front/images/home/109.jpg" alt="Product">
                                         </a>
                                         <div class="action-wrapper">
-                                            @*  <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>*@
-                                            <a asp-controller="Front_Myaccount" asp-action="GetProductToWishtList" asp-route-id="109" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                                            <a id="AddProductGrid" onclick="AddToCart(109,'無線馬達寵物飲水機 1.7L')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                                          @*  <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>*@
+                                            <a href="#/" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
+                                            <a href="#/" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
                                         </div>
                                     </div>
                                     <!-- Thumb End  -->
@@ -272,9 +273,9 @@
                                             <img class="fit-image" src="~/Front/images/home/105.jpg" alt="Product">
                                         </a>
                                         <div class="action-wrapper">
-                                            @* <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>*@
-                                            <a asp-controller="Front_Myaccount" asp-action="GetProductToWishtList" asp-route-id="105" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                                            <a id="AddProductGrid" onclick="AddToCart(105,'超耐抓貴妃躺椅 貴貓躺椅 骨頭款 (67*27*14公分) 貓抓板Nuke毛孩子')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                                           @* <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>*@
+                                            <a href="#/" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
+                                            <a href="#/" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
                                         </div>
                                         @*
                                             <div class="countdown-area">
@@ -758,133 +759,164 @@
     <div id="messagearea" class="row" style="display:none;width:400px;margin:auto;">
         <div>你好 : <b><span id="username1">Not Set</span></b></div>
         <hr />
-        <div class="row" style="overflow: auto; height: 400px" id="chatmain">
-            <div class="col-6" style="; width: 100%">
+        <div class="row" style="overflow: auto; height: 400px;margin:0;background-color:#FFEEDD" id="chatmain">
+            <div class="col-6" style=" width: 100%">
                 <ul id="messagesList"></ul>
             </div>
         </div>
         <hr />
         <input class="col-md-5" type="text" id="message" autocomplete="off" />
-        <input class="col-md-2" type="button" id="sendButton" value="傳送" />
+        <input class="col-md-2" type="button" id="sendButton" value="傳送" style="border-radius: 5px;background-color: #f6ab49;color: white;font-size: 17px;font-weight: 900;border: 1px solid;"/>
         @*<input class="col-md-2" type="button" id="bye" value="bye" />*@
     </div>
 </div>
 <!--聊天室-->
 @section Scripts{
-    <script src="~/js/signalr.js"></script>
-    <script>
-        const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-        var flag = false;
-        var chatcontain = document.getElementById("chatcontain");
-        $("#chatbtn").on('click', () => {
-            flag = !flag;
-            if (flag) {
-                chatcontain.style.display = "block";
-            } else {
-                chatcontain.style.display = "none";
-            }
+<script src="~/js/signalr.js"></script>
+<script>
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    var flag = false;
+    var chatcontain = document.getElementById("chatcontain");
+    $("#chatbtn").on('click', () => {
+        flag = !flag;
+        if (flag) {
+            chatcontain.style.display = "block";
+        } else {
+            chatcontain.style.display = "none";
+        }
 
-        })
-        "use strict";  //嚴謹模式
-        var connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();  //建立連接
-        var username = "";
+    })
+    "use strict";  //嚴謹模式
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();  //建立連接
+    var username = "";
 
-        //將傳送按鈕藏起 直到連線正常
-        $("#sendButton").attr("disabled", true)
+    //將傳送按鈕藏起 直到連線正常
+    $("#sendButton").attr("disabled", true)
 
-        connection.on("ReceiveMessage", function (user, message, time, color) {
+    connection.on("ReceiveMessage", function (user, message, time, color) {
+        //TODO 修改邊框聊天圖案
+        if (user == username) {
             var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); //& , < , > 設定三個符號轉譯
-            var encodeMsg = user + ": " + msg;
-
+            var encodeMsg = msg;
+            var t = document.createElement("p");
+            t.innerHTML = time;
+            t.style.fontSize = "12px";
+            t.style.color = "black";
+            t.style.display = "inline";
+            var li = document.createElement("li");
+            li.style.listStyleType = "none";
+            li.style.color = "black";
+            li.style.fontSize = "20px";
+            li.style.fontWeight = "600";
+            li.style.textAlign = "right";
+            li.append(t, " ", encodeMsg);
+        } else {
+            var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); //& , < , > 設定三個符號轉譯
+            var encodeMsg = msg;
             var t = document.createElement("p");
             t.innerHTML = time;
             t.style.fontSize = "12px";
             t.style.color = "black";
             t.style.display = "inline";
 
+            var userelse = document.createElement("p");
+            userelse.innerHTML = user;
+            userelse.style.position = "absolute";
+            userelse.style.display = "inline";
+            userelse.style.top = "-10px";
+            userelse.style.fontSize = "13px";
+            var Msg = document.createElement("p");
+            Msg.innerHTML = encodeMsg;
+            Msg.style.display = "inline";
+
             var li = document.createElement("li");
             li.style.listStyleType = "none";
             li.style.color = "#" + color;
             li.style.fontSize = "20px";
             li.style.fontWeight = "600";
-            li.append(t, " ", encodeMsg);
-            document.getElementById("messagesList").appendChild(li);
-            document.getElementById("chatmain").scrollTop = document.getElementById("chatmain").scrollHeight;
-        })
+            li.style.textAlign = "left";
+            li.style.marginTop = "10px";
+            li.style.position = "relative";
+            li.append(userelse,Msg," ", t);
+        }
+        document.getElementById("messagesList").appendChild(li);
+        document.getElementById("chatmain").scrollTop = document.getElementById("chatmain").scrollHeight;
+    })
 
-        connection.on("NewJoin", function (user, message, time, color) {
-            var t = document.createElement("p");
-            t.innerHTML = time;
-            t.style.fontSize = "16px";
-            t.style.color = "gray";
-            t.style.display = "inline";
+    connection.on("NewJoin", function (user, message, time, color) {
+        var t = document.createElement("p");
+        t.innerHTML = time;
+        t.style.fontSize = "16px";
+        t.style.color = "black";
+        t.style.display = "inline";
 
-            var li = document.createElement("li");
-            li.style.fontSize = "16px";
-            li.style.color = "gray";
-            li.innerHTML = `${t.innerHTML} ${user} ${message}`;
-            document.getElementById("messagesList").appendChild(li);
-            document.getElementById("chatmain").scrollTop = document.getElementById("chatmain").scrollHeight;
-        })
+        var li = document.createElement("li");
+        li.style.fontSize = "16px";
+        li.style.color = "gray";
+        li.innerHTML = `${t.innerHTML} ${user} ${message}`;
+        li.style.textAlign = "center";
+        document.getElementById("messagesList").appendChild(li);
+        document.getElementById("chatmain").scrollTop = document.getElementById("chatmain").scrollHeight;
+    })
 
-        connection.on("Leave", function (user, message, time, color) {
-            var t = document.createElement("p");
-            t.innerHTML = time;
-            t.style.fontSize = "16px";
-            t.style.color = "gray";
-            t.style.display = "inline";
+    connection.on("Leave", function (user, message, time, color) {
+        var t = document.createElement("p");
+        t.innerHTML = time;
+        t.style.fontSize = "16px";
+        t.style.color = "gray";
+        t.style.display = "inline";
 
-            var li = document.createElement("li");
-            li.style.fontSize = "16px";
-            li.style.color = "gray";
-            li.innerHTML = `${t.innerHTML} ${user} ${message}`;
-            document.getElementById("messagesList").appendChild(li);
-            document.getElementById("chatmain").scrollTop = document.getElementById("chatmain").scrollHeight;
-        })
+        var li = document.createElement("li");
+        li.style.fontSize = "16px";
+        li.style.color = "gray";
+        li.innerHTML = `${t.innerHTML} ${user} ${message}`;
+        document.getElementById("messagesList").appendChild(li);
+        document.getElementById("chatmain").scrollTop = document.getElementById("chatmain").scrollHeight;
+    })
 
-        connection.start().then(function () {
-            document.getElementById("sendButton").disabled = false;  //連結建立成功 將傳送按鈕顯示
+    connection.start().then(function () {
+        document.getElementById("sendButton").disabled = false;  //連結建立成功 將傳送按鈕顯示
+    }).catch(function (err) {
+        return console.error(err.toString());
+    })
+
+    //$("#bye").on("click", () => {
+    //    connection.onclose(connection.invoke("SendMessage", username, "離開聊天室", ""))
+    //})
+
+    $("#sendButton").on("click", function (event) {
+        var message = $('#message').val();
+        connection.invoke("SendMessage", username, message, "",randomColor).then(function () {
+            document.getElementById('message').value = "";
         }).catch(function (err) {
             return console.error(err.toString());
         })
+        event.preventDefault();  //取消DOM默認動作
+    })
 
-        //$("#bye").on("click", () => {
-        //    connection.onclose(connection.invoke("SendMessage", username, "離開聊天室", ""))
-        //})
-
-        $("#sendButton").on("click", function (event) {
-            var message = $('#message').val();
-            connection.invoke("SendMessage", username, message, "", randomColor).then(function () {
-                document.getElementById('message').value = "";
-            }).catch(function (err) {
-                return console.error(err.toString());
-            })
-            event.preventDefault();  //取消DOM默認動作
-        })
-
-        function SetUsername() {
-            //檢查使用者是否輸入暱稱
-            var usernameinput = $('#username').val();
-            if (usernameinput === "") {
-                alert("務必輸入加入聊天室的暱稱")
-                return;
-            }
-            username = usernameinput;
-
-            document.getElementById('userinfo').style.display = 'none';
-            document.getElementById('messagearea').style.display = 'block';
-            document.getElementById("username1").innerText = usernameinput;
-
-            connection.invoke("SendMessage", username, "加入聊天室", "", "");
+    function SetUsername() {
+        //檢查使用者是否輸入暱稱
+        var usernameinput = $('#username').val();
+        if (usernameinput === "") {
+            alert("務必輸入加入聊天室的暱稱")
+            return;
         }
-    </script>
+        username = usernameinput;
+
+        document.getElementById('userinfo').style.display = 'none';
+        document.getElementById('messagearea').style.display = 'block';
+        document.getElementById("username1").innerText = usernameinput;
+
+        connection.invoke("SendMessage", username, "加入聊天室", "","");
+    }
+</script>
 
 
 
 
 
 
-    <script>
+<script>
     init();
 
     function init()
@@ -901,31 +933,5 @@
             }
         )
     }
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $("#AddProductGrid").click(AddToCart);
-        });
-
-        function AddToCart(productId, productname, qty) {
-            $.ajax({
-                method: "POST",
-                url: "/Front_Cart/AddToCart",
-                data: {
-                    id: productId,
-                    qty: 1,
-                },
-                success: function (result) {
-                    $('#CartMenu').html(result),
-                        Swal.fire({
-                            icon: 'success',
-                            title: '商品已加入購物車',
-                            text: productname + ' 數量 : 1',
-                        })
-                }
-            });
-        }
-
-    </script>
+</script>
 }

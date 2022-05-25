@@ -758,7 +758,7 @@
     <div id="messagearea" class="row" style="display:none;width:400px;margin:auto;">
         <div>你好 : <b><span id="username1">Not Set</span></b></div>
         <hr />
-        <div class="row" style="overflow: auto; height: 400px;margin:0;background-color:#FFEEDD" id="chatmain">
+        <div class="row" style="overflow: auto; height: 400px;margin:0;background-color:#FFEEDD;padding:0" id="chatmain">
             <div class="col-6" style=" width: 100%">
                 <ul id="messagesList"></ul>
             </div>
@@ -766,6 +766,9 @@
         <hr />
         <input class="col-md-5" type="text" id="message" autocomplete="off" />
         <input class="col-md-2" type="button" id="sendButton" value="傳送" style="border-radius: 5px;background-color: #f6ab49;color: white;font-size: 17px;font-weight: 900;border: 1px solid;" />
+        <button class="col-md-1" onclick="demo1()" style="padding:0;margin:0">1</button>
+        <button class="col-md-1" onclick="demo2()" style="padding:0;margin:0">2</button>
+        <button class="col-md-1" onclick="demo3()" style="padding:0;margin:0">3</button>
         @*<input class="col-md-2" type="button" id="bye" value="bye" />*@
     </div>
 </div>
@@ -794,47 +797,36 @@
 
         connection.on("ReceiveMessage", function (user, message, time, color) {
             //TODO 修改邊框聊天圖案
+            var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); //& , < , > 設定三個符號轉譯
+            var encodeMsg = msg;
+            var t = document.createElement("p");
+            t.innerHTML = time;
+            t.style.fontSize = "12px";
+            t.style.color = "black";
+            t.style.display = "inline";
+            var li = document.createElement("li");
+            li.style.listStyleType = "none";
+            li.style.fontSize = "15px";
+            li.style.fontWeight = "600";
+            li.style.marginTop = "10px";
             if (user == username) {
-                var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); //& , < , > 設定三個符號轉譯
-                var encodeMsg = msg;
-                var t = document.createElement("p");
-                t.innerHTML = time;
-                t.style.fontSize = "12px";
-                t.style.color = "black";
-                t.style.display = "inline";
-                var li = document.createElement("li");
-                li.style.listStyleType = "none";
                 li.style.color = "black";
-                li.style.fontSize = "20px";
-                li.style.fontWeight = "600";
                 li.style.textAlign = "right";
                 li.append(t, " ", encodeMsg);
             } else {
-                var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); //& , < , > 設定三個符號轉譯
-                var encodeMsg = msg;
-                var t = document.createElement("p");
-                t.innerHTML = time;
-                t.style.fontSize = "12px";
-                t.style.color = "black";
-                t.style.display = "inline";
-
                 var userelse = document.createElement("p");
                 userelse.innerHTML = user;
                 userelse.style.position = "absolute";
                 userelse.style.display = "inline";
-                userelse.style.top = "-10px";
+                userelse.style.top = "-12px";
                 userelse.style.fontSize = "13px";
+
                 var Msg = document.createElement("p");
                 Msg.innerHTML = encodeMsg;
                 Msg.style.display = "inline";
 
-                var li = document.createElement("li");
-                li.style.listStyleType = "none";
-                li.style.color = "#" + color;
-                li.style.fontSize = "20px";
-                li.style.fontWeight = "600";
+                li.style.color = "#5A5AAD";
                 li.style.textAlign = "left";
-                li.style.marginTop = "10px";
                 li.style.position = "relative";
                 li.append(userelse, Msg, " ", t);
             }
@@ -907,6 +899,16 @@
             document.getElementById("username1").innerText = usernameinput;
 
             connection.invoke("SendMessage", username, "加入聊天室", "", "");
+        }
+
+        function demo1() {
+            document.getElementById("message").value = "大家好，第一次來，請問有什麼推薦的貓零食嗎";
+        }
+        function demo2() {
+            document.getElementById("message").value = "快吃肉乾的忘憂神仙草還不錯，推薦給你!";
+        }
+        function demo3() {
+            document.getElementById("message").value = "好的謝謝!我馬上去看看";
         }
     </script>
 

@@ -11,7 +11,7 @@ namespace Project_IPET.Services
         PetListModel.Response GetPetList(PetListModel.Request request);
 
         PetModel GetPet(int id);
-        List<CityModel> GetCityList();
+        List<CityModel> GetCities();
 
         void CreatePet(PetModel petModel);
         void EditPet(PetModel pet);

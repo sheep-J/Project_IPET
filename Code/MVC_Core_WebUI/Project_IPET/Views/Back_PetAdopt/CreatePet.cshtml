@@ -14,101 +14,148 @@
 }
 @section Scripts{
     <script>
-      $(document).ready(function(){
-          $("#btnOK").click(createProduct);
-          getCategories();
-          $("#ddlCategories").change(showSubCategories);
-          showBrands();
-      });
-      var categories;
-      function createProduct() {
-          const formData = new FormData()
-          formData.append('productName', $("#txtProductName").val());
-          formData.append('subCategoryId', $("#ddlSubCategories").val());
-          formData.append('brandId', $('#ddlBrand').val());
-          formData.append('hotProduct', $("#chkHotProduct").prop("checked"));
-          formData.append('costPrice', $("#txtCostPrice").val());
-          formData.append('unitPrice', $("#txtUnitPrice").val());
-          formData.append('unitsInStock', $('#txtUnitsInStock').val());
-          formData.append('description', $('#txtDescription').val());
-          formData.append('productAvailable', $("#chkProductAvailable").prop("checked"));
-          var input = $("#productPhoto")[0];
-          var files = input.files;
-          for (var i = 0; i != files.length; i++) {
-              formData.append("files", files[i]);
-          }
+        $(document).ready(function () {
+            $("#btnOK").click(createPet);
+            getCities();
+            $("#ddlCities").change(showRegions);
+        });
+
+        function createPet() {
+            const formData = new FormData()
+            formData.append('petName', $("#txtPetName").val());
+            formData.append('petCityId', $('#ddlCities').val());
+            formData.append('petRegionId', $("#ddlRegion").val());
+            formData.append('petVariety', $("#txtPetVariety").val());
+            formData.append('petCategory', $("#txtPetCategory").val());
+            formData.append('petGender', $('#txtPetGender').val());
+            formData.append('petSize', $('#txtPetSize').val());
+            formData.append('petColor', $('#txtPetColor').val());
+            formData.append('petAge', $('#txtPetAge').val());
+            formData.append('petFix', $('#txtPetFix').val());
+            formData.append('publishedDate', $('#txtPublishedDate').val());
+            formData.append('petDescription', $('#txtPetDescription').val());
+            formData.append('petContact', $('#txtPetContact').val());
+            formData.append('petContactPhone', $('#txtPetContactPhone').val());
+
+            var input = $("#petPhoto")[0];
+            var files = input.files;
+            for (var i = 0; i != files.length; i++) {
+                formData.append("files", files[i]);
+            }
 
 
-          $.ajax({
-              method: "POST",
-              url: "/Back_PetAdopt/CreatePet",
-              data: formData,
-              processData: false,
-              contentType: false,
-              success: function (result) {
-                  if(result){
-                      alert("新增成功");
-                      window.location.href = "/Back_Products/Index";
-                  }
-                  else{
-                      alert("新增失敗");
-                  }
-              }
-          });
-      }
+            $.ajax({
+                method: "POST",
+                url: "/Back_PetAdopt/CreatePet",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    if (result) {
+                        alert("新增成功");
+                        window.location.href = "/Back_PetAdopt/Index";
+                    }
+                    else {
+                        alert("新增失敗");
+                    }
+                }
+            });
+        }
 
+        function getCities() {
+            $.ajax({
+                method: "GET",
+                url: "/Back_PetAdopt/GetCities",
+                success: function (result) {
+                    cities = result;
+                    showCities();
+                    showRegions();
+                }
+            });
+        }
+        function showCities() {
+            $.each(cities, function (i, city) {
+                var opt = $("<option></option>").text(city.cityName).val(city.cityID);
+                $("#ddlCities").append(opt);
+            });
+        }
+        function showRegions() {
+            var selectedCityId = $("#ddlCities").val();
+            var selectedCity = cities.find(c => c.cityID == selectedCityId);
+            $("#ddlRegion").html("");
+            $.each(selectedCity.regions, function (i, region) {
+                var opt = $("<option></option>").text(region.regionName).val(region.regionId);
+                $("#ddlRegion").append(opt);
+            });
+        }
     </script>
 }
 
 <form role="form" class="text-start">
     <div class="input-group input-group-outline my-3">
-        <label class="form-label">商品名稱</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtProductName">
+        <label class="form-label">寵物名稱</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetName">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label for="ddlCategories" class="ms-0">類別</label>
-        <select id="ddlCategories" class="form-control" aria-label="Default select example">
+        <label for="ddlCities" class="ms-0">縣市</label>
+        <select id="ddlCities" class="form-control" aria-label="Default select example">
         </select>
     </div>
     <div class="input-group input-group-static mb-4">
-        <label for="ddlSubCategories" class="ms-0">子類別</label>
-        <select id="ddlSubCategories" class="form-control" aria-label="Default select example">
-        </select>
-    </div>
-    <div class="input-group input-group-static mb-4">
-        <label for="ddlBrand" class="ms-0">品牌</label>
-        <select id="ddlBrand" class="form-control" aria-label="Default select example">
+        <label for="ddlRegion" class="ms-0">鄉鎮</label>
+        <select id="ddlRegion" class="form-control" aria-label="Default select example">
         </select>
     </div>
     <div class="input-group input-group-outline my-3">
-        <label class="form-label">進貨成本</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtCostPrice">
+        <label class="form-label">品種</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetVariety">
     </div>
     <div class="input-group input-group-outline my-3">
-        <label class="form-label">商品售價</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtUnitPrice">
+        <label class="form-label">種類</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetCategory">
     </div>
     <div class="input-group input-group-outline my-3">
-        <label class="form-label">商品庫存</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtUnitsInStock">
+        <label class="form-label">性別</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetGender">
     </div>
     <div class="input-group input-group-outline my-3">
-        <label class="form-label">商品描述</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtDescription">
+        <label class="form-label">體型</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetSize">
     </div>
-    <div class="form-check form-switch d-flex align-items-center mb-3">
-        <input class="form-check-input" type="checkbox" id="chkHotProduct">
-        <label class="form-check-label mb-0 ms-2" for="chkHotProduct">是否為熱門商品</label>
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">毛色</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetColor">
     </div>
-    <div class="form-check form-switch d-flex align-items-center mb-3">
-        <input class="form-check-input" type="checkbox" id="chkProductAvailable">
-        <label class="form-check-label mb-0 ms-2" for="chkProductAvailable">商品是否上架</label>
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">年紀</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetAge">
     </div>
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">是否結紮</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetFix">
+    </div>
+    <div class="input-group input-group-outline my-3 is-focused">
+        <label class="form-label">發佈日期</label>
+        <input type="text" class="form-control" disabled="disabled" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPublishedDate" value="@DateTime.Now.ToString("yyyyMMdd")">
+    </div>
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">資訊</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetDescription">
+    </div>
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">聯絡人名稱</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetContact">
+    </div>
+    <div class="input-group input-group-outline my-3">
+        <label class="form-label">聯絡人電話</label>
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetContactPhone">
+    </div>
+
 
     <div class="buttons">
         <div class="upload-button">
-            <div class="label">商品圖片</div>
-            <input id="productPhoto" type="file" size="1" multiple onchange="previewImages(event);" />
+            <div class="label">寵物圖片</div>
+            <input id="petPhoto" type="file" size="1" multiple onchange="previewImages(event);" />
         </div>
     </div>
     <div id="previewImages" class="d-flex justify-content-start align-items-center"></div>

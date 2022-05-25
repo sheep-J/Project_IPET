@@ -59,6 +59,13 @@ namespace Project_IPET.Controllers
             }
             return result;
         }
+
+        public List<CityModel> GetCities()
+        {
+            var result = _petService.GetCities();
+            return result;
+        }
+
         public IActionResult EditPet(int id)
         {
             var result = _petService.GetPet(id);

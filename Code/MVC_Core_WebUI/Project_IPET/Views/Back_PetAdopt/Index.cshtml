@@ -1,4 +1,4 @@
-﻿@*@{
+﻿@{
     ViewData["Title"] = "認養資訊管理";
 }
 
@@ -39,10 +39,10 @@
     </script>
 }
 
-<a class="btn btn-facebook mb-3"><i class="fa-solid fa-cat"> 新增資訊</i></a>
+<a class="btn btn-facebook mb-3" asp-controller="Back_PetAdopt" asp-action="CreatePet"><i class="fa-solid fa-cat"> 新增資訊</i></a>
 
 <div class="bg-gradient-secondary shadow-secondary border-radius-lg pt-4 pb-3 d-flex">
     <h6 class="text-white text-capitalize ps-3">認養資訊列表</h6>
 </div>
 
-<div id="PetList"></div>*@
+<div id="PetList"></div>

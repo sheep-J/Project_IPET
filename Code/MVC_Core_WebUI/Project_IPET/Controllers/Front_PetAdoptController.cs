@@ -18,7 +18,7 @@ namespace Project_IPET.Controllers
 
         public IActionResult Index()
         {
-            var cityList = _petService.GetCityList();
+            var cityList = _petService.GetCities();
             return View(cityList);
         }
 

@@ -17,11 +17,30 @@ namespace Project_IPET.Services
             _dbConnection = dbConnection;
         }
 
-        public List<CityModel> GetCityList()
+        public List<CityModel> GetCities()
         {
-            string sql = "SELECT * FROM Cities";
-            var cityList = _dbConnection.Query<CityModel>(sql);
-            return cityList.ToList();
+            List<CityModel> result = new List<CityModel>();
+            List<RegionModel> region = new List<RegionModel>();
+            try
+            {
+                string sql = @"SELECT * FROM Cities";
+                result = _dbConnection.Query<CityModel>(sql).ToList();
+
+                string sql2 = @"SELECT * FROM Region";
+                region = _dbConnection.Query<RegionModel>(sql2).ToList();
+                foreach (var cities in result)
+                {
+                    cities.Regions = new List<RegionModel>();
+
+                    var reg = region.Where(s => s.CityId == cities.CityID);
+                    cities.Regions.AddRange(reg);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return result;
         }
 
         public PetListModel.Response GetPetList(PetListModel.Request request)
@@ -136,7 +155,7 @@ namespace Project_IPET.Services
                     PetContact = petModel.PetContact, 
                     PetContactPhone = petModel.PetContactPhone
                 };
-                //
+
                 petModel.PetID = _dbConnection.QuerySingle<int>(sql, param);
 
                 for (int i = 0; i < petModel.PetImages.Count; i++)
@@ -144,7 +163,7 @@ namespace Project_IPET.Services
                     var paramImg = new
                     {
                         PetID = petModel.PetID,
-                        PetImage = petModel.PetImage[i],
+                        PetImage = petModel.PetImages[i],
                         IsMainImage = i == 0 // i == 0 ? true : false
                     };
                     _dbConnection.Execute(imageSql, paramImg);

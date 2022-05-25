@@ -233,7 +233,6 @@
                 else if ($('#selectTransaction').val() == '2') {
                     $("#OrderName").val("Peter");
                     $("#OrderPhone").val("0910288715");
-                    $("#inputAddress").val("");
                 }
                 else {
                     return;
@@ -249,7 +248,7 @@
                 if (option != null) {
                     if (option == 1) {
                         Swal.fire({
-                            title: '是否進行付款 ?',
+                            title: '是否建立訂單及進行付款 ?',
                             showCancelButton: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
@@ -260,7 +259,7 @@
                                     success: function (data) {
                                         Swal.fire({
                                             icon: 'success',
-                                            title: '訂單已完成 ( 貨到付款 )',
+                                            title: '訂單已完成',
                                         })
                                         setTimeout(function () { location.href = "/Front_Home/Index" }, 2000);
                                     }

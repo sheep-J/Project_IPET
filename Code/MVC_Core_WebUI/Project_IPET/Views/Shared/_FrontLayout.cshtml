@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
 
 <!DOCTYPE html>
 <html>
@@ -124,9 +124,17 @@
                                 <div class="header-action-btn header-action-btn-cart d-none d-sm-flex" id="CartMenu">
                                     @await Html.PartialAsync("_CartPartial")
                                 </div>
+                                @if (Context.Session.GetString("SK_LOGINED_USER") == null)
+                                {
+
+                                }
+                                else
+                                {
                                     <div id="loginmember" class="d-sm-flex align-items-center d-none">
-                                        您好！ who
+                                        您好！ @Context.Session.GetString("SK_LOGINED_NAME")
                                     </div>
+                                }
+
                             </div>
                         </div>
                         <!-- Header Action End -->

@@ -34,9 +34,13 @@ namespace Project_IPET.Services
             try
             {
                 string sqlCount = @"SELECT COUNT(1) FROM Pets p
+                                                JOIN Cities c ON p.PetCityID = c.CityID
+                                                JOIN Region r ON p.PetRegionID = r.RegionID
                                                 LEFT JOIN  PetImagePath pp ON p.PetID =pp.PetID
                                                 WHERE pp.IsMainImage = 1 {0}";
                 string sql = @"SELECT * FROM Pets p
+                                                JOIN Cities c ON p.PetCityID = c.CityID
+                                                JOIN Region r ON p.PetRegionID = r.RegionID
                                                 LEFT JOIN  PetImagePath pp ON p.PetID =pp.PetID
                                                 WHERE pp.IsMainImage = 1 {0}
                                                 ORDER BY p.PetID OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY;";

@@ -18,6 +18,7 @@
     <script>
         $(document).ready(function () {
             $("#inputQty").click(AddToCart);
+            $("#inputQtyAll").click(AddToCart);
         });
         function AddToCart(productId, productname, qty) {
             $.ajax({
@@ -33,6 +34,24 @@
                             icon: 'success',
                             title: '商品已加入購物車',
                             text: productname + ' 數量 : ' + $("#inputQty").val(),
+                        })
+                }
+            });
+        }
+        function AddToCartAll(productId, productname, qty) {
+            $.ajax({
+                method: "POST",
+                url: "/Front_Cart/AddToCart",
+                data: {
+                    id: productId,
+                    qty: $("#inputQtyAll").text()
+                },
+                success: function (result) {
+                    $('#CartMenu').html(result),
+                        Swal.fire({
+                            icon: 'success',
+                            title: '商品已加入購物車',
+                            text: productname + ' 數量 : ' + $("#inputQtyAll").text(),
                         })
                 }
             });
@@ -144,7 +163,7 @@
                     <!-- Product Inventory Start -->
                     <div class="product-inventroy m-b-15">
                         <span class="inventroy-title"> <strong>庫存：</strong></span>
-                        <span class="inventory-varient">@Model.UnitsInStock</span>
+                        <span class="inventory-varient" id="inputQtyAll">@Model.UnitsInStock</span>
                     </div>
                     <!-- Product Inventory End -->
                     <!-- Description Start -->
@@ -181,9 +200,26 @@
                                 }
                             </div>
                             @*                            <div class="add-to_cart">
-                                <a class="btn btn-primary btn-hover-dark rounded-pill" onclick="AddToCart('@Model.ProductID')" href="javascript:void(0);">加入購物車<br />（募資專案）</a>
-                                </div>*@
+        <a class="btn btn-primary btn-hover-dark rounded-pill" onclick="AddToCart('@Model.ProductID')" href="javascript:void(0);">加入購物車<br />（募資專案）</a>
+        </div>*@
                             <a asp-controller="/Front_Myaccount" asp-action="Index" title="願望清單" class="action"><i class="ti-heart"></i></a>
+                            <div class="add-to_cart">
+                                @if (Model.PrjID > 0)
+                                {
+                                    <a class="btn btn-primary btn-hover-dark rounded-bottom" onclick="AddToCartAll('@Model.ProductID','@Model.ProductName')" href="javascript:void(0);">加入募集</a>
+                                }
+                                else
+                                {
+                                    if (@Model.UnitsInStock <= 0)
+                                    {
+                                        <a class="btn btn-primary btn-hover-dark rounded-bottom disabled">商品無庫存</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-primary btn-hover-dark rounded-bottom" onclick="AddToCartAll('@Model.ProductID','@Model.ProductName')" href="javascript:void(0);">加入購物車<br />（全部）</a>
+                                    }
+                                }
+                            </div>
                         </div>
                     </div>
                     <!-- Cart Button End -->

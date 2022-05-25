@@ -1,4 +1,5 @@
 ﻿@model ProductListResponseModel
+@inject IJsonHelper Json;
 @{
     Layout = null;
 }
@@ -14,7 +15,7 @@
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品描述</th>
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">是否為熱門商品</th>
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品是否上架</th>
-@*                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品評價</th>*@
+                @*                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品評價</th>*@
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">操作</th>
             </tr>
         </thead>
@@ -66,12 +67,12 @@
                             }
                         </span>
                     </td>
-@*                    <td class="align-middle  text-center">
+                    @*                    <td class="align-middle  text-center">
                         <p class="text-xs font-weight-bold mb-0">@product.Rating</p>
-                    </td>*@
+                        </td>*@
                     <td class="align-middle text-center">
                         <a class="btn bg-gradient-info" asp-controller="Back_Products" asp-action="EditProduct" asp-route-id="@product.ProductID">修改</a>
-                        <a class="btn bg-gradient-danger" onclick="deleteProduct(@product.ProductID)" >刪除</a>
+                        <a class="btn bg-gradient-danger" onclick="deleteProduct(@product.ProductID)">刪除</a>
                     </td>
 
                 </tr>
@@ -84,7 +85,7 @@
     <!-- Shopt Top Bar Right Start -->
     <div class="shop-top-bar-right">
         <nav>
-            <ul class="pagination">
+            <ul class="pagination pagination-primary">
                 @{
                     int startPage = 0;
                     int endPage = 0;
@@ -112,30 +113,51 @@
                     @if (Model.Pagination.Page > 1)
                     {
                         <li class="page-item">
-                            <a class="page-link rounded-0" onclick="getProductList(@(Model.Pagination.Page -1) )" href="#/" aria-label="Prev">
+                            <a class="page-link" onclick="getProductList(1,@Json.Serialize(Model.ProductList.FirstOrDefault().PrjID > 0) )" href="#link" aria-label="Previous">
                                 <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#link" aria-label="Previous" onclick="getProductList(@(Model.Pagination.Page -1) )">
+                                <span aria-hidden="true">
+                                    <span class="material-icons">
+                                        keyboard_arrow_left
+                                    </span>
+                                </span>
                             </a>
                         </li>
                     }
 
                     for (int i = startPage; i <= endPage; i++)
                     {
-                        <li class="page-item">
-                            @if (i == Model.Pagination.Page)
-                            {
-                                <a class="page-link active" onclick="getProductList(@i)" href="#">@i</a>
-                            }
-                            else
-                            {
+                        @if (i == Model.Pagination.Page)
+                        {
+                            <li class="page-item active">
                                 <a class="page-link" onclick="getProductList(@i)" href="#">@i</a>
-                            }
-                        </li>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                <a class="page-link" onclick="getProductList(@i)" href="#">@i</a>
+                            </li>
+                        }
+
                     }
                 }
                 @if (Model.Pagination.Page < Model.Pagination.TotalPage)
                 {
                     <li class="page-item">
-                        <a class="page-link rounded-0" onclick="getProductList(@(Model.Pagination.Page + 1) )" href="#/" aria-label="Next">
+                        <a class="page-link" href="#link" aria-label="Next" onclick="getProductList(@(Model.Pagination.Page + 1) )">
+                            <span aria-hidden="true">
+                                <span class="material-icons">
+                                    keyboard_arrow_right
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" onclick="getProductList(@(Model.Pagination.TotalPage),@Json.Serialize(Model.ProductList.FirstOrDefault().PrjID > 0) )"  href="#link" aria-label="Next" >
                             <span aria-hidden="true">»</span>
                         </a>
                     </li>

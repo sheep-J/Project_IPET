@@ -2,112 +2,120 @@
     ViewData["Title"] = "新增商品";
 }
 @section Styles{
-    <style>
-        .preview-img{
-            width:100px;
-            margin:3px;
-        }
-    </style>
+<style>
+    .preview-img {
+        width: 100px;
+        margin: 3px;
+    }
+</style>
 }
 @section Scripts{
 <script>
-      $(document).ready(function(){
-          $("#btnOK").click(createProduct);
-          getCategories();
-          $("#ddlCategories").change(showSubCategories);
-          showBrands();
-      });
-      var categories;
-      function createProduct() {
-          const formData = new FormData()
-          formData.append('productName', $("#txtProductName").val());
-          formData.append('subCategoryId', $("#ddlSubCategories").val());
-          formData.append('brandId', $('#ddlBrand').val());
-          formData.append('hotProduct', $("#chkHotProduct").prop("checked"));
-          formData.append('costPrice', $("#txtCostPrice").val());
-          formData.append('unitPrice', $("#txtUnitPrice").val());
-          formData.append('unitsInStock', $('#txtUnitsInStock').val());
-          formData.append('description', $('#txtDescription').val());
-          formData.append('productAvailable', $("#chkProductAvailable").prop("checked"));
-          var input = $("#productPhoto")[0];
-          var files = input.files;
-          for (var i = 0; i != files.length; i++) {
-              formData.append("files", files[i]);
-          }
+    $(document).ready(function(){
+        $("#btnOK").click(createProduct);
+        getCategories();
+        $("#ddlCategories").change(showSubCategories);
+        showBrands();
+    });
+    var categories;
+    function createProduct() {
+        const formData = new FormData()
+        formData.append('productName', $("#txtProductName").val());
+        formData.append('subCategoryId', $("#ddlSubCategories").val());
+        formData.append('brandId', $('#ddlBrand').val());
+        formData.append('hotProduct', $("#chkHotProduct").prop("checked"));
+        formData.append('costPrice', $("#txtCostPrice").val());
+        formData.append('unitPrice', $("#txtUnitPrice").val());
+        formData.append('unitsInStock', $('#txtUnitsInStock').val());
+        formData.append('description', $('#txtDescription').val());
+        formData.append('productAvailable', $("#chkProductAvailable").prop("checked"));
+        var input = $("#productPhoto")[0];
+        var files = input.files;
+        for (var i = 0; i != files.length; i++) {
+            formData.append("files", files[i]);
+        }
 
 
-          $.ajax({
-              method: "POST",
-              url: "/Back_Products/CreateProduct",
-              data: formData,
-              processData: false,
-              contentType: false,
-              success: function (result) {
-                  if(result){
-                      alert("新增成功");
-                      window.location.href = "/Back_Products/Index";
-                  }
-                  else{
-                      alert("新增失敗");
-                  }
-              }
-          });
-      }
-      function getCategories(){
-          $.ajax({
-              method: "GET",
-              url: "/Back_Products/GetCategories",
-              success: function (result) {
-                  categories = result;
-                  showCategories();
-                  showSubCategories();
-              }
-          });
-      }
-      function showCategories(){
-          $.each(categories,function(i,category){
-             var opt = $("<option></option>").text(category.categoryName).val(category.categoryId);
-              $("#ddlCategories").append(opt);
-          });
-      }
-      function showSubCategories(){
-           var selectedCategoryId =  $("#ddlCategories").val();
-           var selectedCategory = categories.find(c=>c.categoryId == selectedCategoryId);
+        $.ajax({
+            method: "POST",
+            url: "/Back_Products/CreateProduct",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                if(result){
+                    alert("新增成功");
+                    window.location.href = "/Back_Products/Index";
+                }
+                else{
+                    alert("新增失敗");
+                }
+            }
+        });
+    }
+    function getCategories(){
+        $.ajax({
+            method: "GET",
+            url: "/Back_Products/GetCategories",
+            success: function (result) {
+                categories = result;
+                showCategories();
+                showSubCategories();
+            }
+        });
+    }
+    function showCategories(){
+        $.each(categories,function(i,category){
+           var opt = $("<option></option>").text(category.categoryName).val(category.categoryId);
+            $("#ddlCategories").append(opt);
+        });
+    }
+    function showSubCategories(){
+         var selectedCategoryId =  $("#ddlCategories").val();
+         var selectedCategory = categories.find(c=>c.categoryId == selectedCategoryId);
 
-           $("#ddlSubCategories").html("");
-           $.each(selectedCategory.subCategories,function(i,subCategory){
-             var opt = $("<option></option>").text(subCategory.subCategoryName).val(subCategory.subCategoryId);
-              $("#ddlSubCategories").append(opt);
-          });
-      }
-      function showBrands(){
-          $.ajax({
-              method: "GET",
-              url: "/Back_Products/GetBrands",
-              success: function (result) {
-                 $.each(result,function(i,brand){
-                 var opt = $("<option></option>").text(brand.brandName).val(brand.brandID);
-                  $("#ddlBrand").append(opt);
-                  });
-              }
-          });
-      }
+         $("#ddlSubCategories").html("");
+         $.each(selectedCategory.subCategories,function(i,subCategory){
+           var opt = $("<option></option>").text(subCategory.subCategoryName).val(subCategory.subCategoryId);
+            $("#ddlSubCategories").append(opt);
+        });
+    }
+    function showBrands(){
+        $.ajax({
+            method: "GET",
+            url: "/Back_Products/GetBrands",
+            success: function (result) {
+               $.each(result,function(i,brand){
+               var opt = $("<option></option>").text(brand.brandName).val(brand.brandID);
+                $("#ddlBrand").append(opt);
+                });
+            }
+        });
+    }
 
-      function previewImages(event){
-          $("#previewImages").html("");
-          $.each(event.target.files,function(i,file){
-              var src = URL.createObjectURL(file);
-              var img = $("<img>").attr("src",src).addClass("preview-img");
-              $("#previewImages").append(img);
-          });
-      }
+    function previewImages(event){
+        $("#previewImages").html("");
+        $.each(event.target.files,function(i,file){
+            var src = URL.createObjectURL(file);
+            var img = $("<img>").attr("src",src).addClass("preview-img");
+            $("#previewImages").append(img);
+        });
+    }
+
+    function createDemo(){
+        $("#txtProductName").val("化毛膏");
+        $("#txtCostPrice").val("150");
+        $("#txtUnitPrice").val("600");
+        $("#txtUnitsInStock").val("50");
+        $("#txtDescription").val("幫助貓咪解除毛毛卡喉嚨的困擾");
+    }
 
 </script>
 }
 
 <form role="form" class="text-start">
-    <div class="input-group input-group-outline my-3">
-        <label class="form-label">商品名稱</label>
+    <div class="input-group input-group-static mb-4">
+        <label class="fms-0">商品名稱</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtProductName">
     </div>
     <div class="input-group input-group-static mb-4">
@@ -125,20 +133,20 @@
         <select id="ddlBrand" class="form-control" aria-label="Default select example">
         </select>
     </div>
-    <div class="input-group input-group-outline my-3">
-        <label class="form-label">進貨成本</label>
+    <div class="input-group input-group-static mb-4">
+        <label class="fms-0">進貨成本</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtCostPrice">
     </div>
-    <div class="input-group input-group-outline my-3">
-        <label class="form-label">商品售價</label>
+    <div class="input-group input-group-static mb-4">
+        <label class="fms-0">商品售價</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtUnitPrice">
     </div>
-    <div class="input-group input-group-outline my-3">
-        <label class="form-label">商品庫存</label>
+    <div class="input-group input-group-static mb-4">
+        <label class="fms-0">商品庫存</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtUnitsInStock">
     </div>
-    <div class="input-group input-group-outline my-3">
-        <label class="form-label">商品描述</label>
+    <div class="input-group input-group-static mb-4">
+        <label class="fms-0">商品描述</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtDescription">
     </div>
     <div class="form-check form-switch d-flex align-items-center mb-3">
@@ -153,12 +161,15 @@
     <div class="buttons">
         <div class="upload-button">
             <div class="label">商品圖片</div>
-            <input id="productPhoto" type="file" size="1" multiple onchange="previewImages(event);"/>
+            <input id="productPhoto" type="file" size="1" multiple onchange="previewImages(event);" />
         </div>
     </div>
+    <div>
+        <button id="btnDemo" type="button" class="btn btn-secondary" onclick="createDemo()">Demo</button>
+    </div>
     <div id="previewImages" class="d-flex justify-content-start align-items-center"></div>
-
     <div class="text-center">
         <button id="btnOK" type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">確定</button>
     </div>
+
 </form>

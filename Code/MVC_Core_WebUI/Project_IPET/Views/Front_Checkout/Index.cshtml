@@ -90,7 +90,7 @@
                             <div class="col-md-6">
                                 <div class="checkout-form-list">
                                     <label>姓名 :</label>
-                                    <input placeholder="請輸入姓名" type="text" name="OrderName">
+                                    <input placeholder="請輸入姓名" type="text" name="OrderName" id="OrderName">
                                 </div>
                             </div>
                             <!-- Name Input End -->
@@ -98,7 +98,7 @@
                             <div class="col-md-6">
                                 <div class="checkout-form-list">
                                     <label>電話 :</label>
-                                    <input placeholder="請輸入電話" type="text" name="OrderPhone">
+                                    <input placeholder="請輸入電話" type="text" name="OrderPhone" id="OrderPhone">
                                 </div>
                             </div>
                             <!-- Phone Number Input End -->
@@ -121,6 +121,9 @@
                                 <label class="form-check-label">
                                     信用卡付款
                                 </label>
+                            </div>
+                            <div class="order-button-payment">
+                                <button class="btn btn-primary btn-hover-dark rounded-0 w-10" id="paydemo">Demo</button>
                             </div>
                         </div>
                     </div>
@@ -219,6 +222,23 @@
                     $('#inputAddress').val(data);
                 }
             });
+
+            $("#paydemo").on("click", function (e) {
+                e.preventDefault();
+                if ($('#selectTransaction').val() == '1') {
+                    $("#OrderName").val("Peter");
+                    $("#OrderPhone").val("0910288715");
+                    $("#inputAddress").val("台北市大安區復興南路一段390號2樓");
+                }
+                else if ($('#selectTransaction').val() == '2') {
+                    $("#OrderName").val("Peter");
+                    $("#OrderPhone").val("0910288715");
+                    $("#inputAddress").val("");
+                }
+                else {
+                    return;
+                }
+            })
 
             $('#paymentbtn').on('click', function () {
                     $('#contactForm').submit(function () {

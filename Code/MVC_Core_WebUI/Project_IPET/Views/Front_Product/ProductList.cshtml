@@ -105,7 +105,7 @@
                                     }
                                 }
                             </div>
-                            <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
+                            <a asp-controller="Front_Myaccount" asp-action="GetProductToWishtList" asp-route-id="@product.ProductID" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
                             <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quickview"><i class="ti-plus"></i></a>
                         </div>
                     </div>

@@ -323,19 +323,19 @@
                                                 @* <span class="badges">
                                                     <span class="sale">-18%</span>
                                                     </span>*@
-                                                <div class="action-wrapper">
-                                                    @*a改成button*@
-                                                    <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>
-                                                    <a href="wishlist.html" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
-                                                    @if (product.UnitsInStock <= 0)
-                                                    {
-                                                        @*<a  class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>*@
-                                                    }
-                                                    else
-                                                    {
-                                                        <a onclick="AddToCart('@product.ProductID','@product.ProductName')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
-                                                    }
-                                                </div>
+                                            <div class="action-wrapper">
+                                                @*a改成button*@
+                                                <a href="#/" class="action quickview" data-bs-toggle="modal" data-bs-target="#quick-view"><i class="ti-plus"></i></a>
+                                                <a asp-controller="Front_Myaccount" asp-action="GetProductToWishtList" asp-route-id="@product.ProductID" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
+                                                @if (product.UnitsInStock <= 0)
+                                                {
+                                                    @*<a  class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>*@
+                                                }
+                                                else
+                                                {
+                                                    <a onclick="AddToCart('@product.ProductID','@product.ProductName')" href="javascript:void(0);" class="action cart" title="Cart"><i class="ti-shopping-cart"></i></a>
+                                                }
+                                            </div>
                                                 @*
                                                     <div class="countdown-area">
                                                     <div class="countdown-wrapper" data-countdown="2028/12/28"></div>
@@ -489,7 +489,7 @@
                                 <div class="add-to_cart">
                                     <a class="btn btn-primary btn-hover-dark rounded-0" href="cart.html">Add to cart</a>
                                 </div>
-                                <a href="wishlist.html" title="Wishlist" class="action"><i class="ti-heart"></i></a>
+                                <a asp-controller="Front_Myaccount" asp-action="GetProductToWishtList" asp-route-id="@Model.ProductID" class="action wishlist" title="Wishlist"><i class="ti-heart"></i></a>
                             </div>
                         </div>
                         <!-- Cart Button End -->

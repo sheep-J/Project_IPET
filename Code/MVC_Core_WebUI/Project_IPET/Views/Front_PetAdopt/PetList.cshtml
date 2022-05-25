@@ -36,7 +36,7 @@
                             </li>
                         </ul>
                         <hr class="style-one" />
-                        <p style="font-weight:bold;">@pet.PetDescription.Substring(0, 14)...</p>
+                        <p style="font-weight:bold;">@pet.PetDescription.Substring(0, pet.PetDescription.Length < 40 ? pet.PetDescription.Length : 40) ...</p>
                         <footer class="profile-card_footer">
                             <div class="social-row">
 

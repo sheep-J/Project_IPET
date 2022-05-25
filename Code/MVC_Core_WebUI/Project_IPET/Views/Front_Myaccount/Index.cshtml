@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+
 <!-- Breadcrumb Area Start -->
 <div class="section breadcrumb-area bg-name-bright">
     <div class="container">
@@ -38,7 +39,7 @@
                                 <a href="#orders" data-bs-toggle="tab" id="orderbtn"><i class="fa fa-cart-arrow-down"></i> 訂單資訊</a>
                                 <a href="#donate" data-bs-toggle="tab" id="donatebtn"><i class="fa fa-handshake-o"></i> 我的捐贈明細</a>
                                 @*<a href="#adopt" data-bs-toggle="tab"><i class="fa fa-paw"></i> 我的認養明細</a>*@
-                                <a href="#wishlist" data-bs-toggle="tab"><i class="fa fa-list-alt"></i> 我的願望清單</a>
+                                <a href="#wishlist" data-bs-toggle="tab"><i class="fa fa-list-alt"></i> 我的願望清單 (@ViewBag.wishlistcount)</a>
                                 @*<a href="#coupon" data-bs-toggle="tab"><i class="fa fa-usd"></i> 我的優惠券</a>*@
                                 <a href="#Comment" onclick="mycomment()" data-bs-toggle="tab"><i class="fa fa-thumbs-o-up"></i> 我的評價 (@ViewBag.commentcount)</a>
                                 @*<a href="#reward" data-bs-toggle="tab"><i class="fa fa-product-hunt"></i> 我的積分</a>*@
@@ -60,13 +61,12 @@
                                     <div class="myaccount-content">
                                         <h3 class="title">初次使用</h3>
                                         <div class="welcome">
-                                            <p>Hello, <strong>there!</strong></p>
+                                            <p>Hello, <strong>@Context.Session.GetString("SK_LOGINED_NAME")</strong>  !</p>
                                         </div>
                                         <p class="mb-0"></p>
                                     </div>
                                 </div>
                                 <!-- Single Tab Content End -->
-
                                 <!-- ================================================================================== -->
                                 <!-- orders -->
                                 <!-- ================================================================================== -->
@@ -133,7 +133,6 @@
                                     </div>
                                 </div>
                                 <!-- Single Tab Content End -->
-
                                 <!-- ================================================================================== -->
                                 <!-- donate -->
                                 <!-- ================================================================================== -->
@@ -206,7 +205,6 @@
                                     </div>
                                 </div>
                                 <!-- Single Tab Content End -->
-
                                 <!-- ================================================================================== -->
                                 <!-- wishlist -->
                                 <!-- ================================================================================== -->
@@ -222,7 +220,6 @@
                                     </div>
                                 </div>
                                 <!-- Single Tab Content End -->
-
                                 <!-- ================================================================================== -->
                                 <!-- coupon -->
                                 <!-- ================================================================================== -->
@@ -266,7 +263,6 @@
                                     </div>
                                 </div>
                                 <!-- Single Tab Content End -->
-
                                 <!-- ================================================================================== -->
                                 <!-- Comment -->
                                 <!-- ================================================================================== -->
@@ -280,7 +276,6 @@
                                     <!-- MyComment End -->
                                 </div>
                                 <!-- Single Tab Content End -->
-
                                 <!-- ================================================================================== -->
                                 <!-- account-info -->
                                 <!-- ================================================================================== -->

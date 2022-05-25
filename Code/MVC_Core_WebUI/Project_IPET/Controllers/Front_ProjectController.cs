@@ -50,6 +50,7 @@ namespace Project_IPET.Controllers
                 fDescription = n.Description,
                 fPrjImage = n.PrjImage,
                 fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString(),
+                fLastDate = (DateTime)n.Endtime,
                 fDeadlineall = ((DateTime)n.Endtime).AddDays(1).ToString()
             }).OrderBy(n=>n.fDeadlineall).ToList();
             return Json(list);
@@ -64,8 +65,9 @@ namespace Project_IPET.Controllers
                 fDescription = n.Description,
                 fPrjImage = n.PrjImage,
                 fDeadline = ((TimeSpan)(n.Endtime - DateTime.Now.Date)).Days.ToString(),
+                fLastDate = (DateTime)n.Endtime,
                 fDeadlineall = ""
-            }).ToList();
+            }).OrderByDescending(n => n.fLastDate).ToList();
             return Json(list);
         }
 
@@ -90,14 +92,17 @@ namespace Project_IPET.Controllers
 
         public IActionResult readCount(int Id)
         {
-            int count = 0;
+            List<int> count = new List<int>();
             var prodlist = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n=>n.ProductId).ToList();
             foreach(var prod in prodlist)
             {
-                var countorder = _context.DonationDetails.Where(n => n.ProductId == prod).ToList().Count();
-                count += countorder;
+                //var countorder = _context.DonationDetails.Where(n => n.ProductId == prod).Select().ToList().Count();
+                //count += countorder;
+                var countwho = _context.DonationDetails.Where(n => n.ProductId == prod).Select(n => n.Order.MemberId).ToList();
+                count.AddRange(countwho);
             }
-            return Json(count);
+            count = count.Distinct().ToList();
+            return Json(count.Count);
         }
 
         public IActionResult readList(int Id)

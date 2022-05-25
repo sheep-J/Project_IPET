@@ -10,7 +10,6 @@ namespace Project_IPET.Models.EF
         public Product()
         {
             Comments = new HashSet<Comment>();
-            Coupons = new HashSet<Coupon>();
             DonationDetails = new HashSet<DonationDetail>();
             MyFavorites = new HashSet<MyFavorite>();
             OrderDetails = new HashSet<OrderDetail>();
@@ -32,7 +31,6 @@ namespace Project_IPET.Models.EF
         public virtual Brand Brand { get; set; }
         public virtual SubCategory SubCategory { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Coupon> Coupons { get; set; }
         public virtual ICollection<DonationDetail> DonationDetails { get; set; }
         public virtual ICollection<MyFavorite> MyFavorites { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

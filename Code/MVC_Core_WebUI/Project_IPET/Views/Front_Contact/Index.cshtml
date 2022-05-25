@@ -9,6 +9,15 @@
                 title: '訊息已傳送, 請待客服人員回覆',
             })
         }
+
+        $("#demobtn").on("click", function (e) {
+            e.preventDefault();
+            $("#ContactName").val("Peter");
+            $("#ContactMail").val("ipetdemo2022@gmail.com");
+            $("#ContactSubject").val("想與您們合作");
+            $("#ContactMessage").val("您好，我是Peter，目前我在流浪動物之家基金會擔任志工，會定期取得需被認養寵物資訊。近期確認有新一批的收養寵物需被認養，請問方便將此部分資訊提供並發佈到您們的網站上嗎 ?");
+        });
+
     </script>
 }
 
@@ -52,30 +61,31 @@
 
                                     <div class="col-md-6">
                                         <div class="input-area m-b-20">
-                                            <input class="input-item" type="text" placeholder="姓名" name="ContactName">
+                                            <input class="input-item" type="text" placeholder="姓名" name="ContactName" id="ContactName">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="input-area m-b-20">
-                                            <input class="input-item" type="email" placeholder="電子郵件" name="ContactMail">
+                                            <input class="input-item" type="email" placeholder="電子郵件" name="ContactMail" id="ContactMail">
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div class="input-area m-b-20">
-                                            <input class="input-item" type="text" placeholder="標題" name="ContactSubject">
+                                            <input class="input-item" type="text" placeholder="標題" name="ContactSubject" id="ContactSubject">
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div class="input-area m-b-40">
-                                            <textarea cols="30" rows="5" class="textarea-item" name="ContactMessage" placeholder="訊息"></textarea>
+                                            <textarea cols="30" rows="5" class="textarea-item" name="ContactMessage" placeholder="訊息" id="ContactMessage"></textarea>
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <button type="submit" id="submit" name="submit" class="btn btn-primary btn-hover-dark">傳 送 訊 息</button>
+                                        <button id="demobtn" class="btn btn-primary btn-hover-dark">Demo</button>
                                     </div>
                                     <p class="col-8 form-message mb-0"></p>
 

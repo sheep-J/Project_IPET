@@ -9,9 +9,7 @@ namespace Project_IPET.Models.EF
     {
         public Member()
         {
-            CouponDetails = new HashSet<CouponDetail>();
             MyFavorites = new HashSet<MyFavorite>();
-            Notifies = new HashSet<Notify>();
             Orders = new HashSet<Order>();
             PostLikeds = new HashSet<PostLiked>();
             Posts = new HashSet<Post>();
@@ -33,9 +31,7 @@ namespace Project_IPET.Models.EF
         public bool Banned { get; set; }
 
         public virtual Region Region { get; set; }
-        public virtual ICollection<CouponDetail> CouponDetails { get; set; }
         public virtual ICollection<MyFavorite> MyFavorites { get; set; }
-        public virtual ICollection<Notify> Notifies { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<PostLiked> PostLikeds { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

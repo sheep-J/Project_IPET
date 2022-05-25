@@ -183,28 +183,29 @@
             var mailAddress = "";
             var subject = "";
             var message = "";
+            var id = "";
 
             $(document).ready(function () {
                 $("#FeedBackBody").on('click', 'button:nth-child(1)', async function () {
+                    id = $(this).parents('tr').find('td:nth-child(1)').text().trim();
                     mailAddress = $(this).parents('tr').find('td:nth-child(3)').text().trim();
                     subject = $(this).parents('tr').find('td:nth-child(4)').text().trim();
-                    message = $(this).parents('tr').find('td:nth-child(5)').text().trim();
                 })
             });
 
             $('#SendBtn').click(function () {
                 var replymsg = $("#InputMessage").val();
-                SendEmail(mailAddress, subject, message, replymsg)
+                SendEmail(id, mailAddress, subject, replymsg)
             });
 
-            function SendEmail(mailaddress, subject, message, replymessage) {
+            function SendEmail(id, mailaddress, subject, replymessage) {
                 $.ajax({
                     method: "POST",
                     url: "/Back_FeedBack/SendEmail",
                     data: {
+                        id: id,
                         mailaddress: mailaddress,
                         subject: subject,
-                        message: message,
                         replymessage: replymessage,
                     },
                     success: function (result) {
@@ -215,11 +216,11 @@
 
             $("#DemoBtn").on("click", function (e) {
                 e.preventDefault();
-                $("#InputMessage").val("");
+                $("#InputMessage").val("Peter您好，我方客服人員會協助您發佈相關寵物資訊，再請您提供相關資訊給我們。");
             });
 
             $("#FeedBackBody").on('click', 'button:nth-child(1)', async function () {
-            const FeedBackId = $(this).parents('tr').find('td:nth-child(1)').text();
+                const FeedBackId = $(this).parents('tr').find('td:nth-child(1)').text();
                 const Contactresponse = await fetch("@Url.Content("~/Back_Feedback/ContactDetail?Id=")" + FeedBackId);
                 renderContact(await Contactresponse.json());
             })

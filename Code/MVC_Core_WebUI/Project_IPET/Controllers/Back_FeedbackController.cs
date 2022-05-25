@@ -26,9 +26,9 @@ namespace Project_IPET.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendEmail(string mailaddress, string subject, string message, string replymessage)
+        public async Task<IActionResult> SendEmail(int id, string mailaddress, string subject, string replymessage)
         {
-            var contact = _context.CustomerContacts.Single(c => c.ContactMail == mailaddress && c.ContactSubject == subject && c.ContactMessage == message);
+            var contact = _context.CustomerContacts.Single(c => c.ContactId==id && c.ContactMail == mailaddress && c.ContactSubject == subject);
             await _emailSender.SendEmailAsync(mailaddress, $"IPET 客服訊息回覆: ( { subject } )", $"{ replymessage }");
             contact.ReplyStatus = true;
             contact.ReplyMessage = replymessage;

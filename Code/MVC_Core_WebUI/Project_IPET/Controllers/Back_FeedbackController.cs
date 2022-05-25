@@ -36,5 +36,17 @@ namespace Project_IPET.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        public IActionResult ContactDetail(int Id)
+        {
+            var Contact = _context.CustomerContacts.Where(n => n.ContactId == Id).Select(p => new
+            {
+                detailcontactname = p.ContactName,
+                detailcontactmessage = p.ContactMessage,
+            });
+            return Json(Contact);
+        }
+
     }
 }

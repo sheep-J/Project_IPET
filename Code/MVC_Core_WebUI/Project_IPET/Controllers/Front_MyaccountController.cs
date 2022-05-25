@@ -35,6 +35,7 @@ namespace Project_IPET.Controllers
             if (!string.IsNullOrEmpty(json))
             {
                 ViewBag.commentcount = GetComment().Count;
+                ViewBag.wishlistcount = GetWishList().Count();
                 return View();
             }
             return RedirectToAction("Index", "Empty_Signin");
@@ -274,6 +275,7 @@ namespace Project_IPET.Controllers
 
             return PartialView(datas);
         }
+
         [HttpPost]
         public IActionResult MyContentEdit(CFrontMembersViewModel vModel)
         {
@@ -316,46 +318,68 @@ namespace Project_IPET.Controllers
         public IActionResult MyWishListView()
         {
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-            int memberId = (new CMembersFactory(_context)).getMemberId(json);
 
-            IEnumerable<CFrontWishListViewModel> datas = null;
+            if (!string.IsNullOrEmpty(json))
+            {
+                var datas = GetWishList();
+                return PartialView(datas);
+            }
+            else
+            {
+                string html = "";
+                return PartialView(html);
+            }
 
-            #region WIP 導覽
-            //datas = from f in _context.MyFavorites
-            //        select new CFrontWishListViewModel()
-            //        {
-            //            ProductName = f.Product.ProductName,
-            //            ProductPrice = f.Product.UnitPrice,
-            //            Quantity = f.Product.UnitsInStock,
-            //            //Ranking = decimal.Round((decimal)f.Product.Comments.Average(c => c.Rating), 1),
-            //            FavoriteId = f.FavoriteId,
-            //            ProductId = f.ProductId,
-            //        };
-            #endregion
-
-            datas = from f in _context.MyFavorites
-                            join p in _context.Products
-                            on f.ProductId equals p.ProductId
-                            join c in _context.Comments
-                            on p.ProductId equals c.ProductId into js
-                            from c1 in js.DefaultIfEmpty()
-                            select new CFrontWishListViewModel()
-                            {
-                                ProductName = f.Product.ProductName,
-                                ProductPrice = f.Product.UnitPrice,
-                                Quantity = f.Product.UnitsInStock,
-                                //Ranking = decimal.Round((decimal)c1.Rating,1),
-                                FavoriteId = f.FavoriteId,
-                                ProductId = f.ProductId,
-                                CommentId = c1 == null ? "Null" : c1.CommentId.ToString()
-                            };
-
-            //ViewBag.Rating = from x in datas
-            //                 group x by x.ProductId into g
-            //                 select new { Ranking = g.Average(c => c.Ranking) };
-
-            return PartialView(datas);
         }
+
+        public IEnumerable<CFrontWishListViewModel> GetWishList()
+        {
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                int memberId = (new CMembersFactory(_context)).getMemberId(json);
+                IEnumerable<CFrontWishListViewModel> datas = null;
+
+                #region WIP 導覽
+                //datas = from f in _context.MyFavorites
+                //        select new CFrontWishListViewModel()
+                //        {
+                //            ProductName = f.Product.ProductName,
+                //            ProductPrice = f.Product.UnitPrice,
+                //            Quantity = f.Product.UnitsInStock,
+                //            //Ranking = decimal.Round((decimal)f.Product.Comments.Average(c => c.Rating), 1),
+                //            FavoriteId = f.FavoriteId,
+                //            ProductId = f.ProductId,
+                //        };
+                #endregion
+
+                datas = from f in _context.MyFavorites
+                        join p in _context.Products
+                        on f.ProductId equals p.ProductId
+                        join c in _context.Comments
+                        on p.ProductId equals c.ProductId into js
+                        from c1 in js.DefaultIfEmpty()
+                        select new CFrontWishListViewModel()
+                        {
+                            ProductName = f.Product.ProductName,
+                            ProductPrice = f.Product.UnitPrice,
+                            Quantity = f.Product.UnitsInStock,
+                            //Ranking = decimal.Round((decimal)c1.Rating,1),
+                            FavoriteId = f.FavoriteId,
+                            ProductId = f.ProductId,
+                            CommentId = c1 == null ? "Null" : c1.CommentId.ToString()
+                        };
+
+                //ViewBag.Rating = from x in datas
+                //                 group x by x.ProductId into g
+                //                 select new { Ranking = g.Average(c => c.Ranking) };
+                return datas;
+            }
+            else
+                return null;
+        }
+
 
         [HttpPost]
         public IActionResult MyWishListDelete(int? id)

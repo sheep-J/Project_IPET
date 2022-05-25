@@ -124,14 +124,11 @@
                                 <div class="header-action-btn header-action-btn-cart d-none d-sm-flex" id="CartMenu">
                                     @await Html.PartialAsync("_CartPartial")
                                 </div>
-                                @if (Context.Session.GetString("SK_LOGINED_USER") == null)
-                                {
-
-                                }
+                                @if (Context.Session.GetString("SK_LOGINED_USER") == null) { }
                                 else
                                 {
                                     <div id="loginmember" class="d-sm-flex align-items-center d-none">
-                                        您好！ @Context.Session.GetString("SK_LOGINED_NAME")
+                                        您好，<strong style="color:rgb(246,171,79)">@Context.Session.GetString("SK_LOGINED_NAME")</strong>
                                     </div>
                                 }
 
@@ -322,16 +319,8 @@
                         })
                 }
             })
-    }
+        }
 
-
-        (function getLoginUser() {
-            var json = sessionStorage.getItem("SK_LOGINED_USER");
-            console.log(json);
-            $.getJSON(json, function (data) {
-                $("#loginmember").text(data);
-            })
-        })();
     </script>
 </body>
 </html>

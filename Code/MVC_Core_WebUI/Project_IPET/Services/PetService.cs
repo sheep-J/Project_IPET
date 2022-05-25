@@ -175,9 +175,86 @@ namespace Project_IPET.Services
             }
         }
 
-        public void EditPet(PetModel pet)
+        public void EditPet(PetModel petModel)
         {
+            PetModel result = new PetModel();
+            try
+            {
 
+                string sql = @"UPDATE Pets 
+                                            SET PetName=@PetName, PetVariety=@PetVariety, PetCategory=@PetCategory, PetGender=@PetGender, PetSize=@PetSize, 
+                                                    PetColor=@PetColor, PetAge=@PetAge, PetFix=@PetFix, PetCityID=@PetCityID, PetRegionID=@PetRegionID, PublishedDate=@PublishedDate,
+                                                    PetDescription=@PetDescription, PetContact=@PetContact, PetContactPhone=@PetContactPhone
+                                            WHERE PetID=@PetID";
+
+                string deleteImageSql = @"DELETE FROM PetImagePath
+                                                                    WHERE PetID=@PetID";
+
+                string imageSql = @"INSERT INTO [dbo].[PetImagePath] ([PetID],[PetImage],[IsMainImage])
+                                                        VALUES (@PetID,@PetImage,@IsMainImage)";
+
+                var param = new
+                {
+                    PetID = petModel.PetID,
+                    PetName = petModel.PetName,
+                    PetVariety = petModel.PetVariety,
+                    PetCategory = petModel.PetCategory,
+                    PetGender = petModel.PetGender,
+                    PetSize = petModel.PetSize,
+                    PetColor = petModel.PetColor,
+                    PetAge = petModel.PetAge,
+                    PetFix = petModel.PetFix,
+                    PetCityID = petModel.PetCityID,
+                    PetRegionID = petModel.PetRegionID,
+                    PublishedDate = petModel.PublishedDate,
+                    PetDescription = petModel.PetDescription,
+                    PetContact = petModel.PetContact,
+                    PetContactPhone = petModel.PetContactPhone
+                };
+
+                _dbConnection.Execute(sql, param);
+                _dbConnection.Execute(deleteImageSql, param);
+
+                for (int i = 0; i < petModel.PetImages.Count; i++)
+                {
+                    var paramImg = new
+                    {
+                        PetID = petModel.PetID,
+                        PetImage = petModel.PetImages[i],
+                        IsMainImage = i == 0
+                    };
+                    _dbConnection.Execute(imageSql, paramImg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
+
+        public void DeletePet(int id)
+        {
+            PetModel result = new PetModel();
+            try
+            {
+                string sql = @"DELETE FROM Pets 
+                                            WHERE PetID=@PetID;
+                                            DELETE FROM PetImagePath
+                                            WHERE PetID=@PetID";
+                //匿名類型
+                var param = new
+                {
+                    PetID = id
+                };
+
+                _dbConnection.Execute(sql, param);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
     }
 }

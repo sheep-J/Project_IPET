@@ -15,5 +15,7 @@ namespace Project_IPET.Services
 
         void CreatePet(PetModel petModel);
         void EditPet(PetModel pet);
+
+        void DeletePet(int id);
     }
 }

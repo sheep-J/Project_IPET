@@ -36,6 +36,32 @@
             getCityList(1);
         }
 
+        function deletePet(id) {
+            var yes = confirm('確定要刪除此認養資訊嗎？');
+
+            if (yes) {
+                $.ajax({
+                    method: "POST",
+                    url: "/Back_PetAdopt/DeletePet",
+                    data: {
+                        id: id,
+                    },
+                    success: function (result) {
+                        if (result) {
+                            alert("刪除成功");
+                            window.location.href = "/Back_PetAdopt/Index";
+                        }
+                        else {
+                            alert("刪除失敗");
+                        }
+                    }
+                });
+            }
+            else {
+                alert('已取消');
+            }
+        }
+
     </script>
 }
 

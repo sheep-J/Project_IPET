@@ -21,7 +21,7 @@
                     <th class="text-secondary opacity-7"></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="PetBody">
                 @foreach (var pet in Model.PetList)
                 {
                     <tr>
@@ -61,15 +61,15 @@
                         <td>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-tumblr mr-3">
+                            <a class="btn btn-tumblr mr-3" id="target">
                                 <i class="fa-solid fa-paw"></i>
-                            </button>
-                            <button type="button" class="btn btn-tumblr mr-3">
+                            </a>
+                            <a type="button" class="btn btn-tumblr mr-3" asp-controller="Back_PetAdopt" asp-action="EditPet" asp-route-id="@pet.PetID">
                                 <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button type="button" class="btn btn-pinterest mr-3">
+                            </a>
+                            <a class="btn btn-pinterest mr-3"  onclick="deletePet(@pet.PetID)">
                                 <i class="far fa-trash-alt"></i>
-                            </button>
+                            </a>
                         </td>
                     </tr>
                 }

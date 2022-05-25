@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project_IPET.Models;
+using Project_IPET.Models.EF;
 using Project_IPET.Services;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,26 @@ namespace Project_IPET.Controllers
     public class Back_PetAdoptController : Controller
     {
         private IPetService _petService;
+        private readonly MyProjectContext _context;
 
-        public Back_PetAdoptController(IPetService petService)
+        public Back_PetAdoptController(IPetService petService, MyProjectContext context)
         {
             _petService = petService;
+            _context = context;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult PetDetail(int Id)
+        {
+            var Pet = _context.Pets.Where(p => p.PetId == Id).Select(p => new
+            {
+                detaildescription = p.PetDescription
+            });
+            return Json(Pet);
         }
 
         [HttpPost]
@@ -88,6 +100,21 @@ namespace Project_IPET.Controllers
 
                 //傳進資料庫
                 _petService.EditPet(pet);
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public bool DeletePet(int id)
+        {
+            bool result = true;
+            try
+            {
+                _petService.DeletePet(id);
             }
             catch (Exception ex)
             {

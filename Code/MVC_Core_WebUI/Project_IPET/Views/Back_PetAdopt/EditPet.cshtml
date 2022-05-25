@@ -1,26 +1,21 @@
-﻿
+﻿@model PetModel
 @{
-    ViewData["Title"] = "新增認養資訊資料";
+    ViewData["Title"] = "修改認養資訊";
 }
 
-@section Styles{
-    <style>
-        .preview-img {
-            width: 100px;
-            margin: 3px;
-        }
-    </style>
-}
 @section Scripts{
     <script>
         $(document).ready(function () {
-            $("#btnOK").click(createPet);
+            $("#btnOK").click(editPet);
             getCities();
             $("#ddlCities").change(showRegions);
         });
+              var cityId = @Model.PetCityID;
+              var regionId=@Model.PetRegionID;
 
-        function createPet() {
+        function editPet() {
             const formData = new FormData()
+            formData.append('petId',@Model.PetID);
             formData.append('petName', $("#txtPetName").val());
             formData.append('petCityId', $('#ddlCities').val());
             formData.append('petRegionId', $("#ddlRegion").val());
@@ -45,17 +40,17 @@
 
             $.ajax({
                 method: "POST",
-                url: "/Back_PetAdopt/CreatePet",
+                url: "/Back_PetAdopt/EditPet",
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function (result) {
                     if (result) {
-                        alert("新增成功");
+                        alert("修改成功");
                         window.location.href = "/Back_PetAdopt/Index";
                     }
                     else {
-                        alert("新增失敗");
+                        alert("修改失敗");
                     }
                 }
             });
@@ -69,6 +64,7 @@
                     cities = result;
                     showCities();
                     showRegions();
+                    //console.log(cities);
                 }
             });
         }
@@ -77,6 +73,7 @@
                 var opt = $("<option></option>").text(city.cityName).val(city.cityID);
                 $("#ddlCities").append(opt);
             });
+            $("#ddlCities").val(cityId);
         }
         function showRegions() {
             var selectedCityId = $("#ddlCities").val();
@@ -86,14 +83,15 @@
                 var opt = $("<option></option>").text(region.regionName).val(region.regionId);
                 $("#ddlRegion").append(opt);
             });
+            $("#ddlRegion").val(regionId);
         }
     </script>
 }
 
 <form role="form" class="text-start">
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">寵物名稱</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetName">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetName" value="@Model.PetName">
     </div>
     <div class="input-group input-group-static mb-4">
         <label for="ddlCities" class="ms-0">縣市</label>
@@ -105,49 +103,49 @@
         <select id="ddlRegion" class="form-control" aria-label="Default select example">
         </select>
     </div>
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">品種</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetVariety">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetVariety" value="@Model.PetVariety">
     </div>
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">種類</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetCategory">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetCategory" value="@Model.PetCategory">
     </div>
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">性別</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetGender">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetGender" value="@Model.PetGender">
     </div>
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">體型</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetSize">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetSize" value="@Model.PetSize">
     </div>
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">毛色</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetColor">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetColor" value="@Model.PetColor">
     </div>
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">年紀</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetAge">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetAge" value="@Model.PetAge">
     </div>
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">是否結紮</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetFix">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetFix" value="@Model.PetFix">
     </div>
     <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">發佈日期</label>
-        <input type="text" class="form-control" disabled="disabled" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPublishedDate" value="@DateTime.Now.ToString("yyyyMMdd")">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPublishedDate" value="@DateTime.Now.ToString("yyyyMMdd")">
     </div>
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">資訊</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetDescription">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetDescription" value="@Model.PetDescription">
     </div>
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">聯絡人名稱</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetContact">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetContact" value="@Model.PetContact">
     </div>
-    <div class="input-group input-group-static my-3">
+    <div class="input-group input-group-static my-3 is-focused">
         <label class="form-label">聯絡人電話</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetContactPhone">
+        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetContactPhone" value="@Model.PetContactPhone">
     </div>
 
 
@@ -163,4 +161,3 @@
         <button id="btnOK" type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">確定</button>
     </div>
 </form>
-

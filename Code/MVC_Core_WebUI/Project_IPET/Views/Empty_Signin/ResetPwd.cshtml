@@ -58,6 +58,10 @@
 </div>
 <!-- Register Section End -->
 
+<div class="mt-0">
+    <input type="button" class="btn btn btn-gray-deep btn-hover-primary" onclick="demo()" name="demo" value="Demo" />
+</div>
+
 @section Scripts{
 
     <script>
@@ -101,6 +105,14 @@
 
                     }
                 })
+        }
+
+        function demo() {
+            $('input[name="NewPwd"]').val("tEST01");
+            $('input[name="ConfirmPwd"]').val("tEST01");
+
+            newpwd.on("onblur", chkPassword());
+            confirmpwd.on("onblur", chkPassword());
         }
 
     </script>

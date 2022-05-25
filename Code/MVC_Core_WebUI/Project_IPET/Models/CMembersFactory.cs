@@ -81,6 +81,8 @@ namespace prjTest.Models
                 Address = m.Region.City.CityName + m.Region.RegionName + " " + m.Address,
                 RegisteredDate = m.RegisteredDate.ToString("yyyy/MM/dd"),
                 Avatar = m.Avatar,
+                Banned=m.Banned,
+                MemberId = m.MemberId,
             });
             //=================== begin filter ===================
 
@@ -108,6 +110,11 @@ namespace prjTest.Models
                     .Where(m => m.Gender == "Female");
                 if (vModel.Male)
                     vModel.Male = false;
+            }
+
+            if (vModel.Banned == true) {
+                datas = datas
+                    .Where(m => m.Banned == true);
             }
 
             return datas.Distinct().ToList();

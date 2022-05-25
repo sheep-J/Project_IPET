@@ -38,17 +38,21 @@
                 </ul>
             </div>
         </div>
-        <div class="col-lg-3 mt-2 d-flex align-items-center justify-content-start">
+        <div class="col-lg-5 mt-2 d-flex align-items-center justify-content-start">
             <div class="form-check form-switch" style="padding-right:20px">
                 <input class="form-check-input" onclick="filter()" type="checkbox" role="switch" value="true" id="Male" name="Male">
                 <label class="form-check-label" for="Male">男</label>
             </div>
-            <div class="form-check form-switch">
+            <div class="form-check form-switch" style="padding-right:20px">
                 <input class="form-check-input" onclick="filter()" type="checkbox" role="switch" value="true" id="Female" name="Female">
                 <label class="form-check-label" for="Female">女</label>
             </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" onclick="filter()" type="checkbox" role="switch" value="true" id="Banned" name="Banned">
+                <label class="form-check-label" for="Banned">屏蔽</label>
+            </div>
         </div>
-        <div class="col-lg-3"></div>
+        <div class="col-lg-1"></div>
         <div class="col-lg-2 d-flex ">
             <div class="d-flex align-items-center justify-content-end">
                 <div class="input-group input-group-outline">
@@ -132,7 +136,7 @@
                                             <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.RegisteredDate)</span>
                                         </td>
                                         <td class="d-flex align-items-center text-center col-1 middle">
-                                            <a class="fa fa-ban"></a>
+                                            <a class="fa fa-ban" onclick="banned('@item.Banned','@item.MemberId')"></a>
                                         </td>
                                     </tr>
                                 } }
@@ -185,8 +189,7 @@
 
         function filter() {
             if ($("#Male").prop("checked")) {
-                $("#Male").value
-                    = true;
+                $("#Male").value = true;
             }
             else {
                 $("#Male").value = false;
@@ -197,19 +200,22 @@
             else {
                 $("#Female").value = false;
             }
-
-        }
-
-
-        function test() {
-            if (male.prop("checked")) {
-                console.log("true");
+            if ($("#Banned").prop("checked")) {
+                $("#Banned").value = true;
             }
             else {
-                console.log("false");
+                $("#Banned").value = false;
             }
-            
         }
+
+        async function banned(banned, id) {
+            await $.ajax({
+                url: '@Url.Content("~/Back_Members/Banned")',
+                method: "post",
+                data: { Banned: banned, ID: id }
+            });
+        }
+
 
         show(1);
         function show(page) {

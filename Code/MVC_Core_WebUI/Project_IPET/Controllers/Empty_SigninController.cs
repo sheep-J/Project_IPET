@@ -36,15 +36,19 @@ namespace Project_IPET.Controllers
         {
             Member customer = _context.Members.FirstOrDefault(m => m.UserId == vModel.txtAccount);
             string name = customer.Name;
+            bool banned = customer.Banned;
 
-            if (customer != null && customer.Password.Equals(vModel.txtPassword))
-            {
-                string json = JsonSerializer.Serialize(customer);
-                HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
-                HttpContext.Session.SetString(CDictionary.SK_LOGINED_NAME, name);
-                return Content("true");
+            if (!banned) {
+                if (customer != null && customer.Password.Equals(vModel.txtPassword))
+                {
+                    string json = JsonSerializer.Serialize(customer);
+                    HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
+                    HttpContext.Session.SetString(CDictionary.SK_LOGINED_NAME, name);
+                    return Content("true");
+                }
+                return Content("false");
             }
-            return Content("false");
+            return Content("null");
         }
 
         [HttpPost]
@@ -79,12 +83,15 @@ namespace Project_IPET.Controllers
         [HttpPost]
         public async Task mailtoGetCode(CFrontMembersViewModel vModel)
         {
-            var datas = _context.Members.FirstOrDefault(m => m.Email == vModel.Email).Email;
+            var datas = _context.Members.FirstOrDefault(m => m.Email == vModel.Email);
+            var email = datas.Email;
+            var id = datas.MemberId;
             string json = GetCode(8);
             HttpContext.Session.SetString(CDictionary.SK_VERIFLCATION_CODE, json);
+            HttpContext.Session.SetInt32(CDictionary.SK_VERIFLCATION_ID, id);
 
             await _emailSender.SendEmailAsync(
-                datas,
+                email,
                 "重設密碼認證信件( IPET )",
                 $"<h2>認證代碼為 : <b>{json}</b></h2>");
         }
@@ -123,7 +130,9 @@ namespace Project_IPET.Controllers
         [HttpPost]
         public IActionResult ResetPwd(CEmptySignupViewModel vModel)
         {
-            var member = _context.Members.FirstOrDefault(m => m.MemberId == 1);
+            var memberId = HttpContext.Session.GetInt32(CDictionary.SK_VERIFLCATION_ID);
+            var member = _context.Members.FirstOrDefault(m => m.MemberId == memberId);
+
             if (member != null)
                 member.Password = vModel.NewPwd;
 

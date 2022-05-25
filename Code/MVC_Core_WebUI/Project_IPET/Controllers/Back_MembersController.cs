@@ -30,5 +30,26 @@ namespace Project_IPET.Controllers
             var datas = new CMembersFactory(_context).memberFilter(filter).ToList();
             return View(datas);
         }
+
+        [HttpPost]
+        public IActionResult Banned(bool Banned, int ID) {
+            var member = _context.Members.FirstOrDefault(m => m.MemberId == ID);
+            if (member != null)
+            {
+                if (Banned)
+                {
+                    member.Banned = false;
+                    _context.SaveChanges();
+                    return RedirectToAction("Index", "Back_Members");
+                }
+                else
+                {
+                    member.Banned = true;
+                    _context.SaveChanges();
+                    return RedirectToAction("Index", "Back_Members");
+                }
+            }
+            return RedirectToAction("Index", "Back_Members");
+        }
     }
 }

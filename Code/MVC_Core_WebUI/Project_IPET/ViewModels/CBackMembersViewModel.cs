@@ -19,5 +19,6 @@ namespace Project_IPET.ViewModels
         public string RegisteredDate { get; set; }
         public string Avatar { get; set; }
         public bool Banned { get; set; }
+        public int MemberId { get; set; }
     }
 }

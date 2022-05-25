@@ -220,6 +220,10 @@
 </div>
 <!-- Register Section End -->
 
+<div class="mt-0">
+    <input type="button" class="btn btn btn-gray-deep btn-hover-primary" onclick="demo()" name="demo" value="Demo"/>
+</div>
+
 @section Scripts
 {
     <script>
@@ -383,5 +387,23 @@
             })
         }
 
+        function demo() {
+            $('input[name="LastName"]').val("TEST");
+            $('input[name="FirstName"]').val("");
+            $('input[name="UserId"]').val("accoutfortest");
+            $('select[name="Gender"]').val("不願透露");
+            $('input[name="BirthDate"]').val("2001-01-01");
+            $('input[name="Email"]').val("accoutforsendmail@gmail.com");
+            $('input[name="NewPwd"]').val("tEST01");
+            $('input[name="ConfirmPwd"]').val("tEST01");
+            $('input[name="Phone"]').val("0912345678");
+            $('input[name="Address"]').val("復興南路一段390號2樓");
+
+            userId.on("onblur", chkUserId());
+            email.on("onblur", chkEmail());
+            newpwd.on("onblur", chkPassword());
+            confirmpwd.on("onblur", chkPassword());
+            phone.on("onblur", chkPhone());
+        }
     </script>
 }

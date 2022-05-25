@@ -89,6 +89,10 @@
     </div>
 </form>
 
+<div class="m-t-40">
+    <input type="button" class="btn btn btn-gray-deep btn-hover-primary" onclick="demo()" name="demo" value="Demo" />
+</div>
+
 <script>
     let email = $('input[name="Email"]');
     let phone = $('input[name="Phone"]');
@@ -249,5 +253,22 @@
                 region.append(opt);
             })
         }
+
+    function demo() {
+        $('input[name="Name"]').val("TEST");
+        $('input[name="Email"]').val("accoutforsendmail@gmail.com");
+        $('input[name="Phone"]').val("0912345678");
+        $('input[name="BirthDate"]').val("2022-05-31");
+        $('input[name="Address"]').val("復興南路一段390號2樓");
+        $('input[name="CurrentPwd"]').val("tEST01");
+        $('input[name="NewPwd"]').val("tEST01");
+        $('input[name="ConfirmPwd"]').val("tEST01");
+
+        email.on("onblur", chkEmail());
+        phone.on("onblur", chkPhone());
+        currentpwd.on("onblur", chkoldPwd());
+        newpwd.on("onblur", chkPassword());
+        confirmpwd.on("onblur", chkPassword());
+    }
 
 </script>

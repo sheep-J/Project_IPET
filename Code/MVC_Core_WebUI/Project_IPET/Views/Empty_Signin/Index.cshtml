@@ -72,6 +72,9 @@
 <!-- Login Section End -->
 <!-- Button trigger modal -->
 
+<div class="mt-0">
+    <input type="button" class="btn btn btn-gray-deep btn-hover-primary" onclick="demo()" name="demo" value="Demo" />
+</div>
 
 @section Scripts
 {
@@ -88,10 +91,18 @@
                         //window.location.href = "/Empty_Signin/chkRoId";
                         $("#form").submit();
                     }
-                    else {
+                    else if (response == "false") {
                         alert("帳號 或是 密碼錯誤?");
                     }
+                    else {
+                        alert("您的帳號被停用，詳情請洽管理員。");
+                    }
                 })
+        }
+
+        function demo() {
+            $('input[name="txtAccount"]').val("accoutfortest");
+            $('input[name="txtPassword"]').val("tEST01");
         }
     </script>
 }

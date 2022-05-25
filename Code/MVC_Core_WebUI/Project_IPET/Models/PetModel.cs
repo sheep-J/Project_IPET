@@ -78,6 +78,17 @@ namespace Project_IPET.Models
                 return this.PetAge + this.PetSize + this.PetVariety;
             }
         }
+        /// <summary>
+        /// 寵物城市ID(FK)
+        /// </summary>
+        public int PetCityID { get; set; }
+
+        /// <summary>
+        /// 寵物所在鄉鎮ID(FK)
+        /// </summary>
+        public int PetRegionID { get; set; }
+
+        
 
         public string PublishedDateFormat
         {

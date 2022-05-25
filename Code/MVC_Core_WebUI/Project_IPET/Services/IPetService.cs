@@ -12,5 +12,8 @@ namespace Project_IPET.Services
 
         PetModel GetPet(int id);
         List<CityModel> GetCityList();
+
+        void CreatePet(PetModel petModel);
+        void EditPet(PetModel pet);
     }
 }

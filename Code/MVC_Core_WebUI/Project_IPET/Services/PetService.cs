@@ -103,5 +103,62 @@ namespace Project_IPET.Services
             return result;
         }
 
+        /// <summary>
+        /// 新增寵物認養資訊(INSERT)到DB
+        /// </summary>
+        /// <param name="petModel">填好資料後，要傳入一個petID給DB</param>
+        public void CreatePet(PetModel petModel)
+        {
+            try
+            {
+                string sql = @"INSERT INTO  Pets 
+                                            (PetName,PetVariety,PetCategory,PetGender,PetSize,PetColor,PetAge,PetFix,PetCityID,PetRegionID,PublishedDate,PetDescription,PetContact,PetContactPhone)
+                                            OUTPUT INSERTED.PetID 
+                                            VALUES 
+                                            ( @PetName, @PetVariety, @PetCategory, @PetGender, @PetSize, @PetColor, @PetAge, @PetFix, @PetCityID, @PetRegionID, @PublishedDate, @PetDescription, @PetContact, @PetContactPhone ) ";
+                string imageSql = @"INSERT INTO [dbo].[PetImagePath] ([PetID],[PetImage],[IsMainImage])
+                                                        VALUES (@PetID,@PetImage,@IsMainImage)";
+                //匿名類型
+                var param = new
+                {
+                    PetName=petModel.PetName,
+                    PetVariety=petModel.PetVariety,
+                    PetCategory=petModel.PetCategory, 
+                    PetGender=petModel.PetGender, 
+                    PetSize=petModel.PetSize, 
+                    PetColor=petModel.PetColor, 
+                    PetAge = petModel.PetAge, 
+                    PetFix = petModel.PetFix, 
+                    PetCityID=petModel.PetCityID, 
+                    PetRegionID=petModel.PetRegionID, 
+                    PublishedDate=petModel.PublishedDate, 
+                    PetDescription = petModel.PetDescription, 
+                    PetContact = petModel.PetContact, 
+                    PetContactPhone = petModel.PetContactPhone
+                };
+                //
+                petModel.PetID = _dbConnection.QuerySingle<int>(sql, param);
+
+                for (int i = 0; i < petModel.PetImages.Count; i++)
+                {
+                    var paramImg = new
+                    {
+                        PetID = petModel.PetID,
+                        PetImage = petModel.PetImage[i],
+                        IsMainImage = i == 0 // i == 0 ? true : false
+                    };
+                    _dbConnection.Execute(imageSql, paramImg);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void EditPet(PetModel pet)
+        {
+
+        }
     }
 }

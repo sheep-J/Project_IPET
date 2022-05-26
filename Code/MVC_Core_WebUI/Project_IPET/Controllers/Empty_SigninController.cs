@@ -35,20 +35,21 @@ namespace Project_IPET.Controllers
         public IActionResult chkId(CLoginViewModel vModel)
         {
             Member customer = _context.Members.FirstOrDefault(m => m.UserId == vModel.txtAccount);
-            string name = customer.Name;
-            bool banned = customer.Banned;
 
-            if (!banned) {
-                if (customer != null && customer.Password.Equals(vModel.txtPassword))
+            if (customer != null && customer.Password.Equals(vModel.txtPassword))
+            {
+                string name = customer.Name;
+                bool banned = customer.Banned;
+                if (!banned)
                 {
                     string json = JsonSerializer.Serialize(customer);
                     HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
                     HttpContext.Session.SetString(CDictionary.SK_LOGINED_NAME, name);
                     return Content("true");
                 }
-                return Content("false");
+                return Content("null");
             }
-            return Content("null");
+            return Content("false");
         }
 
         [HttpPost]

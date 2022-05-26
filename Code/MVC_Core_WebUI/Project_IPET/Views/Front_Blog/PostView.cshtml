@@ -131,8 +131,10 @@
                                     <!-- Message Input End -->
                                     <!-- Submit Button Start -->
                                     <div class="col-12 col-custom m-t-20">
-                                        <button type="button"  onclick="createreply()" class="btn btn-primary btn-hover-dark">Send Message</button>
-                                        <div   onclick="Demo()" class="btn btn-primary btn-hover-dark">Demo</div>
+                                        <button type="button" onclick="createreply()" class="btn btn-primary btn-hover-dark">Send Message</button>
+                                        <div onclick="Demo1()" class="btn btn-primary btn-hover-dark">Demo1</div>
+                                        <div onclick="Demo2()" class="btn btn-primary btn-hover-dark">Demo2</div>
+                                        <div onclick="Demo3()" class="btn btn-primary btn-hover-dark">Demo3</div>
                                     </div>
                                     <!-- Submit Button End -->
 
@@ -177,11 +179,21 @@
             
         }
 
-        function Demo(){
+        function Demo1(){
         
         $("#PostContent").val("唯一支持IPet寵物愛心公益平台");
         
-        
+        }
+
+        function Demo2() {
+
+            $("#PostContent").val("我也支持IPet寵物愛心公益平台!!! 讚一個!!!");
+
+        }
+        function Demo3() {
+
+            $("#PostContent").val("謝謝你的支持!!!");
+
         }
 
         function createreply()

@@ -90,27 +90,27 @@ namespace Project_IPET.Services
                 string countSql = @"SELECT COUNT(1)
 FROM
 (
-	SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName, pp.IsMainImage 
+	SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
 	FROM Products p 
 	JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
 	JOIN Categories c ON sc.CategoryID = c.CategoryID 
 	JOIN Brand b ON p.BrandID = b.BrandID
 	LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
 	LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
-    WHERE pp.IsMainImage = 1 OR pp.IsMainImage IS NULL {0}
-	GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName, pp.IsMainImage  
+    WHERE pp.IsMainImage = 1 {0}
+	GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName  
 ) T";
 
 
-                string sql = @"SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName, pp.IsMainImage  
+                string sql = @"SELECT avg(ISNULL(cm.Rating,0)) Rating, p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName  
 FROM Products p 
 JOIN SubCategories sc ON p.SubCategoryID =sc.SubCategoryID 
 JOIN Categories c ON sc.CategoryID = c.CategoryID 
 JOIN Brand b ON p.BrandID = b.BrandID
 LEFT JOIN  ProductImagePath pp ON p.ProductID =pp.ProductID
 LEFT JOIN Comment cm ON p.ProductID = cm.ProductID
-WHERE pp.IsMainImage = 1 OR pp.IsMainImage IS NULL {0}
-GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName, pp.IsMainImage  
+WHERE pp.IsMainImage = 1 {0}
+GROUP BY p.ProductID, p.ProductName, p.SubCategoryID, p.BrandID, p.CostPrice,p.UnitPrice, p.UnitsInStock, p.Description, p.HotProduct, p.ProductAvailable, sc.SubCategoryName,c.CategoryName,pp.ProductImage,b.BrandName 
 {1} OFFSET @PageSize*(@Page-1) ROWS FETCH NEXT @PageSize ROWS ONLY";
 
 

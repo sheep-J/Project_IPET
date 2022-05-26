@@ -45,13 +45,7 @@
                                         <td class="pro-title"><a href="#">  @Html.DisplayFor(modelItem => item.Product.ProductName)</a></td>
                                         <td class="pro-price"><span> @Html.DisplayFor(modelItem => item.Product.UnitPrice)</span></td>
                                         <td class="pro-quantity">
-                                            <div class="quantity">
-                                                <div class="cart-plus-minus">
-                                                    <input class="cart-plus-minus-box" value="@Html.DisplayFor(modelItem => item.Quantity)" type="text">
-                                                    <div class="dec qtybutton">-</div>
-                                                    <div class="inc qtybutton">+</div>
-                                                </div>
-                                            </div>
+                                            <span> @Html.DisplayFor(modelItem => item.Quantity)</span>
                                         </td>
                                         <td class="pro-subtotal"><span>@Html.DisplayFor(modelItem => item.SubTotal)</span></td>
                                         <td class="pro-remove"><a asp-action="CartRemoveItem" asp-route-Id="@item.ProductID"><i class="ti-trash"></i></a></td>

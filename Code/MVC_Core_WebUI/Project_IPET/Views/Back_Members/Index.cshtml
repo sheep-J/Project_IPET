@@ -136,7 +136,13 @@
                                             <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.RegisteredDate)</span>
                                         </td>
                                         <td class="d-flex align-items-center text-center col-1 middle">
-                                            <a class="fa fa-ban" onclick="banned('@item.Banned','@item.MemberId')"></a>
+                                            @if (item.Banned)
+                                            {
+                                                <a class="fa fa-ban text-success" onclick="banned('@item.Banned', '@item.MemberId')"></a>
+                                            }
+                                            else { 
+                                                <a class="fa fa-ban text-danger" onclick="banned('@item.Banned', '@item.MemberId')"></a>
+                                            }
                                         </td>
                                     </tr>
                                 } }
@@ -214,6 +220,7 @@
                 method: "post",
                 data: { Banned: banned, ID: id }
             });
+            window.location.reload();
         }
 
 

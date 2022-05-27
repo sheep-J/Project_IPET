@@ -9,7 +9,9 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
+            /*flex: 2 1 auto;*/
         }
+
     </style>
 
 </head>
@@ -82,7 +84,7 @@
                     <table class="table mb-0 col-12">
                         <thead>
                             <tr class="row">
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2 middle">會員</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1 middle">會員</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1 middle">帳號</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1 middle">性別</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1 middle">生日</th>
@@ -98,7 +100,7 @@
                                     @*==========> data here <==========*@
 
                                     <tr class="row data">
-                                        <td class="d-flex align-items-end text-center col-2 middle">
+                                        <td class="d-flex align-items-end text-center col-1 middle">
                                             <div class="d-flex px-2 py-1">
                                                 <div>
                                                     <img src="~/Front/images/register/members/@Html.DisplayFor(modelItem => item.Avatar)" class="avatar avatar-sm me-3 border-radius-lg" alt="user@{++count;} ">
@@ -109,7 +111,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="d-flex align-items-center col-1 middle">
+                                        <td class="d-flex align-items-center justify-content-center text-center col-1 middle">
                                             <span class="text-secondary text-xs font-weight-bold">@Html.DisplayFor(modelItem => item.UserId)</span>
                                         </td>
                                         <td class="d-flex align-items-center justify-content-center text-center text-sm col-1 middle">
@@ -123,19 +125,19 @@
                                                 {
                                                     <span class="badge badge-sm bg-gradient-secondary">@Html.DisplayFor(modelItem => item.Gender)</span> } }
                                         </td>
-                                        <td class="d-flex align-items-center text-center col-1 middle">
+                                        <td class="d-flex align-items-center justify-content-center text-center col-1 middle">
                                             <span class="text-secondary text-xs font-weight-bold">  @Html.DisplayFor(modelItem => item.BirthDate)</span>
                                         </td>
-                                        <td class="d-flex align-items-center text-center col-1 middle">
+                                        <td class="d-flex align-items-center justify-content-center text-center col-1 middle">
                                             <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.Phone)</span>
                                         </td>
-                                        <td class="d-flex align-items-center text-center col-2 middle">
+                                        <td class="d-flex align-items-center justify-content-center text-center col-2 middle">
                                             <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.Address)</span>
                                         </td>
-                                        <td class="d-flex align-items-center text-center col-1 middle">
+                                        <td class="d-flex align-items-center justify-content-center text-center col-1 middle">
                                             <span class="text-secondary text-xs font-weight-bold"> @Html.DisplayFor(modelItem => item.RegisteredDate)</span>
                                         </td>
-                                        <td class="d-flex align-items-center text-center col-1 middle">
+                                        <td class="d-flex align-items-center justify-content-center text-center col-1 middle">
                                             @if (item.Banned)
                                             {
                                                 <a class="fa fa-ban text-success" onclick="banned('@item.Banned', '@item.MemberId')"></a>
@@ -215,14 +217,17 @@
         }
 
         async function banned(banned, id) {
-            await $.ajax({
+            var banned = confirm('確定要屏蔽此會員嗎?');
+
+            if (banned) {
+                await $.ajax({
                 url: '@Url.Content("~/Back_Members/Banned")',
                 method: "post",
                 data: { Banned: banned, ID: id }
             });
             window.location.reload();
+            }
         }
-
 
         show(1);
         function show(page) {

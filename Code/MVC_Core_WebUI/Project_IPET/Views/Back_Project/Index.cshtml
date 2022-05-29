@@ -17,13 +17,13 @@
     <thead>
         <tr>
             <th>序號</th>
-            <th>專案編號</th>
+            <th>專案ID</th>
             <th>專案名稱</th>
             <th>目標金額</th>
-            <th>基金會</th>
+            <th>公益單位</th>
             <th>開始時間</th>
             <th>結束時間</th>
-            <th>動作</th>
+            <th>明細/購買名單/編輯/刪除</th>
         </tr>
     </thead>
     <tbody id="ProjectBody">
@@ -43,6 +43,9 @@
                     <td>
                         <button type="button" class="detail btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#detailModal">
                             <i class="fas fa-bars"></i>
+                        </button>
+                        <button type="button" class="detail btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#detailModallist">
+                            <i class="fa-solid fa-user"></i>
                         </button>
                         <button type="button" class="btn btn-secondary mr-3" data-bs-toggle="modal" data-bs-target="#projectModal">
                             <i class="fas fa-pen-nib"></i>
@@ -157,6 +160,36 @@
     </div>
 </div>
 
+<div class="modal fade" id="detailModallist" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:2%">
+    <div class="modal-dialog" role="document" style="max-width:950px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">專案進行狀況</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="padding:0.5rem">序</th>
+                            <th style="padding:0.5rem">會員編號</th>
+                            <th style="padding:0.5rem">會員名稱</th>
+                            <th style="padding:0.5rem">商品名稱</th>
+                            <th style="padding:0.5rem">數量</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detaillistbody">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button id="btnClose1" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -228,12 +261,10 @@
             $("#detailendtime").html(`結束日期: ${datas[0].detailendtime}`)
         }
 
-        $("#ProjectBody").on('click', 'button:nth-child(2)', async function () {
+        $("#ProjectBody").on('click', 'button:nth-child(3)', async function () {
             const ProjectId = $(this).parents('tr').find('td:nth-child(2)').text();
             const Productresponse = await fetch("@Url.Content("~/Back_Project/EditLoad?Id=")" + ProjectId);
             renderEdit(await Productresponse.json());
-            @*const Otherresponse = await fetch("@Url.Content("~/Back_Project/ProjectDetail?Id=")" + ProjectId);
-            renderOther(await Otherresponse.json());*@
         })
         function renderEdit(datas) {
             $("#fId").val(datas.fId);
@@ -260,7 +291,7 @@
             const list = document.getElementById("prodlist");
             list.innerHTML = "";
             datas.fAllprod.forEach((prod) => {
-                
+
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
                 checkbox.name = "fProds";
@@ -285,5 +316,41 @@
             }
             fr.readAsDataURL(file);
         })
+
+        $("#ProjectBody").on('click', 'button:nth-child(2)', async function () {
+            const ProjectId = $(this).parents('tr').find('td:nth-child(2)').text();
+            const Productresponse = await fetch("@Url.Content("~/Front_Project/readList?Id=")" + ProjectId);
+            renderBuylist(await Productresponse.json());
+        })
+        function renderBuylist(data) {
+            $("#detaillistbody").html("");
+            var countlist = 0;
+            data.forEach((item) => {
+                countlist++;
+                var tr = document.createElement("tr");
+                //序
+                var td1 = document.createElement("td");
+                td1.innerHTML = countlist;
+
+                //會員Id
+                var td2 = document.createElement("td");
+                td2.innerHTML = item.userId;
+
+                //會員名稱
+                var td3 = document.createElement("td");
+                td3.innerHTML = item.userName;
+
+                //商品名稱
+                var td4 = document.createElement("td");
+                td4.innerHTML = item.productName;
+
+                //數量
+                var td5 = document.createElement("td");
+                td5.innerHTML = item.productCount;
+
+                tr.append(td1, td2, td3, td4, td5);
+                $("#detaillistbody").append(tr);
+            })
+        }
     </script>
 }

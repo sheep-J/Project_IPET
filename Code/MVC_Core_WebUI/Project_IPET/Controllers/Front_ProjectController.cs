@@ -111,6 +111,7 @@ namespace Project_IPET.Controllers
             var list = _context.PrjConnects.Where(n => n.PrjId == Id).Select(n =>
                 _context.DonationDetails.Where(o => o.ProductId == n.ProductId).Select(o => new CProjectBuylistViewModel
                 {
+                    UserId = o.Order.MemberId.ToString(),
                     UserName = o.Order.Member.Name,
                     ProductName = o.Product.ProductName,
                     ProductCount = o.Quantity.ToString()

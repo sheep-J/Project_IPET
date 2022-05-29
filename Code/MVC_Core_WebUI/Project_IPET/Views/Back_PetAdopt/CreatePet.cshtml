@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "新增認養資訊資料";
+    ViewData["Title"] = "新增認養資訊";
 }
 
 @section Styles{
@@ -103,73 +103,82 @@
             $("#txtPetContactPhone").val("0986507263");
         }
 
+        function previewImages(event) {
+            $("#previewImages").html("");
+            $.each(event.target.files, function (i, file) {
+                var src = URL.createObjectURL(file);
+                var img = $("<img>").attr("src", src).addClass("preview-img");
+                $("#previewImages").append(img);
+            });
+        }
+
     </script>
 }
 
 <form role="form" class="text-start">
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">寵物名稱</label>
-        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetName">
+        <label class="fms-0" style="color:black; font-weight:bold;">寵物名稱</label>
+        <input type="text" class="form-control" id="txtPetName">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label for="ddlCities" class="ms-0">縣市</label>
+        <label for="ddlCities" class="ms-0" style="color: black; font-weight: bold;">縣市</label>
         <select id="ddlCities" class="form-control" aria-label="Default select example">
         </select>
     </div>
     <div class="input-group input-group-static mb-4">
-        <label for="ddlRegion" class="ms-0">鄉鎮</label>
+        <label for="ddlRegion" class="ms-0" style="color: black; font-weight: bold;">鄉鎮</label>
         <select id="ddlRegion" class="form-control" aria-label="Default select example">
         </select>
     </div>
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">品種</label>
+        <label class="fms-0" style="color: black; font-weight: bold;">品種</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetVariety">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">種類</label>
+        <label class="fms-0" style="color: black; font-weight: bold;">種類</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetCategory">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">性別</label>
+        <label class="fms-0" style="color: black; font-weight: bold;">性別</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetGender">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">體型</label>
+        <label class="fms-0" style="color: black; font-weight: bold;">體型</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetSize">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">毛色</label>
+        <label class="fms-0" style="color: black; font-weight: bold;">毛色</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetColor">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">年紀</label>
+        <label class="fms-0" style="color: black; font-weight: bold;">年紀</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetAge">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">是否結紮</label>
+        <label class="fms-0" style="color: black; font-weight: bold;">是否結紮</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetFix">
     </div>
-    <div class="input-group input-group-static mb-4 is-focused">
-        <label class="fms-0">發佈日期</label>
+    <div class="input-group input-group-static mb-4">
+        <label class="fms-0" style="color:crimson; font-weight:bold;">發佈日期</label>
         <input type="text" class="form-control" disabled="disabled" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPublishedDate" value="@DateTime.Now.ToString("yyyyMMdd")">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">資訊</label>
+        <label class="fms-0" style="color: black; font-weight: bold;">資訊</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetDescription">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">聯絡人名稱</label>
+        <label class="fms-0" style="color: black; font-weight: bold;">聯絡人名稱</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetContact">
     </div>
     <div class="input-group input-group-static mb-4">
-        <label class="fms-0">聯絡人電話</label>
+        <label class="fms-0" style="color: black; font-weight: bold;">聯絡人電話</label>
         <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="txtPetContactPhone">
     </div>
 
 
     <div class="buttons">
         <div class="upload-button">
-            <div class="label">寵物圖片</div>
+            <div class="label" style="color:crimson; font-weight:bold;">寵物圖片</div>
             <input id="petPhoto" type="file" size="1" multiple onchange="previewImages(event);" />
         </div>
     </div>

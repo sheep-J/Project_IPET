@@ -59,7 +59,7 @@
                                                 @item.ContactSubject
                                             </td>
                                             <td class="middle">
-                                                @item.ContactMessage.Substring(0, item.ContactMessage.Length < 20 ? item.ContactMessage.Length : 20) ...
+                                                @item.ContactMessage.Substring(0, item.ContactMessage.Length < 15 ? item.ContactMessage.Length : 15) ...
                                             </td>
                                             <td class="middle">
                                                 @String.Format("{0:yyyy-MM-dd}", @item.ContactDate)
@@ -196,6 +196,26 @@
             $('#SendBtn').click(function () {
                 var replymsg = $("#InputMessage").val();
                 SendEmail(id, mailAddress, subject, replymsg)
+
+                let timerInterval
+                Swal.fire({
+                    title: '寄送郵件中...',
+                    timer: 6000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        const b = Swal.getHtmlContainer().querySelector('b')
+                        timerInterval = setInterval(() => {
+                            b.textContent = Swal.getTimerLeft()
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                    }
+                })
             });
 
             function SendEmail(id, mailaddress, subject, replymessage) {
@@ -209,7 +229,11 @@
                         replymessage: replymessage,
                     },
                     success: function (result) {
-                        window.location.href = "/Back_Feedback/Index";
+                        Swal.fire({
+                            icon: 'success',
+                            title: '郵件已寄出 !',
+                        })
+                        setTimeout(function () { location.href = "/Back_Feedback/Index" }, 3500);
                     }
                 });
             }

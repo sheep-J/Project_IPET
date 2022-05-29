@@ -1,8 +1,8 @@
 ﻿@section Scripts{
     <script>
-        $(document).ready(function () {
-            $("#submit").click(ShowMessage);
-        });
+
+        var applicationForm = document.getElementById("contact-form");
+
         function ShowMessage() {
             Swal.fire({
                 icon: 'success',
@@ -10,11 +10,30 @@
             })
         }
 
+        function ShowError() {
+            Swal.fire({
+                icon: 'error',
+                title: '請輸入完整資料...',
+            })
+        }
+
+        $("#submit").on("click", function (e) {
+            if ($("#ContactName").val().length == 0 || $("#ContactMail").val().length == 0 || $("#ContactSubject").val().length == 0 || $("#ContactMessage").val().length == 0 ) {
+                e.preventDefault();
+                ShowError()
+            }
+            else if (applicationForm.checkValidity()) {
+                ShowMessage();
+            } else {
+                return;
+            }
+        });
+
         $("#demobtn").on("click", function (e) {
             e.preventDefault();
             $("#ContactName").val("Peter");
             $("#ContactMail").val("ipetdemo2022@gmail.com");
-            $("#ContactSubject").val("想與您們合作");
+            $("#ContactSubject").val("想與本平台合作, 發佈認養資訊");
             $("#ContactMessage").val("您好，我是Peter，目前我在流浪動物之家基金會擔任志工，會定期取得需被認養寵物資訊。近期確認有新一批的收養寵物需被認養，請問方便將此部分資訊提供並發佈到您們的網站上嗎 ?");
         });
 
